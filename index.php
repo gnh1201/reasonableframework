@@ -31,7 +31,7 @@ if(empty($route)) {
 function renderView($name) {
 	$viewfile = './view/' . $name . '.php';
 	if(file_exists($viewfile)) {
-		include('./view/' . $name . '.php');
+		include($viewfile);
 	}
 }
 
