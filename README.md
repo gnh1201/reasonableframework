@@ -1,17 +1,17 @@
 # verysimplephpframework
 Very simple PHP Framework for No Composer, No Addtional PHP Extension (ex: shared hosting) environment.
 
-# Supported feature
+## Supported feature
 - Database connection (via PDO)
 - URL Route, Route Controller
 - Sperated View
 - Model, or somethings is your freedom!
 
-# How to use
+## How to use
 - Extract or clone this project to your shared web hosting.
 - You can use all of PHP packages without Composer!
 - You can write your back-end code in route (same as controller)
 - Enjoy it!
 
-# Contact me
+## Contact me
 - gnh1201@gmail.com
