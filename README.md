@@ -8,7 +8,8 @@ Very simple PHP Framework for No Composer, No Addtional PHP Extension (ex: share
 - Model, or somethings is your freedom!
 
 ## Compatible
-- Tested in 5.3.3, 7.x
+- Tested in PHP 5.3.3
+- Tested in PHP 7.x
 
 ## How to use
 - Extract or clone this project to your shared web hosting.
