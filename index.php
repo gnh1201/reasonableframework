@@ -6,6 +6,8 @@
  * Date: 2017-12-23
  */
 
+define("_DEF_VSPF_", true);
+
 // including vendor autoloader
 include_once('./vendor/autoload.php');
 
