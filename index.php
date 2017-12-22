@@ -8,9 +8,14 @@
 // including vendor autoloader
 include_once('./vendor/autoload.php');
 
-// system files
-include_once('./system/config.php');
-include_once('./system/database.php');
+// load system files
+$load_systems = array('config', 'database', 'uri');
+foreach($load_systems as $system_name) {
+	$system_inc_file = './system/' . $system_name . '.php';
+	if(file_exists($system_inc_file)) {
+		include_once($system_inc_file);
+	}
+}
 
 // route controller
 $route = '';
