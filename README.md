@@ -7,6 +7,9 @@ Very simple PHP Framework for No Composer, No Addtional PHP Extension (ex: share
 - Sperated View
 - Model, or somethings is your freedom!
 
+## Compatible
+- Tested in 5.3.3, 7.x
+
 ## How to use
 - Extract or clone this project to your shared web hosting.
 - You can use and intergrate all of PHP packages without Composer and Additional PHP Extensions! (supported autoloader)
