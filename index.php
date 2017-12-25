@@ -44,14 +44,14 @@ function renderView($name, $data=array()) {
 
 	$viewfile = './view/' . $name . '.php';
 	if(file_exists($viewfile)) {
-		include('./view/' . $name . '.php');
+		include($viewfile);
 	}
 }
 
 // including route file
 $route_file_name = './route/' . $route . '.php';
 if(file_exists($route_file_name)) {
-	include('./route/' . $route . '.php');
+	include($route_file_name);
 } else {
 	echo "404 Not Found";
 }
