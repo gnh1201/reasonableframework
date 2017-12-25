@@ -3,10 +3,11 @@
  * VerySimplePHPFramework
  * http://github.com/gnh1201/verysimplephpframework
  * Go Namhyeon <gnh1201@gmail.com>
- * Date: 2017-12-23
+ * Date: 2017-12-18
  */
 
 define("_DEF_VSPF_", true);
+ini_set("max_execution_time", 0);
 
 // including vendor autoloader
 include_once('./vendor/autoload.php');
@@ -36,12 +37,21 @@ if(empty($route)) {
 }
 
 // view render
-function renderView($name) {
+function renderView($name, $data=array()) {
+	if(count($data) > 0) {
+		extract($data);
+	}
+
 	$viewfile = './view/' . $name . '.php';
 	if(file_exists($viewfile)) {
-		include($viewfile);
+		include('./view/' . $name . '.php');
 	}
 }
 
 // including route file
-include('./route/' . $route . '.php');
+$route_file_name = './route/' . $route . '.php';
+if(file_exists($route_file_name)) {
+	include('./route/' . $route . '.php');
+} else {
+	echo "404 Not Found";
+}
