@@ -1,11 +1,4 @@
 <?php
-$requests = array(
-	"_ALL"  => $_REQUEST,
-	"_POST" => $_POST,
-	"_GET"  => $_GET,
-	"_URI"  => !array_key_empty("REQUEST_URI", $_SERVER) ? $_SERVER["REQUEST_URI"] : ''
-);
-
 if(!function_exists("base_url")) {
 	function base_url() {
 		global $config;
@@ -31,3 +24,18 @@ if(!function_exists("get_uri")) {
 		return $request_uri;
 	}
 }
+
+if(!function_exists("get_requests")) {
+	function get_requests() {
+		$requests = array(
+			"_ALL"  => $_REQUEST,
+			"_POST" => $_POST,
+			"_GET"  => $_GET,
+			"_URI"  => !array_key_empty("REQUEST_URI", $_SERVER) ? $_SERVER["REQUEST_URI"] : ''
+		);
+
+		return $requests;
+	}
+}
+
+$requests = get_requests();
