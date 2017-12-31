@@ -13,7 +13,7 @@ ini_set("max_execution_time", 0);
 include_once('./vendor/autoload.php');
 
 // load system files
-$load_systems = array('config', 'database', 'uri');
+$load_systems = array('base', 'config', 'database', 'uri');
 foreach($load_systems as $system_name) {
 	$system_inc_file = './system/' . $system_name . '.php';
 	if(file_exists($system_inc_file)) {
