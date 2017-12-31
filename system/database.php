@@ -22,6 +22,6 @@ if(!function_exists("sql_query")) {
 			}
 		}
 
-		return $stmt->execute();
+		return $stmt;
 	}
 }
