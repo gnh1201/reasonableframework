@@ -1,5 +1,29 @@
 <?php
-if(function_exists('array_key_empty')) {
+// view render
+if(!function_exists('renderView')) {
+	function renderView($name, $data=array()) {
+		if(count($data) > 0) {
+			extract($data);
+		}
+
+		$viewfile = './view/' . $name . '.php';
+		if(file_exists($viewfile)) {
+			include($viewfile);
+		}
+	}
+}
+
+// load helper
+if(!function_exists('loadHelper')) {
+	function loadHelper($name) {
+		$helperfile = './helper/' . $name . '.php';
+		if(file_exists($helperfile)) {
+			include($helperfile);
+		}
+	}
+}
+
+if(!function_exists('array_key_empty')) {
 	function array_key_empty($key, $array) {
 		$empty = true;
 		
