@@ -29,3 +29,19 @@ if(!function_exists("cut_str")) {
 		return $cutted_str;
 	}
 }
+
+if(!function_exists('read_file_by_line')) {
+	function read_file_by_line($filename) {
+		$lines = array();
+		$handle = fopen($filename, "r");
+		if ($handle) {
+			while (($line = fgets($handle)) !== false) {
+				$lines[] .= $line;
+			}
+
+			fclose($handle);
+		}
+		
+		return $lines;
+	}
+}
