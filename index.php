@@ -1,9 +1,10 @@
 <?php
-/*
- * VerySimplePHPFramework
- * http://github.com/gnh1201/verysimplephpframework
- * Go Namhyeon <gnh1201@gmail.com>
- * Date: 2017-12-18
+/**
+ * @file index.php
+ * @date 2017-12-18
+ * @author Go Namhyeon <gnh1201@gmail.com>
+ * @brief VerySimplePHPFramework
+ * @cvs http://github.com/gnh1201/verysimplephpframework
  */
 
 define("_DEF_VSPF_", true);
