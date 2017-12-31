@@ -9,6 +9,9 @@
 define("_DEF_VSPF_", true);
 ini_set("max_execution_time", 0);
 
+error_reporting(E_ALL);
+ini_set("display_errors", 1);
+
 // including vendor autoloader
 include_once('./vendor/autoload.php');
 
@@ -28,23 +31,11 @@ if(array_key_exists('route', $_REQUEST)) {
 }
 
 if(empty($route)) {
-	$route = 'welcome';
+	$route = 'index';
 } else {
 	$route_names = explode('/', $route);
 	if(count($route) > 1) {
 		$route = end($route_names);
-	}
-}
-
-// view render
-function renderView($name, $data=array()) {
-	if(count($data) > 0) {
-		extract($data);
-	}
-
-	$viewfile = './view/' . $name . '.php';
-	if(file_exists($viewfile)) {
-		include($viewfile);
 	}
 }
 
@@ -53,5 +44,5 @@ $route_file_name = './route/' . $route . '.php';
 if(file_exists($route_file_name)) {
 	include($route_file_name);
 } else {
-	echo "404 Not Found";
+	include('./route/errors/404.php');
 }
