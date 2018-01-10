@@ -90,20 +90,26 @@ if(!function_exists("vworld_geocode_keyword")) {
 						$req_row = get_object_vars($req_row);
 						$geo_list[] = $req_row;
 					}
+
 					// 단일인지 복수인지
-					if($multiple == false) {
-						$req_props = $geo_list[0];
+					if(count($geo_list) > 0) {
+						if($multiple == false) {
+							$req_props = $geo_list[0];
+						} else {
+							$req_props = $geo_list;
+						}
+						
+						$succ_flag = true;
 					} else {
-						$req_props = $geo_list;
+						$succ_flag = false;
 					}
-					
-					$succ_flag = true;
 				}
 			}
 			curl_close($ch);
 			
 			// 요청 횟수를 기록
 			$req_cnt++;
+
 			// 성공했을 시 다음 주소로 넘어가지 않음
 			if($succ_flag == true) {
 				$xpos = $req_props['xpos'];
@@ -116,9 +122,9 @@ if(!function_exists("vworld_geocode_keyword")) {
 				}
 				break;
 			} elseif($req_cnt = count($req_urls)) {
-				$req_props = "";
+				$req_props = array();
 			} else {
-				$req_props = "";
+				$req_props = array();
 			}
 		}
 		return $geopoint;
@@ -219,5 +225,30 @@ if(!function_exists("vworld_geocode_addr2coord")) {
 			}
 		}
 		return $geopoint;
+	}
+}
+
+if(!function_exists("vworld_adaptive_addr2coord")) {
+	function vworld_adaptive_addr2coord($addr) {
+		$geopoint = array(
+			"address" => "",
+			"latitude" => "", // y-pos
+			"longitude" => "" // x-pos
+		);
+
+		if(!empty($addr)) {
+			$georesult = vworld_geocode_keyword($addr);
+			if(empty($georesult["address"])) {
+				$georesult = vworld_geocode_addr2coord($addr);
+			}
+
+			if(empty($georesult["address"])) {
+				$addr_blocks = explode(' ', $addr);
+				$newaddr = implode(' ', array_slice($addr_blocks, 0, -1));
+				$georesult = vworld_adaptive_addr2coord($newaddr);
+			}
+		}
+
+		return $georesult;
 	}
 }
