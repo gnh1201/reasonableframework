@@ -22,7 +22,7 @@ if(!function_exists("vworld_utf8_replace")) {
 END;
 		if (is_array($data)) {
 			foreach ($data as $k=>$v) {
-				$data[$k] = utf8Replace($v);
+				$data[$k] = vworld_utf8_replace($v);
 			}
 		}
 		else if (is_string($data)) {
