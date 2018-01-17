@@ -54,7 +54,7 @@ if(!function_exists("cut_str")) {
 	}
 }
 
-if(!function_exists('read_file_by_line')) {
+if(!function_exists("read_file_by_line")) {
 	function read_file_by_line($filename) {
 		$lines = array();
 		$handle = fopen($filename, "r");
@@ -67,5 +67,17 @@ if(!function_exists('read_file_by_line')) {
 		}
 		
 		return $lines;
+	}
+}
+
+if(!function_exists("nl2p")) {
+	function nl2p($string) {
+		$paragraphs = '';
+		foreach (explode("\n", $string) as $line) {
+			if (trim($line)) {
+				$paragraphs .= '<p>' . $line . '</p>';
+			}
+		}
+		return $paragraphs;
 	}
 }
