@@ -17,7 +17,7 @@ ini_set("display_errors", 1);
 include_once('./vendor/autoload.php');
 
 // load system files
-$load_systems = array('base', 'config', 'database', 'uri');
+$load_systems = array('base', 'config', 'database', 'uri', 'logger', 'security');
 foreach($load_systems as $system_name) {
 	$system_inc_file = './system/' . $system_name . '.php';
 	if(file_exists($system_inc_file)) {
