@@ -1,6 +1,7 @@
 # Reasonable PHP Framework
-Very simple PHP Framework for No Composer, No Addtional PHP Extension (ex: shared hosting) environment.
-
+- Resonable PHP Framework is PHP framework for no Composer, no addtional PHP extensions. 
+- Old version name: Very Simple PHP Framework (VSPF)
+ 
 ## Supported feature
 - Database connection (via PDO)
 - URL Route, Route Controller
