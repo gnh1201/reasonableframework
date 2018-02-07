@@ -36,7 +36,7 @@ https://github.com/gnh1201/verysimplephpframework
 
 ## 저작권
 
-* 본 소프트웨어는 국내외 컴퓨터프로그램저작권 법령에 따라 보호받습니다.
+* AGPL
 
 ## 작성일자
 
