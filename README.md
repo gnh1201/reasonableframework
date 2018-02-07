@@ -21,4 +21,4 @@
 - Enjoy it!
 
 ## Contact me
-- gnh1201@gmail.com
+- Go Namhyeon <gnh1201@gmail.com>
