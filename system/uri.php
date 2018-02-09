@@ -38,4 +38,11 @@ if(!function_exists("get_requests")) {
 	}
 }
 
+if(!function_exists("redirect_uri")) {
+	function redirect_uri($uri, $permanent=false) {
+		header('Location: ' . $uri, true, $permanent ? 301 : 302);
+		exit();
+	}
+}
+
 $requests = get_requests();
