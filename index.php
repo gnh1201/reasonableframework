@@ -29,7 +29,7 @@ foreach($load_systems as $system_name) {
 $default_timezone = array_key_empty("timezone", $config) ? $config['timezone'] : "UTC";
 date_default_timezone_set($default_timezone);
 
-// start session (enable $_SESSON)
+// start session (enable $_SESSION)
 session_start();
 
 // route controller
