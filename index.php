@@ -25,6 +25,10 @@ foreach($load_systems as $system_name) {
 	}
 }
 
+// set timezone
+$default_timezone = array_key_empty("timezone", $config) ? $config['timezone'] : "UTC";
+date_default_timezone_set($default_timezone);
+
 // route controller
 $route = '';
 if(array_key_exists('route', $_REQUEST)) {
