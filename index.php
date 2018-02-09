@@ -3,7 +3,7 @@
  * @file index.php
  * @date 2017-12-18
  * @author Go Namhyeon <gnh1201@gmail.com>
- * @brief VerySimplePHPFramework
+ * @brief ReasonablePHPFramework
  * @cvs http://github.com/gnh1201/verysimplephpframework
  */
 
@@ -28,6 +28,9 @@ foreach($load_systems as $system_name) {
 // set timezone
 $default_timezone = array_key_empty("timezone", $config) ? $config['timezone'] : "UTC";
 date_default_timezone_set($default_timezone);
+
+// start session (enable $_SESSON)
+session_start();
 
 // route controller
 $route = '';
