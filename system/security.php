@@ -47,14 +47,93 @@ if(!function_exists("get_session_token")) {
 }
 
 if(!function_exists("check_token_abuse_by_requests")) {
-	function check_token_abuse_by_requests($name, $requests) {
+	function check_token_abuse_by_requests($name) {
+		global $requests;
 		return check_token_abuse($requests['_POST'][$name], $_SESSION[$name]);
 	}
 }
 
-if(!function_exists("session_safe_login")) {
-	function session_safe_login($user_name) {
-		$_SESSION['ss_user_name'] = $user_name;
-		$_SESSION['ss_key'] = make_random_id(10);
+if(!function_exists("check_login_session")) {
+	function check_login_session($ss_key, $config) {
+		$flag = false;
+
+		$session_name = sha1($ss_key);
+		$session_file = $config['session_dir'] . '/' . $session_name;
+		$session_stored_key = "";
+
+		if(file_exists($session_file)) {
+			$fh = fopen($session_file, 'r');
+			if($session_stored_key = fread($fh, filesize($session_file))) {
+				$flag = ($session_stored_key == $ss_key) ? true : false;
+			}
+		}
+
+		return $flag;
+	}
+}
+
+if(!function_exists("store_login_session")) {
+	function store_login_session($ss_key, $config) {
+		$flag = false;
+
+		$session_name = sha1($ss_key);
+		$session_file = $config['session_dir'] . '/' . $session_name;
+
+		if(is_writable($session_file)) {
+			$fh = fopen($session_file, 'w');
+			if($fh) {
+				if(fwrite($fh, $session_name)) {
+					$flag = check_login_session($ss_key, $config);
+				}
+				@chmod($session_file, 600);
+			}
+		}
+
+		return $flag;
+	}
+}
+
+if(!function_exists("process_safe_login")) {
+	function process_safe_login($user_name) {
+		global $config;
+
+		$flag = false;
+		$ss_key = "";
+
+		if(!array_key_empty("ss_key", $_SESSION)) {
+			$ss_key = $_SESSION['ss_key'];
+			$flag = check_login_session($_SESSION['ss_key'], $config);
+		}
+
+		if($flag == false) {
+			$ss_key = make_random_id(10);
+
+			$_SESSION['ss_user_name'] = $user_name;
+			$_SESSION['ss_key'] = $ss_key;		
+			
+			$flag =  store_login_session($ss_key, $config);
+		}
+
+		return $flag;
+	}
+}
+
+if(!function_exists("check_empty_fields")) {
+	function check_empty_fields($no_empty_fields, $method_get=true) {
+		global $requests;
+
+		$errors = array();
+		$check_data = $method_get ? $requests['_GET'] : $requests['_POST'];
+
+		foreach($no_empty_fields as $fieldname) {
+			if(array_key_empty($fieldname, $requests['_POST'])) {
+				$errors[] = array(
+					"fieldname" => $fieldname,
+					"message"   => "{$fieldname} 항목은 공백일 수 없습니다."
+				);
+			}
+		}
+
+		return $errors;
 	}
 }
