@@ -51,3 +51,10 @@ if(!function_exists("check_token_abuse_by_requests")) {
 		return check_token_abuse($requests['_POST'][$name], $_SESSION[$name]);
 	}
 }
+
+if(!function_exists("session_safe_login")) {
+	function session_safe_login($user_name) {
+		$_SESSION['ss_user_name'] = $user_name;
+		$_SESSION['ss_key'] = make_random_id(10);
+	}
+}
