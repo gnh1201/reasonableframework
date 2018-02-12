@@ -80,3 +80,6 @@ function exec_db_query($sql, $bind=array(), $options=array()) {
 
 	return $flag;
 }
+
+// set global db connection variable
+$dbc = get_db_connect();
