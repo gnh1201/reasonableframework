@@ -7,14 +7,14 @@
  */
 
 if(!function_exists("check_token_abuse")) {
-	function check_token_abuse($_post_token, $_sess_token) {
+	function check_token_abuse($_p_token, $_n_token) {
 		$abuse = false;
 		
-		$_check_token = $_post_token . $_sess_token;
-		if(empty($_check_token) || $_post_token != $_sess_token) {
+		$_c_token = $_p_token . $_n_token;
+		if(empty($_c_token) || $_p_token != $_n_token || strlen($_c_token) != (strlen($_p_token) + strlen($_n_token))) {
 			$abuse = true;
 		}
-		
+
 		return $abuse;
 	}
 }
@@ -113,7 +113,7 @@ if(!function_exists("store_login_session")) {
 }
 
 if(!function_exists("process_safe_login")) {
-	function process_safe_login($user_name) {
+	function process_safe_login($user_name, $user_password) {
 		global $config;
 
 		$flag = false;
@@ -124,6 +124,10 @@ if(!function_exists("process_safe_login")) {
 		} else {
 			$ss_key = make_random_id(10);
 
+			// 
+			
+			
+			
 			set_session("ss_user_name", $user_name);
 			set_session("ss_key", $ss_key);	
 
@@ -151,5 +155,77 @@ if(!function_exists("check_empty_fields")) {
 		}
 
 		return $errors;
+	}
+}
+
+if(!function_exists("get_salt")) {
+	function get_salt() {
+		$salt = "H6hclwzFplRQw39C";
+		if(!array_key_empty("salt", $config)) {
+			$salt = $config['salt'];
+		}
+		return $salt;
+	}
+}
+
+if(!function_exists("get_password")) {
+	function get_password($text, $algo="sha1") {
+		global $config;
+
+		$salt = get_salt();
+
+		$plain_text = $text;
+		$hashed_text = "";
+
+		if(!empty($salt)) {
+			$plain_text .= $salt;
+		}
+
+		switch($algo) {
+			case "sha1":
+				$hashed_text = sha1($plain_text);
+				break;
+			case "md5":
+				$hashed_text = md5($plain_text);
+				break;
+			case "crypt":
+				$hashed_text = crypt($plain_text);
+			default:
+				$is_not_supported = true;
+		}
+
+		if($is_not_supported) {
+			$hashed_text = $plain_text;
+		}
+		
+		return $hashed_text;
+	}
+}
+
+if(!function_exists("check_match_password")) {
+	function check_match_password($p, $n, $algo="sha1") {
+		$flag = false;
+		$salt = get_salt();
+		
+		$n_plain_text = $n . $salt;
+		$n_hashed_text = "";
+
+		switch($algo) {
+			case "sha1":
+				$n_hashed_text = sha1($n_plain_text);
+				$flag = ($n_hashed_text == $p);
+				break;
+			case "md5":
+				$n_hashed_text = md5($n_plain_text);
+				$flag = ($n_hashed_text == $p);
+				break;
+			case "crypt":
+				$flag = (crypt($n_plain_text, $p) == $p);
+				break;
+			default:
+				$flag = false;
+		}
+		
+		return $flag;
 	}
 }
