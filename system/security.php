@@ -118,13 +118,12 @@ if(!function_exists("process_safe_login")) {
 
 		$flag = false;
 		$ss_key = get_session("ss_key");
-		if(!empty($ss_key)) {
-			$flag = check_login_session($ss_key, $config);
-		}
 
-		if($flag == false) {
+		if(!empty($ss_key) && check_login_session($ss_key, $config)) {
+			$flag = true;
+		} else {
 			$ss_key = make_random_id(10);
-			
+
 			set_session("ss_user_name", $user_name);
 			set_session("ss_key", $ss_key);	
 
