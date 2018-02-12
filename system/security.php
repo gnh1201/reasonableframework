@@ -52,23 +52,31 @@ if(!function_exists("get_session")) {
 
 if(!function_exists("set_session_token")) {
 	function set_session_token() {
-		$random_id = make_random_id(10);
-		set_session("random_id", $random_id);
+		$_token = make_random_id(10);
+		set_session("_token", $_token);
 
-		return $random_id;
+		return $_token;
 	}
 }
 
 if(!function_exists("get_session_token")) {
 	function get_session_token() {
-		return get_session("random_id");
+		return get_session("_token");
 	}
 }
 
 if(!function_exists("check_token_abuse_by_requests")) {
 	function check_token_abuse_by_requests($name) {
 		global $requests;
-		return check_token_abuse($requests['_POST'][$name], get_session($name));
+		
+		$flag = false;
+		if(array_key_empty($name, $requests['_POST'])) {
+			$flag = true;
+		} else {
+			$flag = check_token_abuse($requests['_POST'][$name], get_session($name));
+		}
+
+		return $flag;
 	}
 }
 
@@ -137,8 +145,8 @@ if(!function_exists("process_safe_login")) {
 	}
 }
 
-if(!function_exists("check_empty_fields")) {
-	function check_empty_fields($no_empty_fields, $method_get=true) {
+if(!function_exists("check_empty_requests")) {
+	function check_empty_requests($no_empty_fields, $method_get=true) {
 		global $requests;
 
 		$errors = array();
