@@ -31,10 +31,29 @@ if(!function_exists("make_random_id")) {
 	}
 }
 
+if(!function_exists("set_session")) {
+	function set_session($session_name, $value) {
+		if(PHP_VERSION < '5.3.0') {
+			session_register($session_name);
+		}
+		$$session_name = $_SESSION["$session_name"] = $value;
+	}
+}
+
+if(!function_exists("get_session")) {
+	function get_session($session_name) {
+		$session_value = "";
+		if(!array_key_empty($session_name, $_SESSION)) {
+			$session_value = $_SESSION[$session_name];
+		}
+		return $session_value;
+	}
+}
+
 if(!function_exists("set_session_token")) {
 	function set_session_token() {
 		$random_id = make_random_id(10);
-		$_SESSION['random_id'] = $random_id;
+		set_session("random_id", $random_id);
 
 		return $random_id;
 	}
@@ -42,14 +61,14 @@ if(!function_exists("set_session_token")) {
 
 if(!function_exists("get_session_token")) {
 	function get_session_token() {
-		return $_SESSION['random_id'];
+		return get_session("random_id");
 	}
 }
 
 if(!function_exists("check_token_abuse_by_requests")) {
 	function check_token_abuse_by_requests($name) {
 		global $requests;
-		return check_token_abuse($requests['_POST'][$name], $_SESSION[$name]);
+		return check_token_abuse($requests['_POST'][$name], get_session($name));
 	}
 }
 
@@ -98,20 +117,18 @@ if(!function_exists("process_safe_login")) {
 		global $config;
 
 		$flag = false;
-		$ss_key = "";
-
-		if(!array_key_empty("ss_key", $_SESSION)) {
-			$ss_key = $_SESSION['ss_key'];
-			$flag = check_login_session($_SESSION['ss_key'], $config);
+		$ss_key = get_session("ss_key");
+		if(!empty($ss_key)) {
+			$flag = check_login_session($ss_key, $config);
 		}
 
 		if($flag == false) {
 			$ss_key = make_random_id(10);
-
-			$_SESSION['ss_user_name'] = $user_name;
-			$_SESSION['ss_key'] = $ss_key;		
 			
-			$flag =  store_login_session($ss_key, $config);
+			set_session("ss_user_name", $user_name);
+			set_session("ss_key", $ss_key);	
+
+			$flag = store_login_session($ss_key, $config);
 		}
 
 		return $flag;
@@ -126,7 +143,7 @@ if(!function_exists("check_empty_fields")) {
 		$check_data = $method_get ? $requests['_GET'] : $requests['_POST'];
 
 		foreach($no_empty_fields as $fieldname) {
-			if(array_key_empty($fieldname, $requests['_POST'])) {
+			if(array_key_empty($fieldname, $check_data)) {
 				$errors[] = array(
 					"fieldname" => $fieldname,
 					"message"   => "{$fieldname} 항목은 공백일 수 없습니다."
