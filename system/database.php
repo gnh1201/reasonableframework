@@ -26,11 +26,13 @@ if(!function_exists("sql_query")) {
 	}
 }
 
+function get_dbc_object() {
+	global $dbc;
+	return $dbc;
+}
 
 function get_db_stmt($sql, $bind=array()) {
-	global $dbc;
-
-	$stmt = $dbc->prepare($sql);
+	$stmt = get_dbc_object()->prepare($sql);
 	if(count($bind) > 0) {
 		foreach($bind as $k=>$v) {
 			$stmt->bindParam(':' . $k, $v);
@@ -40,17 +42,15 @@ function get_db_stmt($sql, $bind=array()) {
 }
 
 function get_db_last_id() {
-	global $dbc;
-
-	return $dbc->lastInsertId();
+	return get_dbc_object()->lastInsertId();
 }
 
 function exec_db_query($sql, $bind=array(), $options=array()) {
-	global $dbc;
+	$dbc = get_dbc_object();
 
 	$flag = false;
 	$stmt = get_db_stmt($sql, $bind);
-	
+
 	$validOptions = array();
 	$optionAvailables = array("is_check_count", "is_commit");
 	foreach($optionAvailables as $opt) {
