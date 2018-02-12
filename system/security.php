@@ -45,3 +45,9 @@ if(!function_exists("get_session_token")) {
 		return $_SESSION['random_id'];
 	}
 }
+
+if(!function_exists("check_token_abuse_by_requests")) {
+	function check_token_abuse_by_requests($name, $requests) {
+		return check_token_abuse($requests['_POST'][$name], $_SESSION[$name]);
+	}
+}
