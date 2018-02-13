@@ -121,7 +121,7 @@ if(!function_exists("store_login_session")) {
 }
 
 if(!function_exists("process_safe_login")) {
-	function process_safe_login($user_name, $user_password) {
+	function process_safe_login($user_name, $user_password, $stored_password="", $escape_safe=false) {
 		global $config;
 
 		$flag = false;
@@ -132,8 +132,7 @@ if(!function_exists("process_safe_login")) {
 		} else {
 			$ss_key = make_random_id(10);
 
-			//if(check_match_password($hashed_password, $user_password) {
-			if(true) {
+			if(check_match_password($stored_password, $user_password) || $escape_safe == true) {
 				set_session("ss_user_name", $user_name);
 				set_session("ss_key", $ss_key);
 
