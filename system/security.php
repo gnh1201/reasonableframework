@@ -263,7 +263,7 @@ if(!function_exists("session_logout")) {
 		}
 
 		@unlink($config['session_dir'] . '/' . protect_dir_path($ss_key));
-		
+
 		// 토큰이 지워졌는지 화인
 		$abuse = check_token_abuse($ss_user_name, get_session("ss_user_name"));
 		$abuse = ($abuse && check_token_abuse($ss_key, get_session("ss_key")));
@@ -272,5 +272,23 @@ if(!function_exists("session_logout")) {
 		$flag = $abuse;
 
 		return $flag;
+	}
+}
+
+if(!function_exists("check_current_user_name")) {
+	function check_current_user_name() {
+		$current_user_name = "";
+
+		$ss_user_name = get_session("ss_user_name");
+		$ss_key = get_session("ss_key");
+		
+		$abuse = check_token_abuse($ss_user_name, $ss_user_name); // self check
+		$abuse = ($abuse && check_token_abuse($ss_key, $ss_key)); // self check
+
+		if(!$abuse) {
+			$current_user_name = $ss_user_name;
+		}
+
+		return $current_user_name;
 	}
 }
