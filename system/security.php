@@ -280,8 +280,8 @@ if(!function_exists("session_logout")) {
 	}
 }
 
-if(!function_exists("check_current_user_name")) {
-	function check_current_user_name() {
+if(!function_exists("get_current_user_name")) {
+	function get_current_user_name() {
 		$current_user_name = "";
 
 		$ss_user_name = get_session("ss_user_name");
@@ -301,7 +301,7 @@ if(!function_exists("check_current_user_name")) {
 if(!function_exists("get_user_profile")) {
 	function get_user_profile() {
 		$user_profile = array(
-			"user_name" => check_current_user_name();
+			"user_name" => get_current_user_name();
 		);
 		return $user_profile;
 	}
