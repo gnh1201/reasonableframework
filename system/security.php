@@ -266,7 +266,7 @@ if(!function_exists("session_logout")) {
 		
 		// 토큰이 지워졌는지 화인
 		$abuse = check_token_abuse($ss_user_name, get_session("ss_user_name"));
-		$abuse = ($abuse && check_token_abuse($ss_user_name, get_session("ss_key")));
+		$abuse = ($abuse && check_token_abuse($ss_key, get_session("ss_key")));
 
 		// 판단 결과를 반영
 		$flag = $abuse;
