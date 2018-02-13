@@ -13,16 +13,7 @@ $conn->query("SET NAMES 'utf8'");
 
 if(!function_exists("sql_query")) {
 	function sql_query($sql, $bind=array()) {
-		global $conn;
-
-		$stmt = $conn->prepare($sql);
-		if(count($bind) > 0) {
-			foreach($bind as $k=>$v) {
-				$stmt->bindParam(':' . $k, $v);
-			}
-		}
-
-		return $stmt;
+		return get_db_stmt($sql, $bind);
 	}
 }
 
@@ -79,6 +70,17 @@ function exec_db_query($sql, $bind=array(), $options=array()) {
 	}
 
 	return $flag;
+}
+
+function exec_db_fetch_all($sql, $bind=array()) {
+	$rows = array();
+	$stmt = get_db_stmt($sql, $bind);
+	
+	if($stmt->execute() && $stmt->rowCount() > 0) {
+		$rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
+	}
+	
+	return $rows;
 }
 
 // set global db connection variable
