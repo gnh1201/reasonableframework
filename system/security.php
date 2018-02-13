@@ -84,14 +84,16 @@ if(!function_exists("check_login_session")) {
 	function check_login_session($ss_key, $config) {
 		$flag = false;
 
-		$session_name = sha1($ss_key);
+		$session_name = get_password($ss_key);
 		$session_file = $config['session_dir'] . '/' . $session_name;
 		$session_stored_key = "";
 
 		if(file_exists($session_file)) {
 			$fh = fopen($session_file, 'r');
 			if($session_stored_key = fread($fh, filesize($session_file))) {
-				$flag = ($session_stored_key == $ss_key) ? true : false;
+				if(!check_token_abuse($session_stored_key, $session_name)) {
+					$flag = true;
+				}
 			}
 		}
 
@@ -103,17 +105,15 @@ if(!function_exists("store_login_session")) {
 	function store_login_session($ss_key, $config) {
 		$flag = false;
 
-		$session_name = sha1($ss_key);
+		$session_name = get_password($ss_key);
 		$session_file = $config['session_dir'] . '/' . $session_name;
 
-		if(is_writable($session_file)) {
-			$fh = fopen($session_file, 'w');
-			if($fh) {
-				if(fwrite($fh, $session_name)) {
-					$flag = check_login_session($ss_key, $config);
-				}
-				@chmod($session_file, 600);
+		$fh = fopen($session_file, 'w');
+		if($fh !== false) {
+			if(fwrite($fh, $session_name)) {
+				$flag = check_login_session($ss_key, $config);
 			}
+			@chmod($session_file, 0777);
 		}
 
 		return $flag;
@@ -167,10 +167,13 @@ if(!function_exists("check_empty_requests")) {
 
 if(!function_exists("get_salt")) {
 	function get_salt() {
+		global $config;
+		
 		$salt = "H6hclwzFplRQw39C";
 		if(!array_key_empty("salt", $config)) {
 			$salt = $config['salt'];
 		}
+
 		return $salt;
 	}
 }
@@ -180,6 +183,7 @@ if(!function_exists("get_password")) {
 		global $config;
 
 		$salt = get_salt();
+		$is_not_supported = false;
 
 		$plain_text = $text;
 		$hashed_text = "";
