@@ -262,13 +262,18 @@ if(!function_exists("session_logout")) {
 			set_session("ss_key", "");
 		}
 
+		// delete session file
 		@unlink($config['session_dir'] . '/' . protect_dir_path($ss_key));
 
-		// 토큰이 지워졌는지 화인
+		// permanently destory
+		session_unset();
+		session_destroy();
+
+		// check ereased token
 		$abuse = check_token_abuse($ss_user_name, get_session("ss_user_name"));
 		$abuse = ($abuse && check_token_abuse($ss_key, get_session("ss_key")));
 
-		// 판단 결과를 반영
+		// apply result
 		$flag = $abuse;
 
 		return $flag;
