@@ -121,11 +121,20 @@ if(!function_exists("store_login_session")) {
 }
 
 if(!function_exists("process_safe_login")) {
-	function process_safe_login($user_name, $user_password, $stored_password="", $escape_safe=false) {
+	function process_safe_login($user_name, $user_password, $user_profile=array(), $escape_safe=false) {
 		global $config;
 
 		$flag = false;
 		$ss_key = get_session("ss_key");
+		
+		$user_id = 0;
+		$stored_password = "";
+		if(!array_key_empty("user_id", $user_profile)) {
+			$user_id = $user_profile['user_id'];
+		}
+		if(!array_key_empty("user_password", $user_profile)) {
+			$stored_password = $user_profile['user_password'];
+		}
 
 		if(!empty($ss_key) && check_login_session($ss_key, $config)) {
 			$flag = true;
@@ -133,6 +142,7 @@ if(!function_exists("process_safe_login")) {
 			$ss_key = make_random_id(10);
 
 			if(check_match_password($stored_password, $user_password) || $escape_safe == true) {
+				set_session("ss_user_id", $user_id);
 				set_session("ss_user_name", $user_name);
 				set_session("ss_key", $ss_key);
 
@@ -235,7 +245,7 @@ if(!function_exists("check_match_password")) {
 			default:
 				$flag = false;
 		}
-		
+
 		return $flag;
 	}
 }
@@ -279,29 +289,43 @@ if(!function_exists("session_logout")) {
 	}
 }
 
+if(!function_exists("get_current_user_id")) {
+	function get_current_user_id() {
+		return get_current_session_data("ss_user_id");
+	}
+}
+
 if(!function_exists("get_current_user_name")) {
 	function get_current_user_name() {
-		$current_user_name = "";
+		return get_current_session_data("ss_user_name");
+	}
+}
 
-		$ss_user_name = get_session("ss_user_name");
+if(!function_exists("get_current_session_data")) {
+	function get_current_session_data($name) {
+		$current_data = "";
+
+		$ss_data = get_session($name);
 		$ss_key = get_session("ss_key");
-		
-		$abuse = check_token_abuse($ss_user_name, $ss_user_name); // self check
+
+		$abuse = check_token_abuse($ss_data, $ss_data); // self check
 		$abuse = ($abuse && check_token_abuse($ss_key, $ss_key)); // self check
 
 		if(!$abuse) {
-			$current_user_name = $ss_user_name;
+			$current_data = $ss_data;
 		}
 
-		return $current_user_name;
+		return $current_data;
 	}
 }
 
 if(!function_exists("get_user_profile")) {
 	function get_user_profile() {
 		$user_profile = array(
+			"user_id"   => get_current_user_id(),
 			"user_name" => get_current_user_name()
 		);
+
 		return $user_profile;
 	}
 }
