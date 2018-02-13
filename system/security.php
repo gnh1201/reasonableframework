@@ -11,7 +11,7 @@ if(!function_exists("check_token_abuse")) {
 		$abuse = false;
 		
 		$_c_token = $_p_token . $_n_token;
-		if(empty($_c_token) || $_p_token != $_n_token || strlen($_c_token) != (strlen($_p_token) + strlen($_n_token))) {
+		if(empty($_c_token) || $_p_token != $_n_token || strlen($_c_token) != (strlen($_p_token) + strlen($_n_token)) || !ctype_alnum($_c_token)) {
 			$abuse = true;
 		}
 
@@ -85,7 +85,7 @@ if(!function_exists("check_login_session")) {
 		$flag = false;
 
 		$session_name = get_password($ss_key);
-		$session_file = $config['session_dir'] . '/' . $session_name;
+		$session_file = $config['session_dir'] . '/' . protect_dir_path($session_name);
 		$session_stored_key = "";
 
 		if(file_exists($session_file)) {
@@ -106,7 +106,7 @@ if(!function_exists("store_login_session")) {
 		$flag = false;
 
 		$session_name = get_password($ss_key);
-		$session_file = $config['session_dir'] . '/' . $session_name;
+		$session_file = $config['session_dir'] . '/' . protect_dir_path($session_name);
 
 		$fh = fopen($session_file, 'w');
 		if($fh !== false) {
@@ -208,7 +208,7 @@ if(!function_exists("get_password")) {
 		if($is_not_supported) {
 			$hashed_text = $plain_text;
 		}
-		
+
 		return $hashed_text;
 	}
 }
@@ -237,6 +237,40 @@ if(!function_exists("check_match_password")) {
 				$flag = false;
 		}
 		
+		return $flag;
+	}
+}
+
+if(!function_exists("protect_dir_path")) {
+	function protect_dir_path($path) {
+		$path = str_replace('/', '_', $path);
+		return $path;
+	}
+}
+
+if(!function_exists("session_logout")) {
+	function session_logout() {
+		global $config;
+
+		$flag = false;
+		
+		$ss_user_name = get_session("ss_user_name");
+		$ss_key = get_session("ss_key");
+		
+		if(!empty($ss_key)) {
+			set_session("ss_user_name", "");
+			set_session("ss_key", "");
+		}
+
+		@unlink($config['session_dir'] . '/' . protect_dir_path($ss_key));
+		
+		// 토큰이 지워졌는지 화인
+		$abuse = check_token_abuse($ss_user_name, get_session("ss_user_name"));
+		$abuse = ($abuse && check_token_abuse($ss_user_name, get_session("ss_key")));
+
+		// 판단 결과를 반영
+		$flag = $abuse;
+
 		return $flag;
 	}
 }
