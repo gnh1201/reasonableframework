@@ -297,3 +297,15 @@ if(!function_exists("check_current_user_name")) {
 		return $current_user_name;
 	}
 }
+
+if(!function_exists("get_user_profile")) {
+	function get_user_profile() {
+		$user_profile = array(
+			"user_name" => check_current_user_name();
+		);
+		return $user_profile;
+	}
+}
+
+// start session (enable $_SESSION)
+session_start();
