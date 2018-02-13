@@ -6,6 +6,12 @@ if(!function_exists('renderView')) {
 			extract($data);
 		}
 
+		// set user profile
+		if(function_exists("get_user_profile")) {
+			$user_profile = get_user_profile();
+		}
+
+		// load view file
 		$viewfile = './view/' . $name . '.php';
 		if(file_exists($viewfile)) {
 			include($viewfile);
@@ -16,6 +22,13 @@ if(!function_exists('renderView')) {
 // load helper
 if(!function_exists('loadHelper')) {
 	function loadHelper($name) {
+		// set user profile
+		if(function_exists("get_user_profile")) {
+			$user_profile = get_user_profile();
+		}
+		
+		// load helper file
+
 		$helperfile = './helper/' . $name . '.php';
 		if(file_exists($helperfile)) {
 			include($helperfile);
