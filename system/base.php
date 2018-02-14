@@ -41,6 +41,16 @@ if(!function_exists('array_key_empty')) {
 	}
 }
 
+if(!function_exists('array_multikey_empty')) {
+	function array_multikey_empty($keys, $array) {
+		$empty = true;
+		foreach($keys as $key) {
+			$empty = ($empty && array_key_empty($key, $array));
+		}
+		return $empty;
+	}
+}
+
 if(!function_exists("cut_str")) {
 	function cut_str($str, $start, $len=0) {
 		$cutted_str = "";
