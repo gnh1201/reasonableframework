@@ -34,6 +34,15 @@ if(!function_exists("get_requests")) {
 			"_URI"  => !array_key_empty("REQUEST_URI", $_SERVER) ? $_SERVER["REQUEST_URI"] : ''
 		);
 
+		// with security module
+		if(function_exists("get_clean_xss")) {
+			foreach($requests['_GET'] as $k=>$v) {
+				if(is_string($v)) {
+					$requests['_GET'][$k] = get_clean_xss($v);
+				}
+			}
+		}
+
 		return $requests;
 	}
 }
