@@ -375,17 +375,17 @@ if(!function_exists("get_clean_xss")) {
 }
 
 // support curl or jsonp(callback)
-if(!function_exists("get_printable_access_token")) {
-	function get_printable_access_token($accesstoken, $callback="", $charset="utf-8") {
+if(!function_exists("get_callable_token")) {
+	function get_callable_token($token, $callback="", $charset="utf-8") {
 		$callback = get_clean_xss($callback);
 		$retdata = "";
 
 		if(empty($callback)) {
-			$retdata = $accesstoken;
+			$retdata = $token;
 		} else {
-			$retdata = "function $callback { return '$accesstoken'; }";
+			$retdata = "function $callback() { return '$token'; }";
 		}
-		
+
 		return $retdata;
 	}
 }
