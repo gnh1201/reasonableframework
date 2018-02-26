@@ -175,7 +175,7 @@ if(!function_exists("check_empty_requests")) {
 }
 
 if(!function_exists("get_hashed_text")) {
-	function get_hashed_text($text, $algo) {
+	function get_hashed_text($text, $algo="sha1") {
 		$hashed_text = "";
 
 		switch($algo) {
@@ -351,39 +351,58 @@ if(!function_exists("get_fixed_length_id")) {
 
 // https://stackoverflow.com/questions/1996122/how-to-prevent-xss-with-html-php
 if(!function_exists("get_clean_xss")) {
-	function get_clean_xss($data) {
-		// Fix &entity\n;
-		$data = str_replace(array('&amp;','&lt;','&gt;'), array('&amp;amp;','&amp;lt;','&amp;gt;'), $data);
-		$data = preg_replace('/(&#*\w+)[\x00-\x20]+;/u', '$1;', $data);
-		$data = preg_replace('/(&#x*[0-9A-F]+);*/iu', '$1;', $data);
-		$data = html_entity_decode($data, ENT_COMPAT, 'UTF-8');
+	function get_clean_xss($data, $notags=0) {
+		if(is_string($data)) {
+			// if no tags (equals to strip_tags)
+			if($notags > 0) {
+				return strip_tags($data);
+			}
 
-		// Remove any attribute starting with "on" or xmlns
-		$data = preg_replace('#(<[^>]+?[\x00-\x20"\'])(?:on|xmlns)[^>]*+>#iu', '$1>', $data);
+			// Fix &entity\n;
+			$data = str_replace(array('&amp;','&lt;','&gt;'), array('&amp;amp;','&amp;lt;','&amp;gt;'), $data);
+			$data = preg_replace('/(&#*\w+)[\x00-\x20]+;/u', '$1;', $data);
+			$data = preg_replace('/(&#x*[0-9A-F]+);*/iu', '$1;', $data);
+			$data = html_entity_decode($data, ENT_COMPAT, 'UTF-8');
 
-		// Remove javascript: and vbscript: protocols
-		$data = preg_replace('#([a-z]*)[\x00-\x20]*=[\x00-\x20]*([`\'"]*)[\x00-\x20]*j[\x00-\x20]*a[\x00-\x20]*v[\x00-\x20]*a[\x00-\x20]*s[\x00-\x20]*c[\x00-\x20]*r[\x00-\x20]*i[\x00-\x20]*p[\x00-\x20]*t[\x00-\x20]*:#iu', '$1=$2nojavascript...', $data);
-		$data = preg_replace('#([a-z]*)[\x00-\x20]*=([\'"]*)[\x00-\x20]*v[\x00-\x20]*b[\x00-\x20]*s[\x00-\x20]*c[\x00-\x20]*r[\x00-\x20]*i[\x00-\x20]*p[\x00-\x20]*t[\x00-\x20]*:#iu', '$1=$2novbscript...', $data);
-		$data = preg_replace('#([a-z]*)[\x00-\x20]*=([\'"]*)[\x00-\x20]*-moz-binding[\x00-\x20]*:#u', '$1=$2nomozbinding...', $data);
+			// Remove any attribute starting with "on" or xmlns
+			$data = preg_replace('#(<[^>]+?[\x00-\x20"\'])(?:on|xmlns)[^>]*+>#iu', '$1>', $data);
 
-		// Only works in IE: <span style="width: expression(alert('Ping!'));"></span>
-		$data = preg_replace('#(<[^>]+?)style[\x00-\x20]*=[\x00-\x20]*[`\'"]*.*?expression[\x00-\x20]*\([^>]*+>#i', '$1>', $data);
-		$data = preg_replace('#(<[^>]+?)style[\x00-\x20]*=[\x00-\x20]*[`\'"]*.*?behaviour[\x00-\x20]*\([^>]*+>#i', '$1>', $data);
-		$data = preg_replace('#(<[^>]+?)style[\x00-\x20]*=[\x00-\x20]*[`\'"]*.*?s[\x00-\x20]*c[\x00-\x20]*r[\x00-\x20]*i[\x00-\x20]*p[\x00-\x20]*t[\x00-\x20]*:*[^>]*+>#iu', '$1>', $data);
+			// Remove javascript: and vbscript: protocols
+			$data = preg_replace('#([a-z]*)[\x00-\x20]*=[\x00-\x20]*([`\'"]*)[\x00-\x20]*j[\x00-\x20]*a[\x00-\x20]*v[\x00-\x20]*a[\x00-\x20]*s[\x00-\x20]*c[\x00-\x20]*r[\x00-\x20]*i[\x00-\x20]*p[\x00-\x20]*t[\x00-\x20]*:#iu', '$1=$2nojavascript...', $data);
+			$data = preg_replace('#([a-z]*)[\x00-\x20]*=([\'"]*)[\x00-\x20]*v[\x00-\x20]*b[\x00-\x20]*s[\x00-\x20]*c[\x00-\x20]*r[\x00-\x20]*i[\x00-\x20]*p[\x00-\x20]*t[\x00-\x20]*:#iu', '$1=$2novbscript...', $data);
+			$data = preg_replace('#([a-z]*)[\x00-\x20]*=([\'"]*)[\x00-\x20]*-moz-binding[\x00-\x20]*:#u', '$1=$2nomozbinding...', $data);
 
-		// Remove namespaced elements (we do not need them)
-		$data = preg_replace('#</*\w+:\w[^>]*+>#i', '', $data);
+			// Only works in IE: <span style="width: expression(alert('Ping!'));"></span>
+			$data = preg_replace('#(<[^>]+?)style[\x00-\x20]*=[\x00-\x20]*[`\'"]*.*?expression[\x00-\x20]*\([^>]*+>#i', '$1>', $data);
+			$data = preg_replace('#(<[^>]+?)style[\x00-\x20]*=[\x00-\x20]*[`\'"]*.*?behaviour[\x00-\x20]*\([^>]*+>#i', '$1>', $data);
+			$data = preg_replace('#(<[^>]+?)style[\x00-\x20]*=[\x00-\x20]*[`\'"]*.*?s[\x00-\x20]*c[\x00-\x20]*r[\x00-\x20]*i[\x00-\x20]*p[\x00-\x20]*t[\x00-\x20]*:*[^>]*+>#iu', '$1>', $data);
 
-		do
-		{
-			// Remove really unwanted tags
-			$old_data = $data;
-			$data = preg_replace('#</*(?:applet|b(?:ase|gsound|link)|embed|frame(?:set)?|i(?:frame|layer)|l(?:ayer|ink)|meta|object|s(?:cript|tyle)|title|xml)[^>]*+>#i', '', $data);
+			// Remove namespaced elements (we do not need them)
+			$data = preg_replace('#</*\w+:\w[^>]*+>#i', '', $data);
+
+			do
+			{
+				// Remove really unwanted tags
+				$old_data = $data;
+				$data = preg_replace('#</*(?:applet|b(?:ase|gsound|link)|embed|frame(?:set)?|i(?:frame|layer)|l(?:ayer|ink)|meta|object|s(?:cript|tyle)|title|xml)[^>]*+>#i', '', $data);
+			}
+			while ($old_data !== $data);
 		}
-		while ($old_data !== $data);
 
 		// we are done...
 		return $data;
+	}
+}
+
+if(!function_exists("get_clean_newlines")) {
+	function get_clean_newlines($data) {
+		return is_string($data) ? trim(preg_replace('~[\r\n]+~', ' ', $data)) : $data;
+	}
+}
+
+if(!function_exists("get_clean_text")) {
+	function get_clean_text($data) {
+		return is_string($data) ? get_clean_newlines(get_clean_xss($data, 1)) : $data;
 	}
 }
 
