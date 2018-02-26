@@ -8,9 +8,11 @@
 
 if(!function_exists("tablewiz_cut_str")) {
 	function tablewiz_cut_str($str, $strlimit=0) {
-		if($strlimit > 0) {
-			// do not use html tag when use cut_str
-			$str = substr(strip_tags($str), 0, $strlimit);
+		$plaintext = strip_tags($str);
+
+		// if use html, do not cut text
+		if($strlimit > 0 && $str != $plaintext) {
+			$str = substr($str, 0, $strlimit);
 		}
 
 		return $str;
