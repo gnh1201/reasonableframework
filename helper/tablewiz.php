@@ -6,8 +6,18 @@
  * @brief TableWiz helper
  */
 
+if(!function_exists("tablewiz_cut_str")) {
+	function tablewiz_cut_str($str, $strlimit=0) {
+		if($strlimit > 0) {
+			$str = substr($str, 0, $strlimit);
+		}
+
+		return $str;
+	}
+}
+ 
 if(!function_exists("tablewiz_create")) {
-	function tablewiz_create($rows, $bind=array(), $domid="", $domclass="", $thead_html=array(), $tbody_html_list=array()) {
+	function tablewiz_create($rows, $bind=array(), $domid="", $domclass="", $strlimit=20, $thead_html=array(), $tbody_html_list=array()) {
 		$html = "";
 
 		if(count($rows) == 0) {
@@ -21,19 +31,19 @@ if(!function_exists("tablewiz_create")) {
 		$html_th_elms = "";
 		foreach($rows[0] as $k=>$v) {
 			$html_th_text = array_key_empty($k, $bind) ? $k : $bind[$k];
-			$html_th_elms .= "<th>" . $html_th_text . "</th>";
+			$html_th_elms .= "<th>" . tablewiz_cut_str($html_th_text, $strlimit) . "</th>";
 		}
 
 		// append contents in thead
 		foreach($thead_html as $k=>$v) {
-			$html_th_elms .= "<th>" . $v . "</th>";
+			$html_th_elms .= "<th>" . tablewiz_cut_str($v, $strlimit) . "</th>";
 		}
 
 		$html_tr_elms = "";
 		foreach($rows as $idx=>$record) {
 			$html_tr_elms .= "<tr>";
 			foreach($record as $k=>$v) {
-				$html_tr_elms .= "<td>" . $v . "</td>";
+				$html_tr_elms .= "<td>" . tablewiz_cut_str($v, $strlimit) . "</td>";
 			}
 			$html_tr_elms .= "</tr>";
 
@@ -42,7 +52,7 @@ if(!function_exists("tablewiz_create")) {
 				$tbody_html = $tbody_html_list[$idx];
 				if(is_array($tbody_html)) {
 					foreach($tbody_html as $k=>$v) {
-						$html_tr_elms .= "<td>" . $v . "</td>";
+						$html_tr_elms .= "<td>" . tablewiz_cut_str($v, $strlimit) . "</td>";
 					}
 				}
 			}
