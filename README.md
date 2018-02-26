@@ -1,5 +1,5 @@
 # Reasonable PHP Framework
-- Resonable PHP Framework is PHP framework for no Composer, no addtional PHP extensions. 
+- Reasonable Framework is PHP framework for critical legacy or low permission environments. 
 - Old version name: Very Simple PHP Framework (VSPF)
  
 ## Supported feature
@@ -19,6 +19,10 @@
 - You can write your back-end code in route. (same as controller)
 - You can config database if you add your custom ini file in config directory.
 - Enjoy it!
+
+## Roadmap
+- Support critical lagacy web server
+- Support old browser (IE 6)
 
 ## Contact me
 - Go Namhyeon <gnh1201@gmail.com>
