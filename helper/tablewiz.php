@@ -7,7 +7,7 @@
  */
 
 if(!function_exists("tablewiz_create")) {
-	function tablewiz_create($rows, $bind=array(), $domid="", $domclass="", $thead_html="", $tbody_html=array()) {
+	function tablewiz_create($rows, $bind=array(), $domid="", $domclass="", $thead_html=array(), $tbody_html_list=array()) {
 		$html = "";
 
 		if(count($rows) == 0) {
@@ -23,7 +23,11 @@ if(!function_exists("tablewiz_create")) {
 			$html_th_text = array_key_empty($k, $bind) ? $k : $bind[$k];
 			$html_th_elms .= "<th>" . $html_th_text . "</th>";
 		}
-		$html_th_elms .= $thead_html; // append contents in thead
+
+		// append contents in thead
+		foreach($thead_html as $k=>$v) {
+			$html_th_elms .= "<th>" . $v . "</th>";
+		}
 
 		$html_tr_elms = "";
 		foreach($rows as $idx=>$record) {
@@ -32,10 +36,15 @@ if(!function_exists("tablewiz_create")) {
 				$html_tr_elms .= "<td>" . $v . "</td>";
 			}
 			$html_tr_elms .= "</tr>";
-			
+
 			// append contents in tbody
-			if(count($tbody_html) > $idx) {
-				$html_tr_elms .= $tbody_html[$idx];
+			if(count($tbody_html_list) > $idx) {
+				$tbody_html = $tbody_html_list[$idx];
+				if(is_array($tbody_html)) {
+					foreach($tbody_html as $k=>$v) {
+						$html_tr_elms .= "<td>" . $v . "</td>";
+					}
+				}
 			}
 		}
 
