@@ -24,7 +24,7 @@ if(!function("get_web_page")) {
 		if(!empty($ua)) {
 			$options[CURLOPT_USERAGENT] = $ua;
 		} else {
-			$options[CURLOPT_USERAGENT] = "2018 ReasonableFramework, github.com/gnh1201/reasonableframework";
+			$options[CURLOPT_USERAGENT] = "2018 ReasonableFramework;https://github.com/gnh1201/reasonableframework";
 		}
 		
 		if(!empty($proxy)) {
