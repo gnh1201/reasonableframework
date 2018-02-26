@@ -6,7 +6,7 @@
  * @brief WebPageTool helper
  */
 
-if(!function("get_web_page")) {
+if(!function_exists("get_web_page")) {
 	function get_web_page($url, $method="get", $data=array(), $proxy="", $ua="", $ct_out=45, $t_out=45) {
 		$options = array(
 			CURLOPT_PROXY          => "",       // set proxy server
@@ -62,7 +62,7 @@ if(!function("get_web_page")) {
 	}
 }
 
-if(!function("get_web_json")) {
+if(!function_exists("get_web_json")) {
 	function get_web_json($url, $method="get", $data=array(), $proxy="", $ua="", $ct_out=45, $t_out=45) {
 		$doc = array();
 		
