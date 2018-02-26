@@ -17,7 +17,7 @@ if(!function_exists("tablewiz_cut_str")) {
 }
  
 if(!function_exists("tablewiz_create")) {
-	function tablewiz_create($rows, $bind=array(), $domid="", $domclass="", $strlimit=20, $thead_html=array(), $tbody_html_list=array()) {
+	function tablewiz_create($rows, $bind=array(), $domid="", $domclass="", $strlimit=0, $thead_html=array(), $tbody_html_list=array()) {
 		$html = "";
 
 		if(count($rows) == 0) {
