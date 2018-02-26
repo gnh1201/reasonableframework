@@ -174,6 +174,27 @@ if(!function_exists("check_empty_requests")) {
 	}
 }
 
+if(!function_exists("get_hashed_text")) {
+	function get_hashed_text($text, $algo) {
+		$hashed_text = "";
+
+		switch($algo) {
+			case "sha1":
+				$hashed_text = sha1($text);
+				break;
+			case "md5":
+				$hashed_text = md5($text);
+				break;
+			case "crypt":
+				$hashed_text = crypt($text);
+			default:
+				$hashed_text = "";
+		}
+
+		return $hashed_text;
+	}
+}
+
 if(!function_exists("get_salt")) {
 	function get_salt() {
 		global $config;
@@ -200,18 +221,10 @@ if(!function_exists("get_password")) {
 		if(!empty($salt)) {
 			$plain_text .= $salt;
 		}
-
-		switch($algo) {
-			case "sha1":
-				$hashed_text = sha1($plain_text);
-				break;
-			case "md5":
-				$hashed_text = md5($plain_text);
-				break;
-			case "crypt":
-				$hashed_text = crypt($plain_text);
-			default:
-				$is_not_supported = true;
+		
+		$hashed_text = get_hashed_text($plain_text, $algo);
+		if(empty($hashed_text)) {
+			$is_not_supported = true;
 		}
 
 		if($is_not_supported) {
@@ -232,11 +245,11 @@ if(!function_exists("check_match_password")) {
 
 		switch($algo) {
 			case "sha1":
-				$n_hashed_text = sha1($n_plain_text);
+				$n_hashed_text = get_hashed_text($n_plain_text, $algo);
 				$flag = ($n_hashed_text == $p);
 				break;
 			case "md5":
-				$n_hashed_text = md5($n_plain_text);
+				$n_hashed_text = get_hashed_text($n_plain_text, $algo);
 				$flag = ($n_hashed_text == $p);
 				break;
 			case "crypt":
