@@ -14,6 +14,17 @@ if(!function_exists('renderView')) {
 	}
 }
 
+// load system module
+if(!function_exists('loadModule')) {
+	function loadModule($name) {
+		// load system file
+		$systemfile = './system/' . $name . '.php';
+		if(file_exists($systemfile)) {
+			include($systemfile); 
+		}
+	}
+}
+
 // load helper
 if(!function_exists('loadHelper')) {
 	function loadHelper($name) {
