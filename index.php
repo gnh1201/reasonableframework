@@ -25,7 +25,7 @@ foreach($load_systems as $system_name) {
 }
 
 // autoload module
-if(array_key_empty('enable_autoload', $config)) {
+if(!array_key_empty('enable_autoload', $config)) {
 	loadModule("autoload");
 }
 
