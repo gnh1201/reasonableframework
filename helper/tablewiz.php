@@ -9,7 +9,8 @@
 if(!function_exists("tablewiz_cut_str")) {
 	function tablewiz_cut_str($str, $strlimit=0) {
 		if($strlimit > 0) {
-			$str = substr($str, 0, $strlimit);
+			// do not use html tag when use cut_str
+			$str = substr(strip_tags($str), 0, $strlimit);
 		}
 
 		return $str;
