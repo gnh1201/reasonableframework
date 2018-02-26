@@ -109,5 +109,19 @@ if(!function_exists("exec_db_fetch_all")) {
 	}
 }
 
+if(!function_exists("get_page_range")) {
+	function get_page_range($page=1, $limit=0) {
+		$append_sql = "";
+		
+		if($limit > 0) {
+			$record_start = ($page - 1) * $limit;
+			$record_end = $record_start + $limit - 1;
+			$append_sql .= " limit $record_start, $record_end";
+		}
+		
+		return $append_sql;
+	}
+}
+
 // set global db connection variable
 $dbc = get_db_connect();
