@@ -64,8 +64,12 @@ if(!function("get_web_page")) {
 
 if(!function("get_web_json")) {
 	function get_web_json($url, $method="get", $data=array(), $proxy="", $ua="", $ct_out=45, $t_out=45) {
+		$doc = array();
+		
 		$raw = get_web_page($url, $method, $data, $proxy, $ua, $ct_out, $t_out);
-		$doc = json_decode($raw);
+		if($doc['size'] > 0) {
+			$doc = json_decode($raw);
+		}
 
 		return $doc;
 	}
