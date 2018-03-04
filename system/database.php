@@ -28,6 +28,13 @@ if(!function_exists("exec_stmt_query")) {
 	}
 }
 
+// alias sql_query from exec_stmt_query
+if(!function_exists("sql_query")) {
+	function sql_query($sql, $bind=array()) {
+		return exec_stmt_query($sql, $bind);
+	}
+}
+
 if(!function_exists("get_dbc_object")) {
 	function get_dbc_object($renew=false) {
 		global $dbc;
