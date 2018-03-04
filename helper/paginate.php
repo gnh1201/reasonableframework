@@ -1,5 +1,12 @@
 <?php
-// pagination
+/**
+ * @file paginate.php
+ * @date 2018-01-01
+ * @author Go Namhyeon <gnh1201@gmail.com>
+ * @brief Page navigation helper for ReasonableFramework
+ * @cvs http://github.com/gnh1201/reasonableframework
+ */
+
 if(!function_exists('paginate')) {
 	private function paginate($item_per_page, $current_page, $total_records, $total_pages, $page_url, $qry='') {
 		$pagination = '';
