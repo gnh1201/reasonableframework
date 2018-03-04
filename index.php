@@ -41,7 +41,7 @@ if(!array_key_empty('route', $_REQUEST)) {
 
 // load route
 if(empty($route)) {
-	$route = 'welcome';
+	$route = array_key_empty('default_route', $config) ? 'welcome' : $config['default_route'];
 } else {
 	$route_names = explode('/', $route);
 	if(count($route) > 1) {
