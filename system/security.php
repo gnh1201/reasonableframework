@@ -425,20 +425,25 @@ if(!function_exists("get_callable_token")) {
 }
 
 if(!function_exists("encapsulate_text")) {
-	function encapsulate_text($text, $method="aes-128-cbc", $key="", $iv="") {
+	function encapsulate_text($text, $algo="aes-128-cbc", $key="", $iv="") {
 		global $config;
 
 		$encapsulated_text = "";
 		$encrypted_text = "";
 
 		$init_text = base64_encode($text);
-		$init_key = empty($key) ? $config['masterkey'] : $key;
-		$init_iv = empty($iv) ? $config['masteriv'] : $iv;
+		
+		if($algo == "base64") {
+			$encapsulated_text = $init_text;
+		} else {
+			$init_key = empty($key) ? $config['masterkey'] : $key;
+			$init_iv = empty($iv) ? $config['masteriv'] : $iv;
 
-		if(function_exists("openssl_encrypt")) {
-			$encrypted_text = @openssl_encrypt($init_text , $method, $init_key, true, $init_iv);
-			if(!empty($encrypted_text)) {
-				$encapsulated_text = base64_encode($encrypted_text);
+			if(function_exists("openssl_encrypt")) {
+				$encrypted_text = @openssl_encrypt($init_text ,$algo, $init_key, true, $init_iv);
+				if(!empty($encrypted_text)) {
+					$encapsulated_text = base64_encode($encrypted_text);
+				}
 			}
 		}
 		
@@ -447,20 +452,25 @@ if(!function_exists("encapsulate_text")) {
 }
 
 if(!function_exists("decapsulate_text")) {
-	function decapsulate_text($text, $method="aes-128-cbc", $key="", $iv="") {
+	function decapsulate_text($text, $algo="aes-128-cbc", $key="", $iv="") {
 		global $config;
 
 		$decapsulate_text = "";
 		$decrypted_text = "";
 
 		$init_text = base64_decode($text);
-		$init_key = empty($key) ? $config['masterkey'] : $key;
-		$init_iv = empty($iv) ? $config['masteriv'] : $iv;
+		
+		if($algo = "base64") {
+			$decapsulate_text = $init_text;
+		} else {
+			$init_key = empty($key) ? $config['masterkey'] : $key;
+			$init_iv = empty($iv) ? $config['masteriv'] : $iv;
 
-		if(function_exists("openssl_decrypt")) {
-			$encrypted_text = @openssl_decrypt($init_text , $method, $init_key, true, $init_iv);
-			if(!empty($encrypted_text)) {
-				$decapsulate_text = base64_encode($decrypted_text);
+			if(function_exists("openssl_decrypt")) {
+				$encrypted_text = @openssl_decrypt($init_text ,$algo, $init_key, true, $init_iv);
+				if(!empty($encrypted_text)) {
+					$decapsulate_text = base64_encode($decrypted_text);
+				}
 			}
 		}
 		
