@@ -66,14 +66,14 @@ if(!function_exists("get_session_token")) {
 }
 
 if(!function_exists("check_token_abuse_by_requests")) {
-	function check_token_abuse_by_requests($name) {
+	function check_token_abuse_by_requests($name, $method="_POST") {
 		global $requests;
 		
 		$flag = false;
-		if(array_key_empty($name, $requests['_POST'])) {
+		if(array_key_empty($name, $requests[$method])) {
 			$flag = true;
 		} else {
-			$flag = check_token_abuse($requests['_POST'][$name], get_session($name));
+			$flag = check_token_abuse($requests[$method][$name], get_session($name));
 		}
 
 		return $flag;
