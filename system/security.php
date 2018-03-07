@@ -199,9 +199,11 @@ if(!function_exists("get_salt")) {
 	function get_salt() {
 		global $config;
 		
-		$salt = "H6hclwzFplRQw39C";
+		$salt = "";
 		if(!array_key_empty("salt", $config)) {
 			$salt = $config['salt'];
+		} else {
+			$salt = make_random_id(16);
 		}
 
 		return $salt;
