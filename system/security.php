@@ -122,7 +122,7 @@ if(!function_exists("store_login_session")) {
 
 if(!function_exists("process_safe_login")) {
 	function process_safe_login($user_name, $user_password, $user_profile=array(), $escape_safe=false) {
-		global $config;
+		$config = get_config();
 
 		$flag = false;
 		$ss_key = get_session("ss_key");
@@ -197,7 +197,7 @@ if(!function_exists("get_hashed_text")) {
 
 if(!function_exists("get_salt")) {
 	function get_salt() {
-		global $config;
+		$config = get_config();
 		
 		$salt = "";
 		if(!array_key_empty("salt", $config)) {
@@ -212,7 +212,7 @@ if(!function_exists("get_salt")) {
 
 if(!function_exists("get_password")) {
 	function get_password($text, $algo="sha1") {
-		global $config;
+		$config = get_config();
 
 		$salt = get_salt();
 		$is_not_supported = false;
@@ -274,7 +274,7 @@ if(!function_exists("protect_dir_path")) {
 
 if(!function_exists("session_logout")) {
 	function session_logout() {
-		global $config;
+		$config = get_config();
 
 		$flag = false;
 		
@@ -345,9 +345,13 @@ if(!function_exists("get_user_profile")) {
 	}
 }
 
-if(!function_exists("get_fixed_length_id")) {
-	function get_fixed_length_id($str, $len=8, $salt="@localhost") {
-		return substr( md5($str . $salt), 0, $len );
+if(!function_exists("get_fixed_id")) {
+	function get_fixed_id($str, $len=0, $salt="") {
+		$config = get_config();
+
+		$init_salt = empty($salt) ? $config['salt'] : $salt;
+		$init_len = ($len < 1) ? $config['autolen'] : $len;
+		return substr(get_hashed_text(get_hashed_text($str, "sha1") . $init_salt, "sha1"), 0, $init_len);
 	}
 }
 
@@ -426,7 +430,7 @@ if(!function_exists("get_callable_token")) {
 
 if(!function_exists("encapsulate_text")) {
 	function encapsulate_text($text, $algo="aes-128-cbc", $key="", $iv="", $hash="", $hash_algo="sha1") {
-		global $config;
+		$config = get_config();
 
 		$encapsulated_text = "";
 		$encrypted_text = "";
@@ -461,7 +465,7 @@ if(!function_exists("encapsulate_text")) {
 
 if(!function_exists("decapsulate_text")) {
 	function decapsulate_text($text, $algo="aes-128-cbc", $key="", $iv="", $hash="", $hash_algo="sha1") {
-		global $config;
+		$config = get_config();
 
 		$decapsulate_text = "";
 		$decrypted_text = "";
@@ -497,7 +501,7 @@ if(!function_exists("decapsulate_text")) {
 // https://wiki.ubuntu.com/DevelopmentCodeNames
 if(!function_exists("get_generated_name")) {
 	function get_generated_name() {
-		global $config;
+		$config = get_config();
 		
 		$generated_name = "";
 
