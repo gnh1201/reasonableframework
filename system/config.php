@@ -1,6 +1,6 @@
 <?php
 /**
- * @file security.php
+ * @file config.php
  * @date 2018-01-18
  * @author Go Namhyeon <gnh1201@gmail.com>
  * @brief Configuration module for VSPF
@@ -32,5 +32,3 @@ function get_config() {
 
 $config = array();
 set_config();
-
-$config = get_config();
