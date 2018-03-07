@@ -425,14 +425,22 @@ if(!function_exists("get_callable_token")) {
 }
 
 if(!function_exists("encapsulate_text")) {
-	function encapsulate_text($text, $algo="aes-128-cbc", $key="", $iv="") {
+	function encapsulate_text($text, $algo="aes-128-cbc", $key="", $iv="", $hash="", $hash_algo="sha1") {
 		global $config;
 
 		$encapsulated_text = "";
 		$encrypted_text = "";
 
+		// when fail hash test
+		if(!empty($hash)) {
+			if($hash != get_hashed_text($text, $hash_algo)) {
+				return $encapsulated_text;
+			}
+		}
+
+		// initialize text
 		$init_text = base64_encode($text);
-		
+
 		if($algo == "base64") {
 			$encapsulated_text = $init_text;
 		} else {
@@ -440,7 +448,7 @@ if(!function_exists("encapsulate_text")) {
 			$init_iv = empty($iv) ? $config['masteriv'] : $iv;
 
 			if(function_exists("openssl_encrypt")) {
-				$encrypted_text = @openssl_encrypt($init_text ,$algo, $init_key, true, $init_iv);
+				$encrypted_text = @openssl_encrypt($init_text, $algo, $init_key, true, $init_iv);
 				if(!empty($encrypted_text)) {
 					$encapsulated_text = base64_encode($encrypted_text);
 				}
@@ -452,12 +460,13 @@ if(!function_exists("encapsulate_text")) {
 }
 
 if(!function_exists("decapsulate_text")) {
-	function decapsulate_text($text, $algo="aes-128-cbc", $key="", $iv="") {
+	function decapsulate_text($text, $algo="aes-128-cbc", $key="", $iv="", $hash="", $hash_algo="sha1") {
 		global $config;
 
 		$decapsulate_text = "";
 		$decrypted_text = "";
 
+		// initialize text
 		$init_text = base64_decode($text);
 		
 		if($algo = "base64") {
@@ -467,10 +476,17 @@ if(!function_exists("decapsulate_text")) {
 			$init_iv = empty($iv) ? $config['masteriv'] : $iv;
 
 			if(function_exists("openssl_decrypt")) {
-				$encrypted_text = @openssl_decrypt($init_text ,$algo, $init_key, true, $init_iv);
+				$encrypted_text = @openssl_decrypt($init_text, $algo, $init_key, true, $init_iv);
 				if(!empty($encrypted_text)) {
 					$decapsulate_text = base64_encode($decrypted_text);
 				}
+			}
+		}
+
+		// when fail hash test
+		if(!empty($hash)) {
+			if($hash != get_hashed_text($decapsulate_text, $hash_algo)) {
+				$decapsulate_text = "";
 			}
 		}
 		
