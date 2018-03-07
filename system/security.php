@@ -478,5 +478,24 @@ if(!function_exists("decapsulate_text")) {
 	}
 }
 
+// https://wiki.ubuntu.com/DevelopmentCodeNames
+if(!function_exists("get_generated_name")) {
+	function get_generated_name() {
+		global $config;
+		
+		$generated_name = "";
+
+		$adjectives = explode(',', $config['adjectives']);
+		$animals = explode(',', $config['animals']);
+
+		$c_adjective = ucfirst($adjectives[rand(0, count($adjectives) - 1)]);
+		$c_animal = ucfirst($animals[rand(0, count($animals) - 1)]);
+
+		$generated_name = $c_adjective . " " . $c_animal;
+
+		return $generated_name;
+	}
+}
+
 // start session (enable $_SESSION)
 session_start();
