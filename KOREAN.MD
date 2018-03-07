@@ -28,15 +28,13 @@ https://github.com/gnh1201/verysimplephpframework
 
 ## 기술지원
 
-* Website 1: ezjob.kr
+* Website: https://exts.kr/go/home
 
-* Website 2: ezcm.kr
-
-* E-mail: ezcm@protonmail.com
+* E-mail: support@exts.kr
 
 ## 저작권
 
-* AGPL
+* LGPL (별도의 오픈소스 라이센스 문서에 기입 요망)
 
 ## 작성일자
 
