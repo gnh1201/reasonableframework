@@ -36,6 +36,22 @@ if(!function_exists('loadHelper')) {
 	}
 }
 
+// re-route
+if(!function_exists('reRoute')) {
+	function reRoute($name, $data=array()) {
+		if(count($data) > 0) {
+			extract($data);
+		}
+		
+		// load route file
+		$routefile = './route/' . $name . '.php';
+
+		if(file_exists($routefile)) {
+			include($routefile); 
+		}
+	}
+}
+
 if(!function_exists('array_key_empty')) {
 	function array_key_empty($key, $array) {
 		$empty = true;
