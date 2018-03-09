@@ -8,6 +8,8 @@
 
 if(!function_exists("read_config")) {
     function read_config() {
+	$config = array();
+
         if($handle = opendir('./config')) {
             while (false !== ($file = readdir($handle))) {
                 if ($file != "." && $file != ".." && @end(explode('.', $file)) == 'ini') {
@@ -19,6 +21,8 @@ if(!function_exists("read_config")) {
             }
             closedir($handle);
         }
+
+	return $config;
     }
 }
 
