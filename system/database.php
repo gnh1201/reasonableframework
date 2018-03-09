@@ -38,11 +38,7 @@ if(!function_exists("sql_query")) {
 if(!function_exists("get_dbc_object")) {
 	function get_dbc_object($renew=false) {
 		global $dbc;
-
-		if($renew) {
-			$dbc = get_db_connect();
-		}
-
+		$dbc = $renew ? get_db_connect() : $dbc;
 		return $dbc;
 	}
 }
