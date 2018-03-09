@@ -1,7 +1,7 @@
 <?php
 if(!function_exists("base_url")) {
 	function base_url() {
-		global $config;
+		$config = get_config();
 
 		$base_url = '';
 		if(!array_key_empty("base_url", $config)) {
