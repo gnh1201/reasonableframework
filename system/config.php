@@ -6,8 +6,8 @@
  * @brief Configuration module for VSPF
  */
 
-if(!function_exists("set_config")) {
-    function set_config() {
+if(!function_exists("read_config")) {
+    function read_config() {
         if($handle = opendir('./config')) {
             while (false !== ($file = readdir($handle))) {
                 if ($file != "." && $file != ".." && @end(explode('.', $file)) == 'ini') {
@@ -24,9 +24,8 @@ if(!function_exists("set_config")) {
 
 function get_config() {
 	global $config;
-
-	$config = is_array($config) ? $config : array();
+	$config = is_array($config) ? $config : read_config();
 	return $config;
 }
 
-$config = set_config();
+$config = read_config();
