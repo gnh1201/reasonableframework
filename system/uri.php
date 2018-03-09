@@ -14,8 +14,8 @@ if(!function_exists("base_url")) {
 
 if(!function_exists("get_uri")) {
 	function get_uri() {
-		global $requests;
-		
+		$requests = get_requests();
+
 		$request_uri = '';
 		if(!array_key_empty("REQUEST_URI", $_SERVER)) {
 			$request_uri = $requests["_URI"];
