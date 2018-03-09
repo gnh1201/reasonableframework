@@ -67,7 +67,7 @@ if(!function_exists("get_session_token")) {
 
 if(!function_exists("check_token_abuse_by_requests")) {
 	function check_token_abuse_by_requests($name, $method="_POST") {
-		global $requests;
+		$requests = get_requests();
 		
 		$flag = false;
 		if(array_key_empty($name, $requests[$method])) {
@@ -156,7 +156,7 @@ if(!function_exists("process_safe_login")) {
 
 if(!function_exists("check_empty_requests")) {
 	function check_empty_requests($no_empty_fields, $method_get=true) {
-		global $requests;
+		$requests = get_requests();
 
 		$errors = array();
 		$check_data = $method_get ? $requests['_GET'] : $requests['_POST'];
