@@ -25,8 +25,8 @@ if(!function_exists("get_uri")) {
 	}
 }
 
-if(!function_exists("get_requests")) {
-	function get_requests() {
+if(!function_exists("read_requests")) {
+	function read_requests() {
 		$requests = array(
 			"_ALL"  => $_REQUEST,
 			"_POST" => $_POST,
@@ -47,6 +47,12 @@ if(!function_exists("get_requests")) {
 	}
 }
 
+if(!function_exists("get_requests")) {
+	global $requests;
+	$requests = is_array($requests) ? $requests : read_requests();
+	return $requests;
+}
+
 if(!function_exists("redirect_uri")) {
 	function redirect_uri($uri, $permanent=false) {
 		header('Location: ' . $uri, true, $permanent ? 301 : 302);
@@ -54,4 +60,4 @@ if(!function_exists("redirect_uri")) {
 	}
 }
 
-$requests = get_requests();
+$requests = read_requests();
