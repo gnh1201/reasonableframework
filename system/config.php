@@ -8,8 +8,6 @@
 
 if(!function_exists("set_config")) {
     function set_config() {
-        global $config;
-
         if($handle = opendir('./config')) {
             while (false !== ($file = readdir($handle))) {
                 if ($file != "." && $file != ".." && @end(explode('.', $file)) == 'ini') {
@@ -27,8 +25,8 @@ if(!function_exists("set_config")) {
 function get_config() {
 	global $config;
 
+	$config = is_array($config) ? $config : array();
 	return $config;
 }
 
-$config = array();
-set_config();
+$config = set_config();
