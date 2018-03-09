@@ -1,7 +1,7 @@
 <?php
 if(!function_exists("get_db_connect")) {
 	function get_db_connect() {
-		global $config;
+		$config = get_config();
 
 		$conn = new PDO(
 			sprintf(
