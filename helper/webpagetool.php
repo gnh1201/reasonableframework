@@ -82,11 +82,10 @@ if(!function_exists("get_web_dom")) {
 
 		// load simple_html_dom
 		loadHelper("simple_html_dom");
-
 		if(function_exists("str_get_html")) {
 			$html = str_get_html($raw);
 		}
-		
+
 		return $html;
 	}
 }
