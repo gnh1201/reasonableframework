@@ -65,10 +65,10 @@ if(!function_exists("get_web_page")) {
 if(!function_exists("get_web_json")) {
 	function get_web_json($url, $method="get", $data=array(), $proxy="", $ua="", $ct_out=45, $t_out=45) {
 		$doc = array();
-		
-		$raw = get_web_page($url, $method, $data, $proxy, $ua, $ct_out, $t_out);
-		if($raw['size'] > 0) {
-			$doc = json_decode($raw);
+
+		$response = get_web_page($url, $method, $data, $proxy, $ua, $ct_out, $t_out);
+		if($response['size'] > 0) {
+			$doc = json_decode($response['content']);
 		}
 
 		return $doc;
@@ -78,12 +78,12 @@ if(!function_exists("get_web_json")) {
 if(!function_exists("get_web_dom")) {
 	function get_web_dom($url, $method="get", $data=array(), $proxy="", $ua="", $ct_out=45, $t_out=45) {
 		$html = new stdClass();
-		$raw = get_web_page($url, $method, $data, $proxy, $ua, $ct_out, $t_out);
+		$response = get_web_page($url, $method, $data, $proxy, $ua, $ct_out, $t_out);
 
 		// load simple_html_dom
-		if($raw['size'] > 0) {
+		if($response['size'] > 0) {
 			loadHelper("simple_html_dom");
-			$html = function_exists("str_get_html") ? str_get_html($raw) : $html;
+			$html = function_exists("str_get_html") ? str_get_html($response['content']) : $html;
 		}
 
 		return $html;
