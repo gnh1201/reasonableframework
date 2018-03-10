@@ -18,9 +18,12 @@ if(!function_exists('renderView')) {
 if(!function_exists('loadModule')) {
 	function loadModule($name) {
 		// load system file
-		$systemfile = './system/' . $name . '.php';
-		if(file_exists($systemfile)) {
-			include($systemfile); 
+		$modules = explode(';', $name);
+		foreach($modules as $name2) {
+			$systemfile = './system/' . $name2 . '.php';
+			if(file_exists($systemfile)) {
+				include($systemfile); 
+			}
 		}
 	}
 }
@@ -29,9 +32,12 @@ if(!function_exists('loadModule')) {
 if(!function_exists('loadHelper')) {
 	function loadHelper($name) {
 		// load helper file
-		$helperfile = './helper/' . $name . '.php';
-		if(file_exists($helperfile)) {
-			include($helperfile); 
+		$helpers = explode(';', $name);
+		foreach($helpers as $name2) {
+			$helperfile = './helper/' . $name2 . '.php';
+			if(file_exists($helperfile)) {
+				include($helperfile); 
+			}
 		}
 	}
 }
