@@ -76,7 +76,7 @@ if(!function_exists("get_web_json")) {
 }
 
 if(!function_exists("get_web_dom")) {
-	fuction get_web_dom($url, $method="get", $data=array(), $proxy="", $ua="", $ct_out=45, $t_out=45) {
+	function get_web_dom($url, $method="get", $data=array(), $proxy="", $ua="", $ct_out=45, $t_out=45) {
 		$html = new stdClass();
 		$raw = get_web_page($url, $method, $data, $proxy, $ua, $ct_out, $t_out);
 
