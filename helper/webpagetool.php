@@ -67,7 +67,7 @@ if(!function_exists("get_web_json")) {
 		$doc = array();
 		
 		$raw = get_web_page($url, $method, $data, $proxy, $ua, $ct_out, $t_out);
-		if($doc['size'] > 0) {
+		if($raw['size'] > 0) {
 			$doc = json_decode($raw);
 		}
 
@@ -81,9 +81,9 @@ if(!function_exists("get_web_dom")) {
 		$raw = get_web_page($url, $method, $data, $proxy, $ua, $ct_out, $t_out);
 
 		// load simple_html_dom
-		loadHelper("simple_html_dom");
-		if(function_exists("str_get_html")) {
-			$html = str_get_html($raw);
+		if($raw['size'] > 0) {
+			loadHelper("simple_html_dom");
+			$html = function_exists("str_get_html") ? str_get_html($raw) : $html;
 		}
 
 		return $html;
