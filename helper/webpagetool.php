@@ -55,9 +55,9 @@ if(!function_exists("get_web_page")) {
 
 		$response = array(
 			"content" => $content,
-			"size"    => $size
+			"size"    => $content_size
 		);
-		
+
 		return $response;
 	}
 }
