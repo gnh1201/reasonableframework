@@ -28,6 +28,24 @@
 - Go Namhyeon <gnh1201@gmail.com>
 - Website: https://exts.kr/go/home
 
+## Example convention code
+'''
+<?php
+$copyright = "";
+$lines = read_file_by_line("./storage/copyright.txt");
+foreach($lines as $line) {
+    $copyright .= "<p>" . $line . "</p>";
+}
+
+$data = array(
+    "copyright" => $copyright
+);
+
+renderView('templates/2018/header');
+renderView('view_copyright', $data);
+renderView('templates/2018/footer');
+'''
+
 ## Korean
 - Resonable PHP Framework(이유있는 PHP 프레임워크)는 한국의 웹 개발 환경에 적합한 PHP 프레임워크입니다.
 - Composer를 포함한 개발 보조 도구와, 별도의 플러그인 설치가 제한되어 주류 PHP 프레임워크가 사용 불가능한 환경에 적합합니다.
