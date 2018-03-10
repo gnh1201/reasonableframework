@@ -74,3 +74,19 @@ if(!function_exists("get_web_json")) {
 		return $doc;
 	}
 }
+
+if(!function_exists("get_web_dom")) {
+	fuction get_web_dom($url, $method="get", $data=array(), $proxy="", $ua="", $ct_out=45, $t_out=45) {
+		$html = new stdClass();
+		$raw = get_web_page($url, $method, $data, $proxy, $ua, $ct_out, $t_out);
+
+		// load simple_html_dom
+		loadHelper("simple_html_dom");
+
+		if(function_exists("str_get_html")) {
+			$html = str_get_html($raw);
+		}
+		
+		return $html;
+	}
+}
