@@ -41,9 +41,10 @@ $data = array(
     "copyright" => $copyright
 );
 
-renderView('templates/2018/header');
+renderView('templates/default/header');
 renderView('view_copyright', $data);
-renderView('templates/2018/footer');
+renderView('templates/default/footer');
+?>
 ```
 
 ## Korean
