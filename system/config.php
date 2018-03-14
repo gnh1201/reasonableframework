@@ -26,10 +26,25 @@ if(!function_exists("read_config")) {
     }
 }
 
-function get_config() {
-	global $config;
-	$config = is_array($config) ? $config : read_config();
-	return $config;
+if(!function_exists("get_config")) {
+	function get_config() {
+		global $config;
+		$config = is_array($config) ? $config : read_config();
+		return $config;
+	}
+}
+
+if(!function_exists("get_config_value")) {
+	function get_config_value($key) {
+		$config = get_config();
+
+		$config_value = '';
+		if(!array_key_empty($key, $config)) {
+			$config_value = $config[$key];
+		}
+
+		return $config_value;
+	}
 }
 
 $config = read_config();
