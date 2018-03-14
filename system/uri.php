@@ -1,21 +1,20 @@
 <?php
 if(!function_exists("base_url")) {
 	function base_url() {
-		$config = get_config();
+		return get_config_value("base_url");
+	}
+}
 
-		$base_url = '';
-		if(!array_key_empty("base_url", $config)) {
-			$base_url = $config["base_url"];
-		}
-
-		return $base_url;
+if(!function_exists("base_api_url")) {
+	function base_api_url() {
+		return get_config_value("base_api_url");
 	}
 }
 
 if(!function_exists("get_uri")) {
 	function get_uri() {
-		$requests = get_requests();
-
+		global $requests;
+		
 		$request_uri = '';
 		if(!array_key_empty("REQUEST_URI", $_SERVER)) {
 			$request_uri = $requests["_URI"];
@@ -25,8 +24,8 @@ if(!function_exists("get_uri")) {
 	}
 }
 
-if(!function_exists("read_requests")) {
-	function read_requests() {
+if(!function_exists("get_requests")) {
+	function get_requests() {
 		$requests = array(
 			"_ALL"  => $_REQUEST,
 			"_POST" => $_POST,
@@ -47,12 +46,6 @@ if(!function_exists("read_requests")) {
 	}
 }
 
-if(!function_exists("get_requests")) {
-	global $requests;
-	$requests = is_array($requests) ? $requests : read_requests();
-	return $requests;
-}
-
 if(!function_exists("redirect_uri")) {
 	function redirect_uri($uri, $permanent=false) {
 		header('Location: ' . $uri, true, $permanent ? 301 : 302);
@@ -60,4 +53,4 @@ if(!function_exists("redirect_uri")) {
 	}
 }
 
-$requests = read_requests();
+$requests = get_requests();
