@@ -80,16 +80,18 @@ if(!function_exists("get_requested_value")) {
 		}
 
 		// set validated value
-		$value = array_key_empty($name, $requests[$method]) ? $value : $requests[$method][$name];
-		
-		// security: set escape quotes
-		if($escape_quotes == true) {
-			$value = addslashes($escape_quotes);
-		}
+		if(!empty($method)) {
+			$value = array_key_empty($name, $requests[$method]) ? $value : $requests[$method][$name];
 
-		// security: set escape tags
-		if($escape_tags == true) {
-			$value = htmlspecialchars($escape_tags);
+			// security: set escape quotes
+			if($escape_quotes == true) {
+				$value = addslashes($escape_quotes);
+			}
+
+			// security: set escape tags
+			if($escape_tags == true) {
+				$value = htmlspecialchars($escape_tags);
+			}
 		}
 
 		return $value;
