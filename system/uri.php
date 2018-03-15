@@ -47,9 +47,11 @@ if(!function_exists("read_requests")) {
 }
 
 if(!function_exists("get_requests")) {
-	global $requests;
-	$requests = is_array($requests) ? $requests : read_requests();
-	return $requests;
+	function get_requests() {
+		global $requests;
+		$requests = is_array($requests) ? $requests : read_requests();
+		return $requests;
+	}
 }
 
 if(!function_exists("redirect_uri")) {
@@ -62,6 +64,7 @@ if(!function_exists("redirect_uri")) {
 if(!function_exists("get_requested_value")) {
 	function get_requested_value($name, $scope="all", $escape_quotes=true, $escape_tags=false) {
 		$requests = get_requests();
+
 		$value = "";
 		$method = "";
 
@@ -85,12 +88,12 @@ if(!function_exists("get_requested_value")) {
 
 			// security: set escape quotes
 			if($escape_quotes == true) {
-				$value = addslashes($escape_quotes);
+				$value = addslashes($value);
 			}
 
 			// security: set escape tags
 			if($escape_tags == true) {
-				$value = htmlspecialchars($escape_tags);
+				$value = htmlspecialchars($value);
 			}
 		}
 
