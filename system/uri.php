@@ -67,7 +67,7 @@ if(!function_exists("get_requested_value")) {
 
 		switch($scope) {
 			case "all":
-				$method = "_ALL"
+				$method = "_ALL";
 				break;
 			case "post":
 				$method = "_POST";
