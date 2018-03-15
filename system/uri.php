@@ -13,8 +13,8 @@ if(!function_exists("base_api_url")) {
 
 if(!function_exists("get_uri")) {
 	function get_uri() {
-		global $requests;
-		
+		$requests = get_requests();
+
 		$request_uri = '';
 		if(!array_key_empty("REQUEST_URI", $_SERVER)) {
 			$request_uri = $requests["_URI"];
@@ -24,8 +24,8 @@ if(!function_exists("get_uri")) {
 	}
 }
 
-if(!function_exists("get_requests")) {
-	function get_requests() {
+if(!function_exists("read_requests")) {
+	function read_requests() {
 		$requests = array(
 			"_ALL"  => $_REQUEST,
 			"_POST" => $_POST,
@@ -46,6 +46,12 @@ if(!function_exists("get_requests")) {
 	}
 }
 
+if(!function_exists("get_requests")) {
+	global $requests;
+	$requests = is_array($requests) ? $requests : read_requests();
+	return $requests;
+}
+
 if(!function_exists("redirect_uri")) {
 	function redirect_uri($uri, $permanent=false) {
 		header('Location: ' . $uri, true, $permanent ? 301 : 302);
@@ -53,4 +59,31 @@ if(!function_exists("redirect_uri")) {
 	}
 }
 
-$requests = get_requests();
+if(!function_exists("get_requested_value")) {
+	function get_requested_value($name, $scope="all") {
+		$requests = get_requests();
+		$value = "";
+		$method = "";
+
+		switch($scope) {
+			case "all":
+				$method = "_ALL"
+				break;
+			case "post":
+				$method = "_POST";
+				break;
+			case "get":
+				$method = "_GET";
+				break;
+			default:
+				$method = "";
+		}
+
+		// set validated value
+		$value = array_key_empty($name, $requests[$method]) ? $value : $requests[$method][$name];
+
+		return $value;
+	}
+}
+
+$requests = read_requests();
