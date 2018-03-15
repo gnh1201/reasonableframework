@@ -1,7 +1,7 @@
 <?php
 if(!function_exists("get_db_connect")) {
 	function get_db_connect() {
-		$config = get_config();
+		global $config;
 
 		$conn = new PDO(
 			sprintf(
@@ -28,17 +28,14 @@ if(!function_exists("exec_stmt_query")) {
 	}
 }
 
-// alias sql_query from exec_stmt_query
-if(!function_exists("sql_query")) {
-	function sql_query($sql, $bind=array()) {
-		return exec_stmt_query($sql, $bind);
-	}
-}
-
 if(!function_exists("get_dbc_object")) {
 	function get_dbc_object($renew=false) {
 		global $dbc;
-		$dbc = $renew ? get_db_connect() : $dbc;
+
+		if($renew) {
+			$dbc = get_db_connect();
+		}
+
 		return $dbc;
 	}
 }
@@ -66,7 +63,17 @@ if(!function_exists("exec_db_query")) {
 		$dbc = get_dbc_object();
 
 		$flag = false;
-		$stmt = get_db_stmt($sql, $bind);
+		$is_insert_with_bind = false;
+
+		$sql_terms = explode(" ", $sql);
+		if($sql_terms[0] != "insert") {
+			$stmt = get_db_stmt($sql, $bind);
+		} else {
+			$stmt = get_db_stmt($sql);
+			if(count($bind) > 0) {
+				$is_insert_with_bind = true;
+			}
+		}
 
 		$validOptions = array();
 		$optionAvailables = array("is_check_count", "is_commit");
@@ -83,12 +90,15 @@ if(!function_exists("exec_db_query")) {
 			$dbc->beginTransaction();
 		}
 
+		// execute statement (insert->execute(bind), or if not sql->bind->execute)
+		$stmt_executed = $is_insert_with_bind ? @$stmt->execute($bind) : @$stmt->execute();
+
 		if($is_check_count == true) {
-			if($stmt->execute() && $stmt->rowCount() > 0) {
+			if($stmt_executed && $stmt->rowCount() > 0) {
 				$flag = true;
 			}
 		} else {
-			$flag = $stmt->execute();
+			$flag = $stmt_executed;
 		}
 
 		if($is_commit) {
@@ -115,7 +125,7 @@ if(!function_exists("exec_db_fetch_all")) {
 if(!function_exists("get_page_range")) {
 	function get_page_range($page=1, $limit=0) {
 		$append_sql = "";
-		
+	
 		if($limit > 0) {
 			$record_start = ($page - 1) * $limit;
 			$record_end = $record_start + $limit - 1;
