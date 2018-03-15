@@ -86,14 +86,16 @@ if(!function_exists("get_requested_value")) {
 		if(!empty($method)) {
 			$value = array_key_empty($name, $requests[$method]) ? $value : $requests[$method][$name];
 
-			// security: set escape quotes
-			if($escape_quotes == true) {
-				$value = addslashes($value);
-			}
+			if(is_string($value)) {
+				// security: set escape quotes
+				if($escape_quotes == true) {
+					$value = addslashes($value);
+				}
 
-			// security: set escape tags
-			if($escape_tags == true) {
-				$value = htmlspecialchars($value);
+				// security: set escape tags
+				if($escape_tags == true) {
+					$value = htmlspecialchars($value);
+				}
 			}
 		}
 
