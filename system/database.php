@@ -41,13 +41,25 @@ if(!function_exists("get_dbc_object")) {
 }
 
 if(!function_exists("get_db_stmt")) {
-	function get_db_stmt($sql, $bind=array()) {
-		$stmt = get_dbc_object()->prepare($sql);
-		if(count($bind) > 0) {
-			foreach($bind as $k=>$v) {
-				$stmt->bindParam(':' . $k, $v, PDO::PARAM_STR);
+	function get_db_stmt($sql, $bind=array(), $bind_pdo=false) {
+		if(!$bind_pdo) {
+			if(count($bind) > 0) {
+				foreach($bind as $k=>$v) {
+					$sql = str_replace(":" . $k, "'" . addslashes($v) . "'", $sql);					
+				}
 			}
 		}
+		$stmt = get_dbc_object()->prepare($sql);
+
+		// bind parameter by PDO statement
+		if($bind_pdo) {
+			if(count($bind) > 0) {
+				foreach($bind as $k=>$v) {
+					$stmt->bindParam(':' . $k, $v);
+				}
+			}
+		}
+
 		return $stmt;
 	}
 }
@@ -71,14 +83,7 @@ if(!function_exists("exec_db_query")) {
 			if(count($bind) > 0) {
 				$is_insert_with_bind = true;
 			}
-		} else if($sql_terms[0] == "update") {
-			if(count($bind) > 0) {
-				foreach($bind as $k=>$v) {
-					$sql = str_replace(":" . $k, "'" . addslashes($v) . "'", $sql);					
-				}
-			}
-			$stmt = get_db_stmt($sql);
-		} else{
+		} else {
 			$stmt = get_db_stmt($sql, $bind);
 		}
 
