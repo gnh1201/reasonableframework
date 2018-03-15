@@ -1,5 +1,5 @@
 # Reasonable PHP Framework
-- Reasonable Framework is PHP framework for critical legacy or low permission environments. 
+- Reasonable Framework is PHP framework for critical legacy web environments. 
 - Old version name: Very Simple PHP Framework (VSPF)
  
 ## Supported feature
