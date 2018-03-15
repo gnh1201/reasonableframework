@@ -45,7 +45,7 @@ if(!function_exists("get_db_stmt")) {
 		$stmt = get_dbc_object()->prepare($sql);
 		if(count($bind) > 0) {
 			foreach($bind as $k=>$v) {
-				$stmt->bindParam(':' . $k, $v);
+				$stmt->bindParam(':' . $k, $v, PDO::PARAM_STR);
 			}
 		}
 		return $stmt;
@@ -66,13 +66,20 @@ if(!function_exists("exec_db_query")) {
 		$is_insert_with_bind = false;
 
 		$sql_terms = explode(" ", $sql);
-		if($sql_terms[0] != "insert") {
-			$stmt = get_db_stmt($sql, $bind);
-		} else {
+		if($sql_terms[0] == "insert") {
 			$stmt = get_db_stmt($sql);
 			if(count($bind) > 0) {
 				$is_insert_with_bind = true;
 			}
+		} else if($sql_terms[0] == "update") {
+			if(count($bind) > 0) {
+				foreach($bind as $k=>$v) {
+					$sql = str_replace(":" . $k, "'" . addslashes($v) . "'", $sql);					
+				}
+			}
+			$stmt = get_db_stmt($sql);
+		} else{
+			$stmt = get_db_stmt($sql, $bind);
 		}
 
 		$validOptions = array();
@@ -125,7 +132,7 @@ if(!function_exists("exec_db_fetch_all")) {
 if(!function_exists("get_page_range")) {
 	function get_page_range($page=1, $limit=0) {
 		$append_sql = "";
-	
+		
 		if($limit > 0) {
 			$record_start = ($page - 1) * $limit;
 			$record_end = $record_start + $limit - 1;
