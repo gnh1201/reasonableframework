@@ -517,5 +517,11 @@ if(!function_exists("get_generated_name")) {
 	}
 }
 
+if(!function_exists("get_formatted_number")) {
+	function get_formatted_number($value) {
+		return number_format(floatval($value));
+	}
+}
+
 // start session (enable $_SESSION)
 session_start();
