@@ -3,16 +3,25 @@
  * @file gnuboard.php
  * @date 2018-01-01
  * @author Go Namhyeon <gnh1201@gmail.com>
- * @brief Helper Library for Gnuboard CMS (4/5), Content Driver for VerySimplePHPFramework
+ * @brief Helper Library for Gnuboard CMS (4/5), Content Driver for ReasonableFramework
  */
 
 if(!function_exists('gb_write_post')) {
 	function gb_write_post($tablename, $data=array(), $version=4) {
-		$encoded_string = "TY5LDsMgDEQv1EWb/k+DDEUpDcYIiFBv3wwhURcMzx7bmpqUex1qUmFmfMlG/wVESjYUkBHmBbtlSAViC0NicRJAedYfa/p0KH3RuzCdNhj2jnq73R62oiQyk14eit4bRdZo0oh1jxop5ypp9XoWy+Q8VoVtpLH1/tlTbjddhLZULdEZcoFcITfIHfKAPNvw8Qc=";
-		$decoded_string = gzinflate(base64_decode($encoded_string));
-		$valid_fields = explode(',', $decoded_string);
+		$result = false;
+		
+		$my_fields = "";
 
-		$filtered_keys = array()
+		$my_fields .= "wr_id,wr_num,wr_reply,wr_parent,wr_comment_reply,";
+		$my_fields .= "ca_name,wr_option,wr_subject,wr_content,wr_link1,";
+		$my_fields .= "wr_link2,wr_link1_hit,wr_link2_hit,wr_trackback,wr_hit,";
+		$my_fields .= "wr_good,wr_nogood,mb_id,wr_password,wr_name,";
+		$my_fields .= "wr_email,wr_homepage,wr_homepage,wr_last,wr_ip,";
+		$my_fields .= "wr_1,wr_2,wr_3,wr_4,wr_5,wr_6,wr_7,wr_8,wr_9,wr_10";
+
+		$valid_fields = explode(',', $my_fields);
+
+		$filtered_keys = array();
 		$filtered_values = array();
 		foreach($data as $k=>$v) {
 			if(in_array($k, $valid_fields) && $k != "wr_id") {
@@ -21,19 +30,19 @@ if(!function_exists('gb_write_post')) {
 			}
 		}
 
-		$result = NULL;
 		$sql = "";
 		$write_prefix = ($version > 4) ? "g5_write_" : "g4_write_";
+		$write_table = $write_prefix . $tablename;
 
-		// Make SQL Statements
+		// make SQL statements
 		if(count($filtered_keys) > 0) {
-			$sql .= "insert into " . $write_prefix . $tablename " (";
-			$sql .= implode(',', $filtered_keys);
+			$sql .= "insert into " . $write_table . " (";
+			$sql .= implode(', ', $filtered_keys); // key names
 			$sql .= ") values (";
-			$sql .= implode(',', $filtered_values);
+			$sql .= implode(', :', $filtered_keys); // bind key names
 			$sql .= ")";
 
-			$result = sql_query($sql);
+			$result = sql_query($sql, $filtered_values);
 		}
 
 		return $result;
