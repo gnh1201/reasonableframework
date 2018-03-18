@@ -3,7 +3,7 @@
  * @file config.php
  * @date 2018-01-18
  * @author Go Namhyeon <gnh1201@gmail.com>
- * @brief Configuration module for VSPF
+ * @brief Configuration module for ReasonableFramework
  */
 
 if(!function_exists("read_config")) {
