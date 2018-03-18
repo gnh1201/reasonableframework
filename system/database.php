@@ -132,12 +132,30 @@ if(!function_exists("exec_db_fetch_all")) {
 	function exec_db_fetch_all($sql, $bind=array()) {
 		$rows = array();
 		$stmt = get_db_stmt($sql, $bind);
-		
+
 		if($stmt->execute() && $stmt->rowCount() > 0) {
 			$rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
 		}
 		
 		return $rows;
+	}
+}
+
+if(!function_exists("exec_db_fetch")) {
+	function exec_db_fetch($sql, $bind=array(), $bind_limit=true) {
+		$row = NULL;
+		$rows = array();
+
+		if($bind_limit == true) {
+			$sql = $sql . " limit 1";
+		}
+
+		$rows = exec_db_fetch_all($sql, $bind);
+		if(count($rows) > 0) {
+			$row = $rows[0];
+		}
+
+		return $row;
 	}
 }
 
