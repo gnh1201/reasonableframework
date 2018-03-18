@@ -28,7 +28,7 @@
 - Go Namhyeon <gnh1201@gmail.com>
 - Website: https://exts.kr/go/home
 
-## Example convention code
+## Example
 ```
 <?php
 loadHelper("allreporting");
