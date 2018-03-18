@@ -529,7 +529,7 @@ if(!function_exists("get_cutted_string")) {
 
 		if(function_exists("iconv_substr")) {
 			$out_str = iconv_substr($str, $start, $len, $charset);
-		} elseif(iconv_substr("mb_substr")) {
+		} elseif(function_exists("mb_substr")) {
 			$out_str = mb_substr($str, $start, $len, $charset);
 		} else {
 			$out_str = substr($str, $start, $len);
