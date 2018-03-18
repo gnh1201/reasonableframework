@@ -52,7 +52,7 @@ if(!function_exists("get_db_stmt")) {
 		if(!$bind_pdo) {
 			if(count($bind) > 0) {
 				foreach($bind as $k=>$v) {
-					$sql = str_replace(":" . $k, "'" . addslashes($v) . "'", $sql);					
+					$sql = str_replace(":" . $k, "'" . addslashes($v) . "'", $sql);
 				}
 			}
 		}
