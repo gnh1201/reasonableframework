@@ -524,7 +524,7 @@ if(!function_exists("get_formatted_number")) {
 }
 
 if(!function_exists("get_cutted_string")) {
-	function get_cutted_string($str, $start, $len, $charset="utf-8") {
+	function get_cutted_string($str, $start, $len=0, $charset="utf-8") {
 		$out_str = "";
 
 		if(function_exists("iconv_substr")) {
