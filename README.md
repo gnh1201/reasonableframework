@@ -31,6 +31,8 @@
 ## Example convention code
 ```
 <?php
+loadHelper("allreporting");
+
 $copyright = "";
 $lines = read_file_by_line("./storage/copyright.txt");
 foreach($lines as $line) {
