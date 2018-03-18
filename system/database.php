@@ -148,5 +148,12 @@ if(!function_exists("get_page_range")) {
 	}
 }
 
+// alias sql_query from exec_stmt_query
+if(!function_exists("sql_query")) {
+	function sql_query($sql, $bind=array()) {
+		return exec_stmt_query($sql, $bind);
+	}
+}
+
 // set global db connection variable
 $dbc = get_db_connect();
