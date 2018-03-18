@@ -523,5 +523,21 @@ if(!function_exists("get_formatted_number")) {
 	}
 }
 
+if(!function_exists("get_cutted_string")) {
+	function get_cutted_string($str, $start, $len, $charset="utf-8") {
+		$out_str = "";
+
+		if(function_exists("iconv_substr")) {
+			$out_str = iconv_substr($str, $start, $len, $charset);
+		} elseif(iconv_substr("mb_substr")) {
+			$out_str = mb_substr($str, $start, $len, $charset);
+		} else {
+			$out_str = substr($str, $start, $len);
+		}
+
+		return $out_str;
+	}
+}
+
 // start session (enable $_SESSION)
 session_start();
