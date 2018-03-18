@@ -148,10 +148,10 @@ if(!function_exists("get_page_range")) {
 	}
 }
 
-// alias sql_query from exec_stmt_query
+// alias sql_query from exec_db_query
 if(!function_exists("sql_query")) {
 	function sql_query($sql, $bind=array()) {
-		return exec_stmt_query($sql, $bind);
+		return exec_db_query($sql, $bind);
 	}
 }
 
