@@ -1,4 +1,11 @@
 <?php
+/**
+ * @file database.php
+ * @date 2018-01-01
+ * @author Go Namhyeon <gnh1201@gmail.com>
+ * @brief Database module for ReasonableFramework
+ */
+
 if(!function_exists("get_db_connect")) {
 	function get_db_connect() {
 		global $config;
