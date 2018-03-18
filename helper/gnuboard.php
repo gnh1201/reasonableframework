@@ -6,6 +6,14 @@
  * @brief Helper Library for Gnuboard CMS (4/5), Content Driver for ReasonableFramework
  */
 
+if(!function_exists("gb_get_write_table")) {
+	function gb_get_write_table($tablename, $version=4) {
+		$write_prefix = ($version > 4) ? "g5_write_" : "g4_write_";
+		$write_table = $write_prefix . $tablename;
+		return $write_table;
+	}
+}
+
 if(!function_exists('gb_write_post')) {
 	function gb_write_post($tablename, $data=array(), $version=4) {
 		$result = false;
@@ -31,8 +39,7 @@ if(!function_exists('gb_write_post')) {
 		}
 
 		$sql = "";
-		$write_prefix = ($version > 4) ? "g5_write_" : "g4_write_";
-		$write_table = $write_prefix . $tablename;
+		$write_table = gb_get_write_tabled($tablename);
 
 		// make SQL statements
 		if(count($filtered_keys) > 0) {
@@ -48,3 +55,4 @@ if(!function_exists('gb_write_post')) {
 		return $result;
 	}
 }
+
