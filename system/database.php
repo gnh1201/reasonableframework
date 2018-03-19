@@ -136,7 +136,7 @@ if(!function_exists("exec_db_fetch_all")) {
 		if($stmt->execute() && $stmt->rowCount() > 0) {
 			$rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
 		}
-		
+
 		return $rows;
 	}
 }
@@ -156,6 +156,12 @@ if(!function_exists("exec_db_fetch")) {
 		}
 
 		return $row;
+	}
+}
+
+if(!function_exists("get_value_in_array")) {
+	function get_value_in_array($name, $arr=array(), $default=0) {
+		return array_key_empty($name, $arr) ? $default : $arr[$name];
 	}
 }
 
