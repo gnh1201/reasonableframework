@@ -31,7 +31,7 @@
 | * Gnuboard  | ----> | Framework   | ----> | * CakePHP     | ----> | * Boilerplate   | ----> | * IoT          |
 | * Wordpress |       |             |       | * Codeigniter |       | * Accessibility |       | * M/L          |
 | * Kimsboard |       | * API       |       | * Yii         |       | * Securiy       |       | * SmartFactory |
-| * Linears   |       | * Class     |       | * Symfony     |       |                 |       | * Industry 4   |
+| * Linears   |       | * Class     |       | * Symfony     |       | * Intl. STD.    |       | * Industry 4   |
 | * Others    |       | * Library   |       | * Zend        |       |                 |       | * More         |
 +-------------+       +-------------+       +---------------+       +-----------------+       +----------------+
     Legacy              Integration            Modern PHP               Post Future                 Future      
