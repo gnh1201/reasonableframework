@@ -189,12 +189,31 @@ if(!function_exists("get_page_range")) {
 
 if(!function_exists("get_bind_to_sql_where")) {
 	// warning: variable k is not protected. do not use variable k and external variable without filter
-	function get_bind_to_sql_where($bind) {
+	function get_bind_to_sql_where($bind, $excludes=array()) {
 		$sql_where = "";
 		foreach($bind as $k=>$v) {
-			$sql_where .= " and {$k} = :{$k}";
+			if(!in_array($k, $excludes)) {
+				$sql_where .= " and {$k} = :{$k}";
+			}
 		}
 		return $sql_where;
+	}
+}
+
+if(!function_exists("get_bind_to_sql_update_set")) {
+	// warning: variable k is not protected. do not use variable k and external variable without filter
+	function get_bind_to_sql_update_set($bind, $excludes=array()) {
+		$sql_update_set = "";
+
+		$set_items = "";
+		foreach($bind as $k=>$v) {
+			if(!in_array($k, $excludes)) {
+				$set_items[] = "{$k}=:{$k}";
+			}
+		}
+		$sql_update_set = implode(", ", $set_items);
+
+		return $sql_update_set;
 	}
 }
 
