@@ -489,7 +489,7 @@ if(!function_exists("decapsulate_text")) {
 			}
 
 			if(!empty($encrypted_text)) {
-				$decapsulate_text = base64_encode($decrypted_text);
+				$decapsulate_text = base64_decode($decrypted_text);
 			}
 		}
 
