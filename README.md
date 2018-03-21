@@ -28,7 +28,7 @@
 ```
 +-------------+       +-------------+       +---------------+       +-----------------+
 | * Zeroboard |       | Reasonable  |       | * Laravel     |       | * Modern Web    |
-| * Gnuboard  | ----> | Framework   | ----> | * CakePHP     | ----> | * Accessability |
+| * Gnuboard  | ----> | Framework   | ----> | * CakePHP     | ----> | * Accessibility |
 | * Wordpress |       |             |       | * Codeigniter |       | * IoT/ML        |
 | * Kimsboard |       | * API       |       | * Yii         |       | * Boilerplate   |
 | * Others    |       | * Class     |       | * Symfony     |       | * Big Data      |
