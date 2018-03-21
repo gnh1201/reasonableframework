@@ -20,9 +20,9 @@
 - You can config database if you add your custom ini file in config directory.
 - Enjoy it!
 
-## Roadmap: Support coverage
-- Support critical lagacy web server
-- Support old browser (IE 6)
+## Roadmap: Support old environment
+- Support critical lagacy web server (old: PHP 4.x ~ modern: 7.x)
+- Support critical old browser (old: IE 6 ~ modern: IE 11)
 
 ## Roadmap: Lagacy to futures
 ```
