@@ -208,7 +208,7 @@ if(!function_exists("get_bind_to_sql_update_set")) {
 		$set_items = "";
 		foreach($bind as $k=>$v) {
 			if(!in_array($k, $excludes)) {
-				$set_items[] = "{$k}=:{$k}";
+				$set_items[] = "{$k} = :{$k}";
 			}
 		}
 		$sql_update_set = implode(", ", $set_items);
