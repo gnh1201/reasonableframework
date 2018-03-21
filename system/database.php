@@ -110,7 +110,7 @@ if(!function_exists("exec_db_query")) {
 		}
 
 		// execute statement (insert->execute(bind) or if not, sql->bind->execute)
-		$stmt_executed = $is_insert_with_bind ? @$stmt->execute($bind) : @$stmt->execute();
+		$stmt_executed = $is_insert_with_bind ? $stmt->execute($bind) : $stmt->execute();
 
 		if($is_check_count == true) {
 			if($stmt_executed && $stmt->rowCount() > 0) {
@@ -184,6 +184,17 @@ if(!function_exists("get_page_range")) {
 		}
 		
 		return $append_sql;
+	}
+}
+
+if(!function_exists("get_bind_to_sql_where")) {
+	// warning: variable k is not protected. do not use variable k and external variable without filter
+	function get_bind_to_sql_where($bind) {
+		$sql_where = "";
+		foreach($bind as $k=>$v) {
+			$sql_where .= " and {$k} = :{$k}";
+		}
+		return $sql_where;
 	}
 }
 
