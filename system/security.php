@@ -67,7 +67,7 @@ if(!function_exists("get_session_token")) {
 
 if(!function_exists("check_token_abuse_by_requests")) {
 	function check_token_abuse_by_requests($name, $method="_POST") {
-		global $requests;
+		$requests = get_requests();
 		
 		$flag = false;
 		if(array_key_empty($name, $requests[$method])) {
@@ -126,7 +126,7 @@ if(!function_exists("process_safe_login")) {
 
 		$flag = false;
 		$ss_key = get_session("ss_key");
-
+		
 		$user_id = 0;
 		$stored_password = "";
 		if(!array_key_empty("user_id", $user_profile)) {
@@ -155,15 +155,11 @@ if(!function_exists("process_safe_login")) {
 }
 
 if(!function_exists("check_empty_requests")) {
-	function check_empty_requests($no_empty_fields, $method_get=true, $method_all=false) {
-		global $requests;
+	function check_empty_requests($no_empty_fields, $method_get=true) {
+		$requests = get_requests();
 
 		$errors = array();
-		if($method_all) {
-			$check_data = $requests['_ALL'];
-		} else {
-			$check_data = $method_get ? $requests['_GET'] : $requests['_POST'];
-		}
+		$check_data = $method_get ? $requests['_GET'] : $requests['_POST'];
 
 		foreach($no_empty_fields as $fieldname) {
 			if(array_key_empty($fieldname, $check_data)) {
@@ -281,7 +277,7 @@ if(!function_exists("session_logout")) {
 		$config = get_config();
 
 		$flag = false;
-
+		
 		$ss_user_name = get_session("ss_user_name");
 		$ss_key = get_session("ss_key");
 		
@@ -320,20 +316,6 @@ if(!function_exists("get_current_user_name")) {
 	}
 }
 
-if(!function_exists("check_user_logged")) {
-	function check_user_logged() {
-		$logged = false;
-		$config = get_config();
-
-		if(get_current_user_id() > 0) {
-			$ss_key = get_current_session_data("ss_key");
-			$logged = check_login_session($ss_key, $config);
-		}
-
-		return $logged;
-	}
-}
-
 if(!function_exists("get_current_session_data")) {
 	function get_current_session_data($name) {
 		$current_data = "";
@@ -368,12 +350,7 @@ if(!function_exists("get_fixed_id")) {
 		$config = get_config();
 
 		$init_salt = empty($salt) ? $config['salt'] : $salt;
-		$init_len = ($len < 3) ? $config['autolen'] : $len;
-
-		if($init_len < 3) {
-			$init_len = 8;
-		}
-
+		$init_len = ($len < 1) ? $config['autolen'] : $len;
 		return substr(get_hashed_text(get_hashed_text($str, "sha1") . $init_salt, "sha1"), 0, $init_len);
 	}
 }
@@ -563,6 +540,28 @@ if(!function_exists("get_generated_name")) {
 		$generated_name = $c_adjective . " " . $c_animal;
 
 		return $generated_name;
+	}
+}
+
+if(!function_exists("get_formatted_number")) {
+	function get_formatted_number($value) {
+		return number_format(floatval($value));
+	}
+}
+
+if(!function_exists("get_cutted_string")) {
+	function get_cutted_string($str, $start, $len=0, $charset="utf-8") {
+		$out_str = "";
+
+		if(function_exists("iconv_substr")) {
+			$out_str = iconv_substr($str, $start, $len, $charset);
+		} elseif(function_exists("mb_substr")) {
+			$out_str = mb_substr($str, $start, $len, $charset);
+		} else {
+			$out_str = substr($str, $start, $len);
+		}
+
+		return $out_str;
 	}
 }
 
