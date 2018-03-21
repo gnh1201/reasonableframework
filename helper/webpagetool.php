@@ -8,6 +8,10 @@
 
 if(!function_exists("get_web_page")) {
 	function get_web_page($url, $method="get", $data=array(), $proxy="", $ua="", $ct_out=45, $t_out=45) {
+		if(!in_array("curl", get_loaded_extensions())) {
+			return "cURL extension needs to be installed.";
+		}
+
 		$options = array(
 			CURLOPT_PROXY          => "",       // set proxy server
 			CURLOPT_RETURNTRANSFER => true,     // return web page
@@ -18,7 +22,7 @@ if(!function_exists("get_web_page")) {
 			CURLOPT_USERAGENT      => "",       // name of client
 			CURLOPT_AUTOREFERER    => true,     // set referrer on redirect
 			CURLOPT_CONNECTTIMEOUT => $ct_out,  // time-out on connect
-			CURLOPT_TIMEOUT        => $c_out,   // time-out on response
+			CURLOPT_TIMEOUT        => $t_out,   // time-out on response
 		);
 
 		if(!empty($ua)) {
