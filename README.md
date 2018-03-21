@@ -30,7 +30,7 @@
 | * Zeroboard |       | Reasonable  |       | * Laravel     |       | * Modern Web    |       | * Big Data     |
 | * Gnuboard  | ----> | Framework   | ----> | * CakePHP     | ----> | * Boilerplate   | ----> | * IoT          |
 | * Wordpress |       |             |       | * Codeigniter |       | * Accessibility |       | * M/L          |
-| * Kimsboard |       | * API       |       | * Yii         |       | * Securiy       |       | * SmartFactory |
+| * Kimsboard |       | * API       |       | * Yii         |       | * Security      |       | * SmartFactory |
 | * Linears   |       | * Class     |       | * Symfony     |       | * Intl. STD.    |       | * Industry 4   |
 | * Others    |       | * Library   |       | * Zend        |       |                 |       | * More         |
 +-------------+       +-------------+       +---------------+       +-----------------+       +----------------+
