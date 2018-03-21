@@ -24,7 +24,7 @@
 - Support critical lagacy web server
 - Support old browser (IE 6)
 
-## Roadmap: Support lagecy web environment
+## Roadmap: Lagacy to futures
 ```
 +-------------+       +-------------+       +---------------+       +---------------+
 | * Zeroboard |       | Reasonable  |       | * Laravel     |       | * Modern Web  |
