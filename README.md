@@ -26,14 +26,14 @@
 
 ## Roadmap: Legacy to futures
 ```
-+-------------+       +-------------+       +---------------+       +---------------+
-| * Zeroboard |       | Reasonable  |       | * Laravel     |       | * Modern Web  |
-| * Gnuboard  | ----> | Framework   | ----> | * CakePHP     | ----> | * Boilerplate |
-| * Wordpress |       |             |       | * Codeigniter |       | * IoT         |
-| * Kimsboard |       | * API       |       | * Yii         |       | * ML          |
-| * Others    |       | * Class     |       | * Symfony     |       | * Big Data    |
-|             |       | * Library   |       | * Zend        |       | * Security    |
-+-------------+       +-------------+       +---------------+       +---------------+
++-------------+       +-------------+       +---------------+       +-----------------+
+| * Zeroboard |       | Reasonable  |       | * Laravel     |       | * Modern Web    |
+| * Gnuboard  | ----> | Framework   | ----> | * CakePHP     | ----> | * Accessability |
+| * Wordpress |       |             |       | * Codeigniter |       | * IoT/ML        |
+| * Kimsboard |       | * API       |       | * Yii         |       | * Boilerplate   |
+| * Others    |       | * Class     |       | * Symfony     |       | * Big Data      |
+|             |       | * Library   |       | * Zend        |       | * Security      |
++-------------+       +-------------+       +---------------+       +-----------------+
     Legacy              Integration             Modern PHP               Future       
 ```
 
