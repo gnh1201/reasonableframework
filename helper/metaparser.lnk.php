@@ -6,7 +6,9 @@
  * @brief PHP-Metaparser library linker
  */
 
-$inc_file = "./vendor/PHP-Metaparser/MetaParser.class.php";
-if(file_exists($inc_file)) {
-	include($inc_file);
+if(!class_exists("MetaParser")) {
+	$inc_file = "./vendor/PHP-MetaParser/MetaParser.class.php";
+	if(file_exists($inc_file)) {
+		include($inc_file);
+	}
 }
