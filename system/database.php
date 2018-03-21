@@ -110,7 +110,7 @@ if(!function_exists("exec_db_query")) {
 		}
 
 		// execute statement (insert->execute(bind) or if not, sql->bind->execute)
-		$stmt_executed = $is_insert_with_bind ? $stmt->execute($bind) : $stmt->execute();
+		$stmt_executed = $is_insert_with_bind ? @$stmt->execute($bind) : @$stmt->execute();
 
 		if($is_check_count == true) {
 			if($stmt_executed && $stmt->rowCount() > 0) {
