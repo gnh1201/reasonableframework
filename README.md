@@ -20,9 +20,22 @@
 - You can config database if you add your custom ini file in config directory.
 - Enjoy it!
 
-## Roadmap
+## Roadmap: Support coverage
 - Support critical lagacy web server
 - Support old browser (IE 6)
+
+## Roadmap: Support lagecy web environment
+```
++-------------+       +-------------+       +---------------+       +---------------+
+| * Zeroboard |       | Reasonable  |       | * Laravel     |       | * Modern Web  |
+| * Gnuboard  | ----> | Framework   | ----> | * CakePHP     | ----> | * Boilerplate |
+| * Wordpress |       |             |       | * Codeigniter |       | * IoT         |
+| * Kimsboard |       | * API       |       | * Yii         |       | * ML          |
+| * Others    |       | * Class     |       | * Symfony     |       | * Big Data    |
+|             |       | * Library   |       | * Zend        |       | * Security    |
++-------------+       +-------------+       +---------------+       +---------------+
+    Legacy              Integration             Modern PHP               Future       
+```
 
 ## Contact me
 - Go Namhyeon <gnh1201@gmail.com>
