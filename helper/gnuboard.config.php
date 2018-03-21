@@ -45,7 +45,7 @@ $g4['visit_table']         = $g4['table_prefix'] . "visit";         // 방문자
 $g4['visit_sum_table']     = $g4['table_prefix'] . "visit_sum";     // 방문자 합계 테이블
 $g4['token_table']         = $g4['table_prefix'] . "token";         // 토큰 테이블
 
-$g4['cookie_domain'] = ".power.386.org";
+//$g4['cookie_domain'] = ".power.386.org";
 
 $g4['link_count'] = 2;
 $g4['charset'] = "utf-8";
