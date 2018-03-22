@@ -103,4 +103,10 @@ if(!function_exists("get_requested_value")) {
 	}
 }
 
+if(!function_exists("get_array")) {
+	function get_array($arr) {
+		return is_array($arr) ? $arr : array();
+	}
+}
+
 $requests = read_requests();
