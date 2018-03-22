@@ -48,15 +48,25 @@ if(!function_exists("get_dbc_object")) {
 }
 
 if(!function_exists("get_db_stmt")) {
-	function get_db_stmt($sql, $bind=array(), $bind_pdo=false) {
+	function get_db_stmt($sql, $bind=array(), $bind_pdo=false, $show_sql=false) {
 		if(!$bind_pdo) {
 			if(count($bind) > 0) {
-				foreach($bind as $k=>$v) {
-					$sql = str_replace(":" . $k, "'" . addslashes($v) . "'", $sql);
+				$bind_keys = array_keys($bind);
+
+				usort($bind_keys, function($a, $b) {
+					return strlen($b) - strlen($a);
+				});
+
+				foreach($bind_keys as $k) {
+					$sql = str_replace(":" . $k, "'" . addslashes($bind[$k]) . "'", $sql);
 				}
 			}
 		}
 		$stmt = get_dbc_object()->prepare($sql);
+		
+		if($show_sql) {
+			var_dump($sql);
+		}
 
 		// bind parameter by PDO statement
 		if($bind_pdo) {
@@ -80,6 +90,17 @@ if(!function_exists("get_db_last_id")) {
 if(!function_exists("exec_db_query")) {
 	function exec_db_query($sql, $bind=array(), $options=array()) {
 		$dbc = get_dbc_object();
+		
+		$validOptions = array();
+		$optionAvailables = array("is_check_count", "is_commit", "display_error", "show_debug", "show_sql");
+		foreach($optionAvailables as $opt) {
+			if(!array_key_empty($opt, $options)) {
+				$validOptions[$opt] = $options[$opt];
+			} else {
+				$validOptions[$opt] = false;
+			}
+		}
+		extract($validOptions);
 
 		$flag = false;
 		$is_insert_with_bind = false;
@@ -91,26 +112,27 @@ if(!function_exists("exec_db_query")) {
 				$is_insert_with_bind = true;
 			}
 		} else {
-			$stmt = get_db_stmt($sql, $bind);
-		}
-
-		$validOptions = array();
-		$optionAvailables = array("is_check_count", "is_commit");
-		foreach($optionAvailables as $opt) {
-			if(!array_key_empty($opt, $options)) {
-				$validOptions[$opt] = $options[$opt];
+			if($show_sql) {
+				$stmt = get_db_stmt($sql, $bind, false, true);
 			} else {
-				$validOptions[$opt] = false;
+				$stmt = get_db_stmt($sql, $bind);
 			}
 		}
-		extract($validOptions);
-		
+
 		if($is_commit) {
 			$dbc->beginTransaction();
 		}
 
 		// execute statement (insert->execute(bind) or if not, sql->bind->execute)
-		$stmt_executed = $is_insert_with_bind ? @$stmt->execute($bind) : @$stmt->execute();
+		$stmt_executed = $is_insert_with_bind ? $stmt->execute($bind) : $stmt->execute();
+
+		if($show_debug) {
+			var_dump($stmt->debugDumpParams());
+		}
+
+		if($display_error) {
+			var_dump($stmt->errorInfo());
+		}
 
 		if($is_check_count == true) {
 			if($stmt_executed && $stmt->rowCount() > 0) {
