@@ -38,7 +38,7 @@ $route = get_value_in_array("route", $_REQUEST, "");
 
 // load route
 if(empty($route)) {
-	$route = "welcome";
+	$route = get_value_in_array("default_route", $config, "welcome");
 } else {
 	$route_names = explode('/', $route);
 	if(count($route) > 1) {
