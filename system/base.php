@@ -84,6 +84,20 @@ if(!function_exists('array_multikey_empty')) {
 	}
 }
 
+if(!function_exists("get_value_in_array")) {
+	function get_value_in_array($name, $arr=array(), $default=0) {
+		$output = 0;
+
+		if(is_array($arr)) {
+			$output = array_key_empty($name, $arr) ? $default : $arr[$name];
+		} else {
+			$output = $default;
+		}
+
+		return $output;
+	}
+}
+
 if(!function_exists("cut_str")) {
 	function cut_str($str, $start, $len=0) {
 		$cutted_str = "";
