@@ -1,4 +1,11 @@
 <?php
+/**
+ * @file database.php
+ * @date 2018-01-01
+ * @author Go Namhyeon <gnh1201@gmail.com>
+ * @brief Database module for ReasonableFramework
+ */
+
 if(!function_exists("get_db_connect")) {
 	function get_db_connect() {
 		global $config;
@@ -179,6 +186,57 @@ if(!function_exists("exec_db_fetch")) {
 		}
 
 		return $fetched;
+	}
+}
+
+if(!function_exists("get_page_range")) {
+	function get_page_range($page=1, $limit=0) {
+		$append_sql = "";
+		
+		if($limit > 0) {
+			$record_start = ($page - 1) * $limit;
+			$record_end = $record_start + $limit - 1;
+			$append_sql .= " limit $record_start, $record_end";
+		}
+		
+		return $append_sql;
+	}
+}
+
+if(!function_exists("get_bind_to_sql_where")) {
+	// warning: variable k is not protected. do not use variable k and external variable without filter
+	function get_bind_to_sql_where($bind, $excludes=array()) {
+		$sql_where = "";
+		foreach($bind as $k=>$v) {
+			if(!in_array($k, $excludes)) {
+				$sql_where .= " and {$k} = :{$k}";
+			}
+		}
+		return $sql_where;
+	}
+}
+
+if(!function_exists("get_bind_to_sql_update_set")) {
+	// warning: variable k is not protected. do not use variable k and external variable without filter
+	function get_bind_to_sql_update_set($bind, $excludes=array()) {
+		$sql_update_set = "";
+
+		$set_items = "";
+		foreach($bind as $k=>$v) {
+			if(!in_array($k, $excludes)) {
+				$set_items[] = "{$k} = :{$k}";
+			}
+		}
+		$sql_update_set = implode(", ", $set_items);
+
+		return $sql_update_set;
+	}
+}
+
+// alias sql_query from exec_db_query
+if(!function_exists("sql_query")) {
+	function sql_query($sql, $bind=array()) {
+		return exec_db_query($sql, $bind);
 	}
 }
 
