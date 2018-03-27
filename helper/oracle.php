@@ -28,7 +28,7 @@ function exec_db_oracle_connect($host, $port, $user, $password, $options=array()
 	// set envs
 	foreach($options as $k=>$v) {
 		$k_terms = explode(".", $k);
-		if($k_terms == "ENV") {
+		if($k_terms[0] == "ENV") {
 			$envs[] = $k_terms[1] . "=" . $options[$k];
 		}
 	}
