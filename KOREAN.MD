@@ -36,6 +36,8 @@ https://github.com/gnh1201/reasonableframework
 
 * Helper: simple_html_dom (HTML DOM 처리기)
 
+* Helper: oracle (오라클 데이터베이스 접속 및 쿼리)
+
 ## 기술지원
 
 * Website: https://exts.kr/go/home
