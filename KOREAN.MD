@@ -26,7 +26,7 @@ https://github.com/gnh1201/reasonableframework
 
 * Helper: wprest (워드프레스[wordpress] REST API 클라이언트)
 
-* Hepler: webpagetool (Proxy, UA 설정, JSON/DOM 파서를 지원하는 HTTP 클라이언트)
+* Hepler: webpagetool (Proxy 설정, UA 설정, JSON/DOM 파서를 지원하는 HTTP 클라이언트)
 
 * Helper: noreporting, allreporting (오류 출력 범위를 설정)
 
