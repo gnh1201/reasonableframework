@@ -6,7 +6,7 @@
  * @brief Oracle database helper for ReasonableFramework
  */
 
-functon get_db_orable_binded_sql($sql, $bind) {
+function get_db_orable_binded_sql($sql, $bind) {
 	return get_db_binded_sql($sql, $bind);
 }
 
