@@ -47,7 +47,7 @@ if(!function_exists("get_dbc_object")) {
 	}
 }
 
-if(!function_exists("get_binded_sql")) {
+if(!function_exists("get_db_binded_sql")) {
 	function get_binded_sql($sql, $bind) {
 		if(count($bind) > 0) {
 			$bind_keys = array_keys($bind);
@@ -67,9 +67,9 @@ if(!function_exists("get_binded_sql")) {
 
 if(!function_exists("get_db_stmt")) {
 	function get_db_stmt($sql, $bind=array(), $bind_pdo=false, $show_sql=false) {
-		$sql = !$bind_pdo ? get_binded_sql($sql, $bind) : $sql;
+		$sql = !$bind_pdo ? get_db_binded_sql($sql, $bind) : $sql;
 		$stmt = get_dbc_object()->prepare($sql);
-		
+
 		if($show_sql) {
 			var_dump($sql);
 		}
