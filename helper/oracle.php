@@ -10,6 +10,15 @@ function get_db_orable_binded_sql($sql, $bind) {
 	return get_db_binded_sql($sql, $bind);
 }
 
+function get_db_oracle_stmt($sql, $bind) {
+	$stmt = NULL;
+
+	$sql = get_db_orable_binded_sql($sql, $bind);
+	$stmt = oci_parse($conn, $sql);
+	
+	return $stmt;
+}
+
 function exec_db_oracle_connect($host, $port, $user, $password, $options=array()) {
 	$conn = NULL;
 	$envs = array();
@@ -74,8 +83,7 @@ function exec_db_oracle_fetch_all($sql, $bind, $conn) {
 		}
 	}
 
-	$sql = get_db_orable_binded_sql($sql, $bind);
-	$stmt = oci_parse($conn, $sql);
+	$stmt = get_db_oracle_stmt($sql, $bind);
 	oci_execute($stmt);
 
 	while($row = oci_fetch_assoc($stmt)) {
@@ -85,4 +93,15 @@ function exec_db_oracle_fetch_all($sql, $bind, $conn) {
 	oci_free_statement($stmt);
 
 	return $rows;
+}
+
+function exec_db_oracle_query($sql, $bind, $conn) {
+	$flag = false;
+
+	$stmt = get_db_oracle_stmt($sql, $bind);
+	$flag = oci_execute($stmt);
+
+	oci_free_statement($stmt);
+
+	return $flag;
 }
