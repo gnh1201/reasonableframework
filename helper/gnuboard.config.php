@@ -56,4 +56,4 @@ $g4['https_url'] = "";
 define('G4_HTML_PURIFIER', false);
 
 // get gnuboard config
-$gb_config = exec_db_fetch("select * from {$g4['config_table']}");
+$gb_config = exec_db_fetch("select * from " . $g4['config_table']);
