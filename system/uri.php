@@ -30,7 +30,8 @@ if(!function_exists("read_requests")) {
 			"_ALL"  => $_REQUEST,
 			"_POST" => $_POST,
 			"_GET"  => $_GET,
-			"_URI"  => !array_key_empty("REQUEST_URI", $_SERVER) ? $_SERVER["REQUEST_URI"] : ''
+			"_URI"  => !array_key_empty("REQUEST_URI", $_SERVER) ? $_SERVER["REQUEST_URI"] : '',
+			"_FILES" => is_array($_FILES) ? $_FILES : array(),
 		);
 
 		// with security module
@@ -41,6 +42,13 @@ if(!function_exists("read_requests")) {
 				}
 			}
 		}
+
+		// set alias
+		$requests['all'] = $requests['_ALL'];
+		$requests['post'] = $requests['_POST'];
+		$requests['get'] = $requests['_GET'];
+		$requests['uri'] = $requests['_URI'];
+		$requests['files'] = $requests['_FILES'];
 
 		return $requests;
 	}
