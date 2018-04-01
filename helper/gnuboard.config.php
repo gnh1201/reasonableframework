@@ -3,10 +3,10 @@
  * @file gnuboard.config.php
  * @date 2018-01-01
  * @author Go Namhyeon <gnh1201@gmail.com>
- * @brief Helper Library for Gnuboard CMS (4/5), Content Driver for VerySimplePHPFramework
+ * @brief Gnuboard 4 CMS Helper
  */
- 
- <?php
+
+<?php
 // 자주 사용하는 값
 // 서버의 시간과 실제 사용하는 시간이 틀린 경우 수정하세요.
 // 하루는 86400 초입니다. 1시간은 3600초
@@ -45,7 +45,7 @@ $g4['visit_table']         = $g4['table_prefix'] . "visit";         // 방문자
 $g4['visit_sum_table']     = $g4['table_prefix'] . "visit_sum";     // 방문자 합계 테이블
 $g4['token_table']         = $g4['table_prefix'] . "token";         // 토큰 테이블
 
-//$g4['cookie_domain'] = ".power.386.org";
+$g4['cookie_domain'] = "";
 
 $g4['link_count'] = 2;
 $g4['charset'] = "utf-8";
@@ -56,5 +56,4 @@ $g4['https_url'] = "";
 define('G4_HTML_PURIFIER', false);
 
 // get gnuboard config
-$gb_result = sql_query(" select * from {$g4['config_table']} ");
-$gb_config = $gb_result->fetch();
+$gb_config = exec_db_fetch("select * from {$g4['config_table']}");
