@@ -48,7 +48,7 @@ if(!function_exists("get_dbc_object")) {
 }
 
 if(!function_exists("get_db_binded_sql")) {
-	function get_binded_sql($sql, $bind) {
+	function get_db_binded_sql($sql, $bind) {
 		if(count($bind) > 0) {
 			$bind_keys = array_keys($bind);
 
