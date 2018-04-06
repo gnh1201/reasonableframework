@@ -26,16 +26,18 @@
 
 ## Roadmap: Legacy to futures
 ```
-+-------------+     +-------------+     +---------------+     +-----------------+     +----------------+
-| * Zeroboard |     | Reasonable  |     | * Laravel     |     | * Modern Web    |     | * Big Data     |
-| * Gnuboard  | --> | Framework   | --> | * CakePHP     | --> | * Boilerplate   | --> | * IoT          |
-| * Wordpress |     |             |     | * Codeigniter |     | * Accessibility |     | * M/L          |
-| * Kimsboard |     | * API       |     | * Yii         |     | * Security      |     | * SmartFactory |
-| * Linears   |     | * Class     |     | * Symfony     |     | * Intl. STD.    |     | * Industry 4   |
-| * Others    |     | * Library   |     | * Zend        |     |                 |     | * More         |
-+-------------+     +-------------+     +---------------+     +-----------------+     +----------------+
-    Legacy            Integration           Modern PHP            Post Future              Future      
++-------------+     +-------------+     +---------------+     +-----------------+     +---------------+
+| * Zb        |     | Reasonable  |     | * Laravel     |     | * Modern Web    |     | * Big Data    |
+| * Gb        | --> | Framework   | --> | * CakePHP     | --> | * Boilerplate   | --> | * IoT         |
+| * Wp        |     |             |     | * Codeigniter |     | * Accessibility |     | * M/L         |
+| * Kb        |     | * API       |     | * Yii         |     | * Security      |     | * S/F         |
+| * Linears   |     | * Class     |     | * Symfony     |     | * Intl. STD.    |     | * Ind. 4.0    |
+| * Others    |     | * Library   |     | * Zend        |     |                 |     | * More        |
++-------------+     +-------------+     +---------------+     +-----------------+     +---------------+
+    Linear            Integration           Modern PHP            Post Future              Future      
     1 Gen                2 Gen                3 Gen                 4 Gen                  5 Gen
+
+
 ```
 
 ## Contact me
