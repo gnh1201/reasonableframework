@@ -34,8 +34,11 @@ if(!function_exists("gnb_get_write_next")) {
 if(!function_exists("gnb_write_post")) {
     function gnb_write_post($tablename, $data=array(), $version=4) {
         $result = false;
+        
+        $config = get_config();
         $mb_id = get_current_user_name();
 
+        // load network helper
         loadHelper("networktool");
 
         $write_fields = array();
@@ -61,7 +64,8 @@ if(!function_exists("gnb_write_post")) {
             "wr_name" => get_generated_name(),
             "wr_email" => "",
             "wr_homepage" => "",
-            "wr_last" => "",
+            "wr_datetime" => get_value_in_array("timeformat", $config, ""),
+            "wr_last" => get_value_in_array("timeformat", $config, ""),
             "wr_ip" => get_network_client_addr(),
             "wr_1" => "",
             "wr_2" => "",
@@ -93,7 +97,7 @@ if(!function_exists("gnb_write_post")) {
             $sql .= implode(", :", $write_keys); // bind key names
             $sql .= ")";
 
-            $result = exec_db_query($sql, $bind);
+            $result = exec_db_query($sql, $write_fields);
         }
 
         return $result;
