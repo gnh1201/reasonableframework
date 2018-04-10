@@ -145,16 +145,16 @@ if(!function_exists("gnb_get_password")) {
 
 // run login process
 if(!function_exists("gnb_process_login")) {
-    function gnb_process_login($mb_id, $mb_password) {
+    function gnb_process_safe_login($user_name, $user_password) {
         $result = false;
-        $mb = gnb_get_member($mb_id);
+        $mb = gnb_get_member($user_name);
 
         if(!array_key_empty("mb_id", $mb)) {
             $user_profile = array(
                 "user_id" => $mb['mb_no'],
                 "user_password" => get_password(gnb_get_password($mb['mb_password'])),
             );
-            $result = process_safe_login($mb['mb_id'], $mb['mb_password'], $user_profile);
+            $result = process_safe_login($mb['mb_id'], gnb_get_password($mb['mb_password']), $user_profile);
         }
         
         return $result;
