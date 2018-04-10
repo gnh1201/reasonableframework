@@ -19,19 +19,19 @@ if(!function_exists("get_web_cmd")) {
 		$cmd = "";
 
 		if($method == "get") {
-			$cmd = "curl -A \"%s\" -k %s";
-			$cmd_fin = sprintf($cmd, $ua, $url);
+			$cmd = "curl -A '%s' -k %s";
+			$cmd_fin = sprintf($cmd, addslashes($ua), addslashes($url));
 			$output = shell_exec($cmd_fin);
 		}
 
 		if($method == "post") {
-			$cmd = "curl -X POST -A \"%s\" -k %s %s";
+			$cmd = "curl -X POST -A '%s' -k %s %s";
 			$params_cmd = "";
 			foreach($data as $k=>$v) {
 				$v = addslashes($v);
 				$params_cmd .= "-d '{$k}={$v}' ";
 			}
-			$cmd_fin = sprintf($cmd, $ua, $url, $params_cmd);
+			$cmd_fin = sprintf($cmd, addslashes($ua), addslashes($url), $params_cmd);
 			$output = shell_exec($cmd_fin);
 		}
 
