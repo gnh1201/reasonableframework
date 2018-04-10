@@ -3,7 +3,7 @@
  * @file vworld.php
  * @date 2018-01-11
  * @author Go Namhyeon <gnh1201@gmail.com>
- * @brief Helper for vWorld (vworld.kr, molit.go.kr, 국토교통부)
+ * @brief Geo Helper based on vWorld (vworld.kr, molit.go.kr)
  */
 
 if(!function_exists("vworld_utf8_replace")) {
