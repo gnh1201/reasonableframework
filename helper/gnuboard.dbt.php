@@ -22,37 +22,73 @@ if(!function_exists("gnb_get_write_table")) {
 	}
 }
 
+// get write next
+if(!function_exists("gnb_get_write_next")) {
+    function gnb_get_write_next($tablename) {
+        $row = exec_db_fetch("select min(wr_num) as min_wr_num from " . gnb_get_write_table($tablename));
+        return (int)($row['min_wr_num'] - 1);
+    }
+}
+
 // write post
 if(!function_exists("gnb_write_post")) {
 	function gnb_write_post($tablename, $data=array(), $version=4) {
 		$result = false;
+        $mb_id = get_current_user_name();
 
-		$my_fields = "";
-		$my_fields .= "wr_id,wr_num,wr_reply,wr_parent,wr_comment_reply,";
-		$my_fields .= "ca_name,wr_option,wr_subject,wr_content,wr_link1,";
-		$my_fields .= "wr_link2,wr_link1_hit,wr_link2_hit,wr_trackback,wr_hit,";
-		$my_fields .= "wr_good,wr_nogood,mb_id,wr_password,wr_name,";
-		$my_fields .= "wr_email,wr_homepage,wr_homepage,wr_last,wr_ip,";
-		$my_fields .= "wr_1,wr_2,wr_3,wr_4,wr_5,wr_6,wr_7,wr_8,wr_9,wr_10";
-		$valid_fields = explode(",", $my_fields);
+        $write_fields = array();
+        $write_default_fields = array(
+            "mb_id" => $mb_id,
+            "wr_num" => gnb_get_write_next($tablename),
+            "wr_reply" => "",
+            "wr_parent" => "",
+            "wr_comment_reply" => "",
+            "ca_name" => "",
+            "wr_option" => "",
+            "wr_subject" => make_random_id(),
+            "wr_content" => make_random_id(),
+            "wr_link1" => "",
+            "wr_link2" => "",
+            "wr_link1_hit" => 0,
+            "wr_link2_hit" => 0,
+            "wr_trackback" => "",
+            "wr_hit" => 0,
+            "wr_good" => 0,
+            "wr_nogood" => 0,
+            "wr_password" => gnb_get_password(make_random_id()),
+            "wr_name" => get_generated_name(),
+            "wr_email" => "",
+            "wr_homepage" => "",
+            "wr_last" => "",
+            "wr_ip" => "",
+            "wr_1" => "",
+            "wr_2" => "",
+            "wr_3" => "",
+            "wr_4" => "",
+            "wr_5" => "",
+            "wr_6" => "",
+            "wr_7" => "",
+            "wr_8" => "",
+            "wr_9" => "",
+            "wr_10" => "",
+        );
 
-		$bind = array();
 		foreach($data as $k=>$v) {
-			if(in_array($k, $valid_fields) && $k != "wr_id") {
-				$bind[$k] = $v;
+			if(in_array($k, $write_default_fields)) {
+				$write_fields[$k] = $v;
 			}
 		}
-		$bind_keys = array_key($bind);
+		$write_keys = array_keys($write_fields);
 
 		$sql = "";
 		$write_table = gnb_get_write_table($tablename);
 
 		// make SQL statements
-		if(count($filtered_keys) > 0) {
+		if(count($write_keys) > 0) {
 			$sql .= "insert into " . $write_table . " (";
-			$sql .= implode(", ", $bind_keys); // key names
+			$sql .= implode(", ", $write_keys); // key names
 			$sql .= ") values (";
-			$sql .= implode(", :", $bind_keys); // bind key names
+			$sql .= implode(", :", $write_keys); // bind key names
 			$sql .= ")";
 
 			$result = exec_db_query($sql, $bind);
