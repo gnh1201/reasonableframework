@@ -11,8 +11,8 @@ if(!function_exists("get_network_event")) {
         return array(
             "time"       => date("Y-m-d H:i:s"),
             "server"     => get_network_client_addr(),
-            "hostname"   => get_network_hostname,
-            "client"     => get_network_client_addr,
+            "hostname"   => get_network_hostname(),
+            "client"     => get_network_client_addr(),
             "agent"      => getenv("HTTP_USER_AGENT"),
             "referrer"   => getenv("HTTP_REFERER"),
             "query"      => getenv("QUERY_STRING"),
