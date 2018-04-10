@@ -102,6 +102,21 @@ if(!function_exists("gnb_write_post")) {
     }
 }
 
+if(!function_exists("gnb_set_post_parameters")) {
+    function gnb_set_post_parameters($tablename, $wr_id, $bind=array()) {
+        $flag = false;
+        $excludes = array("wr_id");
+
+        $write_table = gnb_get_write_table($tablename);
+        $bind['wr_id'] = get_value_in_array("wr_id", $bind, $wr_id);
+
+        $sql = "update " . $write_table . " set " . get_bind_to_sql_update_set($bind, $excludes) . " where wr_id = :wr_id";
+        $flag = exec_db_query($sql, $bind);
+
+        return $flag;
+    }
+}
+
 // get member data
 if(!function_exists("gnb_get_member")) {
     function gnb_get_member($mb_id, $tablename="member") {
