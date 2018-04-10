@@ -7,8 +7,8 @@
  * @cvs http://github.com/gnh1201/reasonableframework
  */
 
-if(!function_exists('paginate')) {
-	private function paginate($item_per_page, $current_page, $total_records, $total_pages, $page_url, $qry='') {
+if(!function_exists('get_paginate')) {
+	function get_paginate($item_per_page, $current_page, $total_records, $total_pages, $page_url, $qry='') {
 		$pagination = '';
 		if($total_pages > 0 && $total_pages != 1 && $current_page <= $total_pages){ //verify total pages and current page number
 			$pagination .= '<ul class="pagination justify-content-end">';
