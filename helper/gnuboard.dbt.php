@@ -141,7 +141,7 @@ if(!function_exists("gnb_process_login")) {
                 "user_id" => $mb['mb_no'],
                 "user_password" => get_password(gnb_get_password($mb['mb_password'])),
             );
-            $result = process_safe_login($mb['mb_id'], $mb['mb_password'], $user_profile, true);
+            $result = process_safe_login($mb['mb_id'], $mb['mb_password'], $user_profile);
         }
         
         return $result;
