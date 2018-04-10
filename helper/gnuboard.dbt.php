@@ -79,17 +79,15 @@ if(!function_exists("gnb_write_post")) {
             "wr_10" => "",
         );
 
-        foreach($data as $k=>$v) {
-            if(in_array($k, $write_default_fields)) {
-                $write_fields[$k] = $v;
-            }
+        foreach($write_default_fields as $k=>$v) {
+            $write_fields[$k] = array_key_empty($k, $data) ? $v : $data[$k];
         }
-        $write_keys = array_keys($write_fields);
 
-        $sql = "";
+        $write_keys = array_keys($write_fields);
         $write_table = gnb_get_write_table($tablename);
 
         // make SQL statements
+        $sql = "";
         if(count($write_keys) > 0) {
             $sql .= "insert into " . $write_table . " (";
             $sql .= implode(", ", $write_keys); // key names
@@ -113,7 +111,7 @@ if(!function_exists("gnb_get_member")) {
         );
 
         $member_table = gnb_get_db_prefix() . $tablename;
-        $result = exec_db_fetch("select * from {$member_table} where mb_id = :mb_id", $bind);
+        $result = exec_db_fetch("select * from " . $member_table . " where mb_id = :mb_id", $bind);
 
         return $result;
     }
@@ -147,4 +145,3 @@ if(!function_exists("gnb_process_login")) {
         return $result;
     }
 }
-
