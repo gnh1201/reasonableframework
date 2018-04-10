@@ -8,8 +8,10 @@
 
 if(!function_exists("get_network_event")) {
     function get_network_event() {
+        $config = get_config();
+
         return array(
-            "time"       => date("Y-m-d H:i:s"),
+            "time"       => get_value_in_array("timeformat", $config, "Y-m-d H:i:s"),
             "server"     => get_network_client_addr(),
             "hostname"   => get_network_hostname(),
             "client"     => get_network_client_addr(),
