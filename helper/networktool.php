@@ -1,16 +1,23 @@
 <?php
+/**
+ * @file gnuboard.php
+ * @date 2018-04-11
+ * @author Go Namhyeon <gnh1201@gmail.com>
+ * @brief Network Helper
+ */
+
 if(!function_exists("get_network_event")) {
     function get_network_event() {
         return array(
             "time"       => date("Y-m-d H:i:s"),
-            "server"     => $this->getServerAddr(),
-            "hostname"   => $this->getHostname(),
-            "client"     => $this->getClientAddr(),
-            "agent"      => getenv('HTTP_USER_AGENT'),
-            "referrer"   => getenv('HTTP_REFERER'),
-            "query"      => getenv('QUERY_STRING'),
+            "server"     => get_network_client_addr(),
+            "hostname"   => get_network_hostname,
+            "client"     => get_network_client_addr,
+            "agent"      => getenv("HTTP_USER_AGENT"),
+            "referrer"   => getenv("HTTP_REFERER"),
+            "query"      => getenv("QUERY_STRING"),
             "self"       => $_SERVER['PHP_SELF'],
-            "method"     => $_SERVER['REQUEST_METHOD']
+            "method"     => $_SERVER['REQUEST_METHOD'],
         );
     }
 }
