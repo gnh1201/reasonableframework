@@ -1,9 +1,9 @@
 <?php
 /**
- * @file gnuboard.php
+ * @file networktool.php
  * @date 2018-04-11
  * @author Go Namhyeon <gnh1201@gmail.com>
- * @brief Network Helper
+ * @brief Network tool helper
  */
 
 if(!function_exists("get_network_event")) {
