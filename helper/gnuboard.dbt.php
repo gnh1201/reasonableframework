@@ -120,7 +120,8 @@ if(!function_exists("gnb_set_post_parameters")) {
 // get member data
 if(!function_exists("gnb_get_member")) {
     function gnb_get_member($mb_id, $tablename="member") {
-        $result = false;
+        $result = array();
+
         $bind = array(
             "mb_id" => $mb_id,
         );
@@ -140,6 +141,18 @@ if(!function_exists("gnb_get_password")) {
         );
         $row = exec_db_fetch("select password(:password) as pass", $bind);
         return $row['pass'];
+    }
+}
+
+// get config
+if(!function_exists("gnb_get_config")) {
+    function gnb_get_config($tablename="config") {
+        $result = array();
+
+        $config_table = gnb_get_db_prefix() . $tablename;
+        $result = exec_db_fetch("select * from " . $config_table);
+
+        return $result;
     }
 }
 
