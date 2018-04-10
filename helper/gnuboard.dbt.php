@@ -144,7 +144,7 @@ if(!function_exists("gnb_get_password")) {
 }
 
 // run login process
-if(!function_exists("gnb_process_login")) {
+if(!function_exists("gnb_process_safe_login")) {
     function gnb_process_safe_login($user_name, $user_password) {
         $result = false;
         $mb = gnb_get_member($user_name);
