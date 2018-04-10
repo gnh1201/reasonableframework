@@ -15,11 +15,11 @@ if(!function_exists("gnb_get_db_prefix")) {
 
 // get write table
 if(!function_exists("gnb_get_write_table")) {
-	function gnb_get_write_table($tablename, $version=4) {
-		$write_prefix = gnb_get_db_prefix() . "write_";
-		$write_table = $write_prefix . $tablename;
-		return $write_table;
-	}
+    function gnb_get_write_table($tablename, $version=4) {
+        $write_prefix = gnb_get_db_prefix() . "write_";
+        $write_table = $write_prefix . $tablename;
+        return $write_table;
+    }
 }
 
 // get write next
@@ -32,9 +32,11 @@ if(!function_exists("gnb_get_write_next")) {
 
 // write post
 if(!function_exists("gnb_write_post")) {
-	function gnb_write_post($tablename, $data=array(), $version=4) {
-		$result = false;
+    function gnb_write_post($tablename, $data=array(), $version=4) {
+        $result = false;
         $mb_id = get_current_user_name();
+
+        loadHelper("networktool");
 
         $write_fields = array();
         $write_default_fields = array(
@@ -60,7 +62,7 @@ if(!function_exists("gnb_write_post")) {
             "wr_email" => "",
             "wr_homepage" => "",
             "wr_last" => "",
-            "wr_ip" => "",
+            "wr_ip" => get_network_client_addr(),
             "wr_1" => "",
             "wr_2" => "",
             "wr_3" => "",
@@ -73,29 +75,29 @@ if(!function_exists("gnb_write_post")) {
             "wr_10" => "",
         );
 
-		foreach($data as $k=>$v) {
-			if(in_array($k, $write_default_fields)) {
-				$write_fields[$k] = $v;
-			}
-		}
-		$write_keys = array_keys($write_fields);
+        foreach($data as $k=>$v) {
+            if(in_array($k, $write_default_fields)) {
+                $write_fields[$k] = $v;
+            }
+        }
+        $write_keys = array_keys($write_fields);
 
-		$sql = "";
-		$write_table = gnb_get_write_table($tablename);
+        $sql = "";
+        $write_table = gnb_get_write_table($tablename);
 
-		// make SQL statements
-		if(count($write_keys) > 0) {
-			$sql .= "insert into " . $write_table . " (";
-			$sql .= implode(", ", $write_keys); // key names
-			$sql .= ") values (";
-			$sql .= implode(", :", $write_keys); // bind key names
-			$sql .= ")";
+        // make SQL statements
+        if(count($write_keys) > 0) {
+            $sql .= "insert into " . $write_table . " (";
+            $sql .= implode(", ", $write_keys); // key names
+            $sql .= ") values (";
+            $sql .= implode(", :", $write_keys); // bind key names
+            $sql .= ")";
 
-			$result = exec_db_query($sql, $bind);
-		}
+            $result = exec_db_query($sql, $bind);
+        }
 
-		return $result;
-	}
+        return $result;
+    }
 }
 
 // get member data
@@ -141,3 +143,4 @@ if(!function_exists("gnb_process_login")) {
         return $result;
     }
 }
+
