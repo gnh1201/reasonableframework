@@ -28,6 +28,7 @@ if(!function_exists("get_web_cmd")) {
 			$cmd = "curl -X POST -A '%s' -k %s %s";
 			$params_cmd = "";
 			foreach($data as $k=>$v) {
+				$k = addslashes($v);
 				$v = addslashes($v);
 				$params_cmd .= "-d '{$k}={$v}' ";
 			}
