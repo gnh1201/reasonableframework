@@ -8,7 +8,7 @@
 
 if(!function_exists("get_db_connect")) {
 	function get_db_connect() {
-		global $config;
+		$config = get_scope("config");
 
 		$conn = new PDO(
 			sprintf(
@@ -21,7 +21,7 @@ if(!function_exists("get_db_connect")) {
 			array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8")
 		);
 		$conn->query("SET NAMES 'utf8'");
-		
+
 		return $conn;
 	}
 }
@@ -37,39 +37,33 @@ if(!function_exists("exec_stmt_query")) {
 
 if(!function_exists("get_dbc_object")) {
 	function get_dbc_object($renew=false) {
-		global $dbc;
+		$dbc = get_scope("dbc");
 
 		if($renew) {
-			$dbc = get_db_connect();
+			set_scope("dbc", get_db_connect());
 		}
 
-		return $dbc;
-	}
-}
-
-if(!function_exists("get_db_binded_sql")) {
-	function get_db_binded_sql($sql, $bind) {
-		if(count($bind) > 0) {
-			$bind_keys = array_keys($bind);
-
-			usort($bind_keys, function($a, $b) {
-				return strlen($b) - strlen($a);
-			});
-
-			foreach($bind_keys as $k) {
-				$sql = str_replace(":" . $k, "'" . addslashes($bind[$k]) . "'", $sql);
-			}
-		}
-		
-		return $sql;
+		return get_scope("dbc");
 	}
 }
 
 if(!function_exists("get_db_stmt")) {
 	function get_db_stmt($sql, $bind=array(), $bind_pdo=false, $show_sql=false) {
-		$sql = !$bind_pdo ? get_db_binded_sql($sql, $bind) : $sql;
-		$stmt = get_dbc_object()->prepare($sql);
+		if(!$bind_pdo) {
+			if(count($bind) > 0) {
+				$bind_keys = array_keys($bind);
 
+				usort($bind_keys, function($a, $b) {
+					return strlen($b) - strlen($a);
+				});
+
+				foreach($bind_keys as $k) {
+					$sql = str_replace(":" . $k, "'" . addslashes($bind[$k]) . "'", $sql);
+				}
+			}
+		}
+		$stmt = get_dbc_object()->prepare($sql);
+		
 		if($show_sql) {
 			var_dump($sql);
 		}
@@ -177,8 +171,8 @@ if(!function_exists("exec_db_fetch")) {
 		if($bind_limit == true) {
 			$sql = $sql . " limit 1";
 		}
-
 		$rows = exec_db_fetch_all($sql, $bind);
+
 		if(count($rows) > $start) {
 			$idx = 0;
 			foreach($rows as $row) {
@@ -186,7 +180,6 @@ if(!function_exists("exec_db_fetch")) {
 					$fetched = $row;
 					break;
 				}
-
 				$idx++;
 			}
 		}
@@ -206,6 +199,21 @@ if(!function_exists("get_page_range")) {
 		}
 		
 		return $append_sql;
+	}
+}
+
+if(!function_exists("get_bind_to_sql_insert")) {
+	function get_bind_to_sql_insert($tablename, $bind) {
+		$bind_keys = array_keys($bind);
+		$sql = "insert into %s (%s) values (:%s)";
+
+		$sql_p1 = $tablename;
+		$sql_p2 = implode(", ", $bind_keys);
+		$sql_p3 = implode(", :", $bind_keys);
+
+		$sql = sprintf($sql, $sql_p1, $sql_p2, $sql_p3);
+
+		return $sql;
 	}
 }
 
@@ -246,5 +254,34 @@ if(!function_exists("sql_query")) {
 	}
 }
 
-// set global db connection variable
-$dbc = get_db_connect();
+// get timediff
+if(!function_exists("get_timediff_on_query")) {
+	function get_timediff_on_query($a, $b) {
+		$dt = 0;
+
+		$sql = "select timediff(:a, :b) as dt";
+		$bind = array(
+			"a" => $a,
+			"b" => $b
+		);
+		$row = exec_db_fetch($sql, $bind);
+		$dt = get_value_in_array("dt", $row, $dt);
+
+		return $dt;
+	}
+}
+
+// get assoc from json raw data
+if(!function_exists("json_decode_to_assoc")) {
+	function json_decode_to_assoc($data) {
+		$result = array();
+
+		$obj = @json_decode($data, true);
+		$result = (@json_last_error() === 0) ? $obj : $result;
+
+		return $result;
+	}
+}
+
+// set scope dbc
+set_scope("dbc", get_db_connect());
