@@ -49,7 +49,7 @@ if(!function_exists("renderView")) {
 			extract($data);
 		}
 
-		$flag = true;
+		$flag = false;
 		$views = explode(';', $name);
 		foreach($views as $name2) {
 			$viewfile = './view/' . $name2 . '.php';
@@ -65,7 +65,7 @@ if(!function_exists("renderView")) {
 // load system module
 if(!function_exists("loadModule")) {
 	function loadModule($name) {
-		$flag = true;
+		$flag = false;
 		$modules = explode(';', $name);
 		foreach($modules as $name2) {
 			$systemfile = './system/' . $name2 . '.php';
@@ -81,7 +81,7 @@ if(!function_exists("loadModule")) {
 // load helper file
 if(!function_exists("loadHelper")) {
 	function loadHelper($name) {
-		$flag = true;
+		$flag = false;
 		$helpers = explode(';', $name);
 		foreach($helpers as $name2) {
 			$helperfile = './helper/' . $name2 . '.php';
@@ -96,12 +96,12 @@ if(!function_exists("loadHelper")) {
 // load route file
 if(!function_exists("loadRoute")) {
 	function loadRoute($name, $data=array()) {
-		$flag = true;
+		$flag = false;
 		$routes = explode(";", $name);
 		foreach($routes as $name2) {
-			$routefile = './route/' . $name . '.php';
+			$routefile = './route/' . $name2 . '.php';
 			if(file_exists($routefile)) {
-				$flag = $flag && include_isolate($routefile, $data);
+                $flag = include_isolate($routefile, $data);
 				register_loaded("route", $routefile);
 			}
 		}
