@@ -110,6 +110,48 @@ if(!function_exists("read_requests")) {
 	}
 }
 
+if(!function_exists("get_requested_value")) {
+	function get_requested_value($name, $scope="all", $escape_quotes=true, $escape_tags=false) {
+		$requests = get_requests();
+
+		$value = "";
+		$method = "";
+
+		switch($scope) {
+			case "all":
+				$method = "_ALL";
+				break;
+			case "post":
+				$method = "_POST";
+				break;
+			case "get":
+				$method = "_GET";
+				break;
+			default:
+				$method = "";
+		}
+
+		// set validated value
+		if(!empty($method)) {
+			$value = array_key_empty($name, $requests[$method]) ? $value : $requests[$method][$name];
+
+			if(is_string($value)) {
+				// security: set escape quotes
+				if($escape_quotes == true) {
+					$value = addslashes($value);
+				}
+
+				// security: set escape tags
+				if($escape_tags == true) {
+					$value = htmlspecialchars($value);
+				}
+			}
+		}
+
+		return $value;
+	}
+}
+
 if(!function_exists("get_array")) {
 	function get_array($arr) {
 		return is_array($arr) ? $arr : array();
