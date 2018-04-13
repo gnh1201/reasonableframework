@@ -24,7 +24,7 @@ foreach($load_systems as $system_name) {
 	}
 }
  
-$config = get_config("config");
+$config = get_config();
 $requests = get_requests();
 
 // set max_execution_time
