@@ -49,63 +49,64 @@ if(!function_exists("renderView")) {
 			extract($data);
 		}
 
-		$flag = false;
+		$flag = true;
 		$views = explode(';', $name);
 		foreach($views as $name2) {
 			$viewfile = './view/' . $name2 . '.php';
 			if(file_exists($viewfile)) {
-				$flag = $flag && include_isolate($viewfile, $data);
+				$flag = $flag && !include_isolate($viewfile, $data);
 				register_loaded("view", $viewfile);
 			}
 		}
-		return $flag;
+		return !$flag;
 	}
 }
 
 // load system module
 if(!function_exists("loadModule")) {
 	function loadModule($name) {
-		$flag = false;
+		$flag = true;
 		$modules = explode(';', $name);
 		foreach($modules as $name2) {
 			$systemfile = './system/' . $name2 . '.php';
 			if(file_exists($systemfile)) {
-				$flag = $flag && include_isolate($systemfile); 
+				$flag = $flag && !include_isolate($systemfile); 
 				register_loaded("view", $systemfile);
 			}
 		}
-		return $flag;
+		return !$flag;
 	}
 }
 
 // load helper file
 if(!function_exists("loadHelper")) {
 	function loadHelper($name) {
-		$flag = false;
+		$flag = true;
 		$helpers = explode(';', $name);
 		foreach($helpers as $name2) {
 			$helperfile = './helper/' . $name2 . '.php';
 			if(file_exists($helperfile)) {
-				$flag = $flag && include_isolate($helperfile); 
+				$flag = $flag && !include_isolate($helperfile); 
 				register_loaded("helper", $helperfile);
 			}
 		}
+        return !$flag;
 	}
 }
 
 // load route file
 if(!function_exists("loadRoute")) {
 	function loadRoute($name, $data=array()) {
-		$flag = false;
+		$flag = true;
 		$routes = explode(";", $name);
 		foreach($routes as $name2) {
-			$routefile = './route/' . $name2 . '.php';
+			$routefile = './route/' . $name . '.php';
 			if(file_exists($routefile)) {
-                $flag = include_isolate($routefile, $data);
+				$flag = $flag && !include_isolate($routefile, $data);
 				register_loaded("route", $routefile);
 			}
 		}
-		return $flag;
+		return !$flag;
 	}
 }
 
@@ -115,12 +116,10 @@ if(!function_exists("array_key_empty")) {
 		
 		if(is_array($array)) {
 			if(array_key_exists($key, $array)) {
-				if(!empty($array[$key])) {
-					$empty = false;
-				}
+                $empty = $empty && empty($array[$key]);
 			}
 		}
-		
+
 		return $empty;
 	}
 }
