@@ -3,12 +3,12 @@
  * @file config.php
  * @date 2018-01-18
  * @author Go Namhyeon <gnh1201@gmail.com>
- * @brief Configuration module for ReasonableFramework
+ * @brief Configuration module for VSPF
  */
 
 if(!function_exists("read_config")) {
     function read_config() {
-	$config = array();
+		$config = array();
 
         if($handle = opendir('./config')) {
             while (false !== ($file = readdir($handle))) {
@@ -28,17 +28,21 @@ if(!function_exists("read_config")) {
 
 if(!function_exists("get_config")) {
 	function get_config() {
-		global $config;
-		$config = is_array($config) ? $config : read_config();
-		return $config;
+		$config = get_scope("config");
+
+		if(!is_array($config)) {
+			set_scope("config", read_config());
+		}
+
+		return get_scope("config");
 	}
 }
 
 if(!function_exists("get_config_value")) {
 	function get_config_value($key) {
-		$config = get_config();
+		$config = get_scope("config");
 
-		$config_value = '';
+		$config_value = "";
 		if(!array_key_empty($key, $config)) {
 			$config_value = $config[$key];
 		}
@@ -47,11 +51,4 @@ if(!function_exists("get_config_value")) {
 	}
 }
 
-if(!function_exists("get_current_datetime")) {
-    function get_current_datetime() {
-        $config = get_config();
-        return get_value_in_array("timeformat", $config, "Y-m-d H:i:s");
-    }
-}
-
-$config = read_config();
+set_scope("config", read_config());
