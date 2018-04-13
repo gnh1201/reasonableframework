@@ -5,60 +5,102 @@
  * @author Go Namhyeon <gnh1201@gmail.com>
  * @brief Wordpress Rest API helper
  */
- 
-function get_wp_posts($wp_server_url) {
-	$new_posts = array();
 
-	$response = get_web_json($wp_server_url, "get", array(
-		"rest_route" => "/wp/v2/posts/"
-	));
+if(!function_exists("get_wp_posts")) {
+	function get_wp_posts($wp_server_url) {
+		$result = array();
 
-	$url_res = parse_url($wp_server_url);
-	$origin = $url_res['host'];
-	$response = is_array($response) ? $response : array();
+		$posts = parse_wp_posts($wp_server_url);
+		$url_res = parse_url($wp_server_url);
+		$origin = $url_res['host'];
 
-	foreach($response as $post) {
-		$title = get_clean_xss($post->title->rendered, 1);
-		$content = get_clean_xss($post->content->rendered, 1);
-		$link = get_clean_xss($post->guid->rendered, 1);
+		foreach($posts as $post) {
+			$title = $post['title'];
+			$content = $post['content'];
+			$link = $post['link'];
 
-		$new_message = get_wp_new_message($title, $content, $link);
-		$alt_message = get_wp_new_message($title, $content);
+			$new_message = get_wp_new_message($title, $content, $link);
+			$alt_message = get_wp_new_message($title, $content);
 
-		$new_posts[] = array(
-			"origin"           => $origin,
-			"title"            => $title,
-			"content"          => $content,
-			"link"             => $link,
-			"message"          => $new_message,
-			"alt_message"      => $alt_message,
-			"object_id"        => $post->id,
-			"hash_title"       => get_hashed_text($title),
-			"hash_content"     => get_hashed_text($content),
-			"hash_link"        => get_hashed_text($link),
-			"hash_message"     => get_hashed_text($message),
-			"hash_alt_message" => get_hashed_text($alt_message)
-		);
+			$result[] = array(
+				"origin"           => $origin,
+				"title"            => $title,
+				"content"          => $content,
+				"link"             => $link,
+				"message"          => $new_message,
+				"alt_message"      => $alt_message,
+				"object_id"        => $post->id,
+				"hash_title"       => get_hashed_text($title),
+				"hash_content"     => get_hashed_text($content),
+				"hash_link"        => get_hashed_text($link),
+				"hash_message"     => get_hashed_text($new_message),
+				"hash_alt_message" => get_hashed_text($alt_message)
+			);
+		}
+
+		return $result;
 	}
-
-	return $new_posts;
 }
 
-function get_wp_new_message($title, $content, $link="") {
-	$new_message = "";
+if(!function_exists("parse_wp_posts")) {
+	function parse_wp_posts($wp_server_url) {
+		$rest_no_route = false;
+		$posts = array();
+		$data = array();
 
-	$clean_title = get_clean_text($title);
-	$clean_content = get_clean_text($content);
-	$clean_llnk = get_clean_text($link);
+		$response = get_web_json($wp_server_url, "get", array(
+			"rest_route" => "/wp/v2/posts/"
+		));
 
-	$message = $clean_title . '. ' . $clean_content;
-	$words = explode(' ', $message);
-	$words_choice = array_slice($words, 0, 30);
-	$new_message = implode(' ', $words_choice);
+		$code = get_value_in_class("code", $response);
+		if($code == "rest_no_route") {
+			$rest_no_route = true;
+			$response = get_web_xml($wp_server_url, "get", array(
+				"feed" => "rss2"
+			));
+		}
 
-	if(!empty($clean_llnk)) {
-		$new_message .= " " . $clean_llnk;
+		if($rest_no_route === false) {
+			$posts = $response;
+			foreach($posts as $post) {		
+				$data[] = array(
+					"title" => get_clean_xss($post->title->rendered, 1),
+					"content" => get_clean_xss($post->content->rendered, 1),
+					"link" => get_clean_xss($post->guid->rendered, 1),
+				);
+			}
+		} else {
+			$posts = $response->channel->item;
+			foreach($posts as $post) {
+				$data[] = array(
+					"title" => get_clean_xss($post->title),
+					"content" => get_clean_xss($post->description),
+					"link" => get_clean_xss($post->link),
+				);
+			}
+		}
+
+		return $data;
 	}
+}
 
-	return $new_message;
+if(!function_exists("get_wp_new_message")) {
+	function get_wp_new_message($title, $content, $link="") {
+		$new_message = "";
+
+		$clean_title = get_clean_text($title);
+		$clean_content = get_clean_text($content);
+		$clean_llnk = get_clean_text($link);
+
+		$message = $clean_title . " \n" . $clean_content;
+		$words = explode(' ', $message);
+		$words_choice = array_slice($words, 0, 30);
+		$new_message = trim(implode(' ', $words_choice));
+
+		if(!empty($clean_llnk)) {
+			$new_message .= " " . $clean_llnk;
+		}
+
+		return $new_message;
+	}
 }
