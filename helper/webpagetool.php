@@ -1,7 +1,7 @@
 <?php
 /**
  * @file webpagetool.php
- * @date 2018-02-26
+ * @date 2018-04-13
  * @author Go Namhyeon <gnh1201@gmail.com>
  * @brief WebPageTool helper
  */
@@ -117,44 +117,60 @@ if(!function_exists("get_web_page")) {
 
 if(!function_exists("get_web_json")) {
 	function get_web_json($url, $method="get", $data=array(), $proxy="", $ua="", $ct_out=45, $t_out=45) {
-		$doc = array();
+		$result = array();
 
 		$response = get_web_page($url, $method, $data, $proxy, $ua, $ct_out, $t_out);
 		if($response['size'] > 0) {
-			$doc = json_decode($response['content']);
+			$result = json_decode($response['content']);
 		}
 
-		return $doc;
+		return $result;
 	}
 }
 
 if(!function_exists("get_web_dom")) {
 	function get_web_dom($url, $method="get", $data=array(), $proxy="", $ua="", $ct_out=45, $t_out=45) {
-		$html = new stdClass();
+		$result = new stdClass();
 		$response = get_web_page($url, $method, $data, $proxy, $ua, $ct_out, $t_out);
 
 		// load simple_html_dom
 		if($response['size'] > 0) {
 			loadHelper("simple_html_dom");
-			$html = function_exists("str_get_html") ? str_get_html($response['content']) : $html;
+			$result = function_exists("str_get_html") ? str_get_html($response['content']) : $result;
 		}
 
-		return $html;
+		return $result;
 	}
 }
 
 if(!function_exists("get_web_meta")) {
 	function get_web_meta($url, $method="get", $data=array(), $proxy="", $ua="", $ct_out=45, $t_out=45) {
-		$details = array();
+		$result = array();
 		$response = get_web_page($url, $method, $data, $proxy, $ua, $ct_out, $t_out);
 
 		// load PHP-Metaparser
 		if($response['size'] > 0) {
 			loadHelper("metaparser.lnk");
 			$parser = new MetaParser($response['content'], $url);
-			$details = $parser->getDetails();
+			$result = $parser->getDetails();
 		}
 
-		return $details;
+		return $result;
+	}
+}
+
+if(!function_exists("get_web_xml")) {
+	function get_web_xml($url, $method="get", $data=array(), $proxy="", $ua="", $ct_out=45, $t_out=45) {
+		$result = new stdClass();
+
+		if(function_exists("simplexml_load_string")) {
+			$response = get_web_page($url, $method, $data, $proxy, $ua, $ct_out, $t_out);
+
+			if($response['size'] > 0) {
+				$result = simplexml_load_string($response['content']);
+			}
+		}
+
+		return $result;
 	}
 }
