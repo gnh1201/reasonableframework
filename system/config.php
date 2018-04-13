@@ -1,9 +1,9 @@
 <?php
 /**
  * @file config.php
- * @date 2018-01-18
+ * @date 2018-04-13
  * @author Go Namhyeon <gnh1201@gmail.com>
- * @brief Configuration module for VSPF
+ * @brief Configuration module
  */
 
 if(!function_exists("read_config")) {
@@ -40,7 +40,7 @@ if(!function_exists("get_config")) {
 
 if(!function_exists("get_config_value")) {
 	function get_config_value($key) {
-		$config = get_scope("config");
+		$config = get_config();
 
 		$config_value = "";
 		if(!array_key_empty($key, $config)) {
@@ -49,6 +49,13 @@ if(!function_exists("get_config_value")) {
 
 		return $config_value;
 	}
+}
+
+if(!function_exists("get_current_datetime")) {
+    function get_current_datetime() {
+        $config = get_config();
+        return get_value_in_array("timeformat", $config, "Y-m-d H:i:s");
+    }
 }
 
 set_scope("config", read_config());
