@@ -100,6 +100,7 @@ if(!function_exists('loadRoute')) {
 			$routefile = './route/' . $name . '.php';
 			if(file_exists($routefile)) {
 				include_isolate($routefile, $data); 
+				register_loaded("route", $routefile);
 			}
 		}
 	}
