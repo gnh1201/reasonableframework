@@ -8,7 +8,7 @@
 
 if(!function_exists("get_wp_posts")) {
 	function get_wp_posts($wp_server_url) {
-		$result = array();
+		$results = array();
 
 		$posts = parse_wp_posts($wp_server_url);
 		$url_res = parse_url($wp_server_url);
@@ -18,18 +18,19 @@ if(!function_exists("get_wp_posts")) {
 			$title = $post['title'];
 			$content = $post['content'];
 			$link = $post['link'];
+			$object_id = $post['id'];
 
 			$new_message = get_wp_new_message($title, $content, $link);
 			$alt_message = get_wp_new_message($title, $content);
 
-			$result[] = array(
+			$results[] = array(
 				"origin"           => $origin,
 				"title"            => $title,
 				"content"          => $content,
 				"link"             => $link,
 				"message"          => $new_message,
 				"alt_message"      => $alt_message,
-				"object_id"        => $post->id,
+				"object_id"        => $object_id,
 				"hash_title"       => get_hashed_text($title),
 				"hash_content"     => get_hashed_text($content),
 				"hash_link"        => get_hashed_text($link),
@@ -38,22 +39,23 @@ if(!function_exists("get_wp_posts")) {
 			);
 		}
 
-		return $result;
+		return $results;
 	}
 }
 
 if(!function_exists("parse_wp_posts")) {
 	function parse_wp_posts($wp_server_url) {
 		$rest_no_route = false;
+
 		$posts = array();
-		$data = array();
+		$results = array();
 
 		$response = get_web_json($wp_server_url, "get", array(
 			"rest_route" => "/wp/v2/posts/"
 		));
 
-		$code = get_value_in_class("code", $response);
-		if($code == "rest_no_route") {
+		$code = get_value_in_object("code", $response);
+		if($code === "rest_no_route") {
 			$rest_no_route = true;
 			$response = get_web_xml($wp_server_url, "get", array(
 				"feed" => "rss2"
@@ -63,24 +65,28 @@ if(!function_exists("parse_wp_posts")) {
 		if($rest_no_route === false) {
 			$posts = $response;
 			foreach($posts as $post) {		
-				$data[] = array(
+				$results[] = array(
 					"title" => get_clean_xss($post->title->rendered, 1),
 					"content" => get_clean_xss($post->content->rendered, 1),
 					"link" => get_clean_xss($post->guid->rendered, 1),
+					"id" => $post->id,
 				);
 			}
 		} else {
 			$posts = $response->channel->item;
 			foreach($posts as $post) {
-				$data[] = array(
+				$post_link = get_clean_xss($post->link);
+				$post_link_paths = explode("/", $post_link);
+				$results[] = array(
 					"title" => get_clean_xss($post->title),
 					"content" => get_clean_xss($post->description),
-					"link" => get_clean_xss($post->link),
+					"link" => $post_link,
+					"id" => end($post_link_paths),
 				);
 			}
 		}
 
-		return $data;
+		return $results;
 	}
 }
 
