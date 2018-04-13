@@ -45,10 +45,6 @@ if(!function_exists("include_isolate")) {
 // load view file
 if(!function_exists("renderView")) {
 	function renderView($name, $data=array()) {
-		if(count($data) > 0) {
-			extract($data);
-		}
-
 		$flag = true;
 		$views = explode(';', $name);
 		foreach($views as $name2) {
