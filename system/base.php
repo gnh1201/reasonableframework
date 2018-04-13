@@ -149,6 +149,13 @@ if(!function_exists("get_value_in_array")) {
 	}
 }
 
+if(!function_exists("get_value_in_object")) {
+	function get_value_in_object($name, $obj, $default="") {
+		$output = $obj->$name;
+		return $output;
+	}
+}
+
 $scope = array();
 
 set_scope("loaded", array(
