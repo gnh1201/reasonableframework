@@ -42,71 +42,74 @@ if(!function_exists("include_isolate")) {
 	}
 }
 
-// view render
-if(!function_exists('renderView')) {
+// load view file
+if(!function_exists("renderView")) {
 	function renderView($name, $data=array()) {
 		if(count($data) > 0) {
 			extract($data);
 		}
 
-		// load view file
+		$flag = true;
 		$views = explode(';', $name);
 		foreach($views as $name2) {
 			$viewfile = './view/' . $name2 . '.php';
 			if(file_exists($viewfile)) {
-				include_isolate($viewfile, $data);
+				$flag = $flag && include_isolate($viewfile, $data);
 				register_loaded("view", $viewfile);
 			}
 		}
+		return $flag;
 	}
 }
 
 // load system module
-if(!function_exists('loadModule')) {
+if(!function_exists("loadModule")) {
 	function loadModule($name) {
-		// load system file
+		$flag = true;
 		$modules = explode(';', $name);
 		foreach($modules as $name2) {
 			$systemfile = './system/' . $name2 . '.php';
 			if(file_exists($systemfile)) {
-				include_isolate($systemfile); 
+				$flag = $flag && include_isolate($systemfile); 
 				register_loaded("view", $systemfile);
 			}
 		}
+		return $flag;
 	}
 }
 
-// load helper
-if(!function_exists('loadHelper')) {
+// load helper file
+if(!function_exists("loadHelper")) {
 	function loadHelper($name) {
-		// load helper file
+		$flag = true;
 		$helpers = explode(';', $name);
 		foreach($helpers as $name2) {
 			$helperfile = './helper/' . $name2 . '.php';
 			if(file_exists($helperfile)) {
-				include_isolate($helperfile); 
+				$flag = $flag && include_isolate($helperfile); 
 				register_loaded("helper", $helperfile);
 			}
 		}
 	}
 }
 
-// re-route
-if(!function_exists('loadRoute')) {
+// load route file
+if(!function_exists("loadRoute")) {
 	function loadRoute($name, $data=array()) {
-		// load route file
+		$flag = true;
 		$routes = explode(";", $name);
 		foreach($routes as $name2) {
 			$routefile = './route/' . $name . '.php';
 			if(file_exists($routefile)) {
-				include_isolate($routefile, $data); 
+				$flag = $flag && include_isolate($routefile, $data);
 				register_loaded("route", $routefile);
 			}
 		}
+		return $flag;
 	}
 }
 
-if(!function_exists('array_key_empty')) {
+if(!function_exists("array_key_empty")) {
 	function array_key_empty($key, $array) {
 		$empty = true;
 		
@@ -122,13 +125,13 @@ if(!function_exists('array_key_empty')) {
 	}
 }
 
-if(!function_exists('array_multikey_empty')) {
+if(!function_exists("array_multikey_empty")) {
 	function array_multikey_empty($keys, $array) {
-		$empty = true;
+		$flag = true;
 		foreach($keys as $key) {
-			$empty = ($empty && array_key_empty($key, $array));
+			$flag = $flag && array_key_empty($key, $array);
 		}
-		return $empty;
+		return $flag;
 	}
 }
 
