@@ -76,7 +76,7 @@ if(!function_exists("parse_wp_posts")) {
 			$posts = $response->channel->item;
 			foreach($posts as $post) {
 				$post_link = get_clean_xss($post->link);
-				$post_link_paths = explode("/", $post_link);
+				$post_link_paths = array_filter(explode("/", $post_link), "strlen");
 				$results[] = array(
 					"title" => get_clean_xss($post->title),
 					"content" => get_clean_xss($post->description),
