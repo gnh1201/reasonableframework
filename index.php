@@ -23,9 +23,9 @@ foreach($load_systems as $system_name) {
 		}
 	}
 }
-
-// get config
+ 
 $config = get_config("config");
+$requests = get_requests();
 
 // set max_execution_time
 $max_execution_time = get_value_in_array("max_execution_time", $config, 0);
@@ -41,7 +41,7 @@ $default_timezone = get_value_in_array("timezone", $config, "UTC");
 date_default_timezone_set($default_timezone);
 
 // route controller
-$route = get_value_in_array("route", $_REQUEST, "");
+$route = get_value_in_array("route", $requests['all'], "");
 
 // load route
 if(empty($route)) {
