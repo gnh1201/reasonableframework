@@ -1,14 +1,14 @@
 <?php
 /**
  * @file database.php
- * @date 2018-01-01
+ * @date 2018-04-13
  * @author Go Namhyeon <gnh1201@gmail.com>
- * @brief Database module for ReasonableFramework
+ * @brief Database module
  */
 
 if(!function_exists("get_db_connect")) {
 	function get_db_connect() {
-		$config = get_scope("config");
+		$config = get_config();
 
 		$conn = new PDO(
 			sprintf(
@@ -47,23 +47,29 @@ if(!function_exists("get_dbc_object")) {
 	}
 }
 
-if(!function_exists("get_db_stmt")) {
-	function get_db_stmt($sql, $bind=array(), $bind_pdo=false, $show_sql=false) {
-		if(!$bind_pdo) {
-			if(count($bind) > 0) {
-				$bind_keys = array_keys($bind);
+if(!function_exists("get_db_binded_sql")) {
+	function get_db_binded_sql($sql, $bind) {
+		if(count($bind) > 0) {
+			$bind_keys = array_keys($bind);
 
-				usort($bind_keys, function($a, $b) {
-					return strlen($b) - strlen($a);
-				});
+			usort($bind_keys, function($a, $b) {
+				return strlen($b) - strlen($a);
+			});
 
-				foreach($bind_keys as $k) {
-					$sql = str_replace(":" . $k, "'" . addslashes($bind[$k]) . "'", $sql);
-				}
+			foreach($bind_keys as $k) {
+				$sql = str_replace(":" . $k, "'" . addslashes($bind[$k]) . "'", $sql);
 			}
 		}
-		$stmt = get_dbc_object()->prepare($sql);
 		
+		return $sql;
+	}
+}
+
+if(!function_exists("get_db_stmt")) {
+	function get_db_stmt($sql, $bind=array(), $bind_pdo=false, $show_sql=false) {
+		$sql = !$bind_pdo ? get_db_binded_sql($sql, $bind) : $sql;
+		$stmt = get_dbc_object()->prepare($sql);
+
 		if($show_sql) {
 			var_dump($sql);
 		}
