@@ -167,7 +167,7 @@ if(!function_exists("get_web_xml")) {
 			$response = get_web_page($url, $method, $data, $proxy, $ua, $ct_out, $t_out);
 
 			if($response['size'] > 0) {
-				$result = simplexml_load_string($response['content']);
+				$result = simplexml_load_string($response['content'], null, LIBXML_NOCDATA);
 			}
 		}
 
