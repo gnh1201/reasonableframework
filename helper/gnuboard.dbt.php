@@ -38,8 +38,9 @@ if(!function_exists("gnb_write_post")) {
         $write_table = gnb_get_write_table($tablename);
         $mb_id = get_current_user_name();
 
-        // load network helper
+        // load helpers
         loadHelper("networktool");
+		loadHelper("naturename.kr");
 
         $write_fields = array();
         $write_default_fields = array(
@@ -61,7 +62,7 @@ if(!function_exists("gnb_write_post")) {
             "wr_good" => 0,
             "wr_nogood" => 0,
             "wr_password" => gnb_get_password(make_random_id()),
-            "wr_name" => get_generated_name(),
+            "wr_name" => naturename_kr_get_generated_name(),
             "wr_email" => "",
             "wr_homepage" => "",
             "wr_datetime" => get_current_datetime(),
@@ -176,9 +177,10 @@ if(!function_exists("gnb_join_member")) {
         $member_table = gnb_get_db_prefix() . $tablename;
         $gnb_config = gnb_get_config();
 
-        // load network helper
+        // load helpers
         loadHelper("networktool");
-        
+		loadHelper("naturename.kr");
+
         // get member info
         $member_info = gnb_get_member($user_name);
 
@@ -189,11 +191,11 @@ if(!function_exists("gnb_join_member")) {
                 "mb_id" => $user_name,
                 "ug_id" => "",
                 "mb_password" => gnb_get_password($user_password),
-                "mb_name" => "",
+                "mb_name" => naturename_kr_get_generated_name(),
                 "mb_jumin" => "",
                 "mb_sex" => "",
                 "mb_birth" => "",
-                "mb_nick" => "",
+                "mb_nick" => get_generated_name(),
                 "mb_nick_date" => "",
                 "mb_password_q" => "",
                 "mb_password_a" => "",
