@@ -80,7 +80,7 @@ if(!function_exists("get_route_link")) {
 			$link = str_replace("&", "&amp;", $link);
 		}
 		return $link;
-	)
+	}
 }
 
 if(!function_exists("redirect_uri")) {
@@ -171,9 +171,26 @@ if(!function_exists("get_binded_requests")) {
 		$data = array();
 		
 		foreach($rules as $k=>$v) {
-			$data[$v] = get_requested_value($k);
+			if(!empty($v)) {
+				$data[$v] = get_requested_value($k);
+			}
 		}
 
+		return $data;
+	}
+}
+
+if(!function_exists("get_filtered_requests")) {
+	function get_filtered_requests($filter_keys, $method="_ALL") {
+		$data = array();
+		$requests = get_requests("requests");
+		if(array_key_exists($method, $requests)) {
+			foreach($filter_keys as $name) {
+				if(array_key_exists($name, $requests[$method])) {
+					$data[$name] = $requests[$method][$name];
+				}
+			}
+		}
 		return $data;
 	}
 }
