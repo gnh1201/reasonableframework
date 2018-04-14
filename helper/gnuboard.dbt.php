@@ -13,6 +13,13 @@ if(!function_exists("gnb_get_db_prefix")) {
     }
 }
 
+// get table
+if(!function_exists("gnb_get_db_table")) {
+	function gnb_get_db_table($tablename) {
+		return (gnb_get_db_prefix() . $tablename);
+	}
+}
+
 // get write table
 if(!function_exists("gnb_get_write_table")) {
     function gnb_get_write_table($tablename, $version=4) {
@@ -121,7 +128,7 @@ if(!function_exists("gnb_get_member")) {
             "mb_id" => $user_name,
         );
 
-        $member_table = gnb_get_db_prefix() . $tablename;
+        $member_table = gnb_get_db_table($tablename);
         $result = exec_db_fetch("select * from " . $member_table . " where mb_id = :mb_id", $bind);
 
         return $result;
@@ -144,7 +151,7 @@ if(!function_exists("gnb_get_config")) {
     function gnb_get_config($tablename="config") {
         $result = array();
 
-        $config_table = gnb_get_db_prefix() . $tablename;
+        $config_table = gnb_get_db_table($tablename);
         $result = exec_db_fetch("select * from " . $config_table);
 
         return $result;
@@ -174,7 +181,7 @@ if(!function_exists("gnb_join_member")) {
     function gnb_join_member($user_name, $user_password, $data=array(), $tablename="member") {
         $result = false;
 
-        $member_table = gnb_get_db_prefix() . $tablename;
+        $member_table = gnb_get_db_table($tablename);
         $gnb_config = gnb_get_config();
 
         // load helpers
