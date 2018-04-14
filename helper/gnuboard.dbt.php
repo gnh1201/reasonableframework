@@ -113,11 +113,11 @@ if(!function_exists("gnb_set_post_parameters")) {
 
 // get member data
 if(!function_exists("gnb_get_member")) {
-    function gnb_get_member($mb_id, $tablename="member") {
+    function gnb_get_member($user_name, $tablename="member") {
         $result = array();
 
         $bind = array(
-            "mb_id" => $mb_id,
+            "mb_id" => $user_name,
         );
 
         $member_table = gnb_get_db_prefix() . $tablename;
@@ -178,65 +178,71 @@ if(!function_exists("gnb_join_member")) {
 
         // load network helper
         loadHelper("networktool");
+        
+        // get member info
+        $member_info = gnb_get_member($user_name);
 
-        $member_fields = array();
-        $member_default_fields = array(
-            "mb_id" => $user_name,
-            "ug_id" => "",
-            "mb_password" => gnb_get_password($user_password),
-            "mb_name" => "",
-            "mb_jumin" => "",
-            "mb_sex" => "",
-            "mb_birth" => "",
-            "mb_nick" => "",
-            "mb_nick_date" => "",
-            "mb_password_q" => "",
-            "mb_password_a" => "",
-            "mb_email" => "",
-            "mb_homepage" => "",
-            "mb_tel" => "",
-            "mb_hp" => "",
-            "mb_zip1" => "",
-            "mb_zip2" => "",
-            "mb_addr1" => "",
-            "mb_addr2" => "",
-            "mb_addr3" => "",
-            "mb_addr_jibeon" => "",
-            "mb_signature" => "",
-            "mb_profile" => "",
-            "mb_today_login" => get_current_datetime(),
-            "mb_datetime" => get_current_datetime(),
-            "mb_ip" => get_network_client_addr(),
-            "mb_level" => get_value_in_array("cf_register_level", $gnb_config),
-            "mb_recommend" => "",
-            "mb_login_ip" => get_network_client_addr(),
-            "mb_mailling" => "",
-            "mb_sms" => "",
-            "mb_open" => "",
-            "mb_open_date" => get_current_datetime(),
-            "mb_1" => "",
-            "mb_2" => "",
-            "mb_3" => "",
-            "mb_4" => "",
-            "mb_5" => "",
-            "mb_6" => "",
-            "mb_7" => "",
-            "mb_8" => "",
-            "mb_9" => "",
-            "mb_10" => "",
-        );
+        // allow join if not exists duplicated members
+        if(array_key_empty("mb_id", $member_info)) {
+            $member_fields = array();
+            $member_default_fields = array(
+                "mb_id" => $user_name,
+                "ug_id" => "",
+                "mb_password" => gnb_get_password($user_password),
+                "mb_name" => "",
+                "mb_jumin" => "",
+                "mb_sex" => "",
+                "mb_birth" => "",
+                "mb_nick" => "",
+                "mb_nick_date" => "",
+                "mb_password_q" => "",
+                "mb_password_a" => "",
+                "mb_email" => "",
+                "mb_homepage" => "",
+                "mb_tel" => "",
+                "mb_hp" => "",
+                "mb_zip1" => "",
+                "mb_zip2" => "",
+                "mb_addr1" => "",
+                "mb_addr2" => "",
+                "mb_addr3" => "",
+                "mb_addr_jibeon" => "",
+                "mb_signature" => "",
+                "mb_profile" => "",
+                "mb_today_login" => get_current_datetime(),
+                "mb_datetime" => get_current_datetime(),
+                "mb_ip" => get_network_client_addr(),
+                "mb_level" => get_value_in_array("cf_register_level", $gnb_config),
+                "mb_recommend" => "",
+                "mb_login_ip" => get_network_client_addr(),
+                "mb_mailling" => "",
+                "mb_sms" => "",
+                "mb_open" => "",
+                "mb_open_date" => get_current_datetime(),
+                "mb_1" => "",
+                "mb_2" => "",
+                "mb_3" => "",
+                "mb_4" => "",
+                "mb_5" => "",
+                "mb_6" => "",
+                "mb_7" => "",
+                "mb_8" => "",
+                "mb_9" => "",
+                "mb_10" => "",
+            );
 
-        foreach($member_default_fields as $k=>$v) {
-            if(in_array($k, array("mb_id", "mb_password"))) {
-                $member_fields[$k] = $v;
-            } else {
-                $member_fields[$k] = array_key_empty($k, $data) ? $v : $data[$k];
+            foreach($member_default_fields as $k=>$v) {
+                if(in_array($k, array("mb_id", "mb_password"))) {
+                    $member_fields[$k] = $v;
+                } else {
+                    $member_fields[$k] = array_key_empty($k, $data) ? $v : $data[$k];
+                }
             }
-        }
 
-        if(count($member_fields) > 0) {
-            $sql = get_bind_to_sql_insert($member_table, $member_fields);
-            $result = exec_db_query($sql, $member_fields);
+            if(count($member_fields) > 0) {
+                $sql = get_bind_to_sql_insert($member_table, $member_fields);
+                $result = exec_db_query($sql, $member_fields);
+            }
         }
 
         return $result;
