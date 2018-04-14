@@ -150,6 +150,18 @@ if(!function_exists("get_requested_values")) {
 	}
 }
 
+if(!function_exists("get_binded_requests")) {
+	function get_binded_requests($rules, $method="_ALL") {
+		$data = array();
+		
+		foreach($rules as $k=>$v) {
+			$data[$v] = get_requested_value($k);
+		}
+
+		return $data;
+	}
+}
+
 if(!function_exists("get_array")) {
 	function get_array($arr) {
 		return is_array($arr) ? $arr : array();
