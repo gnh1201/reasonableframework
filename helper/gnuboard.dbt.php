@@ -26,7 +26,7 @@ if(!function_exists("gnb_get_write_table")) {
 if(!function_exists("gnb_get_write_next")) {
     function gnb_get_write_next($tablename) {
         $row = exec_db_fetch("select min(wr_num) as min_wr_num from " . gnb_get_write_table($tablename));
-        return (intval(get_value_in_array("min_wr_num", $row)) - 1);
+        return (intval(get_value_in_array("min_wr_num", $row, 0)) - 1);
     }
 }
 
@@ -135,7 +135,7 @@ if(!function_exists("gnb_get_password")) {
             "password" => $password,
         );
         $row = exec_db_fetch("select password(:password) as pass", $bind);
-        return $row['pass'];
+        return get_value_in_array("pass", $row, "");
     }
 }
 
@@ -182,10 +182,10 @@ if(!function_exists("gnb_join_member")) {
         loadHelper("naturename.kr");
 
         // get member info
-        $member_info = gnb_get_member($user_name);
+        $mb = gnb_get_member($user_name);
 
         // allow join if not exists duplicated members
-        if(array_key_empty("mb_id", $member_info)) {
+        if(array_key_empty("mb_id", $mb)) {
             $member_fields = array();
             $member_default_fields = array(
                 "mb_id" => $user_name,
