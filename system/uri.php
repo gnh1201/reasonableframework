@@ -136,6 +136,20 @@ if(!function_exists("get_requested_value")) {
 	}
 }
 
+if(!function_exists("get_requested_values")) {
+	function get_requested_values($names, $method="_ALL", $escape_quotes=true, $escape_tags=false) {
+		$values = array();
+
+		if(is_array($names)) {
+			foreach($names as $name) {
+				$values[$name] = get_requested_value($name);
+			}
+		}
+		
+		return $values;
+	}
+}
+
 if(!function_exists("get_array")) {
 	function get_array($arr) {
 		return is_array($arr) ? $arr : array();
