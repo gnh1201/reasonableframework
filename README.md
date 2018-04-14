@@ -20,13 +20,13 @@
 - You can config database if you add your custom ini file in config directory.
 - Enjoy it!
 
-## Roadmap: Support legacy
-- Support critical lagacy web server (old: PHP 4.x ~ modern: 7.x)
-- Support critical old browser (old: IE 6 ~ modern: IE 11)
-
 ## Map of structure
 ![Map of ResaonableFramework structure](https://github.com/gnh1201/reasonableframework/raw/master/assets/img/reasonableframework.jpg)
 
+## Roadmap: Support legacy
+- Support critical legacy web server (old: PHP 4.x ~ modern: 7.x)
+- Support critical old browser (old: IE 6 ~ modern: IE 11)
+- Do Clean & Modern PHP without hard studies.
 
 ## Contact me
 - Go Namhyeon <gnh1201@gmail.com>
