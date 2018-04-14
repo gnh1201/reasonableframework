@@ -34,8 +34,8 @@ if(!function_exists("gnb_get_write_next")) {
 if(!function_exists("gnb_write_post")) {
     function gnb_write_post($tablename, $data=array(), $version=4) {
         $result = false;
-        
-        $config = get_config();
+
+		$write_table = gnb_get_write_table($tablename);
         $mb_id = get_current_user_name();
 
         // load network helper
@@ -83,20 +83,10 @@ if(!function_exists("gnb_write_post")) {
             $write_fields[$k] = array_key_empty($k, $data) ? $v : $data[$k];
         }
 
-        $write_keys = array_keys($write_fields);
-        $write_table = gnb_get_write_table($tablename);
-
-        // make SQL statements
-        $sql = "";
-        if(count($write_keys) > 0) {
-            $sql .= "insert into " . $write_table . " (";
-            $sql .= implode(", ", $write_keys); // key names
-            $sql .= ") values (";
-            $sql .= implode(", :", $write_keys); // bind key names
-            $sql .= ")";
-
-            $result = exec_db_query($sql, $write_fields);
-        }
+		if(count($write_fields) > 0) {
+			$sql = get_bind_to_sql_insert($write_table, $write_fields);
+			$result = exec_db_query($sql, $write_fields);
+		}
 
         return $result;
     }
@@ -172,4 +162,75 @@ if(!function_exists("gnb_process_safe_login")) {
         
         return $result;
     }
+}
+
+// run join member
+if(!function_exists("gnb_join_member")) {
+	function gnb_join_member($user_name, $user_password, $data=array(), $tablename="member") {
+        $result = false;
+
+		$member_table = gnb_get_db_prefix() . $tablename;
+		$gnb_config = gnb_get_config();
+
+        // load network helper
+        loadHelper("networktool");
+
+		$member_fields = array();
+		$member_default_fields = array(
+			"mb_id" => $user_name,
+			"ug_id" => "",
+			"mb_password" => gnb_get_password($user_password),
+			"mb_name" => "",
+			"mb_jumin" => "",
+			"mb_sex" => "",
+			"mb_birth" => "",
+			"mb_nick" => "",
+			"mb_nick_date" => "",
+			"mb_password_q" => "",
+			"mb_password_a" => "",
+			"mb_email" => "",
+			"mb_homepage" => "",
+			"mb_tel" => "",
+			"mb_hp" => "",
+			"mb_zip1" => "",
+			"mb_zip2" => "",
+			"mb_addr1" => "",
+			"mb_addr2" => "",
+			"mb_addr3" => "",
+			"mb_addr_jibeon" => "",
+			"mb_signature" => "",
+			"mb_profile" => "",
+			"mb_today_login" => get_current_datetime(),
+			"mb_datetime" => get_current_datetime(),
+			"mb_ip" => get_network_client_addr(),
+			"mb_level" => get_value_in_array("cf_register_level", $gnb_config),
+			"mb_recommend" => "",
+			"mb_login_ip" => get_network_client_addr(),
+			"mb_mailling" => "",
+			"mb_sms" => "",
+			"mb_open" => "",
+			"mb_open_date" => get_current_datetime(),
+			"mb_1" => "",
+			"mb_2" => "",
+			"mb_3" => "",
+			"mb_4" => "",
+			"mb_5" => "",
+			"mb_6" => "",
+			"mb_7" => "",
+			"mb_8" => "",
+			"mb_9" => "",
+			"mb_10" => "",
+		);
+
+        foreach($member_default_fields as $k=>$v) {
+            $member_fields[$k] = array_key_empty($k, $data) ? $v : $data[$k];
+        }
+
+		if(count($member_fields) > 0) {
+			$sql = get_bind_to_sql_insert($member_table, $member_fields);
+			$result = exec_db_query($sql, $member_fields);
+		}
+
+		return $result;
+	}
 }
