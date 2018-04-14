@@ -180,21 +180,6 @@ if(!function_exists("get_binded_requests")) {
 	}
 }
 
-if(!function_exists("get_filtered_requests")) {
-	function get_filtered_requests($filter_keys, $method="_ALL") {
-		$data = array();
-		$requests = get_requests("requests");
-		if(array_key_exists($method, $requests)) {
-			foreach($filter_keys as $name) {
-				if(array_key_exists($name, $requests[$method])) {
-					$data[$name] = $requests[$method][$name];
-				}
-			}
-		}
-		return $data;
-	}
-}
-
 if(!function_exists("get_array")) {
 	function get_array($arr) {
 		return is_array($arr) ? $arr : array();
