@@ -80,7 +80,11 @@ if(!function_exists("gnb_write_post")) {
         );
 
         foreach($write_default_fields as $k=>$v) {
-            $write_fields[$k] = array_key_empty($k, $data) ? $v : $data[$k];
+			if(in_array($k, array("mb_id", "wr_num"))) {
+				$write_fields[$k] = $v;
+			} else {
+				$write_fields[$k] = array_key_empty($k, $data) ? $v : $data[$k];
+			}
         }
 
         if(count($write_fields) > 0) {
@@ -223,7 +227,11 @@ if(!function_exists("gnb_join_member")) {
         );
 
         foreach($member_default_fields as $k=>$v) {
-            $member_fields[$k] = array_key_empty($k, $data) ? $v : $data[$k];
+			if(in_array($k, array("mb_id", "mb_password"))) {
+				$member_fields[$k] = $v;
+			} else {
+				$member_fields[$k] = array_key_empty($k, $data) ? $v : $data[$k];
+			}
         }
 
         if(count($member_fields) > 0) {
