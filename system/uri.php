@@ -73,6 +73,16 @@ if(!function_exists("get_requests")) {
 	}
 }
 
+if(!function_exists("get_route_link")) {
+	function get_route_link($route, $data=array(), $entity=true) {
+		$link = sprintf("%s?route=%s&%s", base_url(), $route , http_build_query($data));
+		if($entity == true) {
+			$link = str_replace("&", "&amp;", $link);
+		}
+		return $link;
+	)
+}
+
 if(!function_exists("redirect_uri")) {
 	function redirect_uri($uri, $permanent=false) {
 		header("Location: " . $uri, true, $permanent ? 301 : 302);
@@ -82,8 +92,7 @@ if(!function_exists("redirect_uri")) {
 
 if(!function_exists("redirect_route")) {
 	function redirect_route($route, $data=array()) {
-		$uri = sprintf("%s?route=%s&%s", base_url(), $route , http_build_query($data));
-		redirect_uri($uri);
+		redirect_uri(get_route_link($route, $data, false));
 	}
 }
 
