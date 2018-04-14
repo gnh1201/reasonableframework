@@ -75,10 +75,16 @@ if(!function_exists("get_requests")) {
 
 if(!function_exists("get_route_link")) {
 	function get_route_link($route, $data=array(), $entity=true) {
-		$link = sprintf("%s?route=%s&%s", base_url(), $route , http_build_query($data));
+		$link = sprintf("%s?route=%s", base_url(), $route);
+
+		if(count($data) > 0) {
+			$link .= "&" . http_build_query($data);
+		}
+
 		if($entity == true) {
 			$link = str_replace("&", "&amp;", $link);
 		}
+
 		return $link;
 	}
 }
