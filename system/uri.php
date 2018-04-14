@@ -80,6 +80,13 @@ if(!function_exists("redirect_uri")) {
 	}
 }
 
+if(!function_exists("redirect_route")) {
+	function redirect_route($route, $data=array()) {
+		$uri = sprintf("%s?route=%s&%s", base_url(), $route , http_build_query($data));
+		redirect_uri($uri);
+	}
+}
+
 if(!function_exists("read_requests")) {
 	function read_requests() {
 		$requests = array(
