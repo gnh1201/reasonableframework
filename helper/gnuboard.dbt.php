@@ -26,7 +26,7 @@ if(!function_exists("gnb_get_write_table")) {
 if(!function_exists("gnb_get_write_next")) {
     function gnb_get_write_next($tablename) {
         $row = exec_db_fetch("select min(wr_num) as min_wr_num from " . gnb_get_write_table($tablename));
-        return (int)($row['min_wr_num'] - 1);
+        return (intval(get_value_in_array("min_wr_num", $row)) - 1);
     }
 }
 
@@ -40,7 +40,7 @@ if(!function_exists("gnb_write_post")) {
 
         // load helpers
         loadHelper("networktool");
-		loadHelper("naturename.kr");
+        loadHelper("naturename.kr");
 
         $write_fields = array();
         $write_default_fields = array(
@@ -179,7 +179,7 @@ if(!function_exists("gnb_join_member")) {
 
         // load helpers
         loadHelper("networktool");
-		loadHelper("naturename.kr");
+        loadHelper("naturename.kr");
 
         // get member info
         $member_info = gnb_get_member($user_name);
