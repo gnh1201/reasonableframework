@@ -24,21 +24,9 @@
 - Support critical lagacy web server (old: PHP 4.x ~ modern: 7.x)
 - Support critical old browser (old: IE 6 ~ modern: IE 11)
 
-## Roadmap: Legacy to futures
-```
-+-------------+     +-------------+     +---------------+     +-----------------+     +---------------+
-| * Zb        |     | Reasonable  |     | * Laravel     |     | * Modern Web    |     | * Big Data    |
-| * Gb        | --> | Framework   | --> | * CakePHP     | --> | * Boilerplate   | --> | * IoT         |
-| * Wp        |     |             |     | * Codeigniter |     | * Accessibility |     | * M/L         |
-| * Kb        |     | * API       |     | * Yii         |     | * Security      |     | * S/F         |
-| * Linears   |     | * Class     |     | * Symfony     |     | * Intl. STD.    |     | * Ind. 4.0    |
-| * Others    |     | * Library   |     | * Zend        |     |                 |     | * More        |
-+-------------+     +-------------+     +---------------+     +-----------------+     +---------------+
-    Linear            Integration           Modern PHP            Post Future              Future      
-    1 Gen                2 Gen                3 Gen                 4 Gen                  5 Gen
+## Map of structure
+![Map of ResaonableFramework structure](https://github.com/gnh1201/reasonableframework/raw/master/assets/img/reasonableframework.jpg)
 
-
-```
 
 ## Contact me
 - Go Namhyeon <gnh1201@gmail.com>
