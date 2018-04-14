@@ -213,11 +213,11 @@ if(!function_exists("get_bind_to_sql_insert")) {
 		$bind_keys = array_keys($bind);
 		$sql = "insert into %s (%s) values (:%s)";
 
-		$sql_p1 = $tablename;
-		$sql_p2 = implode(", ", $bind_keys);
-		$sql_p3 = implode(", :", $bind_keys);
+		$s1 = $tablename;
+		$s2 = implode(", ", $bind_keys);
+		$s3 = implode(", :", $bind_keys);
 
-		$sql = sprintf($sql, $sql_p1, $sql_p2, $sql_p3);
+		$sql = sprintf($sql, $s1, $s2, $s3);
 
 		return $sql;
 	}
