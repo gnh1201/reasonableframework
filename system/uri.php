@@ -173,28 +173,12 @@ if(!function_exists("read_requests")) {
 }
 
 if(!function_exists("get_requested_value")) {
-	function get_requested_value($name, $scope="all", $escape_quotes=true, $escape_tags=false) {
+	function get_requested_value($name, $method="_ALL", $escape_quotes=true, $escape_tags=false) {
+		$value = "";
 		$requests = get_requests();
 
-		$value = "";
-		$method = "";
-
-		switch($scope) {
-			case "all":
-				$method = "_ALL";
-				break;
-			case "post":
-				$method = "_POST";
-				break;
-			case "get":
-				$method = "_GET";
-				break;
-			default:
-				$method = "";
-		}
-
 		// set validated value
-		if(!empty($method)) {
+		if(array_key_exists($method, $requests)) {
 			$value = array_key_empty($name, $requests[$method]) ? $value : $requests[$method][$name];
 
 			if(is_string($value)) {
@@ -211,6 +195,34 @@ if(!function_exists("get_requested_value")) {
 		}
 
 		return $value;
+	}
+}
+
+if(!function_exists("get_requested_values")) {
+	function get_requested_values($names, $method="_ALL", $escape_quotes=true, $escape_tags=false) {
+		$values = array();
+
+		if(is_array($names)) {
+			foreach($names as $name) {
+				$values[$name] = get_requested_value($name);
+			}
+		}
+		
+		return $values;
+	}
+}
+
+if(!function_exists("get_binded_requests")) {
+	function get_binded_requests($rules, $method="_ALL") {
+		$data = array();
+		
+		foreach($rules as $k=>$v) {
+			if(!empty($v)) {
+				$data[$v] = get_requested_value($k);
+			}
+		}
+
+		return $data;
 	}
 }
 
