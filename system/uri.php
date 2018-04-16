@@ -73,12 +73,34 @@ if(!function_exists("get_requests")) {
 	}
 }
 
-if(!function_exists("get_route_link")) {
-	function get_route_link($route, $data=array(), $entity=true) {
-		$link = sprintf("%s?route=%s", base_url(), $route);
+if(!function_exists("get_final_link")) {
+	function get_final_link($url, $data=array(), $entity=true) {
+		$link = "";
+		$url = urldecode($url);
 
-		if(count($data) > 0) {
-			$link .= "&" . http_build_query($data);
+		$params = array();
+		$base_url = "";
+		$query_str = "";
+
+		$strings = explode("?", $url);
+		$pos = (count($strings) > 1) ? strlen($strings[0]) : -1;	
+		
+		if($pos < 0) {
+			$base_url = $url;
+		} else {
+			$base_url = substr($url, 0, $pos);
+			$query_str = substr($url, ($pos + 1));
+			parse_str($query_str, $params);
+		}
+
+		foreach($data as $k=>$v) {
+			$params[$k] = $v;
+		}
+		
+		if(count($params) > 0) {
+			$link = $base_url . "?" . http_build_query($params);
+		} else {
+			$link = $base_url;
 		}
 
 		if($entity == true) {
@@ -89,10 +111,28 @@ if(!function_exists("get_route_link")) {
 	}
 }
 
+if(!function_exists("get_route_link")) {
+	function get_route_link($route, $data=array(), $entity=true, $base_url="") {
+		$data['route'] = $route;
+
+		if(empty($base_url)) {
+			$base_url = base_url();
+		}
+
+		return get_final_link($base_url, $data, $entity);
+	}
+}
+
 if(!function_exists("redirect_uri")) {
 	function redirect_uri($uri, $permanent=false) {
 		header("Location: " . $uri, true, $permanent ? 301 : 302);
 		exit();
+	}
+}
+
+if(!function_exists("redirect_with_params")) {
+	function redirect_with_params($uri, $data=array(), $permanent=false, $entity=false) {
+		redirect_uri(get_final_link($uri, $data, $entity), $permanent);
 	}
 }
 
@@ -133,12 +173,28 @@ if(!function_exists("read_requests")) {
 }
 
 if(!function_exists("get_requested_value")) {
-	function get_requested_value($name, $method="_ALL", $escape_quotes=true, $escape_tags=false) {
-		$value = "";
+	function get_requested_value($name, $scope="all", $escape_quotes=true, $escape_tags=false) {
 		$requests = get_requests();
 
+		$value = "";
+		$method = "";
+
+		switch($scope) {
+			case "all":
+				$method = "_ALL";
+				break;
+			case "post":
+				$method = "_POST";
+				break;
+			case "get":
+				$method = "_GET";
+				break;
+			default:
+				$method = "";
+		}
+
 		// set validated value
-		if(array_key_exists($method, $requests)) {
+		if(!empty($method)) {
 			$value = array_key_empty($name, $requests[$method]) ? $value : $requests[$method][$name];
 
 			if(is_string($value)) {
@@ -155,34 +211,6 @@ if(!function_exists("get_requested_value")) {
 		}
 
 		return $value;
-	}
-}
-
-if(!function_exists("get_requested_values")) {
-	function get_requested_values($names, $method="_ALL", $escape_quotes=true, $escape_tags=false) {
-		$values = array();
-
-		if(is_array($names)) {
-			foreach($names as $name) {
-				$values[$name] = get_requested_value($name);
-			}
-		}
-		
-		return $values;
-	}
-}
-
-if(!function_exists("get_binded_requests")) {
-	function get_binded_requests($rules, $method="_ALL") {
-		$data = array();
-		
-		foreach($rules as $k=>$v) {
-			if(!empty($v)) {
-				$data[$v] = get_requested_value($k);
-			}
-		}
-
-		return $data;
 	}
 }
 
