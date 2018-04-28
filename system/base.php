@@ -104,7 +104,7 @@ if(!function_exists("loadRoute")) {
 			if(file_exists($routefile)) {
 				$flag = $flag && !include_isolate($routefile, $data);
 				register_loaded("route", $routefile);
-			} else 
+			} else { 
 				set_error("Route " . $name . "dose not exists");
 			}
 		}
