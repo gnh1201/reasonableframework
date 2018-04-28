@@ -151,6 +151,38 @@ if(!function_exists("get_value_in_object")) {
 	}
 }
 
+// error handler
+if(!function_exists("set_error")) {
+	function set_error($msg, $code="ERROR") {
+		global $scope;
+		$scope['errors'][] = $code . ": " . $msg;
+	}
+}
+
+if(!function_exists("get_errors")) {
+	function get_errors($d=false, $e=false) { // d: display, e: exit
+		global $scope;
+		$errors = $scope['errors'];
+		if($d === true) {
+			foreach($errors as $err) {
+				echo $err . PHP_EOL;
+			}
+		}
+
+		if($e === true) {
+			exit;
+		}
+
+		return $errors;
+	}
+}
+
+if(!function_exists("show_errors")) {
+	function show_errors($exit=true) {
+		return get_errors(true, $exit);
+	}
+}
+
 $scope = array();
 
 set_scope("loaded", array(
@@ -158,4 +190,5 @@ set_scope("loaded", array(
 	"helper" => array(),
 	"view" => array(),
 	"route" => array(),
+	"errors" => array(),
 ));
