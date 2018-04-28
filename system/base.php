@@ -196,5 +196,6 @@ set_scope("loaded", array(
 	"helper" => array(),
 	"view" => array(),
 	"route" => array(),
-	"errors" => array(),
 ));
+
+set_scope("errors", array());
