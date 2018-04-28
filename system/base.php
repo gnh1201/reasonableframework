@@ -189,6 +189,31 @@ if(!function_exists("show_errors")) {
 	}
 }
 
+// check function exists
+if(!function_exists("check_function_exists")) {
+	function check_function_exists($rules) {
+		$flag = true;
+
+		if(is_string($rules)) {
+			$rules = explode(";", $rules);
+		}
+
+		foreach($rules as $k=>$v) {
+			$exists = function_exists($k);
+			$flag = $flag && !$exists;
+			if($exists === false) {
+				if(empty($v) {
+					set_error("Function " . $k . " dose not exists");
+				} else {
+					set_error($v);
+				}
+			}
+		}
+
+		return !$flag;
+	}
+}
+
 $scope = array();
 
 set_scope("loaded", array(
