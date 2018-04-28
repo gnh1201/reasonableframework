@@ -68,6 +68,8 @@ if(!function_exists("loadModule")) {
 			if(file_exists($systemfile)) {
 				$flag = $flag && !include_isolate($systemfile); 
 				register_loaded("view", $systemfile);
+			} else {
+				set_error("Module " . $name . "dose not exists");
 			}
 		}
 		return !$flag;
@@ -84,6 +86,8 @@ if(!function_exists("loadHelper")) {
 			if(file_exists($helperfile)) {
 				$flag = $flag && !include_isolate($helperfile); 
 				register_loaded("helper", $helperfile);
+			} else {
+				set_error("Helper " . $name . "dose not exists");
 			}
 		}
 		return !$flag;
@@ -100,6 +104,8 @@ if(!function_exists("loadRoute")) {
 			if(file_exists($routefile)) {
 				$flag = $flag && !include_isolate($routefile, $data);
 				register_loaded("route", $routefile);
+			} else 
+				set_error("Route " . $name . "dose not exists");
 			}
 		}
 		return !$flag;
