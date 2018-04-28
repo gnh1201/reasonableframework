@@ -202,7 +202,7 @@ if(!function_exists("check_function_exists")) {
 			$exists = function_exists($k);
 			$flag = $flag && !$exists;
 			if($exists === false) {
-				if(empty($v) {
+				if(empty($v)) {
 					set_error("Function " . $k . " dose not exists");
 				} else {
 					set_error($v);
