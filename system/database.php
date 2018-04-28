@@ -75,7 +75,8 @@ if(!function_exists("get_db_stmt")) {
 		$stmt = get_dbc_object()->prepare($sql);
 
 		if($show_sql) {
-			var_dump($sql);
+			set_error($sql, "DATABASE-SQL");
+			show_errors(false);
 		}
 
 		// bind parameter by PDO statement
@@ -100,7 +101,7 @@ if(!function_exists("get_db_last_id")) {
 if(!function_exists("exec_db_query")) {
 	function exec_db_query($sql, $bind=array(), $options=array()) {
 		$dbc = get_dbc_object();
-		
+
 		$validOptions = array();
 		$optionAvailables = array("is_check_count", "is_commit", "display_error", "show_debug", "show_sql");
 		foreach($optionAvailables as $opt) {
@@ -137,11 +138,17 @@ if(!function_exists("exec_db_query")) {
 		$stmt_executed = $is_insert_with_bind ? $stmt->execute($bind) : $stmt->execute();
 
 		if($show_debug) {
-			var_dump($stmt->debugDumpParams());
+			$stmt->debugDumpParams();
 		}
 
 		if($display_error) {
-			var_dump($stmt->errorInfo());
+			$error_info = $stmt->errorInfo();
+			if(count($error_info) > 0) {
+				foreach($error_info as $err) {
+					set_error($err, "DATABASE-ERROR");
+				}
+			}
+			show_errors(false);
 		}
 
 		if($is_check_count == true) {
@@ -154,6 +161,10 @@ if(!function_exists("exec_db_query")) {
 
 		if($is_commit) {
 			$dbc->commit();
+		}
+
+		if($flag === false) {
+			set_error(md5($sql), "DATABASE-QUERY-FAILURE");
 		}
 
 		return $flag;
@@ -285,9 +296,16 @@ if(!function_exists("get_timediff_on_query")) {
 if(!function_exists("json_decode_to_assoc")) {
 	function json_decode_to_assoc($data) {
 		$result = array();
+		
+		$func_rules = array(
+			"json_decode" => "Dose not exists json_decode function",
+			"json_last_error" => "Dose not exists json_last_error function",
+		);
 
-		$obj = @json_decode($data, true);
-		$result = (@json_last_error() === 0) ? $obj : $result;
+		if(check_function_exists($func_rules)) {
+			$obj = @json_decode($data, true);
+			$result = (@json_last_error() === 0) ? $obj : $result;
+		}
 
 		return $result;
 	}
