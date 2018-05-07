@@ -20,33 +20,49 @@ if(!function_exists("get_storage_path")) {
 }
 
 if(!function_exists("get_storage_url")) {
-	function get_storage_url($type) {
+	function get_storage_url($stype) {
 		return sprintf("%s%s/%s", base_url(), get_storage_dir(), $type);
 	}
 }
 
 if(!function_exists("move_uploaded_file_to_storage")) {
-	function move_uploaded_file_to_stroage($type="data", $image=false) {
+	function move_uploaded_file_to_stroage($options=array()) {
 		$response = array("files" => array());
+		$requests = get_requests();
 
-		$upload_base_dir = get_storage_path($type);
-		$upload_base_url = get_storage_url($type);
+		$storage_type = get_value_in_array("storage_type", $options, "data");
+		$upload_base_dir = get_storage_path($storage_type);
+		$upload_base_url = get_storage_url($storage_type);
 
-		if($image == true) {
-			$upload_allow_ext = array("png", "gif", "jpg", "jpeg", "tif");
+		if(!array_key_empty("only_image", $options)) {
+			$upload_allow_ext = array(
+				"png", "gif", "jpg", "jpeg", "tif"
+			);
+		} elseif(!array_key_empty("only_docs", $options)) {
+			$upload_allow_ext = array(
+				"png", "gif", "jpg", "jpeg", "tif",
+				"xls", "ppt", "doc", "xlsx", "pptx",
+				"docx", "odt", "odp", "ods", "xlsm",
+				"tiff", "pdf", "xlsm"
+			);
+		} elseif(!array_key_empty("only_audio", $options)) {
+			$upload_allow_ext = array(
+				"mp3", "ogg", "m4a", "wma", "wav"
+			);
 		} else {
 			$upload_allow_ext = array();
 		}
 
 		foreach($requests['files'] as $k=>$file) {
 			$upload_ext = pathinfo($requests['files'][$k]['name'], PATHINFO_EXTENSION);
-			$upload_name = make_random_id(10) . (empty($upload_ext) ? "" : "." . $upload_ext);
+			$upload_name = make_random_id(32) . (empty($upload_ext) ? "" : "." . $upload_ext);
 			$upload_file = $upload_base_dir . $upload_name;
 			$upload_url = $upload_base_url . $upload_name;
 
 			if(count($upload_allow_ext) == 0 || in_array($upload_ext, $upload_allow_ext)) {
 				if(move_uploaded_file($requests['files'][$k]['tmp_name'], $upload_file)) {
 					$response['files'][] = array(
+						"storage_type" => $storage_type
 						"upload_ext" => $upload_ext,
 						"upload_name" => $upload_name,
 						"upload_file" => $upload_file,
@@ -69,7 +85,23 @@ if(!function_exists("move_uploaded_file_to_storage")) {
 	}
 }
 
+if(!function_exists("read_storage_file")) {
+	function read_storage_file($filename, $options=array()) {
+		$storage_type = get_value_in_array("storage_type", $options, "data");
 
-function read_storage_file($filename, $offset=0, $length=0) {
-    // todo
+		$upload_base_dir = get_storage_path($storage_type);
+		$upload_base_url = get_storage_url($storage_type);
+
+		$fcontents = "";
+		if($fhandle = fopen($filename, "r")) {
+			$fcontents = fread($fhandle, filesize($filename));
+		}
+		fclose($fhandle);
+
+		if(!array_key_empty("encode_base64", $options)) {
+			$fcontents = base64_encode($file_contents);
+		}
+
+		return $fcontents;
+	}
 }
