@@ -87,16 +87,16 @@ if(!function_exists("move_uploaded_file_to_storage")) {
 
 if(!function_exists("read_storage_file")) {
 	function read_storage_file($filename, $options=array()) {
+		$fcontents = "";
 		$storage_type = get_value_in_array("storage_type", $options, "data");
 
 		$upload_base_dir = get_storage_path($storage_type);
 		$upload_base_url = get_storage_url($storage_type);
 
-		$fcontents = "";
 		if($fhandle = fopen($filename, "r")) {
 			$fcontents = fread($fhandle, filesize($filename));
+			fclose($fhandle);
 		}
-		fclose($fhandle);
 
 		if(!array_key_empty("encode_base64", $options)) {
 			$fcontents = base64_encode($file_contents);
