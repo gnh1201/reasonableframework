@@ -14,20 +14,20 @@ if(function_exists("get_storage_dir")) {
 }
 
 if(!function_exists("get_storage_path")) {
-	function get_storage_path($type) {
+	function get_storage_path($type="data") {
 		return sprintf("./%s/%s", get_storage_dir(), $type);
 	}
 }
 
 if(!function_exists("get_storage_url")) {
-	function get_storage_url($stype) {
+	function get_storage_url($type="data") {
 		return sprintf("%s%s/%s", base_url(), get_storage_dir(), $type);
 	}
 }
 
 if(!function_exists("move_uploaded_file_to_storage")) {
 	function move_uploaded_file_to_stroage($options=array()) {
-		$response = array("files" => array());
+		$files = array();
 		$requests = get_requests();
 
 		$storage_type = get_value_in_array("storage_type", $options, "data");
@@ -53,14 +53,14 @@ if(!function_exists("move_uploaded_file_to_storage")) {
 			$upload_allow_ext = array();
 		}
 
-		foreach($requests['files'] as $k=>$file) {
-			$upload_ext = pathinfo($requests['files'][$k]['name'], PATHINFO_EXTENSION);
+		foreach($files as $k=>$file) {
+			$upload_ext = pathinfo($files[$k]['name'], PATHINFO_EXTENSION);
 			$upload_name = make_random_id(32) . (empty($upload_ext) ? "" : "." . $upload_ext);
 			$upload_file = $upload_base_dir . $upload_name;
 			$upload_url = $upload_base_url . $upload_name;
 
 			if(count($upload_allow_ext) == 0 || in_array($upload_ext, $upload_allow_ext)) {
-				if(move_uploaded_file($requests['files'][$k]['tmp_name'], $upload_file)) {
+				if(move_uploaded_file($files[$k]['tmp_name'], $upload_file)) {
 					$response['files'][] = array(
 						"storage_type" => $storage_type
 						"upload_ext" => $upload_ext,
