@@ -115,14 +115,18 @@ if(!function_exists("write_storage_file")) {
 		$upload_base_path = get_storage_path($storage_type);
 		$upload_base_url = get_storage_url($storage_type);
 		$upload_filename = $upload_base_path . "/" . $filename;
-		
-		if($fhandle = fopen($upload_filename)) {
-			fwrite($fhandle, $data);
-			$result = $upload_filename;
-			fclose($fhandle);
+
+		if(file_exists($upload_filename)) {
+			$result = write_storage_file($data, $options);
 		} else {
-			set_error("maybe, your storage is write-protected.");
-			show_errors();
+			if($fhandle = fopen($upload_filename, "w")) {
+				fwrite($fhandle, $data);
+				$result = $upload_filename;
+				fclose($fhandle);
+			} else {
+				set_error("maybe, your storage is write-protected.");
+				show_errors();
+			}
 		}
 		
 		return $result;
