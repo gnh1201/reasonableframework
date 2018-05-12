@@ -125,15 +125,24 @@ if(!function_exists("get_web_page")) {
 
 		$content_size = strlen($content);
 
+		$gz_content = gzdeflate($content);
+		$gz_content_size = strlen($gz_content);
+		$gz_ratio = ($content_size > 0) ? (floatval($gz_content_size) / floatval($content_size)) : 1.0;
+
 		$response = array(
-			"content" => $content,
-			"size"    => $content_size,
-			"status"  => $status,
-			"resno"   => $resno,
-			"errno"   => $errno,
-			"id"      => get_web_identifier($url, $method, $data),
-			"md5"     => get_hashed_text($content, "md5"),
-			"sha1"    => get_hashed_text($content, "sha1"),
+			"content"    => $content,
+			"size"       => $content_size,
+			"status"     => $status,
+			"resno"      => $resno,
+			"errno"      => $errno,
+			"id"         => get_web_identifier($url, $method, $data),
+			"md5"        => get_hashed_text($content, "md5"),
+			"sha1"       => get_hashed_text($content, "sha1"),
+			"gz_content" => $gz_content,
+			"gz_size"    => $gz_content_size,
+			"gz_md5"     => get_hashed_text($gz_content, "md5"),
+			"gz_sha1"    => get_hashed_text($gz_content, "sha1"),
+			"gz_ratio"   => $gz_ratio,
 		);
 
 		return $response;
@@ -149,21 +158,26 @@ if(!function_exists("get_web_identifier")) {
 
 if(!function_exists("get_web_cache")) {
 	function get_web_cache($url, $method="get", $data=array(), $proxy="", $ua="", $ct_out=45, $t_out=45) {
+		$content = false;
+
 		$identifier = get_web_identifier($url, $method, $data);
-		$content = read_storage_file($identifier, array(
+		$gz_content = read_storage_file($identifier, array(
 			"storage_type" => "cache"
 		));
 
-		if($content === false) {
+		if($gz_content === false) {
 			$no_cache_method = str_replace(".cache", "", $method);
 			$response = get_web_page($url, $no_cache_method, $data, $proxy, $ua, $ct_out, $t_out);
 			$content = $response['content'];
+			$gz_content = gzdeflate($content);
 
 			// save web page cache
-			write_storage_file($content, array(
+			write_storage_file($gz_content, array(
 				"storage_type" => "cache",
 				"filename" => $identifier
 			));
+		} else {
+			$content = gzinflate($gz_content);
 		}
 
 		return $content;
