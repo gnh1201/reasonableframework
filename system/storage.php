@@ -135,9 +135,9 @@ if(!function_exists("write_storage_file")) {
 
 				// if set rename option
 				if(in_array("rename", $options)) {
-					$rename_to = $upload_base_path . "/" $options['rename'];
-					if(rename($result, $rename_to)) {
-						$result = $rename_to;
+					$upload_rename_to = $upload_base_path . "/" $options['rename'];
+					if(rename($upload_filename, $upload_rename_to)) {
+						$result = $upload_rename_to;
 					}
 				}
 			} else {
