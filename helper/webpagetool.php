@@ -59,14 +59,17 @@ if(!function_exists("get_web_page")) {
 		$status = "-1";
 		$resno = "-1";
 		$errno = "-1";
-
-		if($method = "post.cmd" || $method == "get.cmd") {
-			$content = get_web_cmd($url, $method, $data, $proxy, $ua, $ct_out, $t_out);
+		
+		if($method == "post.cmd" || $method == "get.cmd") {
+			$res_methods = explode(".", $method);
+			$content = get_web_cmd($url, $res_methods[0], $data, $proxy, $ua, $ct_out, $t_out);
 		} elseif($method == "get.fgc") {
 			$content = get_web_fgc($url);
 		} else {
 			if(!in_array("curl", get_loaded_extensions())) {
-				return "cURL extension needs to be installed.";
+				$error_msg = "cURL extension needs to be installed.";
+				set_error($error_msg);
+				return $error_msg;
 			}
 
 			$options = array(
@@ -87,7 +90,7 @@ if(!function_exists("get_web_page")) {
 			);
 
 			if(empty($options[CURLOPT_USERAGENT])) {
-				$ua = "2018 ReasonableFramework;https://github.com/gnh1201/reasonableframework";
+				$ua = "2018 ReasonableFramework: https://github.com/gnh1201/reasonableframework";
 				$options[CURLOPT_USERAGENT] = $ua;
 			}
 
