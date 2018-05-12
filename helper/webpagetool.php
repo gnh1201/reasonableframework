@@ -31,18 +31,20 @@ if(!function_exists("get_web_cmd")) {
 		$cmd = "";
 
 		if($method == "get") {
-			$cmd = "curl -A '%s' -k %s";
-			$cmd_fin = sprintf($cmd, addslashes($ua), addslashes($url));
+			$cmd = "curl -A '%s' -k '%s'";
+			$cmd_fin = sprintf($cmd, addslashes($ua), addslashes(get_web_build_qs($url, $data)));
 			$output = shell_exec($cmd_fin);
 		}
 
 		if($method == "post") {
-			$cmd = "curl -X POST -A '%s' -k %s %s";
+			$cmd = "curl -X POST -A '%s' -k '%s' %s";
 			$params_cmd = "";
 			foreach($data as $k=>$v) {
-				$k = addslashes($v);
-				$v = addslashes($v);
-				$params_cmd .= "-d '{$k}={$v}' ";
+				if(substr($v, 0, 1) == "@") { // if file
+					$params_cmd .= sprintf("-F '%s=%s' ", addslashes($k), addslashes($v));
+				} else {
+					$params_cmd .= sprintf("-d '%s=%s' ", addslashes($k), addslashes($v));
+				}
 			}
 			$cmd_fin = sprintf($cmd, addslashes($ua), addslashes($url), $params_cmd);
 			$output = shell_exec($cmd_fin);
@@ -54,59 +56,65 @@ if(!function_exists("get_web_cmd")) {
 
 if(!function_exists("get_web_page")) {
 	function get_web_page($url, $method="get", $data=array(), $proxy="", $ua="", $ct_out=45, $t_out=45) {
-		if(!in_array("curl", get_loaded_extensions())) {
-			return "cURL extension needs to be installed.";
-		}
-
-		$options = array(
-			CURLOPT_PROXY          => $proxy,   // set proxy server
-			CURLOPT_RETURNTRANSFER => true,     // return web page
-			CURLOPT_HEADER         => false,    // don't return headers
-			CURLOPT_FOLLOWLOCATION => true,     // follow redirects
-			CURLOPT_MAXREDIRS      => 10,       // stop after 10 redirects
-			CURLOPT_ENCODING       => "",       // handle compressed
-			CURLOPT_USERAGENT      => $ua,      // name of client
-			CURLOPT_AUTOREFERER    => true,     // set referrer on redirect
-			CURLOPT_CONNECTTIMEOUT => $ct_out,  // time-out on connect
-			CURLOPT_TIMEOUT        => $t_out,   // time-out on response
-			CURLOPT_FAILONERROR    => true,     // get error code
-			CURLOPT_SSL_VERIFYHOST => false,    // ignore ssl host verification
-			CURLOPT_SSL_VERIFYPEER => false,    // ignore ssl peer verification
-		);
-
-		if(empty($options[CURLOPT_USERAGENT])) {
-			$ua = "2018 ReasonableFramework;https://github.com/gnh1201/reasonableframework";
-			$options[CURLOPT_USERAGENT] = $ua;
-		}
-
-		if($method == "post" && count($data) > 0) {
-			$options[CURLOPT_POST] = 1;
-			$options[CURLOPT_POSTFIELDS] = $data;
-		}
-
-		if($method == "get" && count($data) > 0) {
-			$url = get_web_build_qs($url, $data);
-		}
-
-		$ch = curl_init($url);
-		curl_setopt_array($ch, $options);
-
-		$content = curl_exec($ch);
-		
-		// if content is not string
 		$status = "-1";
 		$resno = "-1";
 		$errno = "-1";
 
-		if($content === true || $content === false) {
+		if($method = "post.cmd" || $method == "get.cmd") {
 			$content = get_web_cmd($url, $method, $data, $proxy, $ua, $ct_out, $t_out);
+			echo $content;
 		} else {
-			$status = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-			$resno = curl_getinfo($ch, CURLINFO_RESPONSE_CODE);
-			$errno = curl_errno($ch);
-		}
+			if(!in_array("curl", get_loaded_extensions())) {
+				return "cURL extension needs to be installed.";
+			}
 
-		curl_close($ch);
+			$options = array(
+				CURLOPT_URL            => $url,     // set url
+				CURLOPT_PROXY          => $proxy,   // set proxy server
+				CURLOPT_RETURNTRANSFER => true,     // return web page
+				CURLOPT_HEADER         => false,    // don't return headers
+				CURLOPT_FOLLOWLOCATION => true,     // follow redirects
+				CURLOPT_MAXREDIRS      => 10,       // stop after 10 redirects
+				CURLOPT_ENCODING       => "",       // handle compressed
+				CURLOPT_USERAGENT      => $ua,      // name of client
+				CURLOPT_AUTOREFERER    => true,     // set referrer on redirect
+				CURLOPT_CONNECTTIMEOUT => $ct_out,  // time-out on connect
+				CURLOPT_TIMEOUT        => $t_out,   // time-out on response
+				CURLOPT_FAILONERROR    => true,     // get error code
+				CURLOPT_SSL_VERIFYHOST => false,    // ignore ssl host verification
+				CURLOPT_SSL_VERIFYPEER => false,    // ignore ssl peer verification
+			);
+
+			if(empty($options[CURLOPT_USERAGENT])) {
+				$ua = "2018 ReasonableFramework;https://github.com/gnh1201/reasonableframework";
+				$options[CURLOPT_USERAGENT] = $ua;
+			}
+
+			if($method == "post" && count($data) > 0) {
+				$options[CURLOPT_POST] = 1;
+				$options[CURLOPT_POSTFIELDS] = $data;
+			}
+
+			if($method == "get" && count($data) > 0) {
+				$options[CURLOPT_URL] = get_web_build_qs($url, $data);
+			}
+
+			$ch = curl_init();
+			curl_setopt_array($ch, $options);
+
+			$content = curl_exec($ch);
+			if(!is_string($content)) {
+				$res_method = $method . ".cmd";
+				$res = get_web_page($url, $res_method, $data, $proxy, $ua, $ct_out, $t_out);
+				$content = $res['content'];
+			} else {
+				$status = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+				$resno = curl_getinfo($ch, CURLINFO_RESPONSE_CODE);
+				$errno = curl_errno($ch);
+			}
+
+			curl_close($ch);
+		}
 
 		$content_size = strlen($content);
 
