@@ -6,8 +6,8 @@
  * @brief WebPageTool helper
  */
 
-if(!function_exists("get_web_legacy")) {
-	function get_web_legacy($url) {
+if(!function_exists("get_web_fgc")) {
+	function get_web_fgc($url) {
 		return (ini_get("allow_url_fopen") ? file_get_contents($url) : false);
 	}
 }
@@ -62,14 +62,15 @@ if(!function_exists("get_web_page")) {
 
 		if($method = "post.cmd" || $method == "get.cmd") {
 			$content = get_web_cmd($url, $method, $data, $proxy, $ua, $ct_out, $t_out);
-			echo $content;
+		} elseif($method == "get.fgc") {
+			$content = get_web_fgc($url);
 		} else {
 			if(!in_array("curl", get_loaded_extensions())) {
 				return "cURL extension needs to be installed.";
 			}
 
 			$options = array(
-				CURLOPT_URL            => $url,     // set url
+				CURLOPT_URL            => $url,     // set remote url
 				CURLOPT_PROXY          => $proxy,   // set proxy server
 				CURLOPT_RETURNTRANSFER => true,     // return web page
 				CURLOPT_HEADER         => false,    // don't return headers
