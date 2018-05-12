@@ -6,7 +6,7 @@
  * @brief Stroage module
  */
 
-if(function_exists("get_storage_dir")) {
+if(!function_exists("get_storage_dir")) {
 	function get_storage_dir() {
 		$config = get_config();
 		return get_value_in_array("storage_dir", $config, "storage");
@@ -15,7 +15,14 @@ if(function_exists("get_storage_dir")) {
 
 if(!function_exists("get_storage_path")) {
 	function get_storage_path($type="data") {
-		return sprintf("./%s/%s", get_storage_dir(), $type);
+		$dir_path = sprintf("./%s/%s", get_storage_dir(), $type);
+		if(!is_dir($dir_path)) {
+			if(!mkdir($dir_path, 0777)) {
+				set_error("can not create directory");
+				show_errors();
+			}
+		}
+		return $dir_path;
 	}
 }
 
@@ -88,6 +95,7 @@ if(!function_exists("move_uploaded_file_to_storage")) {
 if(!function_exists("read_storage_file")) {
 	function read_storage_file($filename, $options=array()) {
 		$fcontents = "";
+
 		$storage_type = get_value_in_array("storage_type", $options, "data");
 		$upload_base_path = get_storage_path($storage_type);
 		$upload_base_url = get_storage_url($storage_type);
@@ -108,7 +116,7 @@ if(!function_exists("read_storage_file")) {
 
 if(!function_exists("write_storage_file")) {
 	function write_storage_file($data, $options=array()) {
-		$result = "";
+		$result = false;
 		$filename = make_random_id(32);
 
 		$storage_type = get_value_in_array("storage_type", $options, "data");
@@ -120,15 +128,24 @@ if(!function_exists("write_storage_file")) {
 			$result = write_storage_file($data, $options);
 		} else {
 			if($fhandle = fopen($upload_filename, "w")) {
-				fwrite($fhandle, $data);
-				$result = $upload_filename;
+				if(fwrite($fhandle, $data)) {
+					$result = $upload_filename;
+				}
 				fclose($fhandle);
+
+				// if set rename option
+				if(in_array("rename", $options)) {
+					$rename_to = $upload_base_path . "/" $options['rename'];
+					if(rename($result, $rename_to)) {
+						$result = $rename_to;
+					}
+				}
 			} else {
 				set_error("maybe, your storage is write-protected.");
 				show_errors();
 			}
 		}
-		
+
 		return $result;
 	}
 }
