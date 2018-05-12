@@ -62,7 +62,7 @@ if(!function_exists("move_uploaded_file_to_storage")) {
 			if(count($upload_allow_ext) == 0 || in_array($upload_ext, $upload_allow_ext)) {
 				if(move_uploaded_file($files[$k]['tmp_name'], $upload_file)) {
 					$response['files'][] = array(
-						"storage_type" => $storage_type
+						"storage_type" => $storage_type,
 						"upload_ext" => $upload_ext,
 						"upload_name" => $upload_name,
 						"upload_file" => $upload_file,
@@ -89,11 +89,11 @@ if(!function_exists("read_storage_file")) {
 	function read_storage_file($filename, $options=array()) {
 		$fcontents = "";
 		$storage_type = get_value_in_array("storage_type", $options, "data");
-
-		$upload_base_dir = get_storage_path($storage_type);
+		$upload_base_path = get_storage_path($storage_type);
 		$upload_base_url = get_storage_url($storage_type);
+		$upload_filename = $upload_base_path . "/" . $filename;
 
-		if($fhandle = fopen($filename, "r")) {
+		if($fhandle = fopen($upload_filename, "r")) {
 			$fcontents = fread($fhandle, filesize($filename));
 			fclose($fhandle);
 		}
@@ -103,5 +103,28 @@ if(!function_exists("read_storage_file")) {
 		}
 
 		return $fcontents;
+	}
+}
+
+if(!function_exists("write_storage_file")) {
+	function write_storage_file($data, $options=array()) {
+		$result = "";
+		$filename = make_random_id(32);
+
+		$storage_type = get_value_in_array("storage_type", $options, "data");
+		$upload_base_path = get_storage_path($storage_type);
+		$upload_base_url = get_storage_url($storage_type);
+		$upload_filename = $upload_base_path . "/" . $filename;
+		
+		if($fhandle = fopen($upload_filename)) {
+			fwrite($fhandle, $data);
+			$result = $upload_filename;
+			fclose($fhandle);
+		} else {
+			set_error("maybe, your storage is write-protected.");
+			show_errors();
+		}
+		
+		return $result;
 	}
 }
