@@ -131,6 +131,9 @@ if(!function_exists("get_web_page")) {
 			"status"  => $status,
 			"resno"   => $resno,
 			"errno"   => $errno,
+			"id"      => get_web_identifier($url, $method, $data),
+			"md5"     => get_hashed_text($content, "md5"),
+			"sha1"    => get_hashed_text($content, "sha1"),
 		);
 
 		return $response;
@@ -140,11 +143,11 @@ if(!function_exists("get_web_page")) {
 if(!function_exists("get_web_identifier")) {
 	function get_web_identifier($url, $method="get", $data=array()) {
 		$hash_data = (count($data) > 0) ? get_hashed_text(serialize($data)) : "*";
-		return get_hashed_text(sprintf("%s.%s.%s", $method, get_hashed_text($url), $hash_data));
+		return get_hashed_text(sprintf("%s.%s.%s", get_hashed_text($method), get_hashed_text($url), $hash_data));
 	}
 }
 
-if(!function_exists("get_web_cache") {
+if(!function_exists("get_web_cache")) {
 	function get_web_cache($url, $method="get", $data=array(), $proxy="", $ua="", $ct_out=45, $t_out=45) {
 		$identifier = get_web_identifier($url, $method, $data);
 		$content = read_storage_file($identifier, array(
@@ -152,12 +155,14 @@ if(!function_exists("get_web_cache") {
 		));
 
 		if($content === false) {
-			$content = get_web_page($url, $method, $data, $proxy, $ua, $ct_out, $t_out);
+			$no_cache_method = str_replace(".cache", "", $method);
+			$response = get_web_page($url, $no_cache_method, $data, $proxy, $ua, $ct_out, $t_out);
+			$content = $response['content'];
 
 			// save web page cache
 			write_storage_file($content, array(
 				"storage_type" => "cache",
-				"rename" => $identifier
+				"filename" => $identifier
 			));
 		}
 
