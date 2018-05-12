@@ -59,11 +59,14 @@ if(!function_exists("get_web_page")) {
 		$status = "-1";
 		$resno = "-1";
 		$errno = "-1";
-		
-		if($method == "post.cmd" || $method == "get.cmd") {
-			$res_methods = explode(".", $method);
+
+		$res_methods = explode(".", $method);
+
+		if(in_array("cache", $res_methods)) {
+			$content = get_web_cache($url, $method, $data, $proxy, $ua, $ct_out, $t_out);
+		} elseif(in_array("cmd", $res_methods)) {
 			$content = get_web_cmd($url, $res_methods[0], $data, $proxy, $ua, $ct_out, $t_out);
-		} elseif($method == "get.fgc") {
+		} elseif(in_array("fgc", $res_methods)) {
 			$content = get_web_fgc($url);
 		} else {
 			if(!in_array("curl", get_loaded_extensions())) {
@@ -131,6 +134,34 @@ if(!function_exists("get_web_page")) {
 		);
 
 		return $response;
+	}
+}
+
+if(!function_exists("get_web_identifier")) {
+	function get_web_identifier($url, $method="get", $data=array()) {
+		$hash_data = (count($data) > 0) ? get_hashed_text(serialize($data)) : "*";
+		return get_hashed_text(sprintf("%s.%s.%s", $method, get_hashed_text($url), $hash_data));
+	}
+}
+
+if(!function_exists("get_web_cache") {
+	function get_web_cache($url, $method="get", $data=array(), $proxy="", $ua="", $ct_out=45, $t_out=45) {
+		$identifier = get_web_identifier($url, $method, $data);
+		$content = read_storage_file($identifier, array(
+			"storage_type" => "cache"
+		));
+
+		if($content === false) {
+			$content = get_web_page($url, $method, $data, $proxy, $ua, $ct_out, $t_out);
+
+			// save web page cache
+			write_storage_file($content, array(
+				"storage_type" => "cache",
+				"rename" => $identifier
+			));
+		}
+
+		return $content;
 	}
 }
 
