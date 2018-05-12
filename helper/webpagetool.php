@@ -12,6 +12,18 @@ if(!function_exists("get_web_legacy")) {
 	}
 }
 
+if(!function_exists("get_web_build_qs")) {
+	function get_web_build_qs($url, $data) {
+		$pos = strpos($url, '?');
+		if ($pos === false) {
+			$url = $url . '?' . http_build_query($data);
+		} else {
+			$url = $url . '&' . http_build_query($data);
+		}
+		return $url;
+	}
+}
+
 if(!function_exists("get_web_cmd")) {
 	function get_web_cmd($url, $method="get", $data=array(), $proxy="", $ua="", $ct_out=45, $t_out=45) {
 		$output = "";
@@ -73,12 +85,7 @@ if(!function_exists("get_web_page")) {
 		}
 
 		if($method == "get" && count($data) > 0) {
-			$pos = strpos($url, '?');
-			if ($pos === false) {
-				$url = $url . '?' . http_build_query($data);
-			} else {
-				$url = $url . '&' . http_build_query($data);
-			}
+			$url = get_web_build_qs($url, $data);
 		}
 
 		$ch = curl_init($url);
