@@ -504,6 +504,12 @@ if(!function_exists("decapsulate_text")) {
 	}
 }
 
+if(!function_exists("make_safe_argument")) {
+	function make_safe_argument($str) {
+		return addslashes($str);
+	}
+}
+
 // https://stackoverflow.com/questions/14673551/encrypt-decrypt-with-xor-in-php
 if(!function_exists("xor_this")) {
 	function xor_this($key, $string, $debug=false) {
