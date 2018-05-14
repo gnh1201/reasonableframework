@@ -1,10 +1,22 @@
 <?php
 /**
  * @file webpagetool.php
- * @date 2018-04-13
+ * @date 2018-05-14
  * @author Go Namhyeon <gnh1201@gmail.com>
  * @brief WebPageTool helper
  */
+
+/****** START EXAMPLES *****/
+/* // REQUEST GET: $response = get_web_page($url, "get", $data); */
+/* // REQUEST POST: $response = get_web_page($url, "post", $data); */
+/* // REQUEST GET with CACHE: $response = get_web_page($url, "get.cache", $data); */
+/* // REQUEST POST with CACHE: $response = get_web_page($url, "post.cache", $data); */
+/* // REQUEST GET by CMD with CACHE: $response = get_web_page($url, "get.cmd.cache"); */
+/* // REQUEST GET by SOCK with CACHE: $response = get_web_page($url, "get.sock.cache"); */
+/* // REQUEST GET by FGC: $response = get_web_page($url, "get.fgc"); */
+/* // REQUEST GET by WGET: $response = get_web_page($url, "get.wget"); */
+/* // PRINT CONTENT: echo $response['content']; */
+/****** END EXAMPLES *****/
 
 if(!function_exists("get_web_fgc")) {
 	function get_web_fgc($url) {
@@ -54,12 +66,106 @@ if(!function_exists("get_web_cmd")) {
 	}
 }
 
+// http://dev.epiloum.net/109
+if(!function_exists("get_web_sock")) {
+	function get_web_sock($url, $method="get", $data=array(), $proxy="", $ua="", $ct_out=45, $t_out=45) {
+		$output     = "";
+
+		$info       = parse_url($url);
+		$req        = '';
+		$line       = '';
+		$agent      = $ua;
+		$linebreak  = "\r\n";
+		$headPassed = false;
+		
+		if(!array_key_empty("scheme", $info)) {		
+			switch($info['scheme'] = strtolower($info['scheme'])) {
+				case "http":
+					$info['port'] = 80;
+					break;
+				case "https":
+					$info['ssl'] = "ssl://";
+					$info['port'] = 443;
+					break;
+				default:
+					set_error("ambiguous protocol, HTTP or HTTPS");
+					show_errors();
+					return false;
+			}
+		} else {
+			set_error("ambiguous protocol, HTTP or HTTPS");
+			show_errors();
+			return false;
+		}
+
+		// Setting Path
+		if(array_key_empty("path", $info)) {
+			$info['path'] = "/";
+		}
+
+		// Setting Request Header
+		switch($method) {
+			case 'get':
+				if(array_key_empty("query", $info)) {
+					$info['path'] .= '?' . $info['query'];
+				}
+
+				$req .= 'GET ' . $info['path'] . ' HTTP/1.1' . $linebreak;
+				$req .= 'Host: ' . $info['host'] . $linebreak;
+				$req .= 'User-Agent: ' . $agent . $linebreak;
+				$req .= 'Referer: ' . $url . $linebreak;
+				$req .= 'Connection: Close' . $linebreak . $linebreak;
+				break;
+
+			case 'post':
+				$req .= 'POST ' . $info['path'] . ' HTTP/1.1' . $linebreak;
+				$req .= 'Host: ' . $info['host'] . $linebreak;
+				$req .= 'User-Agent: ' . $agent . $linebreak; 
+				$req .= 'Referer: ' . $url . $linebreak;
+				$req .= 'Content-Type: application/x-www-form-urlencoded'.$linebreak; 
+				$req .= 'Content-Length: '. strlen($info['query']) . $linebreak;
+				$req .= 'Connection: Close' . $linebreak . $linebreak;
+				$req .= $info['query']; 
+				break;
+		}
+
+		// Socket Open
+		$fsock = @fsockopen($info['ssl'] . $info['host'], $info['port']);
+		if ($fsock)
+		{
+			fwrite($fsock, $req);
+			while(!feof($fsock))
+			{
+				$line = fgets($fsock, 128);
+				if($line == "\r\n" && !$headPassed)
+				{
+					$headPassed = true;
+					continue;
+				}
+				if($headPassed)
+				{
+					$output .= $line;
+				}
+			}
+			fclose($fsock);
+		}
+
+		return $output;
+	}
+}
+
+if(!function_exists("get_web_wget")) {
+	function get_web_wget($url, $method="get", $data=array(), $proxy="", $ua="", $ct_out=45, $t_out=45) {
+	}
+}
+
 if(!function_exists("get_web_page")) {
 	function get_web_page($url, $method="get", $data=array(), $proxy="", $ua="", $ct_out=45, $t_out=45) {
 		$status = "-1";
 		$resno = "-1";
 		$errno = "-1";
 
+		$method = strtolower($method);
 		$res_methods = explode(".", $method);
 
 		if(in_array("cache", $res_methods)) {
@@ -68,6 +174,10 @@ if(!function_exists("get_web_page")) {
 			$content = get_web_cmd($url, $res_methods[0], $data, $proxy, $ua, $ct_out, $t_out);
 		} elseif(in_array("fgc", $res_methods)) {
 			$content = get_web_fgc($url);
+		} elseif(in_array("sock", $res_methods)) {
+			$content = get_web_sock($url, $res_methods[0], $data, $proxy, $ua, $ct_out, $t_out);
+		} elseif(in_array("wget", $res_methods)) {
+			$content = get_web_wget($url, $res_methods[0], $data, $proxy, $ua, $ct_out, $t_out);
 		} else {
 			if(!in_array("curl", get_loaded_extensions())) {
 				$error_msg = "cURL extension needs to be installed.";
