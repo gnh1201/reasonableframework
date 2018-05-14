@@ -44,7 +44,7 @@ if(!function_exists("get_web_cmd")) {
 
 		if($method == "get") {
 			$cmd = "curl -A '%s' -k '%s'";
-			$cmd_fin = sprintf($cmd, addslashes($ua), addslashes(get_web_build_qs($url, $data)));
+			$cmd_fin = sprintf($cmd, make_safe_argument($ua), make_safe_argument(get_web_build_qs($url, $data)));
 			$output = shell_exec($cmd_fin);
 		}
 
@@ -53,12 +53,12 @@ if(!function_exists("get_web_cmd")) {
 			$params_cmd = "";
 			foreach($data as $k=>$v) {
 				if(substr($v, 0, 1) == "@") { // if file
-					$params_cmd .= sprintf("-F '%s=%s' ", addslashes($k), addslashes($v));
+					$params_cmd .= sprintf("-F '%s=%s' ", make_safe_argument($k), make_safe_argument($v));
 				} else {
-					$params_cmd .= sprintf("-d '%s=%s' ", addslashes($k), addslashes($v));
+					$params_cmd .= sprintf("-d '%s=%s' ", make_safe_argument($k), make_safe_argument($v));
 				}
 			}
-			$cmd_fin = sprintf($cmd, addslashes($ua), addslashes($url), $params_cmd);
+			$cmd_fin = sprintf($cmd, make_safe_argument($ua), make_safe_argument($url), $params_cmd);
 			$output = shell_exec($cmd_fin);
 		}
 
