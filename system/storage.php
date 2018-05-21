@@ -1,7 +1,7 @@
 <?php
 /**
  * @file stroage.php
- * @date 2018-05-05
+ * @date 2018-05-21
  * @author Go Namhyeon <gnh1201@gmail.com>
  * @brief Stroage module
  */
@@ -94,30 +94,7 @@ if(!function_exists("move_uploaded_file_to_storage")) {
 
 if(!function_exists("read_storage_file")) {
 	function read_storage_file($filename, $options=array()) {
-		$fcontents = "";
-
-		$storage_type = get_value_in_array("storage_type", $options, "data");
-		$upload_base_path = get_storage_path($storage_type);
-		$upload_base_url = get_storage_url($storage_type);
-		$upload_filename = $upload_base_path . "/" . $filename;
-
-		if($fhandle = fopen($upload_filename, "r")) {
-			$fcontents = fread($fhandle, filesize($filename));
-			fclose($fhandle);
-		}
-
-		if(!array_key_empty("encode_base64", $options)) {
-			$fcontents = base64_encode($file_contents);
-		}
-
-		return $fcontents;
-	}
-}
-
-if(!function_exists("write_storage_file")) {
-	function write_storage_file($data, $options=array()) {
 		$result = false;
-		$filename = make_random_id(32);
 
 		$storage_type = get_value_in_array("storage_type", $options, "data");
 		$upload_base_path = get_storage_path($storage_type);
@@ -125,21 +102,42 @@ if(!function_exists("write_storage_file")) {
 		$upload_filename = $upload_base_path . "/" . $filename;
 
 		if(file_exists($upload_filename)) {
-			$result = write_storage_file($data, $options);
+			if($fhandle = fopen($upload_filename, "r")) {
+				$result = fread($fhandle, filesize($upload_filename));
+				fclose($fhandle);
+			}
+
+			if(!array_key_empty("encode_base64", $options)) {
+				$result = base64_encode($result);
+			}
+		}
+
+		return $result;
+	}
+}
+
+if(!function_exists("write_storage_file")) {
+	function write_storage_file($data, $options=array()) {
+		$result = false;
+
+		$filename = get_value_in_array("filename", $options, make_random_id(32));
+		$storage_type = get_value_in_array("storage_type", $options, "data");
+		$upload_base_path = get_storage_path($storage_type);
+		$upload_base_url = get_storage_url($storage_type);
+		$upload_filename = $upload_base_path . "/" . $filename;
+
+		if(file_exists($upload_filename)) {
+			if(!array_key_empty("filename", $options)) {
+				$result = $upload_filename;
+			} else {
+				$result = write_storage_file($data, $options);
+			}
 		} else {
 			if($fhandle = fopen($upload_filename, "w")) {
 				if(fwrite($fhandle, $data)) {
 					$result = $upload_filename;
 				}
 				fclose($fhandle);
-
-				// if set rename option
-				if(in_array("rename", $options)) {
-					$upload_rename_to = $upload_base_path . "/" $options['rename'];
-					if(rename($upload_filename, $upload_rename_to)) {
-						$result = $upload_rename_to;
-					}
-				}
 			} else {
 				set_error("maybe, your storage is write-protected.");
 				show_errors();
@@ -147,5 +145,11 @@ if(!function_exists("write_storage_file")) {
 		}
 
 		return $result;
+	}
+}
+
+if(!function_exists("get_real_path")) {
+	function get_real_path($file) {
+		return file_exists($file) ? realpath($file) : false;
 	}
 }
