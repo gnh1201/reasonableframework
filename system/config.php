@@ -54,7 +54,7 @@ if(!function_exists("get_config_value")) {
 if(!function_exists("get_current_datetime")) {
     function get_current_datetime() {
         $config = get_config();
-        return get_value_in_array("timeformat", $config, "Y-m-d H:i:s");
+        return date(get_value_in_array("timeformat", $config, "Y-m-d H:i:s"));
     }
 }
 
