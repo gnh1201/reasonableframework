@@ -67,7 +67,7 @@ if(!function_exists("loadModule")) {
 			$systemfile = './system/' . $name2 . '.php';
 			if(file_exists($systemfile)) {
 				$flag = $flag && !include_isolate($systemfile); 
-				register_loaded("view", $systemfile);
+				register_loaded("module", $systemfile);
 			} else {
 				set_error("Module " . $name . "dose not exists");
 			}
@@ -118,7 +118,7 @@ if(!function_exists("array_key_empty")) {
 		
 		if(is_array($array)) {
 			if(array_key_exists($key, $array)) {
-                $empty = $empty && empty($array[$key]);
+                		$empty = $empty && empty($array[$key]);
 			}
 		}
 
