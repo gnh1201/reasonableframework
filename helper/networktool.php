@@ -11,8 +11,8 @@ if(!function_exists("get_network_event")) {
         $config = get_config();
 
         return array(
-            "time"       => get_current_datetime(),
-            "server"     => get_network_client_addr(),
+            "datetime"   => get_current_datetime(),
+            "server"     => get_network_server_addr(),
             "hostname"   => get_network_hostname(),
             "client"     => get_network_client_addr(),
             "agent"      => getenv("HTTP_USER_AGENT"),
