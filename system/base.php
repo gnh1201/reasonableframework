@@ -6,6 +6,14 @@
  * @brief Base module
  */
 
+// get all scope
+if(!function_exists("get_scope_all")) {
+	function get_scope_all() {
+		global $scope;
+		return $scope;
+	}
+}
+
 // set scope
 if(!function_exists("set_scope")) {
 	function set_scope($k, $v) {
