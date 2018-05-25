@@ -154,30 +154,36 @@ if(!function_exists("get_real_path")) {
 	}
 }
 
-function retrieve_storage_files($type, $recursive=false, $excludes=array(".", ".."), $files=array()) {
-        $storage_path = get_storage_path($type);
-        if(is_dir($storage_path)) {
-                if($handle = opendir($storage_path)) {
-                        while(false !== ($file = readdir($handle))) {
-                                if(!in_array($file, $exclude)) {
-					$file_path = $storage_path . "/" . $file;
-                                        if(is_file($file_path)) {
-                                                $files[] = $file_path;
-                                        } elseif($recursive) {
-                                                $files = retrieve_storage_dir($type . "/" . $file, $recursive, $excludes, $files);
-                                        }
-                                }
-                        }
-                        closedir($handle);
-                }
-        }
-        return $files;
+if(!function_exists("retrieve_storage_files")) {
+	function retrieve_storage_files($type, $recursive=false, $excludes=array(".", ".."), $files=array()) {
+		$storage_path = get_storage_path($type);
+		if(is_dir($storage_path)) {
+			if($handle = opendir($storage_path)) {
+				while(false !== ($file = readdir($handle))) {
+					if(!in_array($file, $exclude)) {
+						$file_path = $storage_path . "/" . $file;
+						if(is_file($file_path)) {
+							$files[] = $file_path;
+						} elseif($recursive) {
+							$files = retrieve_storage_dir($type . "/" . $file, $recursive, $excludes, $files);
+						}
+					}
+				}
+				closedir($handle);
+			}
+		}
+		return $files;
+	}
 }
 
-function get_file_extension($file) {
-        return pathinfo($file, PATHINFO_EXTENSION);
+if(!function_exists("get_file_extension")) {
+	function get_file_extension($file) {
+		return pathinfo($file, PATHINFO_EXTENSION);
+	}
 }
 
-function check_file_extension($file, $extension) {
-        return (get_file_extension($file) === $extension);
+if(!function_exists("check_file_extension")) {
+	function check_file_extension($file, $extension) {
+		return (get_file_extension($file) === $extension);
+	}
 }
