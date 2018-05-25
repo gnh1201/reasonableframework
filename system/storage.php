@@ -153,3 +153,23 @@ if(!function_exists("get_real_path")) {
 		return file_exists($file) ? realpath($file) : false;
 	}
 }
+
+function retrieve_storage_files($type, $recursive=false, $excludes=array(".", ".."), $files=array()) {
+        $storage_path = get_storage_path($type);
+        if(is_dir($storage_path)) {
+                if($handle = opendir($storage_path)) {
+                        while(false !== ($file = readdir($handle))) {
+                                if(!in_array($file, $exclude) {
+					$file_path = $storage_path . "/" . $file;
+                                        if(is_file($file_path)) {
+                                                $files[] = $file_path;
+                                        } elseif($recursive) {
+                                                $files = retrieve_storage_dir($type . "/" . $file, $recursive, $excludes, $files);
+                                        }
+                                }
+                        }
+                        closedir($handle);
+                }
+        }
+        return $files;
+}
