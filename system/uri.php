@@ -51,11 +51,16 @@ if(!function_exists("read_requests")) {
 		}
 
 		// set alias
-		$requests['all'] = $requests['_ALL'];
-		$requests['post'] = $requests['_POST'];
-		$requests['get'] = $requests['_GET'];
-		$requests['uri'] = $requests['_URI'];
-		$requests['files'] = $requests['_FILES'];
+		$aliases = array(
+			"all" => "_ALL",
+			"post" => "_POST",
+			"get" => "_GET",
+			"uri" => "_URI",
+			"files" => "_FILES"
+		);
+		foreach($aliases as $k=>$v) {
+			$requests[$k] = $requests[$v];
+		}
 
 		return $requests;
 	}
