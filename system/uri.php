@@ -147,36 +147,6 @@ if(!function_exists("redirect_route")) {
 	}
 }
 
-if(!function_exists("read_requests")) {
-	function read_requests() {
-		$requests = array(
-			"_ALL"  => $_REQUEST,
-			"_POST" => $_POST,
-			"_GET"  => $_GET,
-			"_URI"  => !array_key_empty("REQUEST_URI", $_SERVER) ? $_SERVER["REQUEST_URI"] : '',
-			"_FILES" => is_array($_FILES) ? $_FILES : array(),
-		);
-
-		// with security module
-		if(function_exists("get_clean_xss")) {
-			foreach($requests['_GET'] as $k=>$v) {
-				if(is_string($v)) {
-					$requests['_GET'][$k] = get_clean_xss($v);
-				}
-			}
-		}
-
-		// set alias
-		$requests['all'] = $requests['_ALL'];
-		$requests['post'] = $requests['_POST'];
-		$requests['get'] = $requests['_GET'];
-		$requests['uri'] = $requests['_URI'];
-		$requests['files'] = $requests['_FILES'];
-
-		return $requests;
-	}
-}
-
 if(!function_exists("get_requested_value")) {
 	function get_requested_value($name, $method="_ALL", $escape_quotes=true, $escape_tags=false) {
 		$value = "";
