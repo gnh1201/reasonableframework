@@ -75,7 +75,7 @@ if(!function_exists("loadModule")) {
 			$systemfile = './system/' . $name2 . '.php';
 			if(file_exists($systemfile)) {
 				$flag = $flag && !include_isolate($systemfile); 
-				register_loaded("module", $systemfile);
+				register_loaded("system", $systemfile);
 			} else {
 				set_error("Module " . $name . "dose not exists");
 			}
