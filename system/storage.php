@@ -165,7 +165,7 @@ if(!function_exists("retrieve_storage_files")) {
 		if(is_dir($storage_path)) {
 			if($handle = opendir($storage_path)) {
 				while(false !== ($file = readdir($handle))) {
-					if(!in_array($file, $exclude)) {
+					if(!in_array($file, $excludes)) {
 						$file_path = $storage_path . "/" . $file;
 						if(is_file($file_path)) {
 							$files[] = $file_path;
