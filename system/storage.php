@@ -173,3 +173,9 @@ function retrieve_storage_files($type, $recursive=false, $excludes=array(".", ".
         }
         return $files;
 }
+
+function check_file_extension($file, $extension) {
+        $found_extension = pathinfo($file, PATHINFO_EXTENSION);
+        return ($found_extension === $extension);
+}
+
