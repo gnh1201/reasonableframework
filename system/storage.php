@@ -115,6 +115,12 @@ if(!function_exists("read_storage_file")) {
 	}
 }
 
+if(!function_exists("remove_storage_file")) {
+	function remove_storage_file($filename, $options=array()) {
+		return @unlink($filename);
+	}
+}
+
 if(!function_exists("write_storage_file")) {
 	function write_storage_file($data, $options=array()) {
 		$result = false;
