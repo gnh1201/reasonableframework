@@ -8,8 +8,7 @@
 
 if(!function_exists("get_storage_dir")) {
 	function get_storage_dir() {
-		$config = get_config();
-		return get_value_in_array("storage_dir", $config, "storage");
+		return "storage";
 	}
 }
 
