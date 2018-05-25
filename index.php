@@ -18,8 +18,9 @@ foreach($load_systems as $system_name) {
 	if(file_exists($system_inc_file)) {
 		if($system_name == "base") {
 			include($system_inc_file);
+			register_loaded("system", $system_inc_file);
 		} else {
-			include_isolate($system_inc_file, $scope);
+			loadModule($system_name, $scope);
 		}
 	}
 }
