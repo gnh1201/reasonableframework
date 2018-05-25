@@ -20,7 +20,7 @@ foreach($load_systems as $system_name) {
 			include($system_inc_file);
 			register_loaded("system", $system_inc_file);
 		} else {
-			loadModule($system_name, $scope);
+			loadModule($system_name);
 		}
 	}
 }
