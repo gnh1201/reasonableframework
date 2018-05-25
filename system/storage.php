@@ -61,7 +61,7 @@ if(!function_exists("move_uploaded_file_to_storage")) {
 		}
 
 		foreach($files as $k=>$file) {
-			$upload_ext = pathinfo($files[$k]['name'], PATHINFO_EXTENSION);
+			$upload_ext = get_file_extension($files[$k]['name']);
 			$upload_name = make_random_id(32) . (empty($upload_ext) ? "" : "." . $upload_ext);
 			$upload_file = $upload_base_dir . $upload_name;
 			$upload_url = $upload_base_url . $upload_name;
@@ -174,8 +174,10 @@ function retrieve_storage_files($type, $recursive=false, $excludes=array(".", ".
         return $files;
 }
 
-function check_file_extension($file, $extension) {
-        $found_extension = pathinfo($file, PATHINFO_EXTENSION);
-        return ($found_extension === $extension);
+function get_file_extension($file) {
+        return pathinfo($file, PATHINFO_EXTENSION);
 }
 
+function check_file_extension($file, $extension) {
+        return (get_file_extension($file) === $extension);
+}
