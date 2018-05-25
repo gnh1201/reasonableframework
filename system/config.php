@@ -10,7 +10,7 @@ if(!function_exists("read_config")) {
         function read_config() {
                 $config = array();
 
-                $files = get_storage_files("config");
+                $files = retrieve_storage_files("config");
                 foreach($files as $file) {
                         if(check_file_extension($file, "ini")) {
                                 $ini = parse_ini_file($file);
