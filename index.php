@@ -1,7 +1,7 @@
 <?php
 /**
  * @file index.php
- * @date 2018-04-13
+ * @date 2018-05-27
  * @author Go Namhyeon <gnh1201@gmail.com>
  * @brief ReasonableFramework
  * @cvs http://github.com/gnh1201/reasonableframework
@@ -10,7 +10,7 @@
 define("_DEF_VSPF_", true);
 
 // define system modules
-$load_systems = array("base", "storage", "config", "database", "uri", "logger", "misc", "security");
+$load_systems = array("base", "storage", "config", "database", "uri", "logger", "security");
 
 // load system modules
 foreach($load_systems as $system_name) {
