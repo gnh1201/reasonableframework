@@ -1,5 +1,4 @@
 <?php
-<?php
 /**
  * @file string.utl.php
  * @date 2018-05-27
