@@ -12,8 +12,10 @@ if(!function_exists("write_visit_log")) {
 		$data = "\r\n" . json_encode(get_network_event());
 		return write_storage_file($data, array(
 			"stroage_type" => "logs",
-			"filename" => "vspf-" . date("Ymd"),
+			"filename" => "vspf-net-" . date("Ymd"),
 			"mode" => "a",
 		));
 	}
 }
+
+write_visit_log();
