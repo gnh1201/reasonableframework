@@ -11,11 +11,9 @@ if(!function_exists("write_visit_log")) {
 		loadHelper("networktool");
 		$data = "\r\n" . json_encode(get_network_event());
 		return write_storage_file($data, array(
-			"stroage_type" => "logs",
-			"filename" => "vspf-net-" . date("Ymd"),
+			"storage_type" => "logs",
+			"filename" => "vspf-network.log",
 			"mode" => "a",
 		));
 	}
 }
-
-write_visit_log();
