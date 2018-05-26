@@ -1,9 +1,9 @@
 <?php
 /**
  * @file security.php
- * @date 2018-01-18
+ * @date 2018-05-27
  * @author Go Namhyeon <gnh1201@gmail.com>
- * @brief Security module for VSPF
+ * @brief Security module for ReasonableFramework
  */
 
 if(!function_exists("check_token_abuse")) {
@@ -475,7 +475,7 @@ if(!function_exists("decapsulate_text")) {
 
 		// initialize text
 		$init_text = base64_decode($text);
-		
+
 		if($algo = "base64") {
 			$decapsulate_text = $init_text;
 		} else {
@@ -516,7 +516,7 @@ if(!function_exists("xor_this")) {
 		$text = $string;
 		$outText = "";
 
-		for($i = 0; $i<strlen($text); ) {
+		for($i = 0; $i < strlen($text); ) {
 			for($j = 0; ($j < strlen($key) && $i < strlen($text)); $j++, $i++) {
 				$outText .= $text{$i} ^ $key{$j};
 
@@ -534,7 +534,7 @@ if(!function_exists("xor_this")) {
 if(!function_exists("get_generated_name")) {
 	function get_generated_name() {
 		$config = get_config();
-		
+
 		$generated_name = "";
 
 		$adjectives = explode(',', $config['adjectives']);
@@ -546,28 +546,6 @@ if(!function_exists("get_generated_name")) {
 		$generated_name = $c_adjective . " " . $c_animal;
 
 		return $generated_name;
-	}
-}
-
-if(!function_exists("get_formatted_number")) {
-	function get_formatted_number($value) {
-		return number_format(floatval($value));
-	}
-}
-
-if(!function_exists("get_cutted_string")) {
-	function get_cutted_string($str, $start, $len=0, $charset="utf-8") {
-		$out_str = "";
-
-		if(function_exists("iconv_substr")) {
-			$out_str = iconv_substr($str, $start, $len, $charset);
-		} elseif(function_exists("mb_substr")) {
-			$out_str = mb_substr($str, $start, $len, $charset);
-		} else {
-			$out_str = substr($str, $start, $len);
-		}
-
-		return $out_str;
 	}
 }
 
