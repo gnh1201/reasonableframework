@@ -41,6 +41,9 @@ if(!array_key_empty("enable_autoload", $config)) {
 $default_timezone = get_value_in_array("timezone", $config, "UTC");
 date_default_timezone_set($default_timezone);
 
+// write visit log
+write_visit_log();
+
 // route controller
 $route = get_value_in_array("route", $requests['all'], "");
 
