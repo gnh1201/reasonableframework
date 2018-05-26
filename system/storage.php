@@ -142,8 +142,8 @@ if(!function_exists("write_storage_file")) {
 			if($fhandle = fopen($upload_filename, "w")) {
 				if(fwrite($fhandle, $data)) {
 					$result = $upload_filename;
-					if(array_key_empty("chmod", $options)) {
-						@chmod($result);
+					if(!array_key_empty("chmod", $options)) {
+						@chmod($result, $options['chmod']);
 					}
 				}
 				fclose($fhandle);
