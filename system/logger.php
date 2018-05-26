@@ -3,7 +3,7 @@
  * @file logger.php
  * @date 2018-05-27
  * @author Go Namhyeon <gnh1201@gmail.com>
- * @brief Logger mobile for ReasonableFramework
+ * @brief Logger module for ReasonableFramework
  */
  
 if(!function_exists("write_visit_log")) {
