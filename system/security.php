@@ -165,7 +165,7 @@ if(!function_exists("check_empty_requests")) {
 			if(array_key_empty($fieldname, $check_data)) {
 				$errors[] = array(
 					"fieldname" => $fieldname,
-					"message"   => "{$fieldname} 항목은 공백일 수 없습니다."
+					"message"   => "{$fieldname}: can not empty."
 				);
 			}
 		}
