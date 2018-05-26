@@ -15,9 +15,10 @@ if(!function_exists("get_storage_dir")) {
 if(!function_exists("get_storage_path")) {
 	function get_storage_path($type="data") {
 		$dir_path = sprintf("./%s/%s", get_storage_dir(), $type);
+
 		if(!is_dir($dir_path)) {
 			if(!mkdir($dir_path, 0777)) {
-				set_error("can not create directory");
+				set_erorr("can not create directory");
 				show_errors();
 			}
 		}
@@ -141,6 +142,9 @@ if(!function_exists("write_storage_file")) {
 			if($fhandle = fopen($upload_filename, "w")) {
 				if(fwrite($fhandle, $data)) {
 					$result = $upload_filename;
+					if(array_key_empty("chmod", $options)) {
+						@chmod($result);
+					}
 				}
 				fclose($fhandle);
 			} else {
@@ -162,6 +166,7 @@ if(!function_exists("get_real_path")) {
 if(!function_exists("retrieve_storage_files")) {
 	function retrieve_storage_files($type, $recursive=false, $excludes=array(".", ".."), $files=array()) {
 		$storage_path = get_storage_path($type);
+
 		if(is_dir($storage_path)) {
 			if($handle = opendir($storage_path)) {
 				while(false !== ($file = readdir($handle))) {
@@ -177,6 +182,7 @@ if(!function_exists("retrieve_storage_files")) {
 				closedir($handle);
 			}
 		}
+
 		return $files;
 	}
 }
