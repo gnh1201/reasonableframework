@@ -17,8 +17,8 @@ if(!function_exists("get_storage_path")) {
 		$dir_path = sprintf("./%s/%s", get_storage_dir(), $type);
 
 		if(!is_dir($dir_path)) {
-			if(!mkdir($dir_path, 0777)) {
-				set_erorr("can not create directory");
+			if(!@mkdir($dir_path, 0777)) {
+				set_error("can not create directory");
 				show_errors();
 			}
 		}
