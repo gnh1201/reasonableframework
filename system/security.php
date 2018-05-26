@@ -21,7 +21,7 @@ if(!function_exists("check_token_abuse")) {
 
 if(!function_exists("make_random_id")) {
 	function make_random_id($length = 10) {
-		$characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+		$characters = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
 		$charactersLength = strlen($characters);
 		$randomString = '';
 		for ($i = 0; $i < $length; $i++) {
@@ -85,17 +85,10 @@ if(!function_exists("check_login_session")) {
 		$flag = false;
 
 		$session_name = get_password($ss_key);
-		$session_file = $config['session_dir'] . '/' . protect_dir_path($session_name);
-		$session_stored_key = "";
-
-		if(file_exists($session_file)) {
-			$fh = fopen($session_file, 'r');
-			if($session_stored_key = fread($fh, filesize($session_file))) {
-				if(!check_token_abuse($session_stored_key, $session_name)) {
-					$flag = true;
-				}
-			}
-		}
+		$session_stored_name = read_storage_file($session_name, array(
+			"storage_type" => get_value_in_array("session_dir", $config, "session"),
+		));
+		$flag = !check_token_abuse($session_stored_name, $session_name);
 
 		return $flag;
 	}
@@ -106,14 +99,14 @@ if(!function_exists("store_login_session")) {
 		$flag = false;
 
 		$session_name = get_password($ss_key);
-		$session_file = $config['session_dir'] . '/' . protect_dir_path($session_name);
+		$fw = write_storage_file($session_name, array(
+			"filename" => $session_name,
+			"storage_type" => get_value_in_array("session_dir", $config, "session"),
+			"chmod" => 0777,
+		));
 
-		$fh = fopen($session_file, 'w');
-		if($fh !== false) {
-			if(fwrite($fh, $session_name)) {
-				$flag = check_login_session($ss_key, $config);
-			}
-			@chmod($session_file, 0777);
+		if($fw) {
+			$flag = check_login_session($ss_key, $config);
 		}
 
 		return $flag;
@@ -126,7 +119,7 @@ if(!function_exists("process_safe_login")) {
 
 		$flag = false;
 		$ss_key = get_session("ss_key");
-		
+
 		$user_id = 0;
 		$stored_password = "";
 		if(!array_key_empty("user_id", $user_profile)) {
@@ -155,18 +148,24 @@ if(!function_exists("process_safe_login")) {
 }
 
 if(!function_exists("check_empty_requests")) {
-	function check_empty_requests($no_empty_fields, $method_get=true) {
+	function check_empty_requests($fieldnames, $method="get") {
 		$requests = get_requests();
-
 		$errors = array();
-		$check_data = $method_get ? $requests['_GET'] : $requests['_POST'];
 
-		foreach($no_empty_fields as $fieldname) {
-			if(array_key_empty($fieldname, $check_data)) {
-				$errors[] = array(
-					"fieldname" => $fieldname,
-					"message"   => "{$fieldname}: can not empty."
-				);
+		if(is_bool($method)) {
+			$method = $method ? "get" : "post";
+		}
+
+		if(array_key_exists($method, $requests)) {
+			$data = $requests[$method];
+
+			foreach($fieldnames as $fieldname) {
+				if(array_key_empty($fieldname, $data)) {
+					$errors[] = array(
+						"fieldname" => $fieldname,
+						"message"   => "{$fieldname}: can not empty."
+					);
+				}
 			}
 		}
 
