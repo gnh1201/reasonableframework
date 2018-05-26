@@ -64,3 +64,15 @@ if(!function_exists("get_cutted_string")) {
 		return $result;
 	}
 }
+
+if(!function_exists("explode_string_lines")) {
+	function explode_string_lines($str) {
+		return preg_split('/\n|\r\n?/', $str);
+	}
+}
+
+if(!function_exists("read_storage_file_by_line")) {
+	function read_storage_file_by_line($filename, $options=array()) {
+		return explode_string_lines(read_storage_file($filename, $options));
+	}
+}
