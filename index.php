@@ -10,7 +10,7 @@
 define("_DEF_VSPF_", true);
 
 // define system modules
-$load_systems = array("base", "storage", "config", "database", "uri", "logger", "security");
+$load_systems = array("base", "storage", "config", "database", "uri", "security", "audit");
 
 // load system modules
 foreach($load_systems as $system_name) {
