@@ -1,9 +1,9 @@
 <?php
 /**
- * @file stroage.php
- * @date 2018-05-21
+ * @file storage.php
+ * @date 2018-05-27
  * @author Go Namhyeon <gnh1201@gmail.com>
- * @brief Stroage module
+ * @brief Stroage module for ReasonableFramework
  */
 
 if(!function_exists("get_storage_dir")) {
@@ -128,18 +128,19 @@ if(!function_exists("write_storage_file")) {
 
 		$filename = get_value_in_array("filename", $options, make_random_id(32));
 		$storage_type = get_value_in_array("storage_type", $options, "data");
+		$mode = get_value_in_array("mode", $options, "w");
 		$upload_base_path = get_storage_path($storage_type);
 		$upload_base_url = get_storage_url($storage_type);
 		$upload_filename = $upload_base_path . "/" . $filename;
 
-		if(file_exists($upload_filename)) {
+		if(file_exists($upload_filename) && $mode == "w") {
 			if(!array_key_empty("filename", $options)) {
 				$result = $upload_filename;
 			} else {
 				$result = write_storage_file($data, $options);
 			}
 		} else {
-			if($fhandle = fopen($upload_filename, "w")) {
+			if($fhandle = fopen($upload_filename, $mode)) {
 				if(fwrite($fhandle, $data)) {
 					$result = $upload_filename;
 					if(!array_key_empty("chmod", $options)) {
