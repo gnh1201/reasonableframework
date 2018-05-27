@@ -271,3 +271,12 @@ if(!function_exists("gnb_join_member")) {
 		return $result;
 	}
 }
+
+if(!function_exists("gnb_make_pipelined_data")) {
+	function gnb_make_pipelined_data($data, $delimiter="|") {
+		foreach($data as $k=>$v) {
+			$data[$k] = str_replace("|", "", $v);
+		}
+		return implode($delimiter, $data);
+	}
+}
