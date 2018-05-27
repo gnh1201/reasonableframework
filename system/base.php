@@ -136,9 +136,11 @@ if(!function_exists("array_key_empty")) {
 
 if(!function_exists("array_multikey_empty")) {
 	function array_multikey_empty($keys, $array) {
-		$flag = true;
+		$flag = false;
 		foreach($keys as $key) {
-			$flag = $flag && array_key_empty($key, $array);
+			if(array_key_empty($key, $array)) {
+				$flag = $key;
+			}
 		}
 		return $flag;
 	}
