@@ -224,6 +224,25 @@ if(!function_exists("check_function_exists")) {
 	}
 }
 
+if(!function_exists("get_property_value")) {
+	function get_property_value($prop, $obj, $ac=false) {
+		$result = null;
+
+		if(property_exists($obj, $prop)) {
+			if($ac) {
+				$reflection = new ReflectionClass($obj);
+				$property = $reflection->getProperty($prop);
+				$property->setAccessible($ac);
+				$result = $property->getValue($obj);
+			} else {
+				$result = $obj->{$prop};
+			}
+		}
+
+		return $result;
+	}
+}
+
 $scope = array();
 
 set_scope("loaded", array(
