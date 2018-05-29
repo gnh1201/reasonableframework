@@ -311,5 +311,14 @@ if(!function_exists("json_decode_to_assoc")) {
 	}
 }
 
+// close db connection
+if(!function_exists("close_db_connect")) {
+	function close_db_connect() {
+		$dbc = get_scope("dbc");
+		$dbc->close();
+		set_scope("dbc", null);
+	}
+}
+
 // set scope dbc
 set_scope("dbc", get_db_connect());
