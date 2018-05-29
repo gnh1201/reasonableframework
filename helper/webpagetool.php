@@ -164,6 +164,7 @@ if(!function_exists("get_web_page")) {
 		$status = "-1";
 		$resno = "-1";
 		$errno = "-1";
+		$req_method = $method;
 
 		$method = strtolower($method);
 		$res_methods = explode(".", $method);
@@ -221,9 +222,9 @@ if(!function_exists("get_web_page")) {
 
 			$content = curl_exec($ch);
 			if(!is_string($content)) {
-				$res_method = $method . ".cmd";
-				$res = get_web_page($url, $res_method, $data, $proxy, $ua, $ct_out, $t_out);
+				$res = get_web_page($url, $method . ".cmd", $data, $proxy, $ua, $ct_out, $t_out);
 				$content = $res['content'];
+				$req_method = $res['method'];
 			} else {
 				$status = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 				$resno = curl_getinfo($ch, CURLINFO_RESPONSE_CODE);
@@ -253,6 +254,8 @@ if(!function_exists("get_web_page")) {
 			"gz_md5"     => get_hashed_text($gz_content, "md5"),
 			"gz_sha1"    => get_hashed_text($gz_content, "sha1"),
 			"gz_ratio"   => $gz_ratio,
+			"method"     => $req_method,
+			"params"     => $data,
 		);
 
 		return $response;
@@ -296,7 +299,7 @@ if(!function_exists("get_web_cache")) {
 
 if(!function_exists("get_web_json")) {
 	function get_web_json($url, $method="get", $data=array(), $proxy="", $ua="", $ct_out=45, $t_out=45) {
-		$result = array();
+		$result = false;
 
 		$response = get_web_page($url, $method, $data, $proxy, $ua, $ct_out, $t_out);
 		if($response['size'] > 0) {
