@@ -226,9 +226,8 @@ if(!function_exists("check_function_exists")) {
 
 if(!function_exists("get_property_value")) {
 	function get_property_value($prop, $obj, $ac=false) {
-		$result = null;
-
-		if(property_exists($obj, $prop)) {
+		$result = false;
+		if(is_object($obj) && property_exists($obj, $prop)) {
 			if($ac) {
 				$reflection = new ReflectionClass($obj);
 				$property = $reflection->getProperty($prop);
@@ -238,10 +237,10 @@ if(!function_exists("get_property_value")) {
 				$result = $obj->{$prop};
 			}
 		}
-
 		return $result;
 	}
 }
+
 
 $scope = array();
 
