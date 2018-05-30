@@ -112,6 +112,22 @@ if(!function_exists("gnb_write_post")) {
 	}
 }
 
+if(!function_exists("gnb_get_posts")) {
+	function gnb_get_posts($table_name, $page=1, $limit=20, $options=array()) {
+		$sql = "select * from " . gnb_get_write_table($table_name) . " order by wr_id desc" . get_page_range($page, $limit);
+		return exec_db_fetch_all($sql);
+	}
+}
+
+if(!function_exists("gnb_get_post_by_id")) {
+	function gnb_get_post_by_id($table_name, $post_id) {
+		$sql = "select * from " . gnb_get_write_table($table_name) . " where wr_id = :wr_id";
+		return exec_db_fetch($sql, array(
+			"wr_id" => $post_id
+		));
+	}
+}
+
 if(!function_exists("gnb_set_post_parameters")) {
 	function gnb_set_post_parameters($tablename, $wr_id, $bind=array()) {
 		$flag = false;
