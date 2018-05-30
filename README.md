@@ -35,10 +35,12 @@
 ## Example
 ```
 <?php
-loadHelper("allreporting");
+loadHelper("string.utl");
 
-$copyright = "";
-$lines = read_file_by_line("./storage/copyright.txt");
+$copyright = read_storage_file("copyright.txt", array(
+    "storage_type" => "terms"
+));
+$lines = explode_by_line($copyright);
 foreach($lines as $line) {
     $copyright .= "<p>" . $line . "</p>";
 }
