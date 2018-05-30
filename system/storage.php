@@ -133,13 +133,13 @@ if(!function_exists("write_storage_file")) {
 		$upload_base_url = get_storage_url($storage_type);
 		$upload_filename = $upload_base_path . "/" . $filename;
 
-		if(file_exists($upload_filename) && $mode == "w") {
+		if(file_exists($upload_filename) && in_array($mode, array("fake", "w"))) {
 			if(!array_key_empty("filename", $options)) {
 				$result = $upload_filename;
 			} else {
 				$result = write_storage_file($data, $options);
 			}
-		} else {
+		} elseif($mode != "fake") {
 			if($fhandle = fopen($upload_filename, $mode)) {
 				if(fwrite($fhandle, $data)) {
 					$result = $upload_filename;
