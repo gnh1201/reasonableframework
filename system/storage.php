@@ -139,8 +139,10 @@ if(!function_exists("write_storage_file")) {
 			} else {
 				$result = write_storage_file($data, $options);
 			}
-		} elseif($mode != "fake") {
-			if($fhandle = fopen($upload_filename, $mode)) {
+		} else {
+			if($mode == "fake") {
+				$result = $upload_filename;
+			} elseif($fhandle = fopen($upload_filename, $mode)) {
 				if(fwrite($fhandle, $data)) {
 					$result = $upload_filename;
 					if(!array_key_empty("chmod", $options)) {
