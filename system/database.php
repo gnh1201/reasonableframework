@@ -268,6 +268,16 @@ if(!function_exists("get_bind_to_sql_update_set")) {
 	}
 }
 
+if(!function_exists("get_bind_to_sql_past_minutes")) {
+	function get_bind_to_sql_past_minutes($fieldname, $minutes=5) {
+		$sql_past_minutes = "";
+		if($minutes > 0) {
+			$sql_past_minutes = sprintf(" and " . $fieldname . " > DATE_SUB(now(), INTERVAL %d MINUTE)", $minutes);
+		}
+		return $sql_past_minutes;
+	}
+}
+
 // alias sql_query from exec_db_query
 if(!function_exists("sql_query")) {
 	function sql_query($sql, $bind=array()) {
