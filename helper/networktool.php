@@ -82,3 +82,9 @@ if(!function_exists("get_network_hostname")) {
         return $host;
     }
 }
+
+if(!function_exists("check_secure_protocol")) {
+	function check_secure_protocol() {
+		return (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') || $_SERVER['SERVER_PORT'] == 443;
+	}
+}
