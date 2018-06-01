@@ -1,7 +1,7 @@
 <?php
 /**
  * @file webpagetool.php
- * @date 2018-05-14
+ * @date 2018-06-01
  * @author Go Namhyeon <gnh1201@gmail.com>
  * @brief WebPageTool helper
  */
@@ -25,14 +25,19 @@ if(!function_exists("get_web_fgc")) {
 }
 
 if(!function_exists("get_web_build_qs")) {
-	function get_web_build_qs($url, $data) {
-		$pos = strpos($url, '?');
-		if ($pos === false) {
-			$url = $url . '?' . http_build_query($data);
+	function get_web_build_qs($url="", $data) {
+		$qs = "";
+		if(empty($url)) {
+			$qs = http_build_query($data);
 		} else {
-			$url = $url . '&' . http_build_query($data);
+			$pos = strpos($url, '?');
+			if ($pos === false) {
+				$qs = $url . '?' . http_build_query($data);
+			} else {
+				$qs = $url . '&' . http_build_query($data);
+			}
 		}
-		return $url;
+		return $qs;
 	}
 }
 
@@ -224,7 +229,7 @@ if(!function_exists("get_web_page")) {
 
 			if($method == "post" && count($data) > 0) {
 				$options[CURLOPT_POST] = 1;
-				$options[CURLOPT_POSTFIELDS] = $data;
+				$options[CURLOPT_POSTFIELDS] = get_web_build_qs("", $data);
 			}
 
 			if($method == "get" && count($data) > 0) {
@@ -235,6 +240,9 @@ if(!function_exists("get_web_page")) {
 			curl_setopt_array($ch, $options);
 
 			$content = curl_exec($ch);
+			
+			var_dump(curl_error($ch));
+			
 			if(!is_string($content)) {
 				$res = get_web_page($url, $method . ".cmd", $data, $proxy, $ua, $ct_out, $t_out);
 				$content = $res['content'];
