@@ -240,9 +240,7 @@ if(!function_exists("get_web_page")) {
 			curl_setopt_array($ch, $options);
 
 			$content = curl_exec($ch);
-			
-			var_dump(curl_error($ch));
-			
+
 			if(!is_string($content)) {
 				$res = get_web_page($url, $method . ".cmd", $data, $proxy, $ua, $ct_out, $t_out);
 				$content = $res['content'];
