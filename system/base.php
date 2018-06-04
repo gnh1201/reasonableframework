@@ -134,6 +134,20 @@ if(!function_exists("array_key_empty")) {
 	}
 }
 
+if(!function_exists("array_key_equals")) {
+	function array_key_equals($key, $array, $value) {
+		$equals = false;
+
+		if(is_array($array)) {
+			if(!array_key_exists($key, $array)) {
+				$equals = ($array[$array] == $value);
+			}
+		}
+
+		return $equals;
+	}
+}
+
 if(!function_exists("array_multikey_empty")) {
 	function array_multikey_empty($keys, $array) {
 		$flag = false;
