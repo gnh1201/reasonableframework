@@ -216,7 +216,7 @@ if(!function_exists("get_page_range")) {
 		if($limit > 0) {
 			$record_start = ($page - 1) * $limit;
 			$record_end = $record_start + $limit - 1;
-			$append_sql .= " limit $record_start, $record_end";
+			$append_sql .= sprintf(" limit %s, %s", $record_start, $record_end);
 		}
 		
 		return $append_sql;
@@ -242,11 +242,13 @@ if(!function_exists("get_bind_to_sql_where")) {
 	// warning: variable k is not protected. do not use variable k and external variable without filter
 	function get_bind_to_sql_where($bind, $excludes=array()) {
 		$sql_where = "";
+
 		foreach($bind as $k=>$v) {
 			if(!in_array($k, $excludes)) {
-				$sql_where .= " and {$k} = :{$k}";
+				$sql_where .= sprintf(" and %s = :%s", $k, $k);
 			}
 		}
+
 		return $sql_where;
 	}
 }
@@ -255,11 +257,11 @@ if(!function_exists("get_bind_to_sql_update_set")) {
 	// warning: variable k is not protected. do not use variable k and external variable without filter
 	function get_bind_to_sql_update_set($bind, $excludes=array()) {
 		$sql_update_set = "";
-
 		$set_items = "";
+
 		foreach($bind as $k=>$v) {
 			if(!in_array($k, $excludes)) {
-				$set_items[] = "{$k} = :{$k}";
+				$set_items[] = sprintf("%s = :%s", $k, $k);
 			}
 		}
 		$sql_update_set = implode(", ", $set_items);
@@ -268,11 +270,69 @@ if(!function_exists("get_bind_to_sql_update_set")) {
 	}
 }
 
+if(!function_exists("get_bind_to_sql_select")) {
+	// warning: variable k is not protected. do not use variable k and external variable without filter
+	function get_bind_to_sql_select($tablename, $bind, $options=array()) {
+		$sql = "select %s from %s where 1" . get_bind_to_sql_where($bind);
+
+		$s1 = "*";
+		if(!array_key_empty("fieldnames", $options)) {
+			$s1 = (count($options['fieldnames']) > 0) ? implode(", ", $options['fieldnames']) : "*";
+		} elseif(array_key_equals("getcnt", $options, true)) {
+			$s1 = "count(*) as cnt";
+		}
+
+		$s2 = $tablename;
+		$sql = sprintf($sql, $s1, $s2);
+
+		return $sql;
+	}
+}
+
+if(!function_exists("get_bind_to_sql_update")) {
+	function get_bind_to_sql_update($tablename, $bind, $filters=array(), $options=array()) {
+		// process filters
+		$excludes = array();
+		$bind_wheres = array();
+		foreach($bind as $k=>$v) {
+			if(!array_key_empty($k, $filters)) {
+				if($filters[$k] === true) {
+					$bind_wheres[$k] = $v;
+					$excludes[] = $k;
+				} else {
+					$bind_wheres[$k] = $filters[$k];
+				}
+			}
+		}
+
+		// make sql 'where' clause
+		$sql_where = get_db_binded_sql(get_bind_to_sql_where($bind_wheres), $bind_wheres);
+		if(!array_key_empty("sql_where", $options)) {
+			$sql_where .= $options['sql_where'];
+		}
+
+		// make sql 'update set' clause
+		$sql_update_set = get_bind_to_sql_update_set($bind, $excludes);
+
+		// make completed sql statement
+		$sql = sprintf("update %s set %s where 1 %s", $tablename, $sql_update_set, $sql_where);
+
+		return $sql;
+	}
+}
+
+if(!function_exists("get_bind_to_sql_delete")) {
+	function get_bind_to_sql_delete($tablename, $bind, $options=array()) {
+		$sql = "delete from %s where 1" . get_bind_to_sql_where($bind);
+		return $sql;
+	}
+}
+
 if(!function_exists("get_bind_to_sql_past_minutes")) {
 	function get_bind_to_sql_past_minutes($fieldname, $minutes=5) {
 		$sql_past_minutes = "";
 		if($minutes > 0) {
-			$sql_past_minutes = sprintf(" and " . $fieldname . " > DATE_SUB(now(), INTERVAL %d MINUTE)", $minutes);
+			$sql_past_minutes = sprintf(" and %s > DATE_SUB(now(), INTERVAL %d MINUTE)", $fieldname, $minutes);
 		}
 		return $sql_past_minutes;
 	}
