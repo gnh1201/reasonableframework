@@ -34,9 +34,7 @@ if(!function_exists("get_scope")) {
 if(!function_exists("register_loaded")) {
 	function register_loaded($k, $v) {
 		global $scope;
-		if(array_key_exists($k, $scope['loaded'])) {
-			array_push($scope['loaded'][$k], $v);
-		}
+		$scope['loaded'][$k][] = $v;
 	}
 }
 
@@ -58,8 +56,8 @@ if(!function_exists("renderView")) {
 		foreach($views as $name2) {
 			$viewfile = './view/' . $name2 . '.php';
 			if(file_exists($viewfile)) {
+				register_loaded("view", $name2);
 				$flag = $flag && !include_isolate($viewfile, $data);
-				register_loaded("view", $viewfile);
 			}
 		}
 		return !$flag;
@@ -74,8 +72,8 @@ if(!function_exists("loadModule")) {
 		foreach($modules as $name2) {
 			$systemfile = './system/' . $name2 . '.php';
 			if(file_exists($systemfile)) {
+				register_loaded("system", $name2);
 				$flag = $flag && !include_isolate($systemfile); 
-				register_loaded("system", $systemfile);
 			} else {
 				set_error("Module " . $name . "dose not exists");
 			}
@@ -92,8 +90,8 @@ if(!function_exists("loadHelper")) {
 		foreach($helpers as $name2) {
 			$helperfile = './helper/' . $name2 . '.php';
 			if(file_exists($helperfile)) {
+				register_loaded("helper", $name2);
 				$flag = $flag && !include_isolate($helperfile); 
-				register_loaded("helper", $helperfile);
 			} else {
 				set_error("Helper " . $name . "dose not exists");
 			}
@@ -108,10 +106,10 @@ if(!function_exists("loadRoute")) {
 		$flag = true;
 		$routes = explode(";", $name);
 		foreach($routes as $name2) {
-			$routefile = './route/' . $name . '.php';
+			$routefile = './route/' . $name2 . '.php';
 			if(file_exists($routefile)) {
+				register_loaded("route", $name2);
 				$flag = $flag && !include_isolate($routefile, $data);
-				register_loaded("route", $routefile);
 			} else { 
 				set_error("Route " . $name . "dose not exists");
 			}
@@ -126,7 +124,7 @@ if(!function_exists("array_key_empty")) {
 		
 		if(is_array($array)) {
 			if(array_key_exists($key, $array)) {
-                		$empty = $empty && empty($array[$key]);
+                $empty = $empty && empty($array[$key]);
 			}
 		}
 
@@ -139,8 +137,8 @@ if(!function_exists("array_key_equals")) {
 		$equals = false;
 
 		if(is_array($array)) {
-			if(!array_key_exists($key, $array)) {
-				$equals = ($array[$array] == $value);
+			if(array_key_exists($key, $array)) {
+				$equals = ($array[$key] == $value);
 			}
 		}
 
@@ -252,6 +250,13 @@ if(!function_exists("get_property_value")) {
 			}
 		}
 		return $result;
+	}
+}
+
+if(!function_exists("get_routes")) {
+	function get_routes() {
+		$loaded = get_scope("loaded");
+		return $loaded['route'];
 	}
 }
 
