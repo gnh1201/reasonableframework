@@ -64,6 +64,17 @@ if(!function_exists("renderView")) {
 	}
 }
 
+// load view by rules
+if(!function_exists("renderViewByRules")) {
+	function renderViewByRules($rules, $data=array()) {
+		foreach($rules as $k=>$v) {
+			if(in_array($k, get_routes())) {
+				renderView($v, $data);
+			}
+		}
+	}
+}
+
 // load system module
 if(!function_exists("loadModule")) {
 	function loadModule($name) {
