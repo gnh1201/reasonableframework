@@ -201,3 +201,15 @@ if(!function_exists("check_file_extension")) {
 		return (get_file_extension($file) === $extension);
 	}
 }
+
+if(!function_exists("get_file_name")) {
+	function get_file_name($name, $extension="", $basepath="") {
+		$result = "";
+
+		$result .= empty($basepath) ? "" : ($name . "/");
+		$result .= $name;
+		$result .= empty($extension) ? "" : ("." . $extension);
+
+		return $result;
+	}
+}
