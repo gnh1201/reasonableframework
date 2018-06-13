@@ -273,17 +273,19 @@ if(!function_exists("get_bind_to_sql_update_set")) {
 if(!function_exists("get_bind_to_sql_select")) {
 	// warning: variable k is not protected. do not use variable k and external variable without filter
 	function get_bind_to_sql_select($tablename, $bind, $options=array()) {
-		$sql = "select %s from %s where 1" . get_bind_to_sql_where($bind);
+		$sql = "select %s from %s where 1 %s";
 
 		$s1 = "*";
 		if(!array_key_empty("fieldnames", $options)) {
 			$s1 = (count($options['fieldnames']) > 0) ? implode(", ", $options['fieldnames']) : "*";
 		} elseif(array_key_equals("getcnt", $options, true)) {
 			$s1 = "count(*) as cnt";
+		} elseif(!array_key_empty("getsum", $options)) {
+			$s1 = sprintf("sum(%s) as sum", $options['getsum']);
 		}
-
 		$s2 = $tablename;
-		$sql = sprintf($sql, $s1, $s2);
+		$s3 = get_bind_to_sql_where($bind);
+		$sql = sprintf($sql, $s1, $s2, $s3);
 
 		return $sql;
 	}
@@ -335,6 +337,21 @@ if(!function_exists("get_bind_to_sql_past_minutes")) {
 			$sql_past_minutes = sprintf(" and %s > DATE_SUB(now(), INTERVAL %d MINUTE)", $fieldname, $minutes);
 		}
 		return $sql_past_minutes;
+	}
+}
+
+// SQL eXtensible
+if(!function_exists("get_bind_to_sqlx")) {
+	function get_bind_to_sqlx($filename, $bind, $options=array()) {
+		$result = false;
+		$sql = read_storage_file(get_file_name($filename, "sqlx"), array(
+			"storage_type" => "sqlx"
+		));
+
+		if(!empty($sql)) {
+			$result = get_db_binded_sql($sql, $bind);
+		}
+		return $result;
 	}
 }
 
