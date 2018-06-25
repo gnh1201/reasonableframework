@@ -212,7 +212,11 @@ if(!function_exists("exec_db_fetch")) {
 if(!function_exists("get_page_range")) {
 	function get_page_range($page=1, $limit=0) {
 		$append_sql = "";
-		
+
+		if($page < 1) {
+			$page = 1;
+		}
+
 		if($limit > 0) {
 			$record_start = ($page - 1) * $limit;
 			$record_end = $record_start + $limit - 1;
