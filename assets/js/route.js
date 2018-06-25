@@ -1,3 +1,13 @@
+function get_routes() {
+	return routes.split(',');
+}
+
+function inArray(needle, haystack) {
+	var len = haystack.length;
+	for(var i=0; i<len; i++) if(haystack[i] == needle) return true;
+	return false;
+}
+
 function addScript(url) {
 	var s = document.createElement('script');
 	s.src = url;
