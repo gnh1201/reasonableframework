@@ -282,31 +282,40 @@ if(!function_exists("get_bind_to_sql_select")) {
 		// s1: select fields
 		$s1 = "*";
 		if(!array_key_empty("fieldnames", $options)) {
-			$s1 = (count($options['fieldnames']) > 0) ? implode(", ", $options['fieldnames']) : "*";
+			$s1 .= (count($options['fieldnames']) > 0) ? implode(", ", $options['fieldnames']) : "*";
 		} elseif(array_key_equals("getcnt", $options, true)) {
-			$s1 = "count(*) as cnt";
+			$s1 .= "count(*) as cnt";
 		} elseif(!array_key_empty("getsum", $options)) {
-			$s1 = sprintf("sum(%s) as sum", $options['getsum']);
+			$s1 .= sprintf("sum(%s) as sum", $options['getsum']);
 		}
 
 		// s2: set table name
-		$s2 = $tablename;
+		$s2 = "";
+		if(!empty($tablename)) {
+			$s2 .= $tablename;
+		} else {
+			set_error("tablename can not empty");
+			show_errors();
+		}
 
 		// s3: fields of where clause
 		$s3 = get_bind_to_sql_where($bind);
+		if(!array_multikey_empty(array("settimefield", "setminutes"), $options)) {
+			$s3 .= get_bind_to_sql_past_minutes($options['settimefield'], $options['setminutes']);
+		}
 
 		// s4: set orders
 		$s4 = "";
 		if(!array_key_empty("setorders", $options)) {
 			if(is_array($options['setorders'])) {
-				$s4 = "order by " . implode(", ", $options['setorders']);
+				$s4 .= "order by " . implode(", ", $options['setorders']);
 			}
 		}
 
 		// s5: set page and limit
 		$s5 = "";
 		if(!array_multikey_empty(array("setpage", "setlimit"), $options)) {
-			$s5 = sprintf("limit %s, %s", $options['setpage'], $options['setlimit']);
+			$s5 .= get_page_range($options['setpage'], $options['setlimit']);
 		}
 
 		// sql: make completed sql
