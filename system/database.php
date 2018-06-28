@@ -274,9 +274,26 @@ if(!function_exists("get_bind_to_sql_update_set")) {
 	}
 }
 
+if(!function_exists("get_bind_to_sql_update_set")) {
+	// warning: variable k is not protected. do not use variable k and external variable without filter
+	function get_bind_to_sql_update_set($bind, $excludes=array()) {
+		$sql_update_set = "";
+		$set_items = "";
+
+		foreach($bind as $k=>$v) {
+			if(!in_array($k, $excludes)) {
+				$set_items[] = sprintf("%s = :%s", $k, $k);
+			}
+		}
+		$sql_update_set = implode(", ", $set_items);
+
+		return $sql_update_set;
+	}
+}
+
 if(!function_exists("get_bind_to_sql_select")) {
 	// warning: variable k is not protected. do not use variable k and external variable without filter
-	function get_bind_to_sql_select($tablename, $bind, $options=array()) {
+	function get_bind_to_sql_select($tablename, $bind=array(), $options=array()) {
 		$sql = "select %s from %s where 1 %s %s %s";
 
 		// s1: select fields
@@ -302,6 +319,13 @@ if(!function_exists("get_bind_to_sql_select")) {
 		$s3 = get_bind_to_sql_where($bind);
 		if(!array_multikey_empty(array("settimefield", "setminutes"), $options)) {
 			$s3 .= get_bind_to_sql_past_minutes($options['settimefield'], $options['setminutes']);
+		}
+		if(!array_key_empty("setwheres", $options)) {
+			if(is_array($options['setwheres'])) {
+				foreach($options['setwheres'] as $opts) {
+					$s3 .= is_string($opts) ? sprintf(" and (%s)", $opts) : "";
+				}
+			}
 		}
 
 		// s4: set orders
