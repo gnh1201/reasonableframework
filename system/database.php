@@ -306,16 +306,23 @@ if(!function_exists("get_bind_to_sql_select")) {
 		if(!array_key_empty("setwheres", $options)) {
 			if(is_array($options['setwheres'])) {
 				foreach($options['setwheres'] as $opts) {
-					$s3 .= is_string($opts) ? sprintf(" and (%s)", $opts) : "";
+					$s3 .= check_is_string_not_array($opts) ? sprintf(" and (%s)", $opts) : "";
 				}
 			}
 		}
 
 		// s4: set orders
 		$s4 = "";
+		$s4a = array();
 		if(!array_key_empty("setorders", $options)) {
 			if(is_array($options['setorders'])) {
-				$s4 .= "order by " . implode(", ", $options['setorders']);
+				$s4 .= "order by ";
+				foreach($options['setorders'] as $opts) {
+					if(check_is_string_not_array($opts)) {
+						$s4a[] = $opts;
+					}
+				}
+				$s4 .= implode(", ", $s4a);
 			}
 		}
 
