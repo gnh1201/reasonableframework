@@ -207,5 +207,11 @@ if(!function_exists("get_array")) {
 	}
 }
 
+if(!function_exists("check_is_string_not_array")) {
+	function check_is_string_not_array($str) {
+		return (is_string($str) && !(is_array($str) || $str == "Array"));
+	}
+}
+
 // set scope
 set_scope("requests", read_requests());
