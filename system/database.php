@@ -277,8 +277,9 @@ if(!function_exists("get_bind_to_sql_update_set")) {
 if(!function_exists("get_bind_to_sql_select")) {
 	// warning: variable k is not protected. do not use variable k and external variable without filter
 	function get_bind_to_sql_select($tablename, $bind, $options=array()) {
-		$sql = "select %s from %s where 1 %s";
+		$sql = "select %s from %s where 1 %s %s %s";
 
+		// s1: select fields
 		$s1 = "*";
 		if(!array_key_empty("fieldnames", $options)) {
 			$s1 = (count($options['fieldnames']) > 0) ? implode(", ", $options['fieldnames']) : "*";
@@ -287,9 +288,29 @@ if(!function_exists("get_bind_to_sql_select")) {
 		} elseif(!array_key_empty("getsum", $options)) {
 			$s1 = sprintf("sum(%s) as sum", $options['getsum']);
 		}
+
+		// s2: set table name
 		$s2 = $tablename;
+
+		// s3: fields of where clause
 		$s3 = get_bind_to_sql_where($bind);
-		$sql = sprintf($sql, $s1, $s2, $s3);
+
+		// s4: set orders
+		$s4 = "";
+		if(!array_key_empty("setorders", $options)) {
+			if(is_array($options['setorders'])) {
+				$s4 = "order by " . implode(", ", $options['setorders']);
+			}
+		}
+
+		// s5: set page and limit
+		$s5 = "";
+		if(!array_multikey_empty(array("setpage", "setlimit"), $options)) {
+			$s5 = sprintf("limit %s, %s", $options['setpage'], $options['setlimit']);
+		}
+
+		// sql: make completed sql
+		$sql = sprintf($sql, $s1, $s2, $s3, $s4, $s5);
 
 		return $sql;
 	}
