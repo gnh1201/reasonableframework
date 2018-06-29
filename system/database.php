@@ -23,7 +23,7 @@ if(!function_exists("get_db_connect")) {
 				$config['db_password'],
 				array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8")
 			);
-			$conn->query("SET NAMES 'utf8'");
+			//$conn->query("SET NAMES 'utf8'");
 		} catch(Exception $e) {
 			if($b > $a) {
 				set_error($e->getMessage());
