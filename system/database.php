@@ -7,8 +7,10 @@
  */
 
 if(!function_exists("get_db_connect")) {
-	function get_db_connect() {
+	function get_db_connect($a=32, $b=0) {
 		$config = get_config();
+
+		$conn = false;
 
 		try {
 			$conn = new PDO(
@@ -23,7 +25,14 @@ if(!function_exists("get_db_connect")) {
 			);
 			$conn->query("SET NAMES 'utf8'");
 		} catch(Exception $e) {
-			set_error($e->getMessage());
+			if($b > $a) {
+				set_error($e->getMessage());
+				show_errors();
+			} else {
+				$b++;
+				sleep(0.03);
+				$conn = get_db_connect($a, $b);
+			}
 		}
 
 		return $conn;
