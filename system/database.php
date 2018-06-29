@@ -7,7 +7,7 @@
  */
 
 if(!function_exists("get_db_connect")) {
-	function get_db_connect($a=32, $b=0) {
+	function get_db_connect($a=3, $b=0) {
 		$config = get_config();
 
 		$conn = false;
