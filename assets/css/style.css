@@ -1,0 +1,8 @@
+/* pagination */
+.pagination { margin: 0; padding: 0; }
+.pagination li { display: inline; padding: 8px 12px 8px 12px; border: 1px solid #ddd; margin-right: -1px; font: 1em Arial, Helvetica, sans-serif; background-color: #fff; }
+.pagination li a { text-decoration:none; color: rgb(89, 141, 235); }
+.pagination li.first { border-radius: 5px 0px 0px 5px; }
+.pagination li.last { border-radius: 0px 5px 5px 0px; }
+.pagination li:hover { background: #eee; }
+.pagination li.current { background: #89B3CC; border: 1px solid #89B3CC; color: #ffffff; }
