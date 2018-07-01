@@ -118,13 +118,18 @@ if(!function_exists("get_final_link")) {
 
 if(!function_exists("get_route_link")) {
 	function get_route_link($route, $data=array(), $entity=true, $base_url="") {
-		$data['route'] = $route;
+		$_data = array(
+			"route" => $route
+		);
+		foreach($data as $k=>$v) {
+			$_data[$k] = $v;
+		}
 
 		if(empty($base_url)) {
 			$base_url = base_url();
 		}
 
-		return get_final_link($base_url, $data, $entity);
+		return get_final_link($base_url, $_data, $entity);
 	}
 }
 
