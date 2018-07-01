@@ -6,6 +6,18 @@
  * @brief Page navigation helper
  */
 
+if(!function_exists("paginate_get_current_page")) {
+	function paginate_get_current_page($page=1) {
+		$current_page = 1;
+
+		if($page > 0) {
+			$current_page = $page; 
+		}
+
+		return $current_page;
+	}
+}
+
 if(!function_exists("paginate_get_total_pages")) {
 	function paginate_get_total_pages($item_per_page=1.0, $total_records=1.0) {
 		$total_pages = 1;
@@ -15,6 +27,14 @@ if(!function_exists("paginate_get_total_pages")) {
 		}
 		
 		return $total_pages;
+	}
+}
+
+if(!function_exists("paginate_get_query_string")) {
+	function paginate_get_query_string() {
+		loadHelper("networktool");
+		$net_event = get_network_event();
+		return get_value_in_array("query", $net_event, "");
 	}
 }
 
