@@ -1,16 +1,17 @@
 <?php
 /**
- * @file paginate.php
+ * @file pagenate.php
  * @date 2018-01-01
  * @author Go Namhyeon <gnh1201@gmail.com>
- * @brief Page navigation helper for ReasonableFramework
- * @cvs http://github.com/gnh1201/reasonableframework
+ * @brief Page navigation helper
+ * @original-author Saran (Sanwebe)
+ * @original-article-url https://www.sanwebe.com/2011/05/php-pagination-function
  */
 
-if(!function_exists('get_paginate')) {
-	function get_paginate($item_per_page, $current_page, $total_records, $total_pages, $page_url, $qry='') {
+if(!function_exists("make_paginate")) {
+	function make_paginate($item_per_page, $current_page, $total_records, $total_pages, $page_url, $qry='') {
 		$pagination = '';
-		if($total_pages > 0 && $total_pages != 1 && $current_page <= $total_pages){ //verify total pages and current page number
+		if($total_pages > 0 && $total_pages != 1 && $current_page <= $total_pages) { //verify total pages and current page number
 			$pagination .= '<ul class="pagination justify-content-end">';
 		   
 			$right_links    = $current_page + 3;
@@ -28,32 +29,32 @@ if(!function_exists('get_paginate')) {
 				$qry_url = '?' . $qry;
 			}
 
-			if($current_page > 1){
+			if($current_page > 1) {
 				$previous_link = ($previous==0)?1:$previous;
 				$pagination .= '<li class="page-item first"><a class="page-link" href="'.$page_url.'1'.$qry_url.'" title="First">&laquo;</a></li>'; //first link
 				$pagination .= '<li class="page-item"><a class="page-link" href="'.$page_url.$previous_link.$qry_url.'" title="Previous">&lt;</a></li>'; //previous link
-					for($i = ($current_page-2); $i < $current_page; $i++){ //Create left-hand side links
-						if($i > 0){
+					for($i = ($current_page-2); $i < $current_page; $i++) { //Create left-hand side links
+						if($i > 0) {
 							$pagination .= '<li class="page-item"><a class="page-link" href="'.$page_url.$i.$qry_url.'">'.$i.'</a></li>';
 						}
 					}  
 				$first_link = false; //set first link to false
 			}
 
-			if($first_link){ //if current active page is first link
+			if($first_link) { //if current active page is first link
 				$pagination .= '<li class="page-item first active"><a class="page-link" href="#">'.$current_page.'</a></li>';
-			}elseif($current_page == $total_pages){ //if it's the last active link
+			}elseif($current_page == $total_pages) { //if it's the last active link
 				$pagination .= '<li class="page-item last active"><a class="page-link" href="#">'.$current_page.'</a></li>';
 			}else{ //regular current link
 				$pagination .= '<li class="page-item active"><a class="page-link" href="#">'.$current_page.'</a></li>';
 			}
 				   
-			for($i = $current_page+1; $i < $right_links ; $i++){ //create right-hand side links
-				if($i<=$total_pages){
+			for($i = $current_page+1; $i < $right_links ; $i++) { //create right-hand side links
+				if($i<=$total_pages) {
 					$pagination .= '<li class="page-item"><a class="page-link" href="'.$page_url.$i.$qry_url.'">'.$i.'</a></li>';
 				}
 			}
-			if($current_page < $total_pages){
+			if($current_page < $total_pages) {
 					$next_link = ($i > $total_pages)? $total_pages : $i;
 					$pagination .= '<li class="page-item"><a class="page-link" href="'.$page_url.$next_link.$qry_url.'" >&gt;</a></li>'; //next link
 					$pagination .= '<li class="page-item last"><a class="page-link" href="'.$page_url.$total_pages.$qry_url.'" title="Last">&raquo;</a></li>'; //last link
