@@ -317,6 +317,8 @@ if(!function_exists("get_bind_to_sql_select")) {
 				foreach($options['setwheres'] as $opts) {
 					if(check_is_string_not_array($opts)) {
 						$s3 .= sprintf(" and (%s)", $opts);
+					} elseif(count($opts) == 3 && is_array($opts[2])) {
+						$s3 .= sprintf(" %s (%s)", $opts[0], get_db_binded_sql($opts[1], $opts[2]));
 					} elseif(count($opts) == 2) {
 						$s3 .= sprintf(" %s (%s)", $opts[0], $opts[1]);
 					}
