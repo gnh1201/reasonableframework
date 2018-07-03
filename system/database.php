@@ -315,7 +315,11 @@ if(!function_exists("get_bind_to_sql_select")) {
 		if(!array_key_empty("setwheres", $options)) {
 			if(is_array($options['setwheres'])) {
 				foreach($options['setwheres'] as $opts) {
-					$s3 .= check_is_string_not_array($opts) ? sprintf(" and (%s)", $opts) : "";
+					if(check_is_string_not_array($opts)) {
+						$s3 .= sprintf(" and (%s)", $opts);
+					} elseif(count($opts) == 2) {
+						$s3 .= sprintf(" %s (%s)", $opts[0], $opts[1]);
+					}
 				}
 			}
 		}
