@@ -116,7 +116,7 @@ if(!function_exists("exec_command")) {
                 $method = $methodArray[0];            
             }
             else {
-                echo "[!] No method availabe";
+                echo "[!] No method available";
                 exit;
             }            
         }
