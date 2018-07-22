@@ -1,4 +1,11 @@
 <?php
+/**
+ * @file exectool.php
+ * @date 2018-07-22
+ * @author forked from https://github.com/scipag/PHPUtilities
+ * @brief ExecTool helper
+ */
+
 /*
 exec_test() executes a command (like "whoami") with different
 PHP functions in order to figure out which fuctions are supported 
