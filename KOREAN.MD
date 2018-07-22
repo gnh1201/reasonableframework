@@ -38,6 +38,8 @@ https://github.com/gnh1201/reasonableframework
 
 * Helper: oracle (오라클 데이터베이스 접속 및 쿼리)
 
+* Helper: exectool (PHP 명령행 실행 지원)
+
 ## 기술지원
 
 * Website: https://exts.kr/go/home
@@ -50,4 +52,4 @@ https://github.com/gnh1201/reasonableframework
 
 ## 최근변경
 
-* 2018-03-27
+* 2018-07-22
