@@ -32,7 +32,7 @@ $config = get_config();
 // set max_execution_time
 $max_execution_time = get_value_in_array("max_execution_time", $config, 0);
 @ini_set("max_execution_time", $max_execution_time);
-@set_time_limit($max_execution_time);
+//@set_time_limit($max_execution_time);
 
 // autoload module
 if(!array_key_empty("enable_autoload", $config)) {
@@ -54,6 +54,15 @@ if($num_of_args > 1) {
 			case "--route":
 				if($k < ($num_of_args - 1)) {
 					$route = $argv[$k + 1];
+				} else {
+					set_error("invaild argument");
+					show_errors();
+				}
+				break;
+			case "--static-ip":
+				if($k < ($num_of_args - 1)) {
+					$host = $argv[$k + 1];
+					set_scope("static_ip", $host);
 				} else {
 					set_error("invaild argument");
 					show_errors();
