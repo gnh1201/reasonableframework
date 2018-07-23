@@ -1,2 +1,2 @@
 #!/bin/bash
-php cil.php --route welcome --static-ip $(hostname -I)
+php cli.php --route welcome --static-ip $(hostname -I)
