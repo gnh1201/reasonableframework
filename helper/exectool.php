@@ -2,7 +2,8 @@
 /**
  * @file exectool.php
  * @date 2018-07-22
- * @author forked from https://github.com/scipag/PHPUtilities
+ * @auther Go Namhyeon <gnh1201@gmail.com>
+ * @forked from https://github.com/scipag/PHPUtilities
  * @brief ExecTool helper
  */
 
@@ -103,9 +104,10 @@ if(!function_exists("exec_test")) {
  * exec_command() executes a command (like "whoami") with the submited method    
  */
 if(!function_exists("exec_command")) {
-    function exec_command($command, $method) {        
+    function exec_command($command, $method) {
+        $return = false;
+        
         if ($method == "") {
-
             // ob_start() will turn on output buffering to collect all output from
             // exec_test() and ob_end_clean() will clean the buffer afterwards ("garbage collection") 
             ob_start();
@@ -114,12 +116,13 @@ if(!function_exists("exec_command")) {
 
             if (is_array($methodArray)) {
                 $method = $methodArray[0];            
-            }
-            else {
+            } else {
                 echo "[!] No method available";
                 exit;
             }            
         }
+
+        ob_start();
 
         switch ($method) {   
             case "system":
@@ -169,5 +172,9 @@ if(!function_exists("exec_command")) {
                 echo "[!] No method defined";
                 break;
         }
+
+        $return = ob_get_clean();
+
+        return $return;
     }
 }
