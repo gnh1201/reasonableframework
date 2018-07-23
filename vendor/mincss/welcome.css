@@ -1,0 +1,25 @@
+.hero {
+  background: #eee;
+  padding: 20px;
+  border-radius: 10px;
+  margin-top: 1em;
+}
+
+.hero h1 {
+  margin-top: 0;
+  margin-bottom: 0.3em;
+}
+
+.c4 {
+  padding: 10px;
+  box-sizing: border-box;
+}
+
+.c4 h3 {
+  margin-top: 0;
+}
+
+.c4 a {
+  margin-top: 10px;
+  display: inline-block;
+}
