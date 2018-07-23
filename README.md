@@ -39,7 +39,7 @@
 4. go to [base_url]/?route=example
 5. enjoy it.
 
-## Example
+##  Website example
 ```
 <?php
 loadHelper("string.utl");
@@ -60,6 +60,11 @@ renderView('templates/default/header');
 renderView('view_copyright', $data);
 renderView('templates/default/footer');
 ?>
+```
+
+## CLI mode example
+```
+$ php cil.php --route [route name]
 ```
 
 ## Korean
