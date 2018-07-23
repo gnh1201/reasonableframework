@@ -64,7 +64,7 @@ renderView('templates/default/footer');
 
 ## CLI mode example
 ```
-$ php cil.php --route [route name]
+$ php cli.php --route [route name]
 ```
 
 ## Korean
