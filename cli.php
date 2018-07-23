@@ -1,10 +1,10 @@
 #!/bin/php -q
 <?php
 /**
- * @file cil.php
+ * @file cli.php
  * @date 2018-07-22
  * @author Go Namhyeon <gnh1201@gmail.com>
- * @brief ReasonableFramework
+ * @brief ReasonableFramework CLI mode
  * @cvs http://github.com/gnh1201/reasonableframework
  */
 
