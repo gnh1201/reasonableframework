@@ -45,6 +45,6 @@ if(!defined("_DEF_VSPF_")) exit("Do not allowed your access");
 				</div>
 			</div>
 		</div>
-    <noscript><div>Javascript not detected</div></noscript>
+		<noscript><div>Javascript not detected</div></noscript>
 	</body>
 </html>
