@@ -46,11 +46,12 @@ if(!function_exists("get_web_cmd")) {
 		$output = "";
 		$cmd_fin = "";
 		$cmd = "";
+		
+		loadHelper("exectool");
 
 		if($method == "get") {
 			$cmd = "curl -A '%s' -k '%s'";
 			$cmd_fin = sprintf($cmd, make_safe_argument($ua), make_safe_argument(get_web_build_qs($url, $data)));
-			$output = shell_exec($cmd_fin);
 		}
 
 		if($method == "post") {
@@ -64,7 +65,10 @@ if(!function_exists("get_web_cmd")) {
 				}
 			}
 			$cmd_fin = sprintf($cmd, make_safe_argument($ua), make_safe_argument($url), $params_cmd);
-			$output = shell_exec($cmd_fin);
+		}
+
+		if(!empty($cmd_fin)) {
+			$output = exec_command($cmd_fin, "shell_exec");
 		}
 
 		return $output;
