@@ -227,7 +227,7 @@ if(!function_exists("get_web_page")) {
 			);
 
 			if(empty($options[CURLOPT_USERAGENT])) {
-				$ua = "2018 ReasonableFramework: github://gnh1201/reasonableframework";
+				$ua = "Reasonable Framework is PHP framework for make solid and secure web development";
 				$options[CURLOPT_USERAGENT] = $ua;
 			}
 
