@@ -151,7 +151,7 @@ if(!function_exists("write_storage_file")) {
 				}
 				fclose($fhandle);
 			} else {
-				set_error("maybe, your storage is write-protected.");
+				set_error("maybe, your storage is write-protected. storage type: " . $storage_type);
 				show_errors();
 			}
 		}
