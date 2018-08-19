@@ -1,9 +1,9 @@
 <?php
 /**
- * @file database.php
+ * @file api.gnuboard.php
  * @date 2018-05-31
  * @author Go Namhyeon <gnh1201@gmail.com>
- * @brief Integration example with Gnuboard CMS and ReasonableFramework
+ * @brief Integration module for Gnuboard CMS 4.x, 5.x
  */
 
 /**** how to test ***/
