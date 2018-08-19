@@ -111,6 +111,7 @@ if(!function_exists("zb4_get_posts")) {
 		return exec_db_fetch_all($sql);
 	}
 }
+
 if(!function_exists("zb4_get_post_by_id")) {
 	function zb4_get_post_by_id($table_name, $post_id) {
 		$sql = "select * from " . zb4_get_write_table($table_name) . " where no = :no";
