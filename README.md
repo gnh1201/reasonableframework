@@ -42,6 +42,8 @@
 ##  Website example
 ```
 <?php
+if(!defined("_DEF_RSF_")) set_error_exit("do not allow access");
+
 loadHelper("string.utl");
 
 $copyright = read_storage_file("copyright.txt", array(
