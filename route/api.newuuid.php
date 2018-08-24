@@ -6,6 +6,8 @@
  * @brief UUID Generator API
  */
 
+if(!defined("_DEF_RSF_")) set_error_exit("do not allow access");
+
 loadHelper("UUID.class");
 
 $uuid = UUID::v4();
