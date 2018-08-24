@@ -24,7 +24,7 @@ if(!function_exists("get_current_working_dir")) {
 
 		return $working_dir;
 	}
-});
+}
 
 if(!function_exists("get_storage_dir")) {
 	function get_storage_dir() {
