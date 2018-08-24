@@ -56,10 +56,16 @@ $data['site_cd'] = $g_conf_site_cd;
 $data['site_name'] = $g_conf_site_name;
 
 // 할부옵션: 0 ~ 18 개월까지, 50,000원 이상만 가능
-$data['quotaopt'] = 12;
+$data['quotaopt'] = get_requested_value("quotaopt");
+if(array_key_empty("quotaopt", $data)) {
+	$data['quotaopt'] = 12;
+}
 
 // 결제 금액/화폐단위: 필수항목
-$data['currency'] = "WON";
+$currency = get_requested_value("currency");
+if(array_key_empty("currency", $data)) {
+	$data['currency'] = "WON";
+}
 
 // 3. 변경 제한 영역: 표준 웹 설정 영역
 $data['module_type'] = $module_type;
