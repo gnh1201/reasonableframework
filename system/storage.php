@@ -6,6 +6,26 @@
  * @brief Stroage module for ReasonableFramework
  */
 
+if(!function_exists("get_working_dir")) {
+	function get_working_dir($method="getcwd") {
+		$working_dir = "";
+
+		switch($method) {
+			case "getcwd":
+				$working_dir = getcwd();
+				break;
+			case "dirname":
+				$working_dir = dirname(__FILE__);
+				break;
+			case "basename":
+				$working_dir = basename(__DIR__);
+				break;
+		}
+
+		return $working_dir;
+	}
+});
+
 if(!function_exists("get_storage_dir")) {
 	function get_storage_dir() {
 		return "storage";
