@@ -6,8 +6,8 @@
  * @brief Stroage module for ReasonableFramework
  */
 
-if(!function_exists("get_working_dir")) {
-	function get_working_dir($method="getcwd") {
+if(!function_exists("get_current_working_dir")) {
+	function get_current_working_dir($method="getcwd") {
 		$working_dir = "";
 
 		switch($method) {
