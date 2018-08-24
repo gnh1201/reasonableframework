@@ -58,6 +58,6 @@ switch($action) {
 		}
 }
 
-header("Content-Type: application/json");
+set_header_content_type("json");
 echo json_encode($result);
 
