@@ -14,7 +14,17 @@ loadHelper("pgkcp.lnk.php");
 $data = array();
 
 // 1. 주문 정보 입력: 결제에 필요한 주문 정보를 입력 및 설정합니다.
-$fieldnames = array("pay_method", "pay_method_alias", "ordr_idxx", "good_name", "good_mny", "buyr_name", "buyr_mail", "buyr_tel1", "buyr_tel2");
+$fieldnames = array(
+	"pay_method",         // 지불 방법
+	"pay_method_alias",   // 지불 방법 별칭
+	"ordr_idxx",          // 주문 번호
+	"good_name",          // 상품 이름
+	"good_mny",           // 결제 금액
+	"buyr_name",          // 주문자 이름
+	"buyr_mail",          // 주문자 전자우편(이메일) 주소
+	"buyr_tel1",          // 주문자 연락처 1
+	"buyr_tel2"           // 주문자 연락처 2
+);
 foreach($fieldnames as $name) {
 	$data[$name] = get_requested_value($name);
 }
@@ -40,7 +50,8 @@ foreach($pay_method_rules as $k=>$v) {
 }
 
 // 2.가맹점 필수 정보 설정: 승인(pay)/취소,매입(mod)
-$data['req_tx'] = "pay";
+$req_tx = get_requested_value("req_tx");
+$data['req_tx'] = in_array($req_tx, array("pay", "mod")) ? $req_tx : "pay";
 $data['site_cd'] = $g_conf_site_cd;
 $data['site_name'] = $g_conf_site_name;
 
@@ -94,6 +105,10 @@ $default_options = array(
 	"shop_user_id" => "",                // 가맹점에서 관리하는 고객 아이디, 상품권 결제 시 반드시 입력
 	"pt_memcorp_cd" => ""                // 복지포인트 결제시 가맹점에 할당되어진 코드 값을 입력
 );
+foreach($default_options as $k=>$v) {
+	$req_value = get_requested_value($k);
+	$data[$k] = ($req_value === "_DEFAULT_") ? $v : $req_value;
+}
 
 // 결제창 불러오기 
 renderView("view_orderpay.pgkcp", $data);
