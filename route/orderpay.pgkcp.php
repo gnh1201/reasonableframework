@@ -3,7 +3,7 @@
  * @file orderpay.pgkcp.php
  * @date 2018-08-25
  * @author Go Namhyeon <gnh1201@gmail.com>
- * @brief KCP PG(Payment Gateway) Router
+ * @brief KCP PG(Payment Gateway) Controller
  */
 
 if(!defined("_DEF_RSF_")) set_error_exit("do not allow access");
