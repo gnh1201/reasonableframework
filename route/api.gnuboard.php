@@ -10,6 +10,8 @@
 /* read: GET/POST [base_url]/?route=gnbapi&action=read&bo_table=[bo_table]&wr_id=[wr_id] */
 /* write: GET/POST [base_url]/?route=gnbapi&action=write&bo_table=[bo_table]&wr_subject=mysubject&wr_content=mycontent&version=[4 or 5] */
 
+if(!defined("_DEF_RSF_")) set_error_exit("do not allow access");
+
 loadHelper("gnuboard.dbt");
 
 $action = get_requested_value("action");
