@@ -222,6 +222,13 @@ if(!function_exists("show_errors")) {
 	}
 }
 
+if(!function_exists("set_error_exit")) {
+	function set_error_exit($msg, $code="ERROR") {
+		set_error($msg, $code);
+		show_errors();
+	}
+}
+
 // check function exists
 if(!function_exists("check_function_exists")) {
 	function check_function_exists($rules) {
