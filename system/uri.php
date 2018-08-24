@@ -218,5 +218,23 @@ if(!function_exists("check_is_string_not_array")) {
 	}
 }
 
+if(!function_exists("set_header_content_type")) {
+	function set_header_content_type($type) {
+		$rules = array(
+			"json" => "application/json",
+			"xml" => "text/xml",
+			"text" => "text/plain",
+			"html" => "text/html",
+			"xhtml" => "application/xhtml+xml"
+		);
+
+		if(array_key_exists($type, $rules)) {
+			header(sprintf("Content-type: %s", $rules[$type]));
+		} else {
+			header(sprintf("Content-type: %s", $type));
+		}
+	}
+}
+
 // set scope
 set_scope("requests", read_requests());
