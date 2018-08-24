@@ -8,6 +8,12 @@
 
 if(!defined("_DEF_RSF_")) set_error_exit("do not allow access");
 
+// detect CSRF attack
+if(check_token_abuse_by_requests("_token")) {
+	set_error("Access denied. (Expired session or Website attacker)");
+	show_errors();
+}
+
 // load KCP PG Helper
 loadHelper("pgkcp.lnk.php");
 
