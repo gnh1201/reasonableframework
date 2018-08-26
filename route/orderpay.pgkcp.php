@@ -9,19 +9,24 @@
 if(!defined("_DEF_RSF_")) set_error_exit("do not allow access");
 
 // detect CSRF attack
-if(check_token_abuse_by_requests("_token")) {
-	set_error("Access denied. (Expired session or Website attacker)");
-	show_errors();
-}
+//if(check_token_abuse_by_requests("_token")) {
+//	set_error("Access denied. (Expired session or Website attacker)");
+//	show_errors();
+//}
 
 // load KCP PG Helper
 loadHelper("pgkcp.lnk");
+
+// load javascript loader
+loadHelper("JSLoader.class");
 
 // load PG KCP configuration
 $pgkcp_config = get_pgkcp_config();
 
 // initalize data
-$data = array();
+$data['payinfo'] = array(
+	"payinfo" => array()
+);
 
 // 1. 주문 정보 입력: 결제에 필요한 주문 정보를 입력 및 설정합니다.
 $fieldnames = array(
@@ -36,12 +41,12 @@ $fieldnames = array(
 	"buyr_tel2"           // 주문자 연락처 2
 );
 foreach($fieldnames as $name) {
-	$data[$name] = get_requested_value($name);
+	$data['payinfo'][$name] = get_requested_value($name);
 }
 
 // pay_method 처리
-$pay_method = get_value_in_array("pay_method", $data);;
-$pay_method_alias = get_value_in_array("pay_method_alias", $data);
+$pay_method = get_value_in_array("pay_method", $data['payinfo']);;
+$pay_method_alias = get_value_in_array("pay_method_alias", $data['payinfo']);
 $pay_method_rules = array(
 	"CRE" => "100000000000", // 신용카드
 	"ACC" => "010000000000", // 계좌이체
@@ -55,44 +60,44 @@ $pay_method_rules = array(
 foreach($pay_method_rules as $k=>$v) {
 	if(in_array($pay_method_alias, $pay_method_rules)) {
 		$pay_method = $pay_method_rules[$pay_method_alias];
-		$data['pay_method'] = $pay_method;
+		$data['payinfo']['pay_method'] = $pay_method;
 	}
 }
 
 // 2.가맹점 필수 정보 설정: 승인(pay)/취소,매입(mod)
 $req_tx = get_requested_value("req_tx");
-$data['req_tx'] = in_array($req_tx, array("pay", "mod")) ? $req_tx : "pay";
-$data['site_cd'] = $g_conf_site_cd;
-$data['site_name'] = $g_conf_site_name;
+$data['payinfo']['req_tx'] = in_array($req_tx, array("pay", "mod")) ? $req_tx : "pay";
+$data['payinfo']['site_cd'] = $g_conf_site_cd;
+$data['payinfo']['site_name'] = $g_conf_site_name;
 
 // 할부옵션: 0 ~ 18 개월까지, 50,000원 이상만 가능
-$data['quotaopt'] = get_requested_value("quotaopt");
-if(array_key_empty("quotaopt", $data)) {
-	$data['quotaopt'] = 12;
+$data['payinfo']['quotaopt'] = get_requested_value("quotaopt");
+if(array_key_empty("quotaopt", $data['payinfo'])) {
+	$data['payinfo']['quotaopt'] = 12;
 }
 
 // 결제 금액/화폐단위: 필수항목
 $currency = get_requested_value("currency");
-if(array_key_empty("currency", $data)) {
-	$data['currency'] = "WON";
+if(array_key_empty("currency", $data['payinfo'])) {
+	$data['payinfo']['currency'] = "WON";
 }
 
 // 3. 변경 제한 영역: 표준 웹 설정 영역
-$data['module_type'] = $module_type;
-$data['res_cd'] = "";
-$data['res_msg'] = "";
-$data['enc_info'] = "";
-$data['enc_data'] = "";
-$data['ret_pay_method'] = "";
-$data['ordr_chk'] = ""; // 주문정보 검증 관련 정보
+$data['payinfo']['module_type'] = $module_type;
+$data['payinfo']['res_cd'] = "";
+$data['payinfo']['res_msg'] = "";
+$data['payinfo']['enc_info'] = "";
+$data['payinfo']['enc_data'] = "";
+$data['payinfo']['ret_pay_method'] = "";
+$data['payinfo']['ordr_chk'] = ""; // 주문정보 검증 관련 정보
 
 // 변경 제한 영역: 현금영수증 관련 정보
-$data['cash_yn'] = ""; 
-$data['cash_tr_code'] = "";
-$data['cash_id_info'] = "";
+$data['payinfo']['cash_yn'] = ""; 
+$data['payinfo']['cash_tr_code'] = "";
+$data['payinfo']['cash_id_info'] = "";
 
 // 변경 제한 영역: 2012년 8월 18일 전자상거래법 개정 (0:일회성 1:기간설정(ex 1:2012010120120131))
-$data['good_expr'] = "";
+$data['payinfo']['good_expr'] = "";
 
 // 4. 옵션 정보: 결제에 필요한 추가 옵션 정보를 입력 및 설정합니다.
 $default_options = array(
@@ -124,14 +129,22 @@ $default_options = array(
 foreach($default_options as $k=>$v) {
 	$req_value = get_requested_value($k);
 	if(!empty($req_value)) {
-		$data[$k] = ($req_value === "_DEFAULT_") ? $v : $req_value;
+		$data['payinfo'][$k] = ($req_value === "_DEFAULT_") ? $v : $req_value;
 	}
 }
 
 // 설정 불러오기
-$data['g_conf_site_cd'] = $pgkcp_config['g_conf_site_cd'];
-$data['g_conf_site_name'] = $pgkcp_config['g_conf_site_name'];
-$data['module_type'] = $pgkcp_config['module_type'];
+$data['payinfo']['g_conf_site_cd'] = $pgkcp_config['g_conf_site_cd'];
+$data['payinfo']['g_conf_site_name'] = $pgkcp_config['g_conf_site_name'];
+$data['payinfo']['module_type'] = $pgkcp_config['module_type'];
+
+// 스크립트 설정
+$jsloader = new JSLoader();
+$jsloader->add_scripts(base_url() . "view/public/route/orderpay.pgkcp.1.js");
+$jsloader->add_scripts($g_conf_js_url);
+$jsloader->add_scripts(base_url() . "view/public/route/orderpay.pgkcp.2.js");
+$jsoutput = $jsloader->get_output();
+$data['jsoutput'] = $jsoutput;
 
 // 결제창 불러오기 
 renderView("view_orderpay.pgkcp", $data);
