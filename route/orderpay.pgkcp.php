@@ -17,6 +17,10 @@ if(check_token_abuse_by_requests("_token")) {
 // load KCP PG Helper
 loadHelper("pgkcp.lnk.php");
 
+// load PG KCP configuration
+$pgkcp_config = get_pgkcp_config();
+
+// initalize data
 $data = array();
 
 // 1. 주문 정보 입력: 결제에 필요한 주문 정보를 입력 및 설정합니다.
@@ -119,8 +123,15 @@ $default_options = array(
 );
 foreach($default_options as $k=>$v) {
 	$req_value = get_requested_value($k);
-	$data[$k] = ($req_value === "_DEFAULT_") ? $v : $req_value;
+	if(!empty($req_value)) {
+		$data[$k] = ($req_value === "_DEFAULT_") ? $v : $req_value;
+	}
 }
+
+// 설정 불러오기
+$data['g_conf_site_cd'] = $pgkcp_config['g_conf_site_cd'];
+$data['g_conf_site_name'] = $pgkcp_config['g_conf_site_name'];
+$data['module_type'] = $pgkcp_config['module_type'];
 
 // 결제창 불러오기 
 renderView("view_orderpay.pgkcp", $data);
