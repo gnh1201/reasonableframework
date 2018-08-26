@@ -14,6 +14,8 @@ if(!defined("_DEF_RSF_")) set_error_exit("do not allow access");
 //	show_errors();
 //}
 
+set_session_token();
+
 // load KCP PG Helper
 loadHelper("pgkcp.lnk");
 
@@ -24,8 +26,10 @@ loadHelper("JSLoader.class");
 $pgkcp_config = get_pgkcp_config();
 
 // initalize data
-$data['payinfo'] = array(
-	"payinfo" => array()
+$data = array(
+	"payinfo" => array(),
+	"_token" => get_session_token(),
+	"_next_route" => "orderpay.step2.pgkcp",
 );
 
 // 1. 주문 정보 입력: 결제에 필요한 주문 정보를 입력 및 설정합니다.
@@ -147,7 +151,7 @@ $jsoutput = $jsloader->get_output();
 $data['jsoutput'] = $jsoutput;
 
 // 결제 진행 URL
-$data['pgkcp_action_url'] = base_url() . "vendor/pgkcp/res/pp_cli_hub.php";
+$data['pgkcp_action_url'] = base_url();
 
 // 결제창 불러오기 
 renderView("view_orderpay.pgkcp", $data);
