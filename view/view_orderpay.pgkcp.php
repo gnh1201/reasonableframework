@@ -23,7 +23,14 @@ if(!defined("_DEF_RSF_")) set_error_exit("do not allow access");
 	<h1>NHN KCP [AX-HUB Version]</h1>
 
 	<form id="order_info" name="order_info" method="post" action="<?php echo $pgkcp_action_url; ?>">
-		<div>
+		<fieldset>
+			<legend>결제 정보</legend>
+
+			<div>
+				<input type="hidden" name="_token" value="<?php echo $_token; ?>">
+				<input type="hidden" name="route" value="<?php echo $_next_route; ?>">
+			</div>
+
 			<ul>
 <?php
 				foreach($payinfo as $k=>$v) {
@@ -38,7 +45,7 @@ if(!defined("_DEF_RSF_")) set_error_exit("do not allow access");
 			</ul>
 
 			<button id="btn_submit" type="submit">Submit</button>
-		</div>
+		</fieldset>
 	</form>
 
 	<?php echo $jsoutput; ?>
