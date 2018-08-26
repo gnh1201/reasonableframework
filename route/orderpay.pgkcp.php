@@ -146,5 +146,8 @@ $jsloader->add_scripts(base_url() . "view/public/route/orderpay.pgkcp.2.js");
 $jsoutput = $jsloader->get_output();
 $data['jsoutput'] = $jsoutput;
 
+// 결제 진행 URL
+$data['pgkcp_action_url'] = base_url() . "vendor/pgkcp/res/pp_cli_hub.php";
+
 // 결제창 불러오기 
 renderView("view_orderpay.pgkcp", $data);
