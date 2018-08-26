@@ -37,7 +37,7 @@ if(!defined("_DEF_RSF_")) set_error_exit("do not allow access");
 ?>
 				<li>
 					<label for="<?php echo $k; ?>"><?php echo $k; ?></label>
-					<input id="<?php echo $k; ?>" name="<?php echo $k; ?>" value="<?php echo $v; ?>"/>
+					<input id="<?php echo $k; ?>" name="<?php echo $k; ?>" value="<?php echo $v; ?>" readonly="readonly"/>
 				</li>
 <?php
 				}
