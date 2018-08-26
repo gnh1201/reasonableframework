@@ -15,7 +15,7 @@ if(check_token_abuse_by_requests("_token")) {
 }
 
 // load KCP PG Helper
-loadHelper("pgkcp.lnk.php");
+loadHelper("pgkcp.lnk");
 
 // load PG KCP configuration
 $pgkcp_config = get_pgkcp_config();
