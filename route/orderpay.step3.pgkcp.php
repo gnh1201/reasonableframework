@@ -25,7 +25,7 @@ $pgkcp_config = get_pgkcp_config();
 extract($pgkcp_config);
 
 // 지불 결과
-$payres = array(),
+$payres = array();
 $payinfo = array(
 	// 공통
 	"site_cd" => get_requested_value("site_cd"),               // 사이트코드
@@ -127,7 +127,7 @@ extract($payres);
 
 // set javascript files
 $jsloader = new JSLoader();
-$jsloader->add_scripts(base_url() . "view/public/route/orderpay.step3.pgkcp.js");
+$jsloader->add_scripts(base_url() . "view/public/js/route/orderpay.step3.pgkcp.js");
 $jsoutput = $jsloader->get_output();
 $data['jsoutput'] = $jsoutput;
 
