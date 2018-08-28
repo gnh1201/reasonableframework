@@ -94,8 +94,9 @@ extract($payinfo);
 
 // initalize data
 $data = array(
+	"payres" => $payres,
 	"payinfo" => $payinfo,
-	"result" => $result,
+	"redirect_url" => get_requested_value("redirect_url"),
 	"_token" => get_session_token(),
 	"_next_route" => "orderpay.step3.pgkcp",
 );
@@ -276,5 +277,5 @@ $data['payinfo'] = $payinfo;
 // 결제 진행 URL
 $data['pgkcp_action_url'] = base_url();
 
-// 결제창 불러오기 
+// 결제창 불러오기
 renderView("view_orderpay.step2.pgkcp", $data);
