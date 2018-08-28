@@ -224,7 +224,7 @@ $pay_method_rules = array(
 	"ARS" => "000000000010", // ARS
 	"CAV" => "111000000000"  // 신용카드/계좌이체/가상계좌
 );
-if(in_array($pay_method_rules, array_values($pay_method_rules)) {
+if(in_array($pay_method_rules, array_values($pay_method_rules))) {
 	foreach($pay_method_rules as $k=>$v) {
 		if($use_pay_method == $v) {
 			$use_pay_method_alias = $k;
@@ -264,7 +264,7 @@ extract($payres);
 
 // set javascript files
 $jsloader = new JSLoader();
-$jsloader->add_scripts(base_url() . "view/public/route/orderpay.step2.pgkcp.js");
+$jsloader->add_scripts(base_url() . "view/public/js/route/orderpay.step2.pgkcp.js");
 $jsoutput = $jsloader->get_output();
 $data['jsoutput'] = $jsoutput;
 
