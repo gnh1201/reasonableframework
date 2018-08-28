@@ -9,25 +9,26 @@
 if(!defined("_DEF_RSF_")) set_error_exit("do not allow access");
 
 // detect CSRF attack
-//if(check_token_abuse_by_requests("_token")) {
-//	set_error("Access denied. (Expired session or Website attacker)");
-//	show_errors();
-//}
+if(check_token_abuse_by_requests("_token")) {
+	set_error("Access denied. (Expired session or Website attacker)");
+	show_errors();
+}
 
 set_session_token();
 
-// load KCP PG Helper
-loadHelper("pgkcp.lnk");
-
-// load javascript loader
-loadHelper("JSLoader.class");
+loadHelper("pgkcp.lnk"); // load KCP PG Helper 
+loadHelper("JSLoader.class"); // load javascript loader
 
 // load PG KCP configuration
 $pgkcp_config = get_pgkcp_config();
 
+// extract PGKCP configuration
+extract($pgkcp_config);
+
 // initalize data
 $data = array(
 	"payinfo" => array(),
+	"redirect_url" => get_requested_value("redirect_url"),
 	"_token" => get_session_token(),
 	"_next_route" => "orderpay.step2.pgkcp",
 );
@@ -49,8 +50,8 @@ foreach($fieldnames as $name) {
 }
 
 // pay_method 처리
-$pay_method = get_value_in_array("pay_method", $data['payinfo']);;
-$pay_method_alias = get_value_in_array("pay_method_alias", $data['payinfo']);
+$pay_method = get_value_in_array("pay_method", $data['payinfo'], "");
+$pay_method_alias = get_value_in_array("pay_method_alias", $data['payinfo'], "");
 $pay_method_rules = array(
 	"CRE" => "100000000000", // 신용카드
 	"ACC" => "010000000000", // 계좌이체
