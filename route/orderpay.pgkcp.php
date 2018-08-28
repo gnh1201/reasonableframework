@@ -8,10 +8,22 @@
 
 if(!defined("_DEF_RSF_")) set_error_exit("do not allow access");
 
-// detect CSRF attack
-if(check_token_abuse_by_requests("_token")) {
-	set_error("Access denied. (Expired session or Website attacker)");
-	show_errors();
+$debug = get_requested_value("debug");
+
+if($debug != "true") {
+	// 필수 항목 체크
+	$required_fields = array("pay_method_alias", "good_name", "good_mny", "buyr_name", "buyr_mail", "buyr_tel1");
+	foreach($required_fields as $name) {
+		if(array_key_empty($name, $requests['_POST'])) {
+			set_error_exit("required field is empty. " . $name);
+		}
+	}
+
+	// detect CSRF attack
+	if(check_token_abuse_by_requests("_token")) {
+		set_error("Access denied. (Expired session or Website attacker)");
+		show_errors();
+	}
 }
 
 set_session_token();
@@ -26,8 +38,9 @@ $pgkcp_config = get_pgkcp_config();
 extract($pgkcp_config);
 
 // initalize data
+$payinfo = array();
 $data = array(
-	"payinfo" => array(),
+	"payinfo" => $payinfo,
 	"redirect_url" => get_requested_value("redirect_url"),
 	"_token" => get_session_token(),
 	"_next_route" => "orderpay.step2.pgkcp",
@@ -46,12 +59,10 @@ $fieldnames = array(
 	"buyr_tel2"           // 주문자 연락처 2
 );
 foreach($fieldnames as $name) {
-	$data['payinfo'][$name] = get_requested_value($name);
+	$payinfo[$name] = get_requested_value($name);
 }
 
 // pay_method 처리
-$pay_method = get_value_in_array("pay_method", $data['payinfo'], "");
-$pay_method_alias = get_value_in_array("pay_method_alias", $data['payinfo'], "");
 $pay_method_rules = array(
 	"CRE" => "100000000000", // 신용카드
 	"ACC" => "010000000000", // 계좌이체
@@ -62,47 +73,49 @@ $pay_method_rules = array(
 	"ARS" => "000000000010", // ARS
 	"CAV" => "111000000000"  // 신용카드/계좌이체/가상계좌
 );
+$pay_method = get_value_in_array("pay_method", $payinfo, $pay_method_rules['CRE']);
+$pay_method_alias = get_value_in_array("pay_method_alias", $payinfo, "");
 foreach($pay_method_rules as $k=>$v) {
 	if(in_array($pay_method_alias, $pay_method_rules)) {
 		$pay_method = $pay_method_rules[$pay_method_alias];
-		$data['payinfo']['pay_method'] = $pay_method;
 	}
 }
+$payinfo['pay_method'] = $pay_method;
 
 // 2.가맹점 필수 정보 설정: 승인(pay)/취소,매입(mod)
 $req_tx = get_requested_value("req_tx");
-$data['payinfo']['req_tx'] = in_array($req_tx, array("pay", "mod")) ? $req_tx : "pay";
-$data['payinfo']['site_cd'] = $g_conf_site_cd;
-$data['payinfo']['site_name'] = $g_conf_site_name;
+$payinfo['req_tx'] = in_array($req_tx, array("pay", "mod")) ? $req_tx : "pay";
+$payinfo['site_cd'] = $g_conf_site_cd;
+$payinfo['site_name'] = $g_conf_site_name;
 
 // 할부옵션: 0 ~ 18 개월까지, 50,000원 이상만 가능
-$data['payinfo']['quotaopt'] = get_requested_value("quotaopt");
-if(array_key_empty("quotaopt", $data['payinfo'])) {
-	$data['payinfo']['quotaopt'] = 12;
+$payinfo['quotaopt'] = get_requested_value("quotaopt");
+if(array_key_empty("quotaopt", $payinfo)) {
+	$payinfo['quotaopt'] = 12;
 }
 
 // 결제 금액/화폐단위: 필수항목
 $currency = get_requested_value("currency");
-if(array_key_empty("currency", $data['payinfo'])) {
-	$data['payinfo']['currency'] = "WON";
+if(array_key_empty("currency", $payinfo)) {
+	$payinfo['currency'] = "WON";
 }
 
 // 3. 변경 제한 영역: 표준 웹 설정 영역
-$data['payinfo']['module_type'] = $module_type;
-$data['payinfo']['res_cd'] = "";
-$data['payinfo']['res_msg'] = "";
-$data['payinfo']['enc_info'] = "";
-$data['payinfo']['enc_data'] = "";
-$data['payinfo']['ret_pay_method'] = "";
-$data['payinfo']['ordr_chk'] = ""; // 주문정보 검증 관련 정보
+$payinfo['module_type'] = $module_type;
+$payinfo['res_cd'] = "";
+$payinfo['res_msg'] = "";
+$payinfo['enc_info'] = "";
+$payinfo['enc_data'] = "";
+$payinfo['ret_pay_method'] = "";
+$payinfo['ordr_chk'] = ""; // 주문정보 검증 관련 정보
 
 // 변경 제한 영역: 현금영수증 관련 정보
-$data['payinfo']['cash_yn'] = ""; 
-$data['payinfo']['cash_tr_code'] = "";
-$data['payinfo']['cash_id_info'] = "";
+$payinfo['cash_yn'] = ""; 
+$payinfo['cash_tr_code'] = "";
+$payinfo['cash_id_info'] = "";
 
 // 변경 제한 영역: 2012년 8월 18일 전자상거래법 개정 (0:일회성 1:기간설정(ex 1:2012010120120131))
-$data['payinfo']['good_expr'] = "";
+$payinfo['good_expr'] = "";
 
 // 4. 옵션 정보: 결제에 필요한 추가 옵션 정보를 입력 및 설정합니다.
 $default_options = array(
@@ -134,25 +147,38 @@ $default_options = array(
 foreach($default_options as $k=>$v) {
 	$req_value = get_requested_value($k);
 	if(!empty($req_value)) {
-		$data['payinfo'][$k] = ($req_value === "_DEFAULT_") ? $v : $req_value;
+		$payinfo[$k] = ($req_value === "_DEFAULT_") ? $v : $req_value;
 	}
 }
 
 // 설정 불러오기
-$data['payinfo']['g_conf_site_cd'] = $pgkcp_config['g_conf_site_cd'];
-$data['payinfo']['g_conf_site_name'] = $pgkcp_config['g_conf_site_name'];
-$data['payinfo']['module_type'] = $pgkcp_config['module_type'];
+$payinfo['g_conf_site_cd'] = $pgkcp_config['g_conf_site_cd'];
+$payinfo['g_conf_site_name'] = $pgkcp_config['g_conf_site_name'];
+$payinfo['module_type'] = $pgkcp_config['module_type'];
+
+// 결제 정보 업데이트
+$data['payinfo'] = $payinfo;
 
 // 스크립트 설정
 $jsloader = new JSLoader();
-$jsloader->add_scripts(base_url() . "view/public/route/orderpay.pgkcp.1.js");
+$jsloader->add_scripts(base_url() . "view/public/js/route/orderpay.pgkcp.1.js");
 $jsloader->add_scripts($g_conf_js_url);
-$jsloader->add_scripts(base_url() . "view/public/route/orderpay.pgkcp.2.js");
+$jsloader->add_scripts(base_url() . "view/public/js/route/orderpay.pgkcp.2.js");
 $jsoutput = $jsloader->get_output();
 $data['jsoutput'] = $jsoutput;
 
 // 결제 진행 URL
 $data['pgkcp_action_url'] = base_url();
+
+// 디버그 시
+if($debug == "true") {
+	$payinfo['good_name'] = "테스트 상품";
+	$payinfo['good_mny'] = "1";
+	$payinfo['buyr_name'] = "홍길동";
+	$payinfo['buyr_mail'] = "webmaster@example.org";
+	$payinfo['buyr_tel1'] = "01000000000";
+	$data['payinfo'] = $payinfo;
+}
 
 // 결제창 불러오기 
 renderView("view_orderpay.pgkcp", $data);
