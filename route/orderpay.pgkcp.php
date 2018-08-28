@@ -14,7 +14,7 @@ if($debug != "true") {
 	// 필수 항목 체크
 	$required_fields = array("pay_method_alias", "good_name", "good_mny", "buyr_name", "buyr_mail", "buyr_tel1");
 	foreach($required_fields as $name) {
-		if(array_key_empty($name, $requests['_POST'])) {
+		if(array_key_empty($name, $requests['_ALL'])) {
 			set_error_exit("required field is empty. " . $name);
 		}
 	}
@@ -28,7 +28,7 @@ if($debug != "true") {
 
 set_session_token();
 
-loadHelper("pgkcp.lnk"); // load KCP PG Helper 
+loadHelper("pgkcp.lnk"); // load KCP PG Helper
 loadHelper("JSLoader.class"); // load javascript loader
 
 // load PG KCP configuration
@@ -172,11 +172,18 @@ $data['pgkcp_action_url'] = base_url();
 
 // 디버그 시
 if($debug == "true") {
-	$payinfo['good_name'] = "테스트 상품";
-	$payinfo['good_mny'] = "1";
-	$payinfo['buyr_name'] = "홍길동";
-	$payinfo['buyr_mail'] = "webmaster@example.org";
-	$payinfo['buyr_tel1'] = "01000000000";
+	$auto_fills = array(
+		"good_name" => "테스트 상품",
+		"good_mny" => "1",
+		"buyr_name" => "홍길동",
+		"buyr_mail" => "webmaster@example.org",
+		"buyr_tel1" => "01000000000"
+	);
+	foreach($auto_fills as $k=>$v) {
+		if(array_key_empty($k, $payinfo)) {
+			$payinfo[$k] = $v;
+		}
+	}
 	$data['payinfo'] = $payinfo;
 }
 
