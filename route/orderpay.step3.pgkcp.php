@@ -98,7 +98,7 @@ $data = array(
 	"payinfo" => $payinfo,
 	"redirect_url" => get_requested_value("redirect_url"),
 	"_token" => get_session_token(),
-	"_next_route" => "",
+	"_next_route" => "ordercomplete",
 );
 
 // 이름 지정
