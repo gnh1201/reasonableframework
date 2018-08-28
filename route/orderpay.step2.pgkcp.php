@@ -97,7 +97,7 @@ $data = array(
 	"payinfo" => $payinfo,
 	"result" => $result,
 	"_token" => get_session_token(),
-	"_next_route" => "orderpay.step3.pgkcp"
+	"_next_route" => "orderpay.step3.pgkcp",
 );
 
 // 02. 인스턴스 생성 및 초기화
