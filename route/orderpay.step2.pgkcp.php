@@ -277,4 +277,4 @@ $data['payinfo'] = $payinfo;
 $data['pgkcp_action_url'] = base_url();
 
 // 결제창 불러오기 
-renderView("view_orderpay.pgkcp", $data);
+renderView("view_orderpay.step2.pgkcp", $data);
