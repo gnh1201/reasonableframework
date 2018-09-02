@@ -18,8 +18,8 @@ if(!function_exists("get_network_event")) {
             "agent"      => getenv("HTTP_USER_AGENT"),
             "referrer"   => getenv("HTTP_REFERER"),
             "query"      => getenv("QUERY_STRING"),
-            "self"       => $_SERVER['PHP_SELF'],
-            "method"     => $_SERVER['REQUEST_METHOD'],
+            "self"       => get_value_in_array("PHP_SELF", $_SERVER, ""),
+            "method"     => get_value_in_array("REQUEST_METHOD", $_SERVER, ""),
         );
     }
 }
