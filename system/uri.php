@@ -219,7 +219,7 @@ if(!function_exists("check_is_string_not_array")) {
 }
 
 if(!function_exists("set_header_content_type")) {
-	function set_header_content_type($type) 
+	function set_header_content_type($type) {
 		$type = strtolower($type);
 		$rules = array(
 			"json" => "application/json",
