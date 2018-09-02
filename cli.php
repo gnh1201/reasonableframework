@@ -12,7 +12,7 @@ define("_DEF_VSPF_", true); // compatible to VSPF
 define("_DEF_RSF_", true); // compatible to RSF
 
 // define system modules
-$load_systems = array("base", "storage", "config", "security");
+$load_systems = array("base", "storage", "config", "security", "uri");
 
 // load system modules
 foreach($load_systems as $system_name) {
