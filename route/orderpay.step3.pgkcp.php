@@ -14,6 +14,9 @@ if(check_token_abuse_by_requests("_token", "_POST")) {
 	show_errors();
 }
 
+// set token
+set_session_token();
+
 loadHelper("networktool"); // load network tools
 loadHelper("pgkcp.lnk"); // load KCP PG Helper 
 loadHelper("JSLoader.class"); // load javascript loader
@@ -98,7 +101,7 @@ $data = array(
 	"payinfo" => $payinfo,
 	"redirect_url" => get_requested_value("redirect_url"),
 	"_token" => get_session_token(),
-	"_next_route" => "ordercomplete",
+	"_next_route" => "ordercomplete.pgkcp",
 );
 
 // 이름 지정
