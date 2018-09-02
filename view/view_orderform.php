@@ -20,7 +20,7 @@
 			
 			<div class="content">
 				<h2 id="default-form" class="content-subhead">결제 및 환불 문의</h2>
-				<p>결제 및 환불 관련 문의는 <code>webmaster@jobband.kr</code>으로 해주시기 바랍니다.</p>
+				<p>결제 및 환불 관련 문의는 <code>webmaster@example.org</code>으로 해주시기 바랍니다.</p>
 				
 				<form id="orderform" name="orderform" method="post" class="pure-form pure-form-aligned">
 					<fieldset>
