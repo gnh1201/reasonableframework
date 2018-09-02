@@ -12,10 +12,14 @@ if(check_token_abuse_by_requests("_token", "_POST")) {
 	show_errors();
 }
 
+// set token
+set_session_token();
+
 // process redirect url
 $redirect_url = get_requested_value("redirect_url");
 $order_idxx = get_requested_value("order_idxx");
 redirect_uri(get_final_link($redirect_url, array(
+	"_token" => get_session_token(),
 	"action" => "ordercomplete",
 	"order_idxx" => $order_idxx,
 	"good_mny" => $good_mny
