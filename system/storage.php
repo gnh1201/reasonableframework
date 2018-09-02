@@ -158,6 +158,9 @@ if(!function_exists("write_storage_file")) {
 				$result = $upload_filename;
 			} else {
 				$result = write_storage_file($data, $options);
+				if(array_key_equals("basename", $options, true)) {
+					$result = basename($result);
+				}
 			}
 		} else {
 			if($mode == "fake") {
