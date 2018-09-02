@@ -79,7 +79,7 @@
 					</fieldset>
 				</form>
 				
-				<p><small>this software granted to jobband.kr. powered by <a href="https://exts.kr/go/framework">ReasonableFramework</a></small></p>
+				<p><small>this software granted to your website. powered by <a href="https://exts.kr/go/framework">ReasonableFramework</a></small></p>
 			</div>
 		</div>
 	</body>
