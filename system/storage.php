@@ -147,13 +147,9 @@ if(!function_exists("remove_storage_file")) {
 
 		if(file_exists($upload_filename)) {
 			if(!array_key_empty("shell", $options)) {
-				loadHelper("exectool");
-				switch($options['shell']) {
-					case "windows":
-						exec_command(sprintf("del '%s'", make_safe_argument($upload_filename)));
-						break;
-					default:
-						exec_command(sprintf("rm -f '%s'", make_safe_argument($upload_filename)));
+				if(loadHelper("exectool")) {
+					$exec_cmd = ($options['shell'] == "windows") ? "del '%s'" : "rm -f '%s'";
+					exec_command(sprintf($exec_cmd, make_safe_argument($upload_filename)));
 				}
 			} else {
 				@unlink($upload_filename);
