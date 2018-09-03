@@ -20,11 +20,21 @@ if(!function_exists("get_current_working_dir")) {
 			case "basename":
 				$working_dir = basename(__DIR__);
 				break;
-			case "pwd":
+			case "unix":
 				if(loadHelper("exectool")) {
 					$working_dir = exec_command("pwd");
 				}
 				break;
+			case "windows":
+				if(loadHelper("exectool")) {
+					$exec_contents = implode("\r\n", array("@echo off", "SET var=%cd%", "ECHO %var%"));
+					$exec_file = write_storage_file($file_contents, array(
+						"filename" => "pwd.bat"
+					));
+					$working_dir = exec_command($exec_file);
+				}
+				break;
+				
 		}
 
 		return $working_dir;
