@@ -20,6 +20,11 @@ if(!function_exists("get_current_working_dir")) {
 			case "basename":
 				$working_dir = basename(__DIR__);
 				break;
+			case "pwd":
+				if(loadHelper("exectool")) {
+					$working_dir = exec_command("pwd");
+				}
+				break;
 		}
 
 		return $working_dir;
