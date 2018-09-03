@@ -104,7 +104,7 @@ if(!function_exists("exec_test")) {
  * exec_command() executes a command (like "whoami") with the submited method    
  */
 if(!function_exists("exec_command")) {
-    function exec_command($command, $method) {
+    function exec_command($command, $method="shell_exec") {
         $return = false;
         
         if ($method == "") {
