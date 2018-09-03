@@ -146,6 +146,14 @@ if(!function_exists("remove_storage_file")) {
 		$upload_filename = $upload_base_path . "/" . $filename;
 
 		if(file_exists($upload_filename)) {
+			if(!array_key_empty("chmod", $options)) {
+				@chmod($upload_filename, $options['chmod']);
+			}
+
+			if(!array_key_empty("chown", $options)) {
+				@chown($upload_filename, $options['chown']);
+			}
+
 			if(!array_key_empty("shell", $options)) {
 				if(loadHelper("exectool")) {
 					$exec_cmd = ($options['shell'] == "windows") ? "del '%s'" : "rm -f '%s'";
