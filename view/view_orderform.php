@@ -14,7 +14,7 @@
 	<body>
 		<div id="main">
 			<div class="header">
-				<h1>PAYMANT</h1>
+				<h1>PAYMENT</h1>
 				<h2>감사합니다. 결제 정보를 확인하여 주세요.</h2>
 			</div>
 			
