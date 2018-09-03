@@ -138,7 +138,31 @@ if(!function_exists("read_storage_file")) {
 
 if(!function_exists("remove_storage_file")) {
 	function remove_storage_file($filename, $options=array()) {
-		return @unlink($filename);
+		$result = false;
+
+		$storage_type = get_value_in_array("storage_type", $options, "data");
+		$upload_base_path = get_storage_path($storage_type);
+		$upload_base_url = get_storage_url($storage_type);
+		$upload_filename = $upload_base_path . "/" . $filename;
+
+		if(file_exists($upload_filename)) {
+			if(!array_key_empty("shell", $options)) {
+				loadHelper("exectool");
+				switch($options['shell']) {
+					case "windows":
+						exec_command(sprintf("del '%s'", make_safe_argument($upload_filename)));
+						break;
+					default:
+						exec_command(sprintf("rm -f '%s'", make_safe_argument($upload_filename)));
+				}
+			} else {
+				@unlink($upload_filename);
+			}
+
+			$result = !file_exists($upload_filename);
+		}
+
+		return $result;
 	}
 }
 
@@ -158,9 +182,6 @@ if(!function_exists("write_storage_file")) {
 				$result = $upload_filename;
 			} else {
 				$result = write_storage_file($data, $options);
-				if(array_key_equals("basename", $options, true)) {
-					$result = basename($result);
-				}
 			}
 		} else {
 			if($mode == "fake") {
@@ -171,12 +192,19 @@ if(!function_exists("write_storage_file")) {
 					if(!array_key_empty("chmod", $options)) {
 						@chmod($result, $options['chmod']);
 					}
+					if(!array_key_empty("chown", $options)) {
+						@chown($result, $options['chown']);
+					}
 				}
 				fclose($fhandle);
 			} else {
 				set_error("maybe, your storage is write-protected. " . $upload_filename);
 				show_errors();
 			}
+		}
+
+		if(array_key_equals("basename", $options, true)) {
+			$result = basename($result);
 		}
 
 		return $result;
