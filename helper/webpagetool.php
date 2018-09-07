@@ -273,7 +273,7 @@ if(!function_exists("get_web_page")) {
 			"id"         => get_web_identifier($url, $method, $data),
 			"md5"        => get_hashed_text($content, "md5"),
 			"sha1"       => get_hashed_text($content, "sha1"),
-			"gz_content" => $gz_content,
+			"gz_content" => base64_encode($gz_content),
 			"gz_size"    => $gz_content_size,
 			"gz_md5"     => get_hashed_text($gz_content, "md5"),
 			"gz_sha1"    => get_hashed_text($gz_content, "sha1"),
