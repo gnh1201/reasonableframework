@@ -186,6 +186,10 @@ if(!function_exists("get_hashed_text")) {
 				break;
 			case "crypt":
 				$hashed_text = crypt($text);
+				break;
+			case "base64":
+				$hashed_text = base64_encode($text);
+				break;
 			default:
 				$hashed_text = "";
 		}
