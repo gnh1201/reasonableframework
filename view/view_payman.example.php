@@ -27,7 +27,7 @@
 			});
 
 			if(is_payman_loaded == false) {
-				alert("결제를 중단합니다.");
+				alert("payman not loaded correctly.");
 				document.location.href = "<?php echo $base_url; ?>";
 			}
 
