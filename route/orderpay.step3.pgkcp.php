@@ -90,6 +90,9 @@ $payinfo = array(
 	"cash_tr_code" => get_requested_value("cash_authno"),      // 현금영수증 발행 구분
 	"cash_id_info" => get_requested_value("cash_id_info"),     // 현금영수증 등록 번호
 	"cash_no" => get_requested_value("cash_no"),               // 현금영수증 거래 번호
+
+	// 요청 상세 전문
+	"pay_data" => get_requested_value("pay_data"),             // 요청 상세 전문
 );
 
 // extract payinfo
