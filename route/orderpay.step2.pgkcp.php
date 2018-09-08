@@ -86,7 +86,8 @@ $payinfo = array(
 	"cash_authno" => "",
 	"cash_tr_code" => get_requested_value("cash_tr_code"),
 	"cash_id_info" => get_requested_value("cash_id_info"),
-	"cash_no" => get_requested_value("cash_no")
+	"cash_no" => get_requested_value("cash_no"),
+	"pay_data" => get_requested_value("pay_data")
 );
 
 // extract payinfo
@@ -245,11 +246,14 @@ if($req_tx == "pay") {
 			$c_PayPlus->mf_set_modx_data( "tno", $tno );                            // KCP 원거래 거래번호
 			$c_PayPlus->mf_set_modx_data( "mod_type", "STSC" );                     // 원거래 변경 요청 종류
 			$c_PayPlus->mf_set_modx_data( "mod_ip", $cust_ip);                      // 변경 요청자 IP
-			$c_PayPlus->mf_set_modx_data( "mod_desc", "결과 처리 오류 - 자동 취소" ); // 변경 사유
+			$c_PayPlus->mf_set_modx_data( "mod_desc", "결과 처리 오류 - 자동 취소" );        // 변경 사유
 
-			$c_PayPlus->mf_do_tx( "", $g_conf_home_dir, $g_conf_site_cd, $g_conf_site_key, $tran_cd, "",
-						  $g_conf_gw_url, $g_conf_gw_port, "payplus_cli_slib", $ordr_idxx,
-						  $cust_ip, $g_conf_log_level, 0, 0, $g_conf_log_path ); // 응답 전문 처리
+			// 응답 전문 처리
+			$c_PayPlus->mf_do_tx(
+				"", $g_conf_home_dir, $g_conf_site_cd, $g_conf_site_key, $tran_cd, "",
+				$g_conf_gw_url, $g_conf_gw_port, "payplus_cli_slib", $ordr_idxx,
+				$cust_ip, $g_conf_log_level, 0, 0, $g_conf_log_path
+			);
 
 			$payres['res_cd']  = $c_PayPlus->m_res_cd;
 			$payres['res_msg'] = $c_PayPlus->m_res_msg;
