@@ -36,6 +36,8 @@
 				"color": "pink",
 				"size": "2xl"
 			}));
+
+			payman_submit();
 		});
 	</body>
 </html>
