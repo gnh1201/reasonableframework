@@ -12,7 +12,7 @@ $debug = get_requested_value("debug");
 
 if($debug != "true") {
 	// 필수 항목 체크
-	$required_fields = array("pay_method_alias", "good_name", "good_mny", "buyr_name", "buyr_mail", "buyr_tel1");
+	$required_fields = array("pay_method_alias", "good_name", "good_mny", "buyr_name", "buyr_mail", "buyr_tel1", "chk_agree");
 	foreach($required_fields as $name) {
 		if(array_key_empty($name, $requests['_ALL'])) {
 			set_error_exit("required field is empty. " . $name);
@@ -56,10 +56,11 @@ $fieldnames = array(
 	"buyr_name",          // 주문자 이름
 	"buyr_mail",          // 주문자 전자우편(이메일) 주소
 	"buyr_tel1",          // 주문자 연락처 1
-	"buyr_tel2"           // 주문자 연락처 2
+	"buyr_tel2",          // 주문자 연락처 2
+	"pay_data"            // 주문 상세 데이터
 );
 foreach($fieldnames as $name) {
-	$payinfo[$name] = get_requested_value($name);
+	$payinfo[$name] = make_safe_argument(get_requested_value($name));
 }
 
 // pay_method 처리
@@ -76,7 +77,7 @@ $pay_method_rules = array(
 $pay_method = get_value_in_array("pay_method", $payinfo, $pay_method_rules['CRE']);
 $pay_method_alias = get_value_in_array("pay_method_alias", $payinfo, "");
 foreach($pay_method_rules as $k=>$v) {
-	if(in_array($pay_method_alias, $pay_method_rules)) {
+	if(array_key_exists($pay_method_alias, $pay_method_rules)) {
 		$pay_method = $pay_method_rules[$pay_method_alias];
 	}
 }
