@@ -18,7 +18,7 @@
 		$(document).ready(function() {
 			var is_payman_loaded = payman_load_widget({
 				"pay_method_alias": "CRE",
-				"good_name": "상품이름",
+				"good_name": "name of goods",
 				"good_mny": 0,
 				"buyr_name": "<?php echo $name; ?>",
 				"buyr_mail": "<?php echo $email; ?>",
