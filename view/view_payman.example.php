@@ -5,9 +5,9 @@
 		<title>payman example</title>
 	</head>
 	<body>
-		<div id="area_payman"></div>
+		<div id="area_payman"></div> <!-- payman widget -->
 
-		<script src="<?php echo base_url(); ?>/js/payman.js"></script>
+		<script src="<?php echo base_url(); ?>/assets/js/payman.js"></script>
 		<script type="text/javascript">
 		// load payman widget
 		$(document).ready(function() {
