@@ -14,14 +14,14 @@
 	<body>
 		<div id="main">
 			<div class="header">
-				<h1>PAYMENT</h1>
+				<h1>PAYMANT</h1>
 				<h2>감사합니다. 결제 정보를 확인하여 주세요.</h2>
 			</div>
 			
 			<div class="content">
 				<h2 id="default-form" class="content-subhead">결제 및 환불 문의</h2>
-				<p>결제 및 환불 관련 문의는 <code>webmaster@example.org</code>으로 해주시기 바랍니다.</p>
-				
+				<p>결제 및 환불 관련 문의는 <code>webmaster@jobband.kr</code>으로 해주시기 바랍니다.</p>
+
 				<form id="orderform" name="orderform" method="post" class="pure-form pure-form-aligned">
 					<fieldset>
 						<legend>결제 정보 입력</legend>
@@ -70,6 +70,10 @@
 							<input id="buyr_tel1" name="buyr_tel1" type="text" value="<?php echo $buyr_tel1; ?>" placeholder="구매자 연락처">
 							<span class="pure-form-message-inline">필수 입력입니다.</span>
 						</div>
+						<div class="pure-control-group">
+							<label for="pay_data">요청 전문</label>
+							<input id="pay_data" name="pay_data" type="text" value="<?php echo $pay_data; ?>" placeholder="요청 전문">
+						</div>
 						<div class="pure-controls">
 							<label for="chk_agree" class="pure-checkbox">
 								<input id="chk_agree" name="chk_agree" type="checkbox" value="1"> 전자상거래 약관에 동의합니다.
@@ -79,7 +83,7 @@
 					</fieldset>
 				</form>
 				
-				<p><small>this software granted to your website. powered by <a href="https://exts.kr/go/framework">ReasonableFramework</a></small></p>
+				<p><small>this software granted to jobband.kr. powered by <a href="https://exts.kr/go/framework">ReasonableFramework</a></small></p>
 			</div>
 		</div>
 	</body>
