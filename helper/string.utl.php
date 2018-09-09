@@ -6,8 +6,9 @@
  * @brief String utility helper
  */
 
-if(!function_exists("add_hyphen")) {
-	function add_hyphen($tel) {
+// for Korean Telephone Number
+if(!function_exists("parse_tel_number_kr")) {
+	function parse_tel_number_kr($tel) {
 		$tel = preg_replace("/[^0-9]/", "", $tel); // 숫자 이외 제거
 		if (substr($tel,0,2)=='02')
 			return preg_replace("/([0-9]{2})([0-9]{3,4})([0-9]{4})$/", "\\1-\\2-\\3", $tel);
