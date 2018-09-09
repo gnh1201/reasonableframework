@@ -27,20 +27,25 @@ if(!function_exists("parse_tel_number_kr")) {
 if(!function_exists("get_converted_string")) {
 	function get_converted_string($str, $to_charset, $from_charset, $method="iconv") {
 		$output = "";
+		$result = false;
 
 		switch($method) {
 			case "iconv":
 				if(function_exists("iconv")) {
-					$output = iconv($from_charset, $to_charset, $str);
+					$result = iconv($from_charset, $to_charset, $str);
 				}
 				break;
 			case "mb":
 				if(function_exists("mb_convert_encoding")) {
-					$output = mb_convert_encoding($str, $to_charset, $from_charset);
+					$result = mb_convert_encoding($str, $to_charset, $from_charset);
 				}
 				break;
 			default:
 				$output = $str;
+		}
+
+		if($result) {
+			$output = $result;
 		}
 
 		return $output;
