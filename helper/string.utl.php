@@ -9,14 +9,18 @@
 // for Korean Telephone Number
 if(!function_exists("parse_tel_number_kr")) {
 	function parse_tel_number_kr($tel) {
-		$tel = preg_replace("/[^0-9]/", "", $tel); // 숫자 이외 제거
-		if (substr($tel,0,2)=='02')
-			return preg_replace("/([0-9]{2})([0-9]{3,4})([0-9]{4})$/", "\\1-\\2-\\3", $tel);
-		else if (strlen($tel)=='8' && (substr($tel,0,2)=='15' || substr($tel,0,2)=='16' || substr($tel,0,2)=='18'))
+		$output = preg_replace("/[^0-9]/", "", $tel); // 숫자 이외 제거
+
+		if (substr($tel,0,2) == '02') {
+			$output = preg_replace("/([0-9]{2})([0-9]{3,4})([0-9]{4})$/", "\\1-\\2-\\3", $tel);
+		} else if (strlen($tel) == '8' && in_array(substr($tel,0,2), array('15', '16', '18'))) {
 			// 지능망 번호이면
-			return preg_replace("/([0-9]{4})([0-9]{4})$/", "\\1-\\2", $tel);
-		else
-			return preg_replace("/([0-9]{3})([0-9]{3,4})([0-9]{4})$/", "\\1-\\2-\\3", $tel);
+			$output = preg_replace("/([0-9]{4})([0-9]{4})$/", "\\1-\\2", $tel);
+		} else {
+			$output = preg_replace("/([0-9]{3})([0-9]{3,4})([0-9]{4})$/", "\\1-\\2-\\3", $tel);
+		}
+
+		return $output;
 	}
 }
 
