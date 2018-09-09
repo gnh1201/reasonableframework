@@ -10,12 +10,12 @@
 if(!function_exists("parse_tel_number_kr")) {
 	function parse_tel_number_kr($tel) {
 		$output = preg_replace("/[^0-9]/", "", $tel); // 숫자 이외 제거
+		$local_code = substr($tel, 0, 2);
 
-		if (substr($tel,0,2) == '02') {
+		if ($local_code == '02') {
 			$output = preg_replace("/([0-9]{2})([0-9]{3,4})([0-9]{4})$/", "\\1-\\2-\\3", $tel);
-		} else if (strlen($tel) == '8' && in_array(substr($tel,0,2), array('15', '16', '18'))) {
-			// 지능망 번호이면
-			$output = preg_replace("/([0-9]{4})([0-9]{4})$/", "\\1-\\2", $tel);
+		} elseif (strlen($tel) == '8' && in_array($local_code, array('15', '16', '18'))) {
+			$output = preg_replace("/([0-9]{4})([0-9]{4})$/", "\\1-\\2", $tel); // 지능망 번호이면
 		} else {
 			$output = preg_replace("/([0-9]{3})([0-9]{3,4})([0-9]{4})$/", "\\1-\\2-\\3", $tel);
 		}
