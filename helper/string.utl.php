@@ -22,7 +22,7 @@ if(!function_exists("parse_tel_number_kr")) {
 
 if(!function_exists("get_converted_string")) {
 	function get_converted_string($str, $to_charset, $from_charset, $method="iconv") {
-		$output = false;
+		$output = "";
 
 		switch($method) {
 			case "iconv":
@@ -35,6 +35,8 @@ if(!function_exists("get_converted_string")) {
 					$output = mb_convert_encoding($str, $to_charset, $from_charset);
 				}
 				break;
+			default:
+				$output = $str;
 		}
 
 		return $output;
