@@ -25,30 +25,24 @@ if(!function_exists("parse_tel_number_kr")) {
 }
 
 if(!function_exists("get_converted_string")) {
-	function get_converted_string($str, $to_charset, $from_charset, $method="iconv") {
-		$output = "";
+	function get_converted_string($str, $to_charset, $from_charset) {
 		$result = false;
-
-		switch($method) {
-			case "iconv":
-				if(function_exists("iconv")) {
-					$result = iconv($from_charset, $to_charset, $str);
-				}
-				break;
-			case "mb":
-				if(function_exists("mb_convert_encoding")) {
-					$result = mb_convert_encoding($str, $to_charset, $from_charset);
-				}
-				break;
-			default:
-				$output = $str;
+		
+		if($form_charset == "detect") {
+			if(function_exists("mb_detect_encoding") && function_exists("mb_detect_order")) {
+				$from_charset = mb_detect_encoding($str, mb_detect_order(), true);
+			} else {
+				$from_charset = "ISO-8859-1";
+			}
 		}
 
-		if($result) {
-			$output = $result;
+		if(function_exists("iconv")) {
+			$result = iconv($from_charset, $to_charset, $str);
+		} elseif(function_exists("mb_convert_encoding")) {
+			$result = mb_convert_encoding($str, $to_charset, $from_charset);
 		}
 
-		return $output;
+		return $result;
 	}
 }
 
