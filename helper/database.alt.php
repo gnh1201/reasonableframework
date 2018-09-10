@@ -7,37 +7,73 @@
  */
 
 if(function_exists("get_db_alt_connect")) {
-	function get_db_alt_connect($db_driver) {
+	function get_db_alt_connect($driver) {
 		$conn = false;
+		
+		$rules = array(
+			array(
+				"driver" => "mysql.pdo",
+				"callback" => "get_db_mysql_pdo_connect"
+			),
+			array(
+				"driver" => "mysql.imp",
+				"callback" => "get_db_mysql_imp_connect"
+			),
+			array(
+				"driver" => "mysql.old",
+				"callback" => "get_db_mysql_old_connect"
+			),
+			array(
+				"driver" => "oracle",
+				"callback" => "get_db_oracle_connect"
+			)
+		);
 
-		switch($db_driver) {
-			case "mysql.pdo":
-				// currently, mysql.pdo is default driver
-				break;
-
-			case "mysql.imp":
-				loadHelper("database.mysql.imp");
-				if(function_exists("get_db_mysql_imp_connect")) {
-					$conn = get_db_mysql_imp_connect();
+		foreach($rules as $rule) {
+			if($rule['driver'] == $driver) {
+				if(loadHelper(sprintf("database.%s", $rule['driver']))) {
+					$conn = function_exists($rule['callback']) ? call_user_func($rule['callback']) : $conn;
 				}
-
 				break;
-			case "mysql.old":
-				loadHelper("database.mysql.old");
-				if(function_exists("get_db_mysql_old_connect")) {
-					$conn = get_db_mysql_old_connect();
-				}
-
-				break;
-
-			case "oracle":
-				loadHelper("database.oracle");
-				if(function_exists("get_db_oracle_connect")) {
-					$conn = get_db_oracle_connect();
-				}
-				break;
+			}
 		}
 
 		return $conn;
+	}
+}
+
+if(!function_exists("exec_db_alt_sql_query")) {
+	function exec_db_alt_sql_query($sql, $bind=array(), $driver="") {
+		$result = false;
+
+		$rules = array(
+			array(
+				"driver" => "mysql.pdo",
+				"callback" => "exec_db_mysql_pdo_query"
+			),
+			array(
+				"driver" => "mysql.imp",
+				"callback" => "exec_db_mysql_imp_query"
+			),
+			array(
+				"driver" => "mysql.old",
+				"callback" => "exec_db_mysql_old_query"
+			),
+			array(
+				"driver" => "oracle",
+				"callback" => "exec_db_oracle_query"
+			)
+		);
+
+		foreach($rules as $rule) {
+			if($rule['driver'] == $driver) {
+				if(loadHelper(sprintf("database.%s", $rule['driver']))) {
+					$result = function_exists($rule['callback']) ? call_user_func($rule['callback']) : $conn;
+				}
+				break;
+			}
+		}
+
+		return $result;
 	}
 }
