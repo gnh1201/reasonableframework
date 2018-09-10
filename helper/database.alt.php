@@ -1,13 +1,13 @@
 <?php
 /**
- * @file database.extend.php
+ * @file database.alt.php
  * @date 2018-09-10
  * @author Go Namhyeon <gnh1201@gmail.com>
- * @brief Database Connection Extender
+ * @brief Database alternative connecter 
  */
 
-if(function_exists("get_db_extend_connect")) {
-	function get_db_extend_connect($db_driver) {
+if(function_exists("get_db_alt_connect")) {
+	function get_db_alt_connect($db_driver) {
 		$conn = false;
 
 		switch($db_driver) {
