@@ -8,30 +8,39 @@
 
 if(!function_exists("get_db_connect")) {
 	function get_db_connect($a=3, $b=0) {
+		$conn = false;
 		$config = get_config();
 
-		$conn = false;
+		$db_driver = get_value_in_array("db_driver", $config, "");
 
-		try {
-			$conn = new PDO(
-				sprintf(
-					"mysql:host=%s;dbname=%s;charset=utf8",
-					$config['db_host'],
-					$config['db_name']
-				),
-				$config['db_username'],
-				$config['db_password'],
-				array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8")
-			);
-			//$conn->query("SET NAMES 'utf8'");
-		} catch(Exception $e) {
-			if($b > $a) {
-				set_error($e->getMessage());
-				show_errors();
-			} else {
-				$b++;
-				sleep(0.03);
-				$conn = get_db_connect($a, $b);
+		if(in_array($db_driver, array("mysql", "mysql.pdo"))) {
+			try {
+				$conn = new PDO(
+					sprintf(
+						"mysql:host=%s;dbname=%s;charset=utf8",
+						$config['db_host'],
+						$config['db_name']
+					),
+					$config['db_username'],
+					$config['db_password'],
+					array(
+						PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8"
+					)
+				);
+				//$conn->query("SET NAMES 'utf8'");
+			} catch(Exception $e) {
+				if($b > $a) {
+					set_error($e->getMessage());
+					show_errors();
+				} else {
+					$b++;
+					sleep(0.03);
+					$conn = get_db_connect($a, $b);
+				}
+			}
+		} else {
+			if(loadHelper("database.alt")) {
+				$conn = call_user_func("get_db_alt_connect", $db_driver);
 			}
 		}
 
