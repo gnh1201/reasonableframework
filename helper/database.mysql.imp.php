@@ -34,3 +34,16 @@ if(!function_exists("exec_db_mysql_imp_query")) {
 		return $result;
 	}
 }
+
+if(!function_exists("exec_db_mysql_imp_fetch_all")) {
+	function exec_db_mysql_imp_fetch_all($sql, $bind) {
+		$rows = array();
+		$result = exec_db_mysql_imp_query($sql, $bind);
+
+		while($row = mysqli_fetch_array($result)) {
+			$rows[] = $row;
+		}
+
+		return $rows;
+	}
+}
