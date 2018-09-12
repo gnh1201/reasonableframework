@@ -7,13 +7,19 @@
  */
 
 if(!function_exists("exec_db_alt_callback")) {
-	function exec_db_alt_callback($rules) {
+	function exec_db_alt_callback($rules, $params=array()) {
 		$result = false;
 
 		foreach($rules as $rule) {
 			if($rule['driver'] == $driver) {
 				if(loadHelper(sprintf("database.%s", $rule['driver']))) {
-					$result = function_exists($rule['callback']) ? call_user_func($rule['callback']) : $result;
+					if(function_exists($rule['callback'])) {
+						if(is_array($params) && count($params) > 0) {
+							$result = call_user_func_array($rule['callback'], $params); 
+						} else {
+							$result = call_user_func($rule['callback'])
+						}
+					}
 				}
 				break;
 			}
