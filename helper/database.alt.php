@@ -43,8 +43,8 @@ if(!function_exists("get_db_alt_connect")) {
 	}
 }
 
-if(!function_exists("exec_db_alt_sql_query")) {
-	function exec_db_alt_sql_query($sql, $bind=array(), $driver="") {
+if(!function_exists("exec_db_alt_query")) {
+	function exec_db_alt_query($sql, $bind=array(), $driver="") {
 		$result = false;
 
 		$rules = array(
