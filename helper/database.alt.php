@@ -20,6 +20,9 @@ if(!function_exists("exec_db_alt_callback")) {
 							$result = call_user_func($rule['callback']);
 						}
 					}
+				} else {
+					set_error(sprintf("Can not load %s database driver.", $rule['driver']));
+					show_errors();
 				}
 				break;
 			}
