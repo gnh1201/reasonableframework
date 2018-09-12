@@ -83,6 +83,20 @@ if(!function_exists("get_network_hostname")) {
     }
 }
 
+if(!function_exists("get_os_platform")) {
+	function get_os_platform() {
+		$os = "";
+
+		if(defined("PHP_OS")) {
+			$os = PHP_OS;
+		} else {
+			$os = php_uname(s);
+		}
+
+		return $os;
+	}
+}
+
 if(!function_exists("check_secure_protocol")) {
 	function check_secure_protocol() {
 		return (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') || $_SERVER['SERVER_PORT'] == 443;
