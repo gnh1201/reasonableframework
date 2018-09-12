@@ -17,7 +17,7 @@ if(!function_exists("exec_db_alt_callback")) {
 						if(is_array($params) && count($params) > 0) {
 							$result = call_user_func_array($rule['callback'], $params); 
 						} else {
-							$result = call_user_func($rule['callback'])
+							$result = call_user_func($rule['callback']);
 						}
 					}
 				}
@@ -82,7 +82,7 @@ if(!function_exists("exec_db_alt_query")) {
 			)
 		);
 		
-		$result = exec_db_alt_callback($rules);
+		$result = exec_db_alt_callback($rules, array($sql, $bind));
 
 		return $result;
 	}
@@ -111,7 +111,7 @@ if(!function_exists("exec_db_alt_fetch_all")) {
 			)
 		);
 		
-		$rows = exec_db_alt_callback($rules);
+		$rows = exec_db_alt_callback($rules, array($sql, $bind));
 
 		return $rows;
 	}
