@@ -6,6 +6,23 @@
  * @brief Database alternative driver switcher
  */
 
+if(!function_exists("exec_db_alt_callback")) {
+	function exec_db_alt_callback($rules) {
+		$result = false;
+
+		foreach($rules as $rule) {
+			if($rule['driver'] == $driver) {
+				if(loadHelper(sprintf("database.%s", $rule['driver']))) {
+					$result = function_exists($rule['callback']) ? call_user_func($rule['callback']) : $result;
+				}
+				break;
+			}
+		}
+		
+		return $result;
+	}
+}
+
 if(!function_exists("get_db_alt_connect")) {
 	function get_db_alt_connect($driver) {
 		$conn = false;
@@ -29,15 +46,8 @@ if(!function_exists("get_db_alt_connect")) {
 				"callback" => "get_db_oracle_connect"
 			)
 		);
-
-		foreach($rules as $rule) {
-			if($rule['driver'] == $driver) {
-				if(loadHelper(sprintf("database.%s", $rule['driver']))) {
-					$conn = function_exists($rule['callback']) ? call_user_func($rule['callback']) : $conn;
-				}
-				break;
-			}
-		}
+		
+		$conn = exec_db_alt_callback($rules);
 
 		return $conn;
 	}
@@ -65,15 +75,8 @@ if(!function_exists("exec_db_alt_query")) {
 				"callback" => "exec_db_oracle_query"
 			)
 		);
-
-		foreach($rules as $rule) {
-			if($rule['driver'] == $driver) {
-				if(loadHelper(sprintf("database.%s", $rule['driver']))) {
-					$result = function_exists($rule['callback']) ? call_user_func($rule['callback']) : $result;
-				}
-				break;
-			}
-		}
+		
+		$result = exec_db_alt_callback($rules);
 
 		return $result;
 	}
@@ -101,15 +104,8 @@ if(!function_exists("exec_db_alt_fetch_all")) {
 				"callback" => "exec_db_oracle_fetch_all"
 			)
 		);
-
-		foreach($rules as $rule) {
-			if($rule['driver'] == $driver) {
-				if(loadHelper(sprintf("database.%s", $rule['driver']))) {
-					$rows = function_exists($rule['callback']) ? call_user_func($rule['callback']) : $rows;
-				}
-				break;
-			}
-		}
+		
+		$rows = exec_db_alt_callback($rules);
 
 		return $rows;
 	}
