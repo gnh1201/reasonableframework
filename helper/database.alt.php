@@ -3,14 +3,14 @@
  * @file database.alt.php
  * @date 2018-09-10
  * @author Go Namhyeon <gnh1201@gmail.com>
- * @brief Database alternative driver switcher
+ * @brief Database alternative connecter 
  */
 
-if(!function_exists("get_db_alt_connect")) {
+if(function_exists("get_db_alt_connect")) {
 	function get_db_alt_connect($driver) {
 		$conn = false;
 		$config = get_config();
-
+		
 		$rules = array(
 			array(
 				"driver" => "mysql.pdo",
