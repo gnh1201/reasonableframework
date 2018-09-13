@@ -51,7 +51,6 @@ if(!function_exists("exec_db_mysql_imp_fetch_all")) {
 if(!function_exists("close_db_mysql_imp_connect")) {
 	function close_db_mysql_imp_connect() {
 		$dbc = get_scope("dbc");
-		mysqli_close($dbc);
-		set_scope("dbc", null);
+		return mysqli_close($dbc);
 	}
 }
