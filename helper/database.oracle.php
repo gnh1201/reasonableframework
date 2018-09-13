@@ -26,54 +26,42 @@ if(!function_exists("get_db_oracle_stmt")) {
 if(!function_exists("exec_db_oracle_connect")) {
 	function exec_db_oracle_connect($host, $port, $user, $password, $options=array()) {
 		$conn = NULL;
-		$envs = array();
+		$envs = get_value_in_array("envs", $options, array());
 
 		if(!function_exists("oci_connect")) {
 			exit("OCI (Oracle Extension for PHP) not installed!");	
 		}
 
-		if(count($options) == 0) {
-			$options["ENV.NLS_LANG"] = "KOREAN_KOREA.AL32UTF8";
-			$options["DESCRIPTION.ADDRESS_LIST.ADDRESS.PROTOCOL"] = "TCP";
-			$options["DESCRIPTION.CONNECT_DATA.SERVER"] = "DEDICATED";
-			$options["DESCRIPTION.CONNECT_DATA.SERVICE_NAME"] = "ORCL";
+		if(array_key_empty("NLS_LANG", $envs)) {
+			$envs["NLS_LANG"] = "KOREAN_KOREA.AL32UTF8";
 		}
 
-		// set envs
-		foreach($options as $k=>$v) {
-			$k_terms = explode(".", $k);
-			if(count($k_terms) > 1) {
-				if($k_terms[0] == "ENV") {
-					$envs[] = $k_terms[1] . "=" . $options[$k];
-				}
-			}
-		}
-
+		// set environment variables
 		foreach($envs as $env) {
 			putenv($env);
 		}
+		
+		// get oracle db connection info
+		$dbs_id = read_storage_file("tnsname.orax", array(
+			"storage_type" => "config"
+		));
+		
+		// set replace rules
+		$dbs_rules = array(
+			"protocol" => get_value_in_array("service_name", $options, "TCP"),
+			"service_name" => get_value_in_array("service_name", $options, "ORCL"),
+			"host" => $host,
+			"port" => $port
+			"server_type" => "DEDICATED"
+		);
+		
+		// parse db connection info
+		foreach($dbs_rules as $k=>$v) {
+			$dbs_id = str_replace("%" . $k . "%", $v, $dbs_id);
+		}
 
-		// set host, port
-		$options["DESCRIPTION.ADDRESS_LIST.ADDRESS.HOST"] = $host;
-		$options["DESCRIPTION.ADDRESS_LIST.ADDRESS.PORT"] = $port;
-
-		$dbsid = "(
-		  DESCRIPTION =
-		  (ADDRESS_LIST = 
-		   (ADDRESS = 
-		    (PROTOCOL = " . $options["DESCRIPTION.ADDRESS_LIST.ADDRESS.PROTOCOL"] . ")
-		    (HOST = " . $options["DESCRIPTION.ADDRESS_LIST.ADDRESS.HOST"] . ")
-		    (PORT = " . $options["DESCRIPTION.ADDRESS_LIST.ADDRESS.PORT"] . ")
-		   )
-		  )
-
-		  (CONNECT_DATA =
-		   (SERVER = " . $options["DESCRIPTION.CONNECT_DATA.SERVER"] . ")
-		   (SERVICE_NAME = " . $options["DESCRIPTION.CONNECT_DATA.SERVICE_NAME"] . ")
-		  )
-		) ";
-
-		$conn = @oci_connect($user, $password, $dbsid);
+		// set db connection
+		$conn = @oci_connect($user, $password, $dbs_id);
 
 		return $conn;
 	}
