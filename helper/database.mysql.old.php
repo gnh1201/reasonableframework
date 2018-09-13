@@ -11,16 +11,16 @@ if(!function_exists("get_db_mysql_old_connect")) {
 		$conn = false;
 		$config = get_config();
 
-    $conn = mysql_connect($config['db_host'], $config['db_username'], $config['db_password']);
-    if(!$conn) {
-        set_error("Could not connect: " . @mysql_error());
-        show_errors();
-    }
-    
-    if(!@mysql_select_db('database_name', $conn)) {
-        set_error("Could not select database.");
-        show_errors();
-    }
+		$conn = @mysql_connect($config['db_host'], $config['db_username'], $config['db_password']);
+		if(!$conn) {
+			set_error("Could not connect: " . @mysql_error());
+			show_errors();
+		}
+
+		if(!@mysql_select_db('database_name', $conn)) {
+			set_error("Could not select database.");
+			show_errors();
+		}
 
 		return $conn;
 	}
@@ -39,9 +39,9 @@ if(!function_exists("exec_db_mysql_old_query")) {
 }
 
 if(!function_exists("exec_db_mysql_old_fetch_all")) {
-	function exec_db_mysql_imp_fetch_all($sql, $bind) {
+	function exec_db_mysql_old_fetch_all($sql, $bind) {
 		$rows = array();
-		$result = exec_db_mysql_imp_query($sql, $bind);
+		$result = exec_db_mysql_old_query($sql, $bind);
 
 		while($row = @mysql_fetch_array($result)) {
 			$rows[] = $row;
