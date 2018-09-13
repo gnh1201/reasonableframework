@@ -51,7 +51,7 @@ if(!function_exists("exec_db_oracle_connect")) {
 			"protocol" => get_value_in_array("service_name", $options, "TCP"),
 			"service_name" => get_value_in_array("service_name", $options, "ORCL"),
 			"host" => $host,
-			"port" => $port
+			"port" => $port,
 			"server_type" => "DEDICATED"
 		);
 		
