@@ -15,12 +15,21 @@ if(check_token_abuse_by_requests("_token", "_POST")) {
 // set token
 set_session_token();
 
-// process redirect url
+// set redirect variables
 $redirect_url = get_requested_value("redirect_url");
 $order_idxx = get_requested_value("order_idxx");
+$res_cd = get_requested_value("res_cd");
+
+if($res_cd == "0000") {
+	$process_type = "complete";
+} else {
+	$process_tyee = "cancel";
+}
+
+// redirect
 redirect_uri(get_final_link($redirect_url, array(
 	"_token" => get_session_token(),
-	"action" => "ordercomplete",
-	"order_idxx" => $order_idxx,
-	"good_mny" => $good_mny
+	"_route" => get_requested_value("route"),
+	"process_type" => $process_type,
+	"order_idxx" => $order_idxx
 ), false));
