@@ -54,7 +54,6 @@ if(!function_exists("exec_db_mysql_old_fetch_all")) {
 if(!function_exists("close_db_mysql_old_connect")) {
 	function close_db_mysql_old_connect() {
 		$dbc = get_scope("dbc");
-		mysql_close($dbc);
-		set_scope("dbc", null);
+		return mysql_close($dbc);
 	}
 }
