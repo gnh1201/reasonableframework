@@ -106,7 +106,7 @@ if(!function_exists("exec_db_oracle_query")) {
 
 if(!function_exists("close_db_oracle_connect")) {
 	function close_db_oracle_connect() {
-		$dbc =  get_scope("dbc");
+		$dbc = get_scope("dbc");
 		return oci_close($dbc);
 	}
 }
