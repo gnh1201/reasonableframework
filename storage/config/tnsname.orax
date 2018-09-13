@@ -1,0 +1,9 @@
+%service_name% = (DESCRIPTION =
+  (ADDRESS_LIST =
+    (ADDRESS = (PROTOCOL = %protocol%)(HOST = %host%)(PORT = %port%))
+  )
+  (CONNECT_DATA =
+    (SERVER = %server_type%)
+    (SERVICE_NAME = %service_name%)
+  )
+)
