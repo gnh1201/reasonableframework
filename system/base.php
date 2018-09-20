@@ -308,11 +308,15 @@ if(!function_exists("get_routes")) {
 
 $scope = array();
 
-set_scope("loaded", array(
-	"module" => array(),
-	"helper" => array(),
-	"view" => array(),
-	"route" => array(),
-));
+set_scope(
+	"loaded",
+	array(
+		"module" => array(),
+		"helper" => array(),
+		"view" => array(),
+		"route" => array(),
+		"vendor" => array()
+	)
+);
 
 set_scope("errors", array());
