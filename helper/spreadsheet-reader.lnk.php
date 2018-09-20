@@ -17,25 +17,47 @@ loadVendor(array(
 ));
 
 if(!function_exists("parse_excel_file")) {
-	function parse_excel_file($filepath, $format="xlsx") {
+	function parse_excel_file($filepath, $format="xlsx", $setColumnName=false) {
 		$rows = array();
 		
 		$spreadsheet = false;
-		$fileformat = strtolower($format);
+		$columnNames = array();
+		$fileFormat = strtolower($format);
 		
-		if($fileformat == "xlsx") {
+		if($fileFormat == "xlsx") {
 			$spreadsheet = new SpreadsheetReader_XLSX($filepath);
-		} elseif($fileformat == "xls") {
+		} elseif($fileFormat == "xls") {
 			$spreadsheet = new SpreadsheetReader_XLS($filepath);
-		} elseif($fileformat == "csv") {
+		} elseif($fileFormat == "csv") {
 			$spreadsheet = new SpreadsheetReader_CSV($filepath);
-		} elseif($fileformat == "ods") {
+		} elseif($fileFormat == "ods") {
 			$spreadsheet = new SpreadsheetReader_ODS($filepath);
 		} else {
 			$spreadsheet = new SpreadsheetReader($filepath);
 		}
 		
-		
-		
+		foreach($spreadsheet as $index=>$row) {
+			if(!$setColumnName) {
+				$rows[] = $row;
+			} else {
+				if($index > 0) {
+					$i = 0;
+					$cols = array();
+					foreach($row as $col) {
+						if((count($columnNames) - 1) > $i) {
+							$cols[$columnNames[$i]] = $col;
+						} else {
+							$cols[] = $col;	
+						}
+						$i++;
+					}
+					$rows[] = $cols;
+				} else {
+					$columnNames = array_merge($columnNames, $row);
+				}
+			}
+		}
+
+		return $rows;
 	}
 }
