@@ -129,13 +129,35 @@ if(!function_exists("loadRoute")) {
 	}
 }
 
+// load vendor file
+if(!function_exists("loadVendor")) {
+	function loadVendor($usenames, $data=array()) {
+		$flag = true;
+
+		if(!is_array($flag)) {
+			return !$flag;
+		}
+
+		foreach($usenames as $name) {
+			$vendorfile = './vendor/' . $name . '.php';
+			if(file_exists($vendorfile)) {
+				register_loaded("vendor", $name);
+				$flag = $flag && !include_isolate($vendorfile, $data);
+			} else {
+				set_error("Vendor " . $name . "dose not exists");
+			}
+		}
+		return !$flag;
+	}
+}
+
 if(!function_exists("array_key_empty")) {
 	function array_key_empty($key, $array) {
 		$empty = true;
 		
 		if(is_array($array)) {
 			if(array_key_exists($key, $array)) {
-                $empty = $empty && empty($array[$key]);
+				$empty = $empty && empty($array[$key]);
 			}
 		}
 
