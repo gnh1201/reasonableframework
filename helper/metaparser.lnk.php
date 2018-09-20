@@ -7,8 +7,5 @@
  */
 
 if(!class_exists("MetaParser")) {
-	$inc_file = "./vendor/PHP-MetaParser/MetaParser.class.php";
-	if(file_exists($inc_file)) {
-		include($inc_file);
-	}
+	loadVendor("PHP-MetaParser/MetaParser.class");
 }
