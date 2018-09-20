@@ -16,7 +16,25 @@ loadVendor(array(
 ));
 
 if(!function_exists("parse_excel_file")) {
-	function parse_excel_file($filepath) {
+	function parse_excel_file($filepath, $format="xlsx") {
+		$rows = array();
+		
+		$spreadsheet = false;
+		$fileformat = strtolower($format);
+		
+		if($fileformat == "xlsx") {
+			$spreadsheet = new SpreadsheetReader_XLSX($filepath);
+		} elseif($fileformat == "xls") {
+			$spreadsheet = new SpreadsheetReader_XLS($filepath);
+		} elseif($fileformat == "csv") {
+			$spreadsheet = new SpreadsheetReader_CSV($filepath);
+		} elseif($fileformat == "ods") {
+			$spreadsheet = new SpreadsheetReader_ODS($filepath);
+		} else {
+			$spreadsheet = new SpreadsheetReader($filepath);
+		}
+		
+		
 		
 	}
 }
