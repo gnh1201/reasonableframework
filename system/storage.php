@@ -77,7 +77,7 @@ if(!function_exists("move_uploaded_file_to_storage")) {
 		$files = $requests['_FILES'];
 
 		$storage_type = get_value_in_array("storage_type", $options, "data");
-		$upload_base_dir = get_storage_path($storage_type);
+		$upload_base_path = get_storage_path($storage_type);
 		$upload_base_url = get_storage_url($storage_type);
 
 		if(!array_key_empty("only_image", $options)) {
@@ -102,8 +102,8 @@ if(!function_exists("move_uploaded_file_to_storage")) {
 		foreach($files as $k=>$file) {
 			$upload_ext = get_file_extension($files[$k]['name']);
 			$upload_name = make_random_id(32) . (empty($upload_ext) ? "" : "." . $upload_ext);
-			$upload_file = $upload_base_dir . $upload_name;
-			$upload_url = $upload_base_url . $upload_name;
+			$upload_file = $upload_base_path . "/" . $upload_name;
+			$upload_url = $upload_base_url . "/" . $upload_name;
 
 			if(count($upload_allow_ext) == 0 || in_array($upload_ext, $upload_allow_ext)) {
 				if(move_uploaded_file($files[$k]['tmp_name'], $upload_file)) {
