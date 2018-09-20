@@ -69,7 +69,9 @@ if(!function_exists("get_storage_url")) {
 
 if(!function_exists("move_uploaded_file_to_storage")) {
 	function move_uploaded_file_to_stroage($options=array()) {
-		$response = array();
+		$response = array(
+			"files" => array()
+		);
 
 		$requests = get_requests();
 		$files = $requests['_FILES'];
