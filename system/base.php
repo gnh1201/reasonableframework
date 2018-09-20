@@ -131,10 +131,15 @@ if(!function_exists("loadRoute")) {
 
 // load vendor file
 if(!function_exists("loadVendor")) {
-	function loadVendor($usenames, $data=array()) {
+	function loadVendor($uses, $data=array()) {
 		$flag = true;
+		$usenames = array();
 
-		if(!is_array($flag)) {
+		if(is_string($uses) && !empty($uses)) {
+			$usenames[] = $uses;
+		} elseif(is_array($uses)) {
+			$usenames = array_merge($usenames, $uses);
+		} else {
 			return !$flag;
 		}
 
