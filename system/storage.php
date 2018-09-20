@@ -69,8 +69,10 @@ if(!function_exists("get_storage_url")) {
 
 if(!function_exists("move_uploaded_file_to_storage")) {
 	function move_uploaded_file_to_stroage($options=array()) {
-		$files = array();
+		$response = array();
+
 		$requests = get_requests();
+		$files = $requests['_FILES'];
 
 		$storage_type = get_value_in_array("storage_type", $options, "data");
 		$upload_base_dir = get_storage_path($storage_type);
@@ -103,7 +105,7 @@ if(!function_exists("move_uploaded_file_to_storage")) {
 
 			if(count($upload_allow_ext) == 0 || in_array($upload_ext, $upload_allow_ext)) {
 				if(move_uploaded_file($files[$k]['tmp_name'], $upload_file)) {
-					$response['files'][] = array(
+					$response['files'][$k] = array(
 						"storage_type" => $storage_type,
 						"upload_ext" => $upload_ext,
 						"upload_name" => $upload_name,
@@ -112,12 +114,12 @@ if(!function_exists("move_uploaded_file_to_storage")) {
 						"upload_error" => ""
 					);
 				} else {
-					$response['files'][] = array(
+					$response['files'][$k] = array(
 						"upload_error" => "File write error."
 					);
 				}
 			} else {
-				$response['files'][] = array(
+				$response['files'][$k] = array(
 					"upload_error" => "Not allowed file type."
 				);
 			}
