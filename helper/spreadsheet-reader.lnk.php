@@ -6,6 +6,7 @@
   * @brief Excel file parser
 ***/
 
+// load spreadsheet reader library
 loadVendor(array(
 	"spreadsheet-reader/php-excel-reader/excel_reader2",
 	"spreadsheet-reader/SpreadsheetReader",
