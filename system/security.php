@@ -175,7 +175,7 @@ if(!function_exists("check_empty_requests")) {
 
 if(!function_exists("get_hashed_text")) {
 	function get_hashed_text($text, $algo="sha1", $options=array()) {
-		$hashed_text = "";
+		$hashed_text = false;
 
 		switch($algo) {
 			case "sha1":
@@ -202,10 +202,23 @@ if(!function_exists("get_hashed_text")) {
 				}
 				break;
 			default:
-				$hashed_text = "";
+				if(hash_algo_exists($algo)) {
+					$hashed_text = hash($algo, $text, false); 
+				}
+				break;
 		}
 
 		return $hashed_text;
+	}
+}
+
+if(!function_exists("hash_algo_exists")) {
+	function hash_algo_exists($algo) {
+		$flag = false;
+		if(function_exists("hash_algos")) {
+			$flag = in_array($algo, hash_algos());
+		}
+		return $flag;
 	}
 }
 
@@ -260,17 +273,13 @@ if(!function_exists("check_match_password")) {
 		$n_hashed_text = "";
 
 		switch($algo) {
-			case "sha1":
-			case "md5":
-			case "crc32":
-				$n_hashed_text = get_hashed_text($n_plain_text, $algo);
-				$flag = ($n_hashed_text == $p);
-				break;
 			case "crypt":
 				$flag = (crypt($n_plain_text, $p) == $p);
 				break;
 			default:
-				$flag = false;
+				$n_hashed_text = get_hashed_text($n_plain_text, $algo);
+				$flag = ($n_hashed_text == $p);
+				break;
 		}
 
 		return $flag;
