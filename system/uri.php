@@ -133,8 +133,17 @@ if(!function_exists("get_route_link")) {
 	}
 }
 
+// URI: Uniform Resource Identifier
+// URL: Uniform Resource Locator
 if(!function_exists("redirect_uri")) {
-	function redirect_uri($uri, $permanent=false) {
+	function redirect_uri($uri, $permanent=false, $options=array()) {
+		if(array_key_equals("check_domain", $options, true)) {
+			if(!check_redirect_domain($uri)) {
+				set_error("Invalid redirect URL");
+				show_errors();
+			}
+		}
+
 		header("Location: " . $uri, true, $permanent ? 301 : 302);
 		exit();
 	}
