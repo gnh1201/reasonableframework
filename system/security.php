@@ -574,5 +574,23 @@ if(!function_exists("get_generated_name")) {
 	}
 }
 
+if(!function_exists("check_redirect_domain")) {
+	function check_redirect_domain($url) {
+		$flag = false;
+
+		$to_resource = parse_url($url);
+		$to_host = str_replace("www.", "", get_value_in_array("host", $to_resource, ""));
+
+		$base_url = base_url();
+		$base_resource = parse_url($base_url);
+		$base_host = str_replace("www.", "", get_value_in_array("host", $base_resource, ""));
+
+		$flag = check_token_abuse($to_host, $base_host);
+
+		return $flag;
+	}
+}
+
+
 // start session (enable $_SESSION)
 session_start();
