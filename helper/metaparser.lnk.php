@@ -7,5 +7,10 @@
  */
 
 if(!class_exists("MetaParser")) {
-	loadVendor("PHP-MetaParser/MetaParser.class");
+	$usenames = array(
+		"PHP-MetaParser/MetaParser.class"
+	);
+	foreach($usenames as $name) {
+		include("./vendor/" . $name . ".php");
+	}
 }
