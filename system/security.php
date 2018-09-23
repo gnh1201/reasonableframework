@@ -481,7 +481,7 @@ if(!function_exists("decapsulate_text")) {
 		$decrypted_text = "";
 
 		// initialize text
-		$init_text = base64_decode($text);
+		$init_text = get_hashed_text($text, "base64", array("decode" => true));
 
 		if($algo = "base64") {
 			$decapsulate_text = $init_text;
@@ -496,7 +496,7 @@ if(!function_exists("decapsulate_text")) {
 			}
 
 			if(!empty($encrypted_text)) {
-				$decapsulate_text = base64_decode($decrypted_text);
+				$decapsulate_text = get_hashed_text($decrypted_text, "base64", array("decode" => true));
 			}
 		}
 
