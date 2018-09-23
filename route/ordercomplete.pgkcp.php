@@ -17,19 +17,33 @@ set_session_token();
 
 // set redirect variables
 $redirect_url = get_requested_value("redirect_url");
-$order_idxx = get_requested_value("order_idxx");
+$ordr_idxx = get_requested_value("ordr_idxx");
 $res_cd = get_requested_value("res_cd");
+$action = in_array($res_cd, array("0000", "9999")) ? "complete" : "cancel";
 
-if($res_cd == "0000") {
-	$process_type = "complete";
-} else {
-	$process_tyee = "cancel";
+// check ordr_idxx
+if(empty($ordr_idxx)) {
+	set_error("ordr_idxx can not empty");
+	set_errors();
+}
+
+// write storage file
+$fd = json_encode($requests['_POST']);
+$fw = write_storage_file($fd, array(
+	"filename" => get_hashed_text($ordr_idxx) . ".json",
+	"storage_type" => "payman"
+));
+
+// check write-protected
+if(!$fw) {
+	set_error("your storage is write-protected!"); 
+	show_errors();
 }
 
 // redirect
 redirect_uri(get_final_link($redirect_url, array(
 	"_token" => get_session_token(),
 	"_route" => get_requested_value("route"),
-	"process_type" => $process_type,
-	"order_idxx" => $order_idxx
+	"_action" => $action,
+	"_ordr_idxx" => $ordr_idxx
 ), false));
