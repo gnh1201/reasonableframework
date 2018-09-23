@@ -23,9 +23,9 @@ function init_orderid() {
 		date = "0" + date;
 	}
 
-	var order_idxx = "JOBBAND" + year + "" + month + "" + date + "" + time;
+	var order_idxx = "ORDER" + year + "" + month + "" + date + "" + time;
 
-	document.order_info.ordr_idxx.value = order_idxx;            
+	document.getElementById("ordr_idxx").value = order_idxx;
 }
 
 // 주문 양식 제출
@@ -42,8 +42,20 @@ window.onload = function() {
 	var form_order_info = document.getElementById("order_info");
 	form_order_info.setAttribute("onsubmit", "return submit_orderform(this)");
 
-	// 결제 모듈 실행
-	setTimeout(function() {
-		jsf__pay(form_order_info);
-	}, 3000);
+	// 무료 서비스 확인
+	var form_good_mny = document.getElementById("good_mny");
+	if(form_good_mny.value == "") {
+		if(confirm("[가격정보 없음]\n무료 서비스를 신청하는 것이 맞습니까?\n무료 서비스 이용이 아니라면 취소를 눌러주세요.")) {
+			document.getElementById("res_cd").value = "9999";
+			document.getElementById("route").value = "ordercomplete.pgkcp";
+			form_order_info.submit();
+		} else {
+			window.location.href = document.getElementById("redirect_url").value;
+		}
+	} else {
+		// 결제 모듈 실행
+		setTimeout(function() {
+			jsf__pay(form_order_info);
+		}, 3000);
+	}
 }
