@@ -305,7 +305,6 @@ if(!function_exists("session_logout")) {
 		// delete session file
 		$session_name = get_password($ss_key);
 		remove_storage_file($session_name, array(
-			"filename" => $session_name,
 			"storage_type" => get_value_in_array("session_dir", $config, "session"),
 		));
 
