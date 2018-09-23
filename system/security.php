@@ -574,8 +574,8 @@ if(!function_exists("get_generated_name")) {
 	}
 }
 
-if(!function_exists("check_redirect_domain")) {
-	function check_redirect_domain($url) {
+if(!function_exists("check_redirect_origin")) {
+	function check_redirect_origin($url) {
 		$flag = false;
 
 		$to_resource = parse_url($url);
