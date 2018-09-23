@@ -174,7 +174,7 @@ if(!function_exists("check_empty_requests")) {
 }
 
 if(!function_exists("get_hashed_text")) {
-	function get_hashed_text($text, $algo="sha1") {
+	function get_hashed_text($text, $algo="sha1", $options=array()) {
 		$hashed_text = "";
 
 		switch($algo) {
@@ -188,7 +188,11 @@ if(!function_exists("get_hashed_text")) {
 				$hashed_text = crypt($text);
 				break;
 			case "base64":
-				$hashed_text = base64_encode($text);
+				if(!array_key_equals("decode", $options, true)) {
+					$hashed_text = base64_encode($text);
+				} else {
+					$hashed_text = base64_decode($text);
+				}
 				break;
 			default:
 				$hashed_text = "";
