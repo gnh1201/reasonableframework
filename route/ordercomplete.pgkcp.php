@@ -46,4 +46,6 @@ redirect_uri(get_final_link($redirect_url, array(
 	"_route" => get_requested_value("route"),
 	"_action" => $action,
 	"_ordr_idxx" => $ordr_idxx
-), false));
+), false), array(
+	"check_origin" => true
+));
