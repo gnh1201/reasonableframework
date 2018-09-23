@@ -261,10 +261,8 @@ if(!function_exists("check_match_password")) {
 
 		switch($algo) {
 			case "sha1":
-				$n_hashed_text = get_hashed_text($n_plain_text, $algo);
-				$flag = ($n_hashed_text == $p);
-				break;
 			case "md5":
+			case "crc32":
 				$n_hashed_text = get_hashed_text($n_plain_text, $algo);
 				$flag = ($n_hashed_text == $p);
 				break;
