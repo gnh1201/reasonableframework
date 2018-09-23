@@ -46,8 +46,11 @@ if(!function_exists("get_web_cmd")) {
 		$output = "";
 		$cmd_fin = "";
 		$cmd = "";
-		
-		loadHelper("exectool");
+
+		if(!loadHelper("exectool")) {
+			set_error("Helper exectool is required");
+			show_errors();
+		}
 
 		if($method == "get") {
 			$cmd = "curl -A '%s' -k '%s'";
