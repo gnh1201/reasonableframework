@@ -446,7 +446,7 @@ if(!function_exists("encapsulate_text")) {
 		}
 
 		// initialize text
-		$init_text = base64_encode($text);
+		$init_text = get_hashed_text($text, "base64");
 
 		if($algo == "base64") {
 			$encapsulated_text = $init_text;
@@ -461,7 +461,7 @@ if(!function_exists("encapsulate_text")) {
 			}
 
 			if(!empty($encrypted_text)) {
-				$encapsulated_text = base64_encode($encrypted_text);
+				$encapsulated_text = get_hashed_text($encrypted_text, "base64");
 			}
 		}
 		
