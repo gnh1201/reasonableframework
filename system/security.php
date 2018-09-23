@@ -102,7 +102,7 @@ if(!function_exists("store_login_session")) {
 		$fw = write_storage_file($session_name, array(
 			"filename" => $session_name,
 			"storage_type" => get_value_in_array("session_dir", $config, "session"),
-			"chmod" => 0777,
+			"chmod" => 0700, // only access by owner
 		));
 
 		if($fw) {
