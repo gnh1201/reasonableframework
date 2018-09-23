@@ -585,7 +585,7 @@ if(!function_exists("check_redirect_origin")) {
 		$base_resource = parse_url($base_url);
 		$base_host = str_replace("www.", "", get_value_in_array("host", $base_resource, ""));
 
-		$flag = check_token_abuse($to_host, $base_host);
+		$flag = !check_token_abuse($to_host, $base_host);
 
 		return $flag;
 	}
