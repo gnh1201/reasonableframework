@@ -187,6 +187,13 @@ if(!function_exists("get_hashed_text")) {
 			case "crypt":
 				$hashed_text = crypt($text);
 				break;
+			case "crc32":
+				if(!array_key_equals("decimal", $options, true)) {
+					$hashed_text = str_pad(dechex(crc32($text)), 8, '0', STR_PAD_LEFT);
+				} else {
+					$hashed_text = crc32($text);
+				}
+				break;
 			case "base64":
 				if(!array_key_equals("decode", $options, true)) {
 					$hashed_text = base64_encode($text);
