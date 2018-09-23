@@ -137,8 +137,8 @@ if(!function_exists("get_route_link")) {
 // URL: Uniform Resource Locator
 if(!function_exists("redirect_uri")) {
 	function redirect_uri($uri, $permanent=false, $options=array()) {
-		if(array_key_equals("check_domain", $options, true)) {
-			if(!check_redirect_domain($uri)) {
+		if(array_key_equals("check_origin", $options, true)) {
+			if(!check_redirect_origin($uri)) {
 				set_error("Invalid redirect URL");
 				show_errors();
 			}
