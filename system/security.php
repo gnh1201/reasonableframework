@@ -301,25 +301,30 @@ if(!function_exists("session_logout")) {
 		
 		$ss_user_name = get_session("ss_user_name");
 		$ss_key = get_session("ss_key");
-		
+
+		// delete session file
+		$session_name = get_password($ss_key);
+		remove_storage_file($session_name, array(
+			"filename" => $session_name,
+			"storage_type" => get_value_in_array("session_dir", $config, "session"),
+		));
+
+		// reset session
 		if(!empty($ss_key)) {
 			set_session("ss_user_name", "");
 			set_session("ss_key", "");
 		}
-
-		// delete session file
-		@unlink($config['session_dir'] . '/' . protect_dir_path($ss_key));
 
 		// permanently destory
 		session_unset();
 		session_destroy();
 
 		// check ereased token
-		$abuse = check_token_abuse($ss_user_name, get_session("ss_user_name"));
-		$abuse = ($abuse && check_token_abuse($ss_key, get_session("ss_key")));
+		$abuse_ss_user_name = check_token_abuse($ss_user_name, get_session("ss_user_name"));
+		$abuse_ss_key = check_token_abuse($ss_key, get_session("ss_key"));
 
-		// apply result
-		$flag = $abuse;
+		// return result
+		$flag = ($abuse_ss_user_name && $abuse_ss_key);
 
 		return $flag;
 	}
