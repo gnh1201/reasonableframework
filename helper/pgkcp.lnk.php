@@ -31,10 +31,51 @@ if(!function_exists("get_pgkcp_config")) {
 				"module_type" => $module_type,
 			);
 		} else {
-			set_error("PGKCP Configuration File does not exists.");
+			set_error("PGKCP configuration file does not exists.");
 			show_errors();
 		}
-		
+
+		// check installed platform
+		$platform = get_pgkcp_platform($pgkcp_config);
+		if(empty($platform)) {
+			set_error("pp_cli or pp_cli.exe file not found");
+			show_errors();
+		} else {
+			$pgkcp_config['g_conf_platform'] = $platform;
+		}
+
 		return $pgkcp_config;
+	}
+}
+
+if(!function_exists("get_pgkcp_platform")) {
+	function get_pgkcp_platform($config) {
+		$platform = false;
+
+		$exe_files = array(
+			"linux" => $config['g_conf_home_dir'] . "/bin/pp_cli",
+			"windows" => $config['g_conf_home_dir'] . "/bin/pp_cli.exe"
+		);
+
+		foreach($exe_files as $k=>$v) {
+			if(file_exists($v)) {
+				$platform = $k;
+				break;
+			}
+		}
+
+		return $platform;
+	}
+}
+
+if(!function_exists("load_pgkcp_library")) {
+	function load_pgkcp_library() {
+		$inc_file = get_current_working_dir() . "/vendor/pgkcp/res/pp_cli_hub_lib.php";
+		if(file_exists($inc_file)) {
+			include($inc_file);
+		} else {
+			set_error("PGKCP payment library file does not exists.");
+			show_errors();
+		}
 	}
 }
