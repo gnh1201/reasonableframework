@@ -17,14 +17,9 @@ $user_id = get_requested_value("user_id");
 $connection_id = get_requested_value("connection_id");
 $message = get_requested_value("message");
 
-if(empty($provider)) {
-	set_error("provider is required field.");
-	show_errors();
-}
-
 $api_session_id = get_session("api_session_id");
 $session_data = array();
-if(!empty($session_id)) {
+if(!empty($api_session_id)) {
 	$fr = read_storage_file($api_session_id, array(
 		"storage_type" => "session"
 	));
@@ -40,6 +35,11 @@ if(!empty($session_id)) {
 		$connection_id = get_value_in_array("connection_id", $session_data, "");
 		$message = get_value_in_array("message", $session_data, "");
 	}
+}
+
+if(empty($provider)) {
+	set_error("provider is required field.");
+	show_errors();
 }
 
 $hauth_adapter = null;
@@ -68,22 +68,47 @@ if(empty($connection_id)) {
 	}
 }
 
-// do authenticate
-if(!$session_flag) {
-	try {
-		$hauth_adapter = $hauth->authenticate($provider);
-	} catch(Exception $e) {
-		// nothing
+// check hybridauth request
+if(check_hybridauth()) {
+	$hauth_session = $hauth->getSessionData();
+	$connection_id = store_hybridauth_session($hauth_session, $user_id);
+	if($connection_id) {
+		$session_flag = true;
+		$hauth_profile = $hauth_adapter->getUserProfile();
 	}
+}
 
-	if(!is_null($hauth_adapter)) {
-		$hauth_session = $hauth->getSessionData();
-		$connection_id = store_hybridauth_session($hauth_session, $user_id);
-		if($connection_id) {
-			$session_flag = true;
-			$hauth_profile = $hauth_adapter->getUserProfile();
-		}
+// save session
+$api_session_id = get_hashed_text(make_random_id(32));
+$session_data = array(
+	"provider" => $provider,
+	"action" => $action,
+	"redirect_url" => $redirect_url,
+	"user_id" => $user_id,
+	"connection_id" => $connection_id,
+	"message" => $message,
+	"profile" => $hauth_profile
+);
+$fw = write_storage_file(json_encode($session_data), array(
+	"storage_type" => "session",
+	"filename" => $api_session_id
+));
+if(!$fw) {
+	set_error("maybe, your storage is write-protected.");
+	show_errors();
+} else {
+	set_session("api_session_id", $api_session_id);
+}
+
+// try authenticate
+try {
+	if(!$session_flag) {
+		$hauth_adapter = $hauth->authenticate($provider);
+	} else {
+		$hauth_adapter = $hauth->getAdapter($provider);
 	}
+} catch(Exception $e) {
+	// nothing
 }
 
 if(!$session_flag) {
@@ -96,25 +121,15 @@ if(!$session_flag) {
 		"connection_id" => $connection_id
 	), false));
 } else {
-	// if success authenticate
-	$api_session_id = get_hashed_text(make_random_id(32));
-	$session_data = array(
-		"provider" => $provider,
-		"action" => $action,
-		"redirect_url" => $redirect_url,
-		"user_id" => $user_id,
-		"connection_id" => $connection_id,
-		"message" => $message
-	);
-	$fw = write_storage_file(json_encode($session_data), array(
-		"storage_type" => "session",
-		"filename" => $api_session_id
-	));
-	if(!$fw) {
-		set_error("maybe, your storage is write-protected.");
-		show_errors();
-	} else {
-		set_session("api_session_id", $api_session_id);
+
+
+	if(!is_null($hauth_adapter)) {
+		$hauth_session = $hauth->getSessionData();
+		$connection_id = store_hybridauth_session($hauth_session, $user_id);
+		if($connection_id) {
+			$session_flag = true;
+			$hauth_profile = $hauth_adapter->getUserProfile();
+		}
 	}
 }
 
@@ -139,4 +154,8 @@ switch($action) {
 			"profile"  => $hauth_profile,
 		);
 		break;
+	default:
+		set_error("Unknown action");
+		show_errors();
 }
+
