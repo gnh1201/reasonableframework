@@ -109,7 +109,7 @@ if(!function_exists("get_network_outbound_addr")) {
 
 		if(loadHelper("webpagetool")) {
 			$remote_host = "http://" . ($protocol == "ipv6" ? "ipv6." : "") . "icanhazip.com";
-			$response = get_web_json($remote_host, "get.cache");
+			$response = get_web_page($remote_host, "get.cache");
 			$addr = get_value_in_array("content", $response, $addr);
 		}
 
