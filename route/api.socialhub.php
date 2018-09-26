@@ -8,6 +8,7 @@
 
 loadHelper("hybridauth.lnk");
 loadHelper("hybridauth.dbt");
+loadHelper("socialhub.utl");
 
 $provider = get_requested_value("provider");
 $action = get_requested_value("action");
