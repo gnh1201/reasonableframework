@@ -24,16 +24,15 @@ if(!empty($api_session_id)) {
 		"storage_type" => "session"
 	));
 	if(!$fr) {
-		set_error("maybe, your session is expired.");
-		show_errors();
+		$api_session_id = ""; // renew api session id
 	} else {
 		$session_data = json_decode($fr);
-		$provider = get_value_in_array("provider", $session_data, "");
-		$action = get_value_in_array("action", $session_data, "");
-		$redirect_url = get_value_in_array("redirect_url", $session_data, "");
-		$user_id = get_value_in_array("user_id", $session_data, "");
-		$connection_id = get_value_in_array("connection_id", $session_data, "");
-		$message = get_value_in_array("message", $session_data, "");
+		$provider = get_property_value("provider", $session_data);
+		$action = get_property_value("action", $session_data);
+		$redirect_url = get_property_value("redirect_url", $session_data);
+		$user_id = get_property_value("user_id", $session_data);
+		$connection_id = get_property_value("connection_id", $session_data);
+		$message = get_property_value("message", $session_data);
 	}
 }
 
@@ -56,7 +55,7 @@ $hauth = new Hybrid_Auth($configfile);
 
 // try session restore
 $session_flag = false;
-if(empty($connection_id)) {
+if(!empty($connection_id)) {
 	$hauth_session = get_stored_hybridauth_session($connection_id);
 	if(!empty($hauth_session)) {
 		try {
@@ -73,7 +72,6 @@ if(check_hybridauth()) {
 	$hauth_session = $hauth->getSessionData();
 	$connection_id = store_hybridauth_session($hauth_session, $user_id);
 	if($connection_id) {
-		$hauth_profile = $hauth_adapter->getUserProfile();
 		$session_flag = true;
 	}
 }
@@ -81,13 +79,13 @@ if(check_hybridauth()) {
 // save session
 $api_session_id = get_hashed_text(make_random_id(32));
 $session_data = array(
+	"api_session_id" => $api_session_id,
 	"provider" => $provider,
 	"action" => $action,
 	"redirect_url" => $redirect_url,
 	"user_id" => $user_id,
 	"connection_id" => $connection_id,
-	"message" => $message,
-	"profile" => $hauth_profile
+	"message" => $message
 );
 $fw = write_storage_file(json_encode($session_data), array(
 	"storage_type" => "session",
@@ -121,6 +119,9 @@ if(!$session_flag) {
 		"connection_id" => $connection_id
 	), false));
 }
+
+// get user profile
+$hauth_profile = $hauth_adapter->getUserProfile();
 
 // do action
 $context = array();
