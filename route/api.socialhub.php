@@ -73,8 +73,8 @@ if(check_hybridauth()) {
 	$hauth_session = $hauth->getSessionData();
 	$connection_id = store_hybridauth_session($hauth_session, $user_id);
 	if($connection_id) {
-		$session_flag = true;
 		$hauth_profile = $hauth_adapter->getUserProfile();
+		$session_flag = true;
 	}
 }
 
@@ -120,17 +120,6 @@ if(!$session_flag) {
 		"user_id" => $user_id,
 		"connection_id" => $connection_id
 	), false));
-} else {
-
-
-	if(!is_null($hauth_adapter)) {
-		$hauth_session = $hauth->getSessionData();
-		$connection_id = store_hybridauth_session($hauth_session, $user_id);
-		if($connection_id) {
-			$session_flag = true;
-			$hauth_profile = $hauth_adapter->getUserProfile();
-		}
-	}
 }
 
 // do action
