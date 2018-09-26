@@ -12,10 +12,15 @@ loadHelper("hybridauth.dbt");
 $provider = get_requested_value("provider");
 $action = get_requested_value("action");
 $redirect_url = get_requested_value("redirect_url");
-
 $user_id = get_requested_value("user_id");
+
 $connection_id = get_requested_value("connection_id");
 $message = get_requested_value("message");
+
+if(empty($provider)) {
+	set_error("provider is required field.");
+	show_errors();
+}
 
 $api_session_id = get_session("api_session_id");
 $session_data = array();
