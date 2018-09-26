@@ -9,9 +9,12 @@
 loadHelper("hybridauth.lnk");
 loadHelper("hybridauth.dbt");
 
+set_session_token();
+$_token = get_session_token();
+
 $provider = get_requested_value("provider");
 $action = get_requested_value("action");
-$redirect_url = get_requested_value("redirect_url");
+$redirect_uri = get_requested_value("redirect_uri");
 $user_id = get_requested_value("user_id");
 
 $connection_id = get_requested_value("connection_id");
@@ -24,12 +27,14 @@ if(!empty($api_session_id)) {
 		"storage_type" => "session"
 	));
 	if(!$fr) {
-		$api_session_id = ""; // renew api session id
+		// renew api session id
+		$api_session_id = "";
+		set_session("api_session_id", $api_session_id);
 	} else {
 		$session_data = json_decode($fr);
 		$provider = get_property_value("provider", $session_data);
 		$action = get_property_value("action", $session_data);
-		$redirect_url = get_property_value("redirect_url", $session_data);
+		$redirect_uri = get_property_value("redirect_uri", $session_data);
 		$user_id = get_property_value("user_id", $session_data);
 		$connection_id = get_property_value("connection_id", $session_data);
 		$message = get_property_value("message", $session_data);
@@ -69,13 +74,11 @@ if(!empty($connection_id)) {
 }
 
 // check hybridauth request
-if(hybridauth_check_redirect()) {
-	if($hauth->isConnectedWith($provider)) {
-		$hauth_session = $hauth->getSessionData();
-		$connection_id = store_hybridauth_session($hauth_session, $user_id);
-		if($connection_id) {
-			$session_flag = true;
-		}
+if($hauth->isConnectedWith($provider)) {
+	$hauth_session = $hauth->getSessionData();
+	$connection_id = store_hybridauth_session($hauth_session, $user_id);
+	if($connection_id) {
+		$session_flag = true;
 	}
 }
 
@@ -85,7 +88,7 @@ $session_data = array(
 	"api_session_id" => $api_session_id,
 	"provider" => $provider,
 	"action" => $action,
-	"redirect_url" => $redirect_url,
+	"redirect_uri" => $redirect_uri,
 	"user_id" => $user_id,
 	"connection_id" => $connection_id,
 	"message" => $message
@@ -122,7 +125,7 @@ if(!$session_flag) {
 	redirect_uri(get_route_link("api.socialhub", array(
 		"provider" => $provider,
 		"action" => $action,
-		"redirect_url" => $redirect_url,
+		"redirect_uri" => $redirect_uri,
 		"user_id" => $user_id,
 		"connection_id" => $connection_id
 	), false));
@@ -194,5 +197,27 @@ switch($action) {
 		show_errors();
 }
 
-header("Content-Type: application/json");
-echo json_encode($context);
+var_dump($redirect_uri);
+
+if(empty($redirect_uri)) {
+	header("Content-Type: application/json");
+	echo json_encode($context);
+} else {
+	$_display_name = get_hashed_text($hauth_profile->displayName, "base64");
+	$_idt_hash = get_hashed_text($hauth_profile->identifier, "sha1");
+	$_idt_name = $_idt_hash . "@" . $provider;
+	$_idt = get_hashed_text($_idt_name, "sha1");
+
+	// renew api session id
+	$api_session_id = "";
+	set_session("api_session_id", $api_session_id);
+
+	// go to redirect uri
+	redirect_with_params($redirect_uri, array(
+		"connection_id" => $connection_id,
+		"provider" => $provider,
+		"display_name" => $_display_name,
+		"idt" => $_idt,
+		"_token" => $_token
+	));
+}
