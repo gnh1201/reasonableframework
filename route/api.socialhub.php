@@ -19,27 +19,7 @@ $message = get_requested_value("message");
 
 $api_session_id = get_session("api_session_id");
 $session_data = array();
-if(empty($session_id)) {
-	$session_id = get_hashed_text(get_random_id(32));
-	$session_data = array(
-		"provider" => $provider,
-		"action" => $action,
-		"redirect_url" => $redirect_url,
-		"user_id" => $user_id,
-		"connection_id" => $connection_id,
-		"message" => $message
-	);
-	$fw = write_storage_file(json_encode($session_data), array(
-		"storage_type" => "session",
-		"filename" => $api_session_id
-	));
-	if(!$fw) {
-		set_error("maybe, your storage is write-protected.");
-		show_errors();
-	} else {
-		set_session("api_session_id", $api_session_id);
-	}
-} else {
+if(!empty($session_id)) {
 	$fr = read_storage_file($api_session_id, array(
 		"storage_type" => "session"
 	));
@@ -101,15 +81,37 @@ if(!$session_flag) {
 	}
 }
 
-// if failed authenticate
 if(!$session_flag) {
 	// if failed authenticate
 	redirect_uri(get_route_link("api.socialhub", array(
 		"provider" => $provider,
 		"action" => $action,
 		"redirect_url" => $redirect_url,
-		"user_id" => $user_id
+		"user_id" => $user_id,
+		"connection_id" => $connection_id
 	), false));
+} else {
+	// if success authenticate
+	$session_id = get_hashed_text(make_random_id(32));
+	$session_data = array(
+		"provider" => $provider,
+		"action" => $action,
+		"redirect_url" => $redirect_url,
+		"user_id" => $user_id,
+		"connection_id" => $connection_id,
+		"message" => $message
+	);
+	$fw = write_storage_file(json_encode($session_data), array(
+		"storage_type" => "session",
+		"filename" => $api_session_id
+	));
+	if(!$fw) {
+		set_error("maybe, your storage is write-protected.");
+		show_errors();
+	} else {
+		set_session("api_session_id", $api_session_id);
+	}
+} else {
 }
 
 // do action
