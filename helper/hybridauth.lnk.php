@@ -10,10 +10,10 @@ if(!function_exists("load_hybridauth")) {
 	function load_hybridauth($provider="") {
 		$result = false;
 
-		$configfile = "./vendor/library/hauth.config.php";
+		$configfile = "./vendor/hybridauth/hybridauth/config.php";
 		$required_files = array(
-			"hybridauth/hybridauth/library/Hybrid/Auth",
-			"hybridauth/hybridauth/library/Hybrid/Endpoint"
+			"hybridauth/hybridauth/Hybrid/Auth",
+			"hybridauth/hybridauth/Hybrid/Endpoint"
 		);
 
 		// support facebook (php graph api v5)
@@ -39,5 +39,21 @@ if(!function_exists("load_hybridauth")) {
 		}
 
 		return $result;
+	}
+}
+
+if(!function_exists("check_hybridauth")) {
+	function check_hybridauth() {
+		$flag = false;
+		$requests = get_requests();
+
+		foreach($requests['_ALL'] as $k=>$v) {
+			if(startsWith($k, "hauth.")) {
+				$flag = true;
+				break;
+			}
+		}
+
+		return $flag;
 	}
 }
