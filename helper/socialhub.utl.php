@@ -68,3 +68,54 @@ if(!function_exists("socialhub_parse_object_id")) {
 		return $object_id;
 	}
 }
+
+if(!function_exists("socialhub_get_object")) {
+	function socialhub_get_object($provider, $adapter, $access_token, $type="post") {
+		$result = false;
+		
+		switch($provider) {
+			case "facebook":
+				$result = socialhub_get_object_facebook($provider, $adapter, $access_token, $type);
+				break;
+		}
+		
+		return $result;
+	}
+}
+
+if(!function_exists("socialhub_get_object_facebook")) {
+	function socialhub_get_object_facebook($object_id, $adapter, $access_token, $type="post") {
+		$result = false;
+		$response = false;
+
+		try {
+			switch($object_type) {
+				case "post":
+					$response = $adapter->api()->get("/" . $object_id, $access_token);
+					break;
+				case "likes":
+					$response = $adapter->api()->get("/" . $object_id . "/likes", $access_token);
+					break;
+				case "comments":
+					$response = $adapter->api()->get("/" . $object_id . "/comments", $access_token);
+					break;
+				case "sharedposts":
+					$response = $adapter->api()->get("/" . $object_id . "/sharedposts", $access_token);
+					break;
+				case "reactions":
+					$response = $adapter->api()->get("/" . $object_id . "/reactions", $access_token);
+					break;
+			}
+		} catch(Exception $e) {
+			set_error($e->getMessage());
+			show_errors();
+		}
+
+		// get response body
+		$body = get_property_value("body", $response, true);
+		$decoded_body = json_decode($body);
+		$result = $decoded_body;
+
+		return $result;
+	}
+}
