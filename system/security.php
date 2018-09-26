@@ -177,6 +177,14 @@ if(!function_exists("get_hashed_text")) {
 	function get_hashed_text($text, $algo="sha1", $options=array()) {
 		$hashed_text = false;
 
+		if(!array_key_empty("salt", $options)) {
+			if($options['salt'] == true) {
+				$text .= get_salt();
+			} elseif(is_string($options['salt']) && $strlen($options['salt']) > 0) {
+				$text . = $options['salt'];
+			}
+		}
+
 		switch($algo) {
 			case "sha1":
 				$hashed_text = sha1($text);
