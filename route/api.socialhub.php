@@ -8,6 +8,7 @@
 
 loadHelper("hybridauth.lnk");
 loadHelper("hybridauth.dbt");
+loadHelper("socialhub.utl");
 
 set_session_token();
 $_token = get_session_token();
@@ -74,13 +75,11 @@ if(!empty($connection_id)) {
 }
 
 // check hybridauth request
-if(hybridauth_check_redirect()) {
-	if($hauth->isConnectedWith($provider)) {
-		$hauth_session = $hauth->getSessionData();
-		$connection_id = store_hybridauth_session($hauth_session, $user_id);
-		if($connection_id) {
-			$session_flag = true;
-		}
+if($hauth->isConnectedWith($provider)) {
+	$hauth_session = $hauth->getSessionData();
+	$connection_id = store_hybridauth_session($hauth_session, $user_id);
+	if($connection_id) {
+		$session_flag = true;
 	}
 }
 
@@ -186,6 +185,8 @@ switch($action) {
 		break;
 	case "delete": // listen delete ping 
 		break;
+	case "accept": // listen accept ping 
+		break;
 	case "object": // get object by id
 		$object_id = get_requested_value("object_id");
 		$context = array(
@@ -198,6 +199,8 @@ switch($action) {
 		set_error("Unknown action");
 		show_errors();
 }
+
+var_dump($redirect_uri);
 
 if(empty($redirect_uri)) {
 	header("Content-Type: application/json");
