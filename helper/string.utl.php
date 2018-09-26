@@ -103,3 +103,21 @@ if(!function_exists("read_storage_file_by_line")) {
 		return explode_by_line(read_storage_file($filename, $options));
 	}
 }
+
+if(!function_exists("startsWith")) {
+	function startsWith($haystack, $needle) {
+		$length = strlen($needle);
+		return (substr($haystack, 0, $length) === $needle);
+	}
+}
+
+if(!function_exists("endsWith")) {
+	function endsWith($haystack, $needle) {
+		$length = strlen($needle);
+		if($length == 0) {
+			return true;
+		}
+
+		return (substr($haystack, -$length) === $needle);
+	}
+}
