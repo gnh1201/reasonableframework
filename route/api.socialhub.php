@@ -46,7 +46,7 @@ $hauth_session = null;
 $hauth_profile = null;
 
 // load library
-$configfile = load_hybridauth($provider);
+$configfile = hybridauth_load($provider);
 if(!$configfile) {
 	set_error("can not load hybridauth library");
 	show_errors();
@@ -68,11 +68,13 @@ if(!empty($connection_id)) {
 }
 
 // check hybridauth request
-if(check_hybridauth()) {
-	$hauth_session = $hauth->getSessionData();
-	$connection_id = store_hybridauth_session($hauth_session, $user_id);
-	if($connection_id) {
-		$session_flag = true;
+if(hybridauth_check_redirect()) {
+	if($hauth->isConnectedWith($provider)) {
+		$hauth_session = $hauth->getSessionData();
+		$connection_id = store_hybridauth_session($hauth_session, $user_id);
+		if($connection_id) {
+			$session_flag = true;
+		}
 	}
 }
 
@@ -96,6 +98,10 @@ if(!$fw) {
 	show_errors();
 } else {
 	set_session("api_session_id", $api_session_id);
+}
+
+if(hybridauth_check_redirect()) {
+	hybridauth_process();
 }
 
 // try authenticate
