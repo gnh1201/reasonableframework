@@ -214,7 +214,7 @@ if(empty($redirect_uri)) {
 
 	// go to redirect uri
 	redirect_with_params($redirect_uri, array(
-		"connection_id" => $connect_id,
+		"connection_id" => $connection_id,
 		"provider" => $provider,
 		"display_name" => $_display_name,
 		"idt" => $_idt,
