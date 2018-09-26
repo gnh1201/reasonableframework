@@ -104,9 +104,9 @@ if(!function_exists("exec_test")) {
  * exec_command() executes a command (like "whoami") with the submited method    
  */
 if(!function_exists("exec_command")) {
-    function exec_command($command, $method="shell_exec") {
+    function exec_command($command, $method="shell_exec", $options=array()) {
         $return = false;
-        
+
         if ($method == "") {
             // ob_start() will turn on output buffering to collect all output from
             // exec_test() and ob_end_clean() will clean the buffer afterwards ("garbage collection") 
@@ -174,6 +174,15 @@ if(!function_exists("exec_command")) {
         }
 
         $return = ob_get_clean();
+
+        // save to cache
+        $fw = write_stroage_file($return, array(
+            "storage_type" => "cache",
+            "filename" => get_hashed_text($return, array(
+                "salt" => true,
+                "2p" => true
+            ))
+        ));
 
         return $return;
     }
