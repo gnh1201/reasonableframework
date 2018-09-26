@@ -17,6 +17,7 @@ if(!function_exists("load_hybridauth")) {
 		);
 
 		// support facebook (php graph api v5)
+		$provider = strtolower($provider);
 		switch($provider) {
 			case "facebook":
 				$required_files[] = "facebook-sdk-v5/src/Facebook/autoload";
@@ -49,7 +50,7 @@ if(!function_exists("check_hybridauth")) {
 		
 		if(loadHelper("string.utl")) {
 			foreach($requests['_ALL'] as $k=>$v) {
-				if(startsWith($k, "hauth.")) {
+				if(startsWith($k, "hauth_")) {
 					$flag = true;
 					break;
 				}
