@@ -122,7 +122,7 @@ if(!function_exists("get_network_outbound_addr")) {
 				"storage_type" => "cache",
 				"filename" => get_hashed_text($cmd, array(
 					"salt" => true,
-					"2pass" => true
+					"2p" => true
 				))
 			));
 			$addr = read_storage_file($fw, array(
