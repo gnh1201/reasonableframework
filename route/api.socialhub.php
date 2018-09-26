@@ -111,8 +111,9 @@ try {
 	} else {
 		$hauth_adapter = $hauth->getAdapter($provider);
 	}
+	$session_flag = true;
 } catch(Exception $e) {
-	// nothing
+	$hauth_adapter = $hauth->authenticate($provider);
 }
 
 if(!$session_flag) {
@@ -156,4 +157,6 @@ switch($action) {
 		set_error("Unknown action");
 		show_errors();
 }
+
+echo json_encode($context);
 
