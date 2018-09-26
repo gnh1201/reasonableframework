@@ -15,9 +15,11 @@ $redirect_url = get_requested_value("redirect_url");
 
 $user_id = get_reqeusted_value("user_id");
 $connection_id = get_requested_value("connection_id");
+$message = get_requested_value("message");
 
 $hauth_adapter = null;
 $hauth_session = null;
+$hauth_profile = null;
 
 // check hauth parameters
 $is_hauth = false;
@@ -53,7 +55,7 @@ if(empty($connection_id)) {
 // do authenticate
 if(!$session_flag) {
 	try {
-		$adapter = $hybridauth->authenticate($provider);
+		$hauth_adapter = $hauth->authenticate($provider);
 	} catch(Exception $e) {
 		// nothing
 	}
@@ -63,6 +65,7 @@ if(!$session_flag) {
 		$connection_id = store_hybridauth_session($hauth_session, $user_id);
 		if($connection_id) {
 			$session_flag = true;
+			$hauth_profile = $hauth_adapter->getUserProfile();
 		}
 	}
 }
@@ -79,14 +82,24 @@ if(!$session_flag) {
 }
 
 // do action
+$context = array();
 switch($action) {
 	case "inbound":
 		break;
 	case "outbound":
+		$hauth_adapter->setUserStatus($message);
+		
+		
 		break;
 	case "new":
 		break;
 	case "login":
-
+		$context = array(
+			"success"  => true,
+			"message"  => "Authenticated",
+			"user_id"  => $user_id,
+			"provider" => $provider,
+			"profile"  => $hauth_profile,
+		);
 		break;
 }
