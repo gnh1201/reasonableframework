@@ -107,10 +107,17 @@ if(!function_exists("get_network_outbound_addr")) {
 	function get_network_outbound_addr($protocol="") {
 		$addr = false;
 
+		// via icanhazip.com
 		if(loadHelper("webpagetool")) {
 			$remote_host = "http://" . ($protocol == "ipv6" ? "ipv6." : "") . "icanhazip.com";
 			$response = get_web_page($remote_host, "get.cache");
 			$addr = get_value_in_array("content", $response, $addr);
+		}
+
+		// via opendns.com
+		if(!$addr && loadHelper("exectool")) {
+			$cmd = "dig +short myip.opendns.com @resolver1.opendns.com";
+			$addr = exec_command($cmd, "shell_exec");
 		}
 
 		return $addr;
