@@ -179,7 +179,7 @@ if(!function_exists("get_hashed_text")) {
 
 		// with salt
 		if(!array_key_empty("salt", $options)) {
-			if(!array_key_equals("2pass", $options, true)) {
+			if(!array_key_equals("2p", $options, true)) {
 				if($options['salt'] == true) {
 					$text .= get_salt();
 				} elseif(is_string($options['salt']) && $strlen($options['salt']) > 0) {
@@ -189,8 +189,8 @@ if(!function_exists("get_hashed_text")) {
 		}
 
 		// with 2-pass
-		if(array_key_equals("2pass", $options, true)) {
-			$options['2pass'] = false;
+		if(array_key_equals("2p", $options, true)) {
+			$options['2p'] = false;
 			$text = get_hashed_text($text, $algo, $options);
 		}
 
