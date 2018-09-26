@@ -11,7 +11,7 @@ if(!function_exists("load_hybridauth")) {
 		$required_files = array(
 			"hybridauth/hybridauth/library/Hybrid/Auth",
 			"hybridauth/hybridauth/library/Hybrid/Endpoint",
-			"facebook-sdk-v5/src/Facebook/autoload"
+			"facebook-sdk-v5/src/Facebook/autoload" // support facebook
 		);
 		foreach($required_files as $file) {
 			$inc_file = "./vendor/" . $file . ".php";
