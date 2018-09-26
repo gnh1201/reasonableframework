@@ -70,12 +70,19 @@ if(!function_exists("socialhub_parse_object_id")) {
 }
 
 if(!function_exists("socialhub_get_object")) {
-	function socialhub_get_object($provider, $adapter, $access_token, $type="post") {
+	function socialhub_get_object($provider, $adapter, $object_id) {
 		$result = false;
-		
+		$access_token = $adapter->getAccessToken();
+
 		switch($provider) {
 			case "facebook":
-				$result = socialhub_get_object_facebook($provider, $adapter, $access_token, $type);
+				$result = array(
+					"post" => socialhub_get_object_facebook($provider, $adapter, $object_id, "post"),
+					"likes" => socialhub_get_object_facebook($provider, $adapter, $object_id, "likes"),
+					"comments" => socialhub_get_object_facebook($provider, $adapter, $object_id, "comments"),
+					"sharedposts" => socialhub_get_object_facebook($provider, $adapter, $object_id, "sharedposts"),
+					"reactions" => socialhub_get_object_facebook($provider, $adapter, $object_id, "reactions"),
+				)
 				break;
 		}
 		
@@ -84,7 +91,7 @@ if(!function_exists("socialhub_get_object")) {
 }
 
 if(!function_exists("socialhub_get_object_facebook")) {
-	function socialhub_get_object_facebook($object_id, $adapter, $access_token, $type="post") {
+	function socialhub_get_object_facebook($adapter, $object_id, $type="post") {
 		$result = false;
 		$response = false;
 
