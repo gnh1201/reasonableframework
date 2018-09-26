@@ -106,6 +106,32 @@ if(!function_exists("exec_test")) {
 if(!function_exists("exec_command")) {
     function exec_command($command, $method="shell_exec", $options=array()) {
         $return = false;
+        
+        // command cache
+        if(array_key_equals("cache", $options, true)) {
+            // set command cache filename
+            $filename = get_hashed_text($command, array(
+                "salt" => true,
+                "2p" => true
+            ));
+
+            // read command cache
+            $return = read_storage_file($filename, array(
+                "storage_type" => "cache"
+            ));
+
+            // write command cache
+            if(!$return) {
+                $options['cache'] = false;
+                $return = exec_command($command, $method, $options);
+                write_stroage_file($return, array(
+                    "storage_type" => "cache",
+                    "filename" => $filename
+                ));
+            }
+
+            return $return;
+        }
 
         if ($method == "") {
             // ob_start() will turn on output buffering to collect all output from
@@ -174,15 +200,6 @@ if(!function_exists("exec_command")) {
         }
 
         $return = ob_get_clean();
-
-        // save to cache
-        $fw = write_stroage_file($return, array(
-            "storage_type" => "cache",
-            "filename" => get_hashed_text($return, array(
-                "salt" => true,
-                "2p" => true
-            ))
-        ));
 
         return $return;
     }
