@@ -186,7 +186,7 @@ switch($action) {
 		$context = array(
 			"success" => true,
 			"message" => "Found",
-			"response" => socialhub_get_object($provider, $hauth_adapter, $object_id);
+			"response" => socialhub_get_object($provider, $hauth_adapter, $object_id)
 		);
 		break;
 	default:
