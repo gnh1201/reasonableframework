@@ -137,9 +137,24 @@ switch($action) {
 	case "inbound":
 		break;
 	case "outbound":
-		$hauth_adapter->setUserStatus($message);
+		$response = socialhub_send_message($provider, $hauth_adapter, $message);
+		$object_id = socialhub_parse_object_id($provider, $response);
+		$context = array(
+			"success"   => !(!$object_id),
+			"message"   => "Have a nice day",
+			"user_id"   => $user_id,
+			"provider"  => $provider,
+			"object_id" => $object_id
+		);
 		break;
 	case "new":
+		$context = array(
+			"success"  => true,
+			"message"  => "Authenticated",
+			"user_id"  => $user_id,
+			"provider" => $provider,
+			"profile"  => $hauth_profile,
+		);
 		break;
 	case "login":
 		$context = array(
@@ -148,6 +163,18 @@ switch($action) {
 			"user_id"  => $user_id,
 			"provider" => $provider,
 			"profile"  => $hauth_profile,
+		);
+		break;
+	case "bgworker":
+		$response = socialhub_send_message($provider, $hauth_adapter, $message);
+		$object_id = socialhub_parse_object_id($provider, $response);
+		$context = array(
+			"success"    => !(!$object_id),
+			"message"    => "Have a nice day",
+			"id"         => $user_id,
+			"connection" => $connection_id,
+			"provider"   => $provider,
+			"object_id"  => $object_id
 		);
 		break;
 	case "cancel": // listen cancel authenticated callback
@@ -159,5 +186,5 @@ switch($action) {
 		show_errors();
 }
 
+header("Content-Type: application/json");
 echo json_encode($context);
-
