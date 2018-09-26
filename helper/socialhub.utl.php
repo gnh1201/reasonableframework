@@ -14,14 +14,14 @@ if(!function_exists("socialhub_send_message")) {
 		$status = array(
 			"message" => $message
 		);
-		
+
 		switch($provider) {
 			case "facebook":
 				$status['link'] = get_value_in_array("link", $options, "");
 				$status['picture'] = get_value_in_array("picture", $options, "");
 				$response = $adapter->setUserStatus($status);
 				break;
-	
+
 			case "linkedin":
 				$status['content'] => array(
 					"title" => get_value_in_array("title", $options, "");
@@ -40,10 +40,31 @@ if(!function_exists("socialhub_send_message")) {
 				$status['picture'] = get_value_in_array("picture", $options, "");
 				$response = $adapter->setUserStatus($status);
 				break;
-				
+
 			default:
 				set_error("Unknown provider");
 				show_errors();
 		}
+	}
+}
+ 
+if(!function_exists("socialhub_parse_object_id")) {
+	function socialhub_parse_object_id($provider, $response) {
+		$object_id = false;
+
+		switch($provider) {
+			case "facebook":
+				$decodedBody = get_property_value("decodedBody", $response, true);
+				$object_id = $decodedBody['id'];
+				break;
+			case "linkedin":
+				$object_id = get_property_value("updateKey", $response);
+				break;
+			case "twitter":
+				$object_id = get_property_value("id_str", $response);
+				break;
+		}
+
+		return $object_id;
 	}
 }
