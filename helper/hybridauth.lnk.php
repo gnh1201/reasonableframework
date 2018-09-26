@@ -6,8 +6,8 @@
   * @brief HybridAuth library RSF Linker
 ***/
 
-if(!function_exists("load_hybridauth")) {
-	function load_hybridauth($provider="") {
+if(!function_exists("hybridauth_load")) {
+	function hybridauth_load($provider="") {
 		$result = false;
 
 		$configfile = "./vendor/hybridauth/hybridauth/config.php";
@@ -43,14 +43,14 @@ if(!function_exists("load_hybridauth")) {
 	}
 }
 
-if(!function_exists("check_hybridauth")) {
-	function check_hybridauth() {
+if(!function_exists("hybridauth_check_redirect")) {
+	function hybridauth_check_redirect() {
 		$flag = false;
 		$requests = get_requests();
-		
+
 		if(loadHelper("string.utl")) {
 			foreach($requests['_ALL'] as $k=>$v) {
-				if(startsWith($k, "hauth_")) {
+				if(startsWith($k, "hauth")) {
 					$flag = true;
 					break;
 				}
@@ -58,5 +58,11 @@ if(!function_exists("check_hybridauth")) {
 		}
 
 		return $flag;
+	}
+}
+
+if(!function_exists("hybridauth_process")) {
+	function hybridauth_process() {
+		Hybrid_Endpoint::process();
 	}
 }
