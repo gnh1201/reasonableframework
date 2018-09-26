@@ -46,11 +46,13 @@ if(!function_exists("check_hybridauth")) {
 	function check_hybridauth() {
 		$flag = false;
 		$requests = get_requests();
-
-		foreach($requests['_ALL'] as $k=>$v) {
-			if(startsWith($k, "hauth.")) {
-				$flag = true;
-				break;
+		
+		if(loadHelper("string.utl")) {
+			foreach($requests['_ALL'] as $k=>$v) {
+				if(startsWith($k, "hauth.")) {
+					$flag = true;
+					break;
+				}
 			}
 		}
 
