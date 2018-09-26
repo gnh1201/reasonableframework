@@ -1,128 +1,198 @@
 <?php
 /**
- * @file socialhub.utl.php
- * @date 2018-09-27
+ * @file api.socialhub.php
+ * @date 2018-09-26
  * @author Go Namhyeon <gnh1201@gmail.com>
- * @brief SocialHub Utilities (refactoring from SocioRouter Utilities)
+ * @brief SocialHub API (refactoring from SocioRouter API)
  */
- 
-if(!function_exists("socialhub_send_message")) {
-	function socialhub_send_message($provider, $adapter, $message, $options=array()) {
-		$response = false;
-		$status = array(
-			"message" => $message
-		);
 
-		switch($provider) {
-			case "facebook":
-				$status['link'] = get_value_in_array("link", $options, "");
-				$status['picture'] = get_value_in_array("picture", $options, "");
-				$response = $adapter->setUserStatus($status);
-				break;
+loadHelper("hybridauth.lnk");
+loadHelper("hybridauth.dbt");
 
-			case "linkedin":
-				$status['content'] => array(
-					"title" => get_value_in_array("title", $options, "");
-					"description" => get_value_in_array("description", $options, "");
-					"submitted-url" => get_value_in_array("link", $options, "");
-					"submitted-image-url" => get_value_in_array("picture", $options, "");
-				);
-				$status['visibility'] => array(
-					"code" => "anyone",
-				);
-				$response = $adapter->setUserStatus($status);
-				break;
+$provider = get_requested_value("provider");
+$action = get_requested_value("action");
+$redirect_url = get_requested_value("redirect_url");
+$user_id = get_requested_value("user_id");
 
-			case "twitter":
-				$status['link'] = get_value_in_array("link", $options, "");
-				$status['picture'] = get_value_in_array("picture", $options, "");
-				$response = $adapter->setUserStatus($status);
-				break;
+$connection_id = get_requested_value("connection_id");
+$message = get_requested_value("message");
 
-			default:
-				set_error("Unknown provider");
-				show_errors();
-		}
-
-		return $response;
-	}
-}
- 
-if(!function_exists("socialhub_parse_object_id")) {
-	function socialhub_parse_object_id($provider, $response) {
-		$object_id = false;
-
-		switch($provider) {
-			case "facebook":
-				$decodedBody = get_property_value("decodedBody", $response, true);
-				$object_id = $decodedBody['id'];
-				break;
-			case "linkedin":
-				$object_id = get_property_value("updateKey", $response);
-				break;
-			case "twitter":
-				$object_id = get_property_value("id_str", $response);
-				break;
-		}
-
-		return $object_id;
+$api_session_id = get_session("api_session_id");
+$session_data = array();
+if(!empty($api_session_id)) {
+	$fr = read_storage_file($api_session_id, array(
+		"storage_type" => "session"
+	));
+	if(!$fr) {
+		$api_session_id = ""; // renew api session id
+	} else {
+		$session_data = json_decode($fr);
+		$provider = get_property_value("provider", $session_data);
+		$action = get_property_value("action", $session_data);
+		$redirect_url = get_property_value("redirect_url", $session_data);
+		$user_id = get_property_value("user_id", $session_data);
+		$connection_id = get_property_value("connection_id", $session_data);
+		$message = get_property_value("message", $session_data);
 	}
 }
 
-if(!function_exists("socialhub_get_object")) {
-	function socialhub_get_object($provider, $adapter, $object_id) {
-		$result = false;
-		$access_token = $adapter->getAccessToken();
-
-		switch($provider) {
-			case "facebook":
-				$result = array(
-					"post" => socialhub_get_object_facebook($provider, $adapter, $object_id, "post"),
-					"likes" => socialhub_get_object_facebook($provider, $adapter, $object_id, "likes"),
-					"comments" => socialhub_get_object_facebook($provider, $adapter, $object_id, "comments"),
-					"sharedposts" => socialhub_get_object_facebook($provider, $adapter, $object_id, "sharedposts"),
-					"reactions" => socialhub_get_object_facebook($provider, $adapter, $object_id, "reactions"),
-				)
-				break;
-		}
-		
-		return $result;
-	}
+if(empty($provider)) {
+	set_error("provider is required field.");
+	show_errors();
 }
 
-if(!function_exists("socialhub_get_object_facebook")) {
-	function socialhub_get_object_facebook($adapter, $object_id, $type="post") {
-		$result = false;
-		$response = false;
+$hauth_adapter = null;
+$hauth_session = null;
+$hauth_profile = null;
 
+// load library
+$configfile = hybridauth_load($provider);
+if(!$configfile) {
+	set_error("can not load hybridauth library");
+	show_errors();
+}
+$hauth = new Hybrid_Auth($configfile);
+
+// try session restore
+$session_flag = false;
+if(!empty($connection_id)) {
+	$hauth_session = get_stored_hybridauth_session($connection_id);
+	if(!empty($hauth_session)) {
 		try {
-			switch($object_type) {
-				case "post":
-					$response = $adapter->api()->get("/" . $object_id, $access_token);
-					break;
-				case "likes":
-					$response = $adapter->api()->get("/" . $object_id . "/likes", $access_token);
-					break;
-				case "comments":
-					$response = $adapter->api()->get("/" . $object_id . "/comments", $access_token);
-					break;
-				case "sharedposts":
-					$response = $adapter->api()->get("/" . $object_id . "/sharedposts", $access_token);
-					break;
-				case "reactions":
-					$response = $adapter->api()->get("/" . $object_id . "/reactions", $access_token);
-					break;
-			}
+			$hauth->restoreSessionData($hauth_session);
+			$session_flag = true;
 		} catch(Exception $e) {
-			set_error($e->getMessage());
+			set_error("maybe, your connection is broken.");
 			show_errors();
 		}
-
-		// get response body
-		$body = get_property_value("body", $response, true);
-		$decoded_body = json_decode($body);
-		$result = $decoded_body;
-
-		return $result;
 	}
 }
+
+// check hybridauth request
+if(hybridauth_check_redirect()) {
+	if($hauth->isConnectedWith($provider)) {
+		$hauth_session = $hauth->getSessionData();
+		$connection_id = store_hybridauth_session($hauth_session, $user_id);
+		if($connection_id) {
+			$session_flag = true;
+		}
+	}
+}
+
+// save session
+$api_session_id = get_hashed_text(make_random_id(32));
+$session_data = array(
+	"api_session_id" => $api_session_id,
+	"provider" => $provider,
+	"action" => $action,
+	"redirect_url" => $redirect_url,
+	"user_id" => $user_id,
+	"connection_id" => $connection_id,
+	"message" => $message
+);
+$fw = write_storage_file(json_encode($session_data), array(
+	"storage_type" => "session",
+	"filename" => $api_session_id
+));
+if(!$fw) {
+	set_error("maybe, your storage is write-protected.");
+	show_errors();
+} else {
+	set_session("api_session_id", $api_session_id);
+}
+
+if(hybridauth_check_redirect()) {
+	hybridauth_process();
+}
+
+// try authenticate
+try {
+	if(!$session_flag) {
+		$hauth_adapter = $hauth->authenticate($provider);
+	} else {
+		$hauth_adapter = $hauth->getAdapter($provider);
+	}
+	$session_flag = true;
+} catch(Exception $e) {
+	$hauth_adapter = $hauth->authenticate($provider);
+}
+
+if(!$session_flag) {
+	// if failed authenticate
+	redirect_uri(get_route_link("api.socialhub", array(
+		"provider" => $provider,
+		"action" => $action,
+		"redirect_url" => $redirect_url,
+		"user_id" => $user_id,
+		"connection_id" => $connection_id
+	), false));
+}
+
+// get user profile
+$hauth_profile = $hauth_adapter->getUserProfile();
+
+// do action
+$context = array();
+switch($action) {
+	case "inbound":
+		break;
+	case "outbound":
+		$response = socialhub_send_message($provider, $hauth_adapter, $message);
+		$object_id = socialhub_parse_object_id($provider, $response);
+		$context = array(
+			"success"   => !(!$object_id),
+			"message"   => "Have a nice day",
+			"user_id"   => $user_id,
+			"provider"  => $provider,
+			"object_id" => $object_id
+		);
+		break;
+	case "new":
+		$context = array(
+			"success"  => true,
+			"message"  => "Authenticated",
+			"user_id"  => $user_id,
+			"provider" => $provider,
+			"profile"  => $hauth_profile,
+		);
+		break;
+	case "login":
+		$context = array(
+			"success"  => true,
+			"message"  => "Authenticated",
+			"user_id"  => $user_id,
+			"provider" => $provider,
+			"profile"  => $hauth_profile,
+		);
+		break;
+	case "bgworker":
+		$response = socialhub_send_message($provider, $hauth_adapter, $message);
+		$object_id = socialhub_parse_object_id($provider, $response);
+		$context = array(
+			"success"    => !(!$object_id),
+			"message"    => "Have a nice day",
+			"id"         => $user_id,
+			"connection" => $connection_id,
+			"provider"   => $provider,
+			"object_id"  => $object_id
+		);
+		break;
+	case "cancel": // listen cancel authenticated callback
+		break;
+	case "delete": // listen delete ping 
+		break;
+	case "object": // get object by id
+		$object_id = get_requested_value("object_id");
+		$context = array(
+			"success" => true,
+			"message" => "Found",
+			"response" => socialhub_get_object($provider, $hauth_adapter, $object_id);
+		);
+		break;
+	default:
+		set_error("Unknown action");
+		show_errors();
+}
+
+header("Content-Type: application/json");
+echo json_encode($context);
