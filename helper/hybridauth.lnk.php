@@ -8,6 +8,9 @@
 
 if(!function_exists("load_hybridauth")) {
 	function load_hybridauth() {
+		$result = false;
+
+		$configfile = "./vendor/library/hauth.config.php";
 		$required_files = array(
 			"hybridauth/hybridauth/library/Hybrid/Auth",
 			"hybridauth/hybridauth/library/Hybrid/Endpoint",
@@ -17,11 +20,16 @@ if(!function_exists("load_hybridauth")) {
 			$inc_file = "./vendor/" . $file . ".php";
 			if(!file_exists($inc_file)) {
 				set_error("File not exists. " . $inc_file);
-				show_erros();
+				show_errors();
 			} else {
 				include("./vendor/" . $file . ".php");	
 			}
 		}
+
+		if(file_exists($configfile)) {
+			$result = $configfile;
+		}
+
+		return $result;
 	}
 }
-
