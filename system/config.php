@@ -50,22 +50,23 @@ if(!function_exists("get_config_value")) {
 }
 
 if(!function_exists("get_current_datetime")) {
-    function get_current_datetime() {
-	$datetime = false;
+	function get_current_datetime() {
+		$datetime = false;
 
-	$config = get_config();
-	$timestamp = date();
-	$timeformat = get_value_in_array("timeformat", $config, "Y-m-d H:i:s");
+		$config = get_config();
+		$timestamp = date();
+		$timeformat = get_value_in_array("timeformat", $config, "Y-m-d H:i:s");
 
-	if(!array_key_empty("timeserver", $config)) {
-		if(loadHelper("timetool")) {
-			$timestamp = get_server_time($config['timeserver']);
+		if(!array_key_empty("timeserver", $config)) {
+			if(loadHelper("timetool")) {
+				$timestamp = get_server_time($config['timeserver']);
+			}
 		}
-	}
 
-	$datetime = date($timeformat, $timestamp);
-        return $datetime;
-    }
+		$datetime = date($timeformat, $timestamp);
+
+		return $datetime;
+	}
 }
 
 set_scope("config", read_config());
