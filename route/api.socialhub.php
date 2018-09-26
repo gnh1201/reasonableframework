@@ -92,7 +92,7 @@ if(!$session_flag) {
 	), false));
 } else {
 	// if success authenticate
-	$session_id = get_hashed_text(make_random_id(32));
+	$api_session_id = get_hashed_text(make_random_id(32));
 	$session_data = array(
 		"provider" => $provider,
 		"action" => $action,
@@ -111,7 +111,6 @@ if(!$session_flag) {
 	} else {
 		set_session("api_session_id", $api_session_id);
 	}
-} else {
 }
 
 // do action
