@@ -178,10 +178,15 @@ if(!function_exists("get_hashed_text")) {
 		$hashed_text = false;
 
 		if(!array_key_empty("salt", $options)) {
-			if($options['salt'] == true) {
-				$text .= get_salt();
-			} elseif(is_string($options['salt']) && $strlen($options['salt']) > 0) {
-				$text . = $options['salt'];
+			if(!array_key_equals("salt2p", $options, true)) {
+				if($options['salt'] == true) {
+					$text .= get_salt();
+				} elseif(is_string($options['salt']) && $strlen($options['salt']) > 0) {
+					$text . = $options['salt'];
+				}
+			} else {
+				$options['salt2p'] = false;
+				$text = get_hashed_text($text, $algo, $options);
 			}
 		}
 
