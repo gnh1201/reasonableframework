@@ -51,8 +51,19 @@ if(!function_exists("get_config_value")) {
 
 if(!function_exists("get_current_datetime")) {
     function get_current_datetime() {
+	$datetime = false;
+
         $config = get_config();
-        return date(get_value_in_array("timeformat", $config, "Y-m-d H:i:s"));
+	$timestamp = date();
+	$timeformat = get_value_in_array("timeformat", $config, "Y-m-d H:i:s");
+
+	if(!array_key_empty("timeserver", $config)) {
+		if(loadHelper("timetool")) {
+			$timestamp = get_server_time($config['timeserver']);
+		}
+	}
+
+        return date($timeformat, $timestamp);
     }
 }
 
