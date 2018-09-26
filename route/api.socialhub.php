@@ -13,22 +13,53 @@ $provider = get_requested_value("provider");
 $action = get_requested_value("action");
 $redirect_url = get_requested_value("redirect_url");
 
-$user_id = get_reqeusted_value("user_id");
+$user_id = get_requested_value("user_id");
 $connection_id = get_requested_value("connection_id");
 $message = get_requested_value("message");
+
+$api_session_id = get_session("api_session_id");
+$session_data = array();
+if(empty($session_id)) {
+	$session_id = get_hashed_text(get_random_id(32));
+	$session_data = array(
+		"provider" => $provider,
+		"action" => $action,
+		"redirect_url" => $redirect_url,
+		"user_id" => $user_id,
+		"connection_id" => $connection_id,
+		"message" => $message
+	);
+	$fw = write_storage_file(json_encode($session_data), array(
+		"storage_type" => "session",
+		"filename" => $api_session_id
+	));
+	if(!$fw) {
+		set_error("maybe, your storage is write-protected.");
+		show_errors();
+	} else {
+		set_session("api_session_id", $api_session_id);
+	}
+} else {
+	$fr = read_storage_file($api_session_id, array(
+		"storage_type" => "session"
+	));
+	if(!$fr) {
+		set_error("maybe, your session is expired.");
+		show_errors();
+	} else {
+		$session_data = json_decode($fr);
+		$provider = get_value_in_array("provider", $session_data, "");
+		$action = get_value_in_array("action", $session_data, "");
+		$redirect_url = get_value_in_array("redirect_url", $session_data, "");
+		$user_id = get_value_in_array("user_id", $session_data, "");
+		$connection_id = get_value_in_array("connection_id", $session_data, "");
+		$message = get_value_in_array("message", $session_data, "");
+	}
+}
 
 $hauth_adapter = null;
 $hauth_session = null;
 $hauth_profile = null;
-
-// check hauth parameters
-$is_hauth = false;
-foreach($requests['_ALL'] as $k=>$v) {
-	if(strpos($k, "hauth") === false) {
-		$is_hauth = true;
-		break;
-	}
-}
 
 // load library
 $configfile = load_hybridauth($provider);
