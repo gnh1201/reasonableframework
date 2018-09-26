@@ -54,7 +54,7 @@ if(!function_exists("get_current_datetime")) {
 		$datetime = false;
 
 		$config = get_config();
-		$timestamp = date();
+		$timestamp = time();
 		$timeformat = get_value_in_array("timeformat", $config, "Y-m-d H:i:s");
 
 		if(!array_key_empty("timeserver", $config)) {
@@ -64,7 +64,6 @@ if(!function_exists("get_current_datetime")) {
 		}
 
 		$datetime = date($timeformat, $timestamp);
-
 		return $datetime;
 	}
 }
