@@ -200,8 +200,6 @@ switch($action) {
 		show_errors();
 }
 
-var_dump($redirect_uri);
-
 if(empty($redirect_uri)) {
 	header("Content-Type: application/json");
 	echo json_encode($context);
