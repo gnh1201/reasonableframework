@@ -62,7 +62,8 @@ if(!empty($connection_id)) {
 			$hauth->restoreSessionData($hauth_session);
 			$session_flag = true;
 		} catch(Exception $e) {
-			// nothing
+			set_error("maybe, your connection is broken.");
+			show_errors();
 		}
 	}
 }
