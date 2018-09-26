@@ -118,15 +118,8 @@ if(!function_exists("get_network_outbound_addr")) {
 		// via opendns.com
 		if(!$addr && loadHelper("exectool")) {
 			$cmd = "dig +short myip.opendns.com @resolver1.opendns.com";
-			$fw = write_stroage_file(exec_command($cmd, "shell_exec"), array(
-				"storage_type" => "cache",
-				"filename" => get_hashed_text($cmd, array(
-					"salt" => true,
-					"2p" => true
-				))
-			));
-			$addr = read_storage_file($fw, array(
-				"storage_type" => "cache"
+			$addr = exec_command($cmd, "shell_exec", array(
+				"cache" => true
 			));
 		}
 
