@@ -8,8 +8,6 @@
  
 if(!function_exists("socialhub_send_message")) {
 	function socialhub_send_message($provider, $adapter, $message, $options=array()) {
-		$object_id = false;
-
 		$response = false;
 		$status = array(
 			"message" => $message
@@ -45,6 +43,8 @@ if(!function_exists("socialhub_send_message")) {
 				set_error("Unknown provider");
 				show_errors();
 		}
+
+		return $response;
 	}
 }
  
