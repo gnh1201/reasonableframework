@@ -63,7 +63,8 @@ if(!function_exists("get_current_datetime")) {
 		}
 	}
 
-        return date($timeformat, $timestamp);
+	$datetime = date($timeformat, $timestamp);
+        return $datetime;
     }
 }
 
