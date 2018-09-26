@@ -14,7 +14,13 @@ if(!function_exists("load_hybridauth")) {
 			"facebook-sdk-v5/src/Facebook/autoload"
 		);
 		foreach($required_files as $file) {
-			include("./vendor/" . $file . ".php");	
+			$inc_file = "./vendor/" . $file . ".php";
+			if(!file_exists($inc_file)) {
+				set_error("File not exists. " . $inc_file);
+				show_erros();
+			} else {
+				include("./vendor/" . $file . ".php");	
+			}
 		}
 	}
 }
