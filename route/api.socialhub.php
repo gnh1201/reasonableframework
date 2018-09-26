@@ -136,8 +136,6 @@ switch($action) {
 		break;
 	case "outbound":
 		$hauth_adapter->setUserStatus($message);
-		
-		
 		break;
 	case "new":
 		break;
@@ -149,6 +147,10 @@ switch($action) {
 			"provider" => $provider,
 			"profile"  => $hauth_profile,
 		);
+		break;
+	case "cancel": // listen cancel authenticated callback
+		break;
+	case "delete": // listen delete ping 
 		break;
 	default:
 		set_error("Unknown action");
