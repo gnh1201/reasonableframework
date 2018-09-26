@@ -53,7 +53,7 @@ if(!function_exists("get_current_datetime")) {
     function get_current_datetime() {
 	$datetime = false;
 
-        $config = get_config();
+	$config = get_config();
 	$timestamp = date();
 	$timeformat = get_value_in_array("timeformat", $config, "Y-m-d H:i:s");
 
