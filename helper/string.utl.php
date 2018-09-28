@@ -125,7 +125,7 @@ if(!function_exists("endsWith")) {
 
 // https://stackoverflow.com/questions/4955433/php-multiple-delimiters-in-explode/27767665#27767665
 if(!function_exists("multiexplode")) {
-	function multiexplode($delimiters,$string) {
+	function multiexplode($delimiters, $string) {
 		$ready = str_replace($delimiters, $delimiters[0], $string);
 		$launch = explode($delimiters[0], $ready);
 		return $launch;
