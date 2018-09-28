@@ -8,12 +8,16 @@
  
 if(!function_exists("write_visit_log")) {
 	function write_visit_log() {
-		loadHelper("networktool");
-		$data = "\r\n" . json_encode(get_network_event());
-		return write_storage_file($data, array(
-			"storage_type" => "logs",
-			"filename" => "vspf-network.log",
-			"mode" => "a",
-		));
+		$fw = false;
+		if(loadHelper("networktool")) {
+			$data = "\r\n" . json_encode(get_network_event());
+			$fw = write_storage_file($data, array(
+				"storage_type" => "logs",
+				"filename" => "vspf-network.log",
+				"mode" => "a"
+			));
+		}
+
+		return $fw;
 	}
 }
