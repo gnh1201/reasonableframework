@@ -104,6 +104,7 @@ if(!function_exists("read_storage_file_by_line")) {
 	}
 }
 
+// https://stackoverflow.com/questions/834303/startswith-and-endswith-functions-in-php
 if(!function_exists("startsWith")) {
 	function startsWith($haystack, $needle) {
 		$length = strlen($needle);
@@ -122,6 +123,7 @@ if(!function_exists("endsWith")) {
 	}
 }
 
+// https://stackoverflow.com/questions/4955433/php-multiple-delimiters-in-explode/27767665#27767665
 if(!function_exists("multiexplode")) {
 	function multiexplode($delimiters,$string) {
 		$ready = str_replace($delimiters, $delimiters[0], $string);
