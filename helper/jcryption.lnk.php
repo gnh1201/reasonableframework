@@ -1,5 +1,11 @@
 <?php
-
+/**
+ * @file jcryption.lnk.php
+ * @date 2018-09-30
+ * @author Go Namhyeon <gnh1201@gmail.com>
+ * @brief jCryption Helper
+ */
+  
 if(!function_exists("jcryption_load")) {
   function jcryption_load() {
     $required_files = array(
