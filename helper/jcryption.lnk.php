@@ -32,3 +32,9 @@ if(!function_exists("jcryption_get_jscode")) {
     return "$(function() { $(" . $selector . ").jCryption(); });";
   }
 }
+
+if(!function_exists("jcryption_get_js_url")) {
+  function jcryption_get_js_url() {
+    return base_url() . "vendor/jCryption/js/jquery.jcryption.3.1.0.js";
+  }
+}
