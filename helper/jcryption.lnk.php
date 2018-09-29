@@ -23,6 +23,8 @@ if(!function_exists("jcryption_load")) {
 
 if(!function_exists("jcryption_get_code")) {
   function jcryption_get_code() {
+    return "JCryption::decrypt();";
+  }
 }
 
 if(!function_exists("jcryption_get_jscode")) {
