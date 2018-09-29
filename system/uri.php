@@ -33,6 +33,16 @@ if(!function_exists("get_uri")) {
 
 if(!function_exists("read_requests")) {
 	function read_requests() {
+		// process http encryption
+		$config = get_config();
+		$httpencrypt = strtolower(get_value_in_array("httpencrypt", $config, ""));
+		if($httpencrypt == "jcryption") {
+			if(loadHelper("jcryption.lnk")) {
+				eval(get_jcryption_code());
+			}
+		}
+
+		// process requests
 		$requests = array(
 			"_ALL"   => $_REQUEST,
 			"_POST"  => $_POST,
