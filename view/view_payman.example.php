@@ -9,10 +9,8 @@
 		<div id="area_payman"></div>
 		
 		<!-- scripts area -->
-		<script src="https://code.jquery.com/jquery-3.3.1.min.js"
-			integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
-			crossorigin="anonymous"></script>
-		<script src="<?php echo base_url(); ?>/assets/js/payman.js"></script>
+		<script src="<?php echo base_url(); ?>?route=webproxy&url=https://code.jquery.com/jquery-3.3.1.min.js"></script>
+		<script src="<?php echo base_url(); ?>assets/js/payman.js"></script>
 		<script type="text/javascript">
 		// load payman widget
 		$(document).ready(function() {
