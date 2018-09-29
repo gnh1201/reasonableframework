@@ -20,4 +20,14 @@ if(!function_exists("write_visit_log")) {
 
 		return $fw;
 	}
+	
+if(!function_exists("write_common_log")) {
+	function write_common_log($msg) {
+		$msg = "\r\n" . $msg;
+		return write_storage_file($msg, array(
+			"storage_type" => "logs",
+			"filename" => "common.log",
+			"mode" => "a",
+		));
+	}
 }
