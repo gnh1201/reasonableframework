@@ -28,7 +28,7 @@ if(!function_exists("write_common_log")) {
 		return write_storage_file($msg, array(
 			"storage_type" => "logs",
 			"filename" => "common.log",
-			"mode" => "a",
+			"mode" => "a"
 		));
 	}
 }
