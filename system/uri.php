@@ -38,7 +38,8 @@ if(!function_exists("read_requests")) {
 		$httpencrypt = strtolower(get_value_in_array("httpencrypt", $config, ""));
 		if($httpencrypt == "jcryption") {
 			if(loadHelper("jcryption.lnk")) {
-				eval(get_jcryption_code());
+				jcryption_load();
+				eval(jcryption_get_code());
 			}
 		}
 
