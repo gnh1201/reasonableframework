@@ -13,7 +13,7 @@ if(!function_exists("write_visit_log")) {
 			$data = "\r\n" . json_encode(get_network_event());
 			$fw = write_storage_file($data, array(
 				"storage_type" => "logs",
-				"filename" => "vspf-network.log",
+				"filename" => "network.log",
 				"mode" => "a"
 			));
 		}
