@@ -20,6 +20,7 @@ if(!function_exists("write_visit_log")) {
 
 		return $fw;
 	}
+}
 	
 if(!function_exists("write_common_log")) {
 	function write_common_log($msg) {
