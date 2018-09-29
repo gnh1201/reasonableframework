@@ -20,3 +20,9 @@ if(!function_exists("jcryption_get_code")) {
     return "JCryption::decrypt();";
   }
 }
+
+if(!function_exists("jcryption_get_jscode")) {
+  function jcryption_get_jscode($selector) {
+    return "$(function() { $(" . $selector . ").jCryption(); });";
+  }
+}
