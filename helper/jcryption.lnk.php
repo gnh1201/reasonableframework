@@ -3,7 +3,7 @@
  * @file jcryption.lnk.php
  * @date 2018-09-30
  * @author Go Namhyeon <gnh1201@gmail.com>
- * @brief jCryption Helper
+ * @brief jCryption (alternative HTTPS on javascript) Helper
  */
   
 if(!function_exists("jcryption_load")) {
