@@ -13,7 +13,7 @@ if(!function_exists("jcryption_load")) {
       "jCryption/JCryption"
     );
     foreach($required_files as $file) {
-      $inc_file = "./vendor/" . $file . ".php";
+      $inc_file = get_current_working_dir() . "/vendor/" . $file . ".php";
       if(file_exists($inc_file)) {
         include($inc_file);
       }
@@ -23,8 +23,6 @@ if(!function_exists("jcryption_load")) {
 
 if(!function_exists("jcryption_get_code")) {
   function jcryption_get_code() {
-    return "JCryption::decrypt();";
-  }
 }
 
 if(!function_exists("jcryption_get_jscode")) {
@@ -35,6 +33,8 @@ if(!function_exists("jcryption_get_jscode")) {
 
 if(!function_exists("jcryption_get_js_url")) {
   function jcryption_get_js_url() {
+    return "JCryption::decrypt();";
+  }
     return base_url() . "vendor/jCryption/js/jquery.jcryption.3.1.0.js";
   }
 }
