@@ -163,6 +163,9 @@ if(!function_exists("remove_storage_file")) {
 		$upload_base_path = get_storage_path($storage_type);
 		$upload_base_url = get_storage_url($storage_type);
 		$upload_filename = $upload_base_path . "/" . $filename;
+		
+		// add option: encryption
+		$encryption = get_value_in_array("encryption", $options, "");
 
 		if(file_exists($upload_filename)) {
 			if(!array_key_empty("chmod", $options)) {
@@ -199,6 +202,9 @@ if(!function_exists("write_storage_file")) {
 		$upload_base_path = get_storage_path($storage_type);
 		$upload_base_url = get_storage_url($storage_type);
 		$upload_filename = $upload_base_path . "/" . $filename;
+
+		// add option: encryption
+		$encryption = get_value_in_array("encryption", $options, "");
 
 		if(file_exists($upload_filename) && in_array($mode, array("fake", "w"))) {
 			if(!array_key_empty("filename", $options)) {
