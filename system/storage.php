@@ -166,6 +166,11 @@ if(!function_exists("remove_storage_file")) {
 		
 		// add option: encryption
 		$encryption = get_value_in_array("encryption", $options, "");
+		if(!empty($encryption)) {
+			if(!loadHelper("encryptiontool")) {
+				$encryption = "";
+			}
+		}
 
 		if(file_exists($upload_filename)) {
 			if(!array_key_empty("chmod", $options)) {
@@ -205,6 +210,11 @@ if(!function_exists("write_storage_file")) {
 
 		// add option: encryption
 		$encryption = get_value_in_array("encryption", $options, "");
+		if(!empty($encryption)) {
+			if(!loadHelper("encryptiontool")) {
+				$encryption = "";
+			}
+		}
 
 		if(file_exists($upload_filename) && in_array($mode, array("fake", "w"))) {
 			if(!array_key_empty("filename", $options)) {
