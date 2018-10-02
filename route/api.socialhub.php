@@ -21,7 +21,14 @@ $user_id = get_requested_value("user_id");
 $connection_id = get_requested_value("connection_id");
 $message = get_requested_value("message");
 
-$api_session_id = get_session("api_session_id");
+// if make new connection
+if($action != "new") {
+	$api_session_id = get_session("api_session_id");
+} else {
+	$api_session_id = "";
+	set_session("api_session_id", $api_session_id);
+}
+
 $session_data = array();
 if(!empty($api_session_id)) {
 	$fr = read_storage_file($api_session_id, array(
