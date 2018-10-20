@@ -361,14 +361,15 @@ if(!function_exists("get_web_dom")) {
 
 if(!function_exists("get_web_meta")) {
 	function get_web_meta($url, $method="get", $data=array(), $proxy="", $ua="", $ct_out=45, $t_out=45) {
-		$result = array();
+		$result = false;
 		$response = get_web_page($url, $method, $data, $proxy, $ua, $ct_out, $t_out);
 
 		// load PHP-Metaparser
 		if($response['size'] > 0) {
-			loadHelper("metaparser.lnk");
-			$parser = new MetaParser($response['content'], $url);
-			$result = $parser->getDetails();
+			if(loadHelper("metaparser.lnk")) {
+				$parser = new MetaParser($response['content'], $url);
+				$result = $parser->getDetails();
+			}
 		}
 
 		return $result;
