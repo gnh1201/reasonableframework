@@ -338,7 +338,7 @@ if(!function_exists("get_web_json")) {
 
 		$response = get_web_page($url, $method, $data, $proxy, $ua, $ct_out, $t_out);
 		if($response['size'] > 0) {
-			$result = json_decode($response['content']);
+			$result = get_parsed_json($response['content'], "stdClass");
 		}
 
 		return $result;
@@ -378,14 +378,37 @@ if(!function_exists("get_web_meta")) {
 
 if(!function_exists("get_web_xml")) {
 	function get_web_xml($url, $method="get", $data=array(), $proxy="", $ua="", $ct_out=45, $t_out=45) {
-		$result = new stdClass();
+		$result = false;
+
+		$response = get_web_page($url, $method, $data, $proxy, $ua, $ct_out, $t_out);
+		if($response['size'] > 0) {
+			$result = get_parsed_xml($response['content']);
+		}
+
+		return $result;
+	}
+}
+
+if(!function_exists("get_parsed_json")) {
+	function get_parsed_json($raw, $options=array()) {
+		$result = false;
+
+		if(!array_key_empty("stdClass", $options)) {
+			$result = json_decode($raw);
+		} else {
+			$result = json_decode($raw, true);
+		}
+
+		return $result;
+	}
+}
+
+if(!function_exists("get_parsed_xml")) {
+	function get_parsed_xml($raw, $options=array()) {
+		$result = false;
 
 		if(function_exists("simplexml_load_string")) {
-			$response = get_web_page($url, $method, $data, $proxy, $ua, $ct_out, $t_out);
-
-			if($response['size'] > 0) {
-				$result = simplexml_load_string($response['content'], null, LIBXML_NOCDATA);
-			}
+			$result = simplexml_load_string($response['content'], null, LIBXML_NOCDATA);
 		}
 
 		return $result;
