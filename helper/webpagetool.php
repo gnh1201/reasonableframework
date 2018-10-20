@@ -352,9 +352,7 @@ if(!function_exists("get_web_dom")) {
 
 		// load simple_html_dom
 		if($response['size'] > 0) {
-			if(loadHelper("webpagetool")) {
-				$result = get_parsed_dom($response['content']);
-			}
+			$result = get_parsed_dom($response['content']);
 		}
 
 		return $result;
