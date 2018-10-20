@@ -149,6 +149,16 @@ if(!function_exists("read_storage_file")) {
 			if(!array_key_empty("encode_base64", $options)) {
 				$result = base64_encode($result);
 			}
+			
+			if(!array_key_empty("format", $options)) {
+				if(loadHelper("webpagetool")) {
+					if($options['format'] == "json") {
+						$result = get_parsed_json($result, array("stdClass" => true));
+					} elseif($options['format'] == "xml") {
+						$result = get_parsed_xml($result);
+					}
+				}
+			}
 		}
 
 		return $result;
