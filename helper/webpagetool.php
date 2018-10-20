@@ -347,12 +347,14 @@ if(!function_exists("get_web_json")) {
 
 if(!function_exists("get_web_dom")) {
 	function get_web_dom($url, $method="get", $data=array(), $proxy="", $ua="", $ct_out=45, $t_out=45) {
-		$result = new stdClass();
+		$result = false;
 		$response = get_web_page($url, $method, $data, $proxy, $ua, $ct_out, $t_out);
 
 		// load simple_html_dom
 		if($response['size'] > 0) {
-			$result = get_parsed_dom($response['content']);
+			if(loadHelper("webpagetool")) {
+				$result = get_parsed_dom($response['content']);
+			}
 		}
 
 		return $result;
