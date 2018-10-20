@@ -338,7 +338,7 @@ if(!function_exists("get_web_json")) {
 
 		$response = get_web_page($url, $method, $data, $proxy, $ua, $ct_out, $t_out);
 		if($response['size'] > 0) {
-			$result = get_parsed_json($response['content'], "stdClass");
+			$result = get_parsed_json($response['content'], array("stdClass" => true));
 		}
 
 		return $result;
