@@ -352,8 +352,7 @@ if(!function_exists("get_web_dom")) {
 
 		// load simple_html_dom
 		if($response['size'] > 0) {
-			loadHelper("simple_html_dom");
-			$result = function_exists("str_get_html") ? str_get_html($response['content']) : $result;
+			$result = get_parsed_dom($response['content']);
 		}
 
 		return $result;
@@ -415,6 +414,18 @@ if(!function_exists("get_parsed_xml")) {
 	}
 }
 
+if(!function_exists("get_parsed_dom")) {
+	function get_parsed_dom($raw, $options=array()) {
+		$result = false;
+
+		if(loadHelper("simple_html_dom")) {
+			$result = function_exists("str_get_html") ? str_get_html($response['content']) : $raw;
+		}
+
+		return $result;
+	}
+}
+	
 // 2018-06-01: Adaptive JSON is always quotes without escape non-ascii characters
 if(!function_exists("get_adaptive_json")) {
 	function get_adaptive_json($data) {
