@@ -131,3 +131,22 @@ if(!function_exists("multiexplode")) {
 		return $launch;
 	}
 }
+
+if(!function_exists("parse_pipelined_data")) {
+	function parse_pipelined_data($pipelined_data, $keynames=array()) {
+		$result = array();
+		$parsed_data = explode("|", $pipelined_data);
+
+		if(count($keynames) > 0) {
+			$i = 0;
+			foreach($keynames as $name) {
+				$result[$name] = $parsed_data[$i];
+				$i++;
+			}
+		} else {
+			$result = $parsed_data;
+		}
+
+		return $result;
+	}
+}
