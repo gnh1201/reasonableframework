@@ -70,7 +70,7 @@ if(!function_exists("get_web_cmd")) {
 			$cmd_fin = sprintf($cmd, make_safe_argument($ua), make_safe_argument($url), $params_cmd);
 		}
 
-		if($method == "jsonrpc") {
+		if($method == "jsondata") {
 			$cmd = "curl -A '%s' --header 'Content-Type: application/json' --request POST --data '%s' %s";
 			$cmd_fin = sprintf($cmd, make_safe_argument($ua), json_encode($data), $url);
 			$output = exec_command($cmd_fin, "shell_exec");
@@ -211,8 +211,8 @@ if(!function_exists("get_web_page")) {
 			$content = get_web_sock($url, $res_methods[0], $data, $proxy, $ua, $ct_out, $t_out);
 		} elseif(in_array("wget", $res_methods)) {
 			$content = get_web_wget($url, $res_methods[0], $data, $proxy, $ua, $ct_out, $t_out);
-		} elseif(in_array("jsonrpc", $res_methods)) {
-			$content = get_web_cmd($url, "jsonrpc", $data, $proxy, $ua, $ct_out, $t_out);
+		} elseif(in_array("jsondata", $res_methods)) {
+			$content = get_web_cmd($url, "jsondata", $data, $proxy, $ua, $ct_out, $t_out);
 		} else {
 			if(!in_array("curl", get_loaded_extensions())) {
 				$error_msg = "cURL extension needs to be installed.";
