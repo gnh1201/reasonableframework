@@ -42,6 +42,7 @@
 								<option value="PHO"<?php if($pay_method_alias == "PHO") echo " selected=\"selected\""; ?>>휴대폰</option>
 								<option value="GIF"<?php if($pay_method_alias == "GIF") echo " selected=\"selected\""; ?>>상품권</option>
 								<option value="ARS"<?php if($pay_method_alias == "ARS") echo " selected=\"selected\""; ?>>ARS</option>
+								<option value="NOP"<?php if($pay_method_alias == "NOP") echo " selected=\"selected\""; ?>>수기결제</option>
 							</select>
 							<span class="pure-form-message-inline">필수 선택입니다.</span>
 						</div>
@@ -83,8 +84,10 @@
 					</fieldset>
 				</form>
 				
-				<p><small>this software granted to your domain. powered by <a href="https://exts.kr/go/framework">ReasonableFramework</a></small></p>
+				<p><small>this software granted to jobband.kr. powered by <a href="https://exts.kr/go/framework">ReasonableFramework</a></small></p>
 			</div>
 		</div>
+
+		<?php echo $jsoutput; ?>
 	</body>
 </html>
