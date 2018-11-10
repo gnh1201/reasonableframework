@@ -17,6 +17,7 @@ if(check_token_abuse_by_requests("_token", "_POST")) {
 // set token
 set_session_token();
 
+loadHelper("webpagetool"); // load webpage tools
 loadHelper("networktool"); // load network tools
 loadHelper("pgkcp.lnk"); // load KCP PG Helper 
 loadHelper("JSLoader.class"); // load javascript loader
@@ -91,6 +92,10 @@ $payinfo = array(
 	"cash_id_info" => get_requested_value("cash_id_info"),     // 현금영수증 등록 번호
 	"cash_no" => get_requested_value("cash_no"),               // 현금영수증 거래 번호
 
+	// 확장
+	"pay_method_alias" => get_requested_value("pay_method_alias"), // 결제방법 별칭
+	"pay_method" => get_requested_value("pay_method"),         // 사용 결제 수단
+
 	// 요청 상세 전문
 	"pay_data" => get_requested_value("pay_data"),             // 요청 상세 전문
 );
@@ -109,7 +114,10 @@ $data = array(
 
 // 이름 지정
 $req_tx_name = "";
-$req_tx_names = array( "pay" => "지불", "mod" => "매입/취소" );
+$req_tx_names = array(
+	"pay" => "지불",
+	"mod" => "매입/취소"
+);
 if(array_key_exists($req_tx, $req_tx_names)) {
 	$req_tx_name = $req_tx_names[$req_tx];
 }
@@ -120,9 +128,9 @@ $res_msg_bsucc = "";
 if($req_tx == "pay") {
 	if($bSucc == "false") {
 		if ($res_cd == "0000") {
-			$res_msg_bsucc = "결제는 정상적으로 이루어졌지만 업체에서 결제 결과를 처리하는 중 오류가 발생하여 시스템에서 자동으로 취소 요청을 하였습니다. <br> 업체로 문의하여 확인하시기 바랍니다.";
+			$res_msg_bsucc = "결제는 정상적으로 이루어졌지만 업체에서 결제 결과를 처리하는 중 오류가 발생하여 시스템에서 자동으로 취소 요청을 하였습니다. 업체로 문의하여 확인하시기 바랍니다.";
 		} else {
-			$res_msg_bsucc = "결제는 정상적으로 이루어졌지만 업체에서 결제 결과를 처리하는 중 오류가 발생하여 시스템에서 자동으로 취소 요청을 하였으나, <br> <b>취소가 실패 되었습니다.</b><br> 업체로 문의하여 확인하시기 바랍니다.";
+			$res_msg_bsucc = "결제는 정상적으로 이루어졌지만 업체에서 결제 결과를 처리하는 중 오류가 발생하여 시스템에서 자동으로 취소 요청을 하였으나, 취소가 실패 되었습니다. 업체로 문의하여 확인하시기 바랍니다.";
 		}
 	}
 }
@@ -133,6 +141,7 @@ extract($payres);
 
 // set javascript files
 $jsloader = new JSLoader();
+$jsloader->add_scripts(get_webproxy_url("https://code.jquery.com/jquery-3.3.1.min.js"));
 $jsloader->add_scripts(base_url() . "view/public/js/route/orderpay.step3.pgkcp.js");
 $jsoutput = $jsloader->get_output();
 $data['jsoutput'] = $jsoutput;
