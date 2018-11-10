@@ -14,8 +14,10 @@ if(check_token_abuse_by_requests("_token", "_POST")) {
 	show_errors();
 }
 
+loadHelper("webpagetool"); // load webpage tools
 loadHelper("networktool"); // load network tools
-loadHelper("pgkcp.lnk"); // load KCP PG Helper 
+loadHelper("string.utl"); // load string utility
+loadHelper("pgkcp.lnk"); // load KCP PG Helper
 loadHelper("JSLoader.class"); // load javascript loader
 
 // load PGKCP configuration
@@ -29,66 +31,77 @@ load_pgkcp_library();
 
 // 01. 지불 요청 정보 설정
 $payres = array();
-$payinfo = array(
-	"req_tx" => get_requested_value("req_tx"),
-	"tran_cd" => get_requested_value("tran_cd"),
-	"cust_ip" => get_network_client_addr(),
-	"ordr_idxx" => get_requested_value("ordr_idxx"),
-	"good_name" => get_requested_value("good_name"),
-	"res_cd" => "",
-	"res_msg" => "",
-	"res_en_msg" => "",
-	"tno" => get_requested_value("tno"),
-	"buyr_name" => get_requested_value("buyr_name"),
-	"buyr_tel1" => get_requested_value("buyr_tel1"),
-	"buyr_tel2" => get_requested_value("buyr_tel2"),
-	"buyr_mail" => get_requested_value("buyr_mail"),
-	"use_pay_method_alias" => "",
-	"use_pay_method" => get_requested_value("use_pay_method"),
-	"bSucc" => "",
-	"app_time" => "",
-	"amount" => "",
-	"total_amount" => 0,
-	"coupon_mny" => "",
-	"app_time" => "",
-	"amount" => "",
-	"total_amount" => 0,
-	"coupon_mny" => "",
-	"card_cd" => "",
-	"card_name" => "",
-	"app_no" => "",
-	"noinf" => "",
-	"quota" => "",
-	"partcanc_yn" => "",
-	"card_bin_type_01" => "",
-	"card_bin_type_02" => "",
-	"card_mny" => "",
-	"bank_name" => "",
-	"bank_code" => "",
-	"bk_mny" => "",
-	"bankname" => "",
-	"depositor" => "",
-	"account" => "",
-	"va_date" => "",
-	"pnt_issue" => "",
-	"pnt_amount" => "",
-	"pnt_app_time" => "",
-	"pnt_app_no" => "",
-	"add_pnt" => "",
-	"use_pnt" => "",
-	"rsv_pnt" => "",
-	"commid" => "",
-	"mobile_no" => "",
-	"shop_user_id" => get_requested_value("shop_user_id"),
-	"tk_van_code" => "",
-	"tk_app_no" => "",
-	"cash_yn" => get_requested_value("cash_yn"),
-	"cash_authno" => "",
-	"cash_tr_code" => get_requested_value("cash_tr_code"),
-	"cash_id_info" => get_requested_value("cash_id_info"),
-	"cash_no" => get_requested_value("cash_no"),
-	"pay_data" => get_requested_value("pay_data")
+$payinfo = array();
+$fieldnames = array(
+	"req_tx",
+	"tran_cd",
+	"cust_ip",
+	"ordr_idxx",
+	"good_name",
+	"res_cd",
+	"res_msg",
+	"res_en_msg",
+	"tno",
+	"buyr_name",
+	"buyr_tel1",
+	"buyr_tel2",
+	"buyr_mail",
+	"pay_method_alias",
+	"pay_method",
+	"use_pay_method",
+	"bSucc",
+	"app_time",
+	"amount",
+	"total_amount",
+	"coupon_mny",
+	"app_time",
+	"amount",
+	"total_amount",
+	"coupon_mny",
+	"card_cd",
+	"card_name",
+	"app_no",
+	"noinf",
+	"quota",
+	"partcanc_yn",
+	"card_bin_type_01",
+	"card_bin_type_02",
+	"card_mny",
+	"bank_name",
+	"bank_code",
+	"bk_mny",
+	"bankname",
+	"depositor",
+	"account",
+	"va_date",
+	"pnt_issue",
+	"pnt_amount",
+	"pnt_app_time",
+	"pnt_app_no",
+	"add_pnt",
+	"use_pnt",
+	"rsv_pnt",
+	"commid",
+	"mobile_no",
+	"shop_user_id",
+	"tk_van_code",
+	"tk_app_no",
+	"cash_yn",
+	"cash_authno",
+	"cash_tr_code",
+	"cash_id_info",
+	"cash_no",
+	"pay_data"
 );
+foreach($fieldnames as $name) {
+	$payinfo[$name] = make_safe_argument(get_requested_value($name));
+}
+
+// set current ip address
+$payinfo['cust_ip'] = get_network_client_addr();
+
+// set converted result message
+$payinfo['res_msg'] = get_converted_string($payinfo['res_msg'], "utf-8", "cp949");
 
 // extract payinfo
 extract($payinfo);
@@ -136,7 +149,7 @@ if($req_tx == "pay") {
 		$payres['amount']    = $c_PayPlus->mf_get_res_data("amount");       // KCP 실제 거래 금액
 		$payres['pnt_issue'] = $c_PayPlus->mf_get_res_data("pnt_issue");    // 결제 포인트사 코드
 		$payres['coupon_mny'] = $c_PayPlus->mf_get_res_data("coupon_mny" ); // 쿠폰금액
-		
+
 		switch($use_pay_method) {
 			case "100000000000": // 05-1. 신용카드 승인 결과 처리
 				$payres['card_cd']   = $c_PayPlus->mf_get_res_data( "card_cd"   ); // 카드사 코드
@@ -149,7 +162,7 @@ if($req_tx == "pay") {
 				$payres['card_bin_type_01'] = $c_PayPlus->mf_get_res_data( "card_bin_type_01" ); // 카드구분1
 				$payres['card_bin_type_02'] = $c_PayPlus->mf_get_res_data( "card_bin_type_02" ); // 카드구분2
 				$payres['card_mny'] = $c_PayPlus->mf_get_res_data( "card_mny" ); // 카드결제금액
-				
+
 				// 05-1.1. 복합결제(포인트+신용카드) 승인 결과 처리
 				if(in_array($pnt_issue, array("SCSK", "SCWB"))) {
 					$payres['pnt_amount']   = $c_PayPlus->mf_get_res_data ( "pnt_amount"   ); // 적립금액 or 사용금액
@@ -203,18 +216,16 @@ if($req_tx == "pay") {
 
 				break; // END 05-6
 		}
-		
+
 		// 05-7. 현금영수증 결과 처리
 		$payres['cash_authno']  = $c_PayPlus->mf_get_res_data( "cash_authno"  ); // 현금 영수증 승인 번호
 		$payres['cash_no']      = $c_PayPlus->mf_get_res_data( "cash_no"      ); // 현금 영수증 거래 번호
 	}
 }
 
-// extract result
-extract($payres);
-
-// process database
-$use_pay_method_alias = get_value_in_array("use_pay_method_alias", $payinfo, "");
+// checking vaild payment method
+$res_succ_flag = false;
+$pay_method_alias = get_value_in_array("pay_method_alias", $payinfo, "");
 $pay_method_rules = array(
 	"CRE" => "100000000000", // 신용카드
 	"ACC" => "010000000000", // 계좌이체
@@ -223,18 +234,20 @@ $pay_method_rules = array(
 	"PHO" => "000010000000", // 휴대폰
 	"GIF" => "000000001000", // 상품권
 	"ARS" => "000000000010", // ARS
-	"CAV" => "111000000000"  // 신용카드/계좌이체/가상계좌
+	"CAV" => "111000000000", // 신용카드/계좌이체/가상계좌
+	"NOP" => ""              // 수기결제/무통장입금
 );
-if(in_array($pay_method_rules, array_values($pay_method_rules))) {
-	foreach($pay_method_rules as $k=>$v) {
-		if($use_pay_method == $v) {
-			$use_pay_method_alias = $k;
-		}
+foreach($pay_method_rules as $k=>$v) {
+	if($pay_method_alias == $k) {
+		$payres['use_pay_method_alias'] = $k;
+		$res_succ_flag = true;
+		break;
 	}
-	$payres['bSucc'] = "true";
-} else {
-	$payres['bSucc'] = "false";
 }
+$payres['bSucc'] = $res_succ_flag ? "true" : "false";
+
+// set result
+extract($payres);
 
 // cancel payment when failed
 if($req_tx == "pay") {
@@ -261,13 +274,14 @@ if($req_tx == "pay") {
 	}
 } // End of [res_cd = "0000"]
 
-// extract result
+// set result
 extract($payres);
 
 // 08. 폼 구성 및 결과페이지 호출
 
 // set javascript files
 $jsloader = new JSLoader();
+$jsloader->add_scripts(get_webproxy_url("https://code.jquery.com/jquery-3.3.1.min.js"));
 $jsloader->add_scripts(base_url() . "view/public/js/route/orderpay.step2.pgkcp.js");
 $jsoutput = $jsloader->get_output();
 $data['jsoutput'] = $jsoutput;
