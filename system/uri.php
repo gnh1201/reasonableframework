@@ -212,10 +212,10 @@ if(!function_exists("get_requested_values")) {
 	}
 }
 
-if(!function_exists("get_requested_condition")) {
-	function get_requested_condition($name, $method="_ALL") {
+if(!function_exists("empty_requested_value")) {
+	function empty_requested_value($name, $method="_ALL") {
 		$value = get_requested_value($name, $method);
-		return !(!$value);
+		return empty($value);
 	}
 }
 
