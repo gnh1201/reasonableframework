@@ -43,19 +43,33 @@ window.onload = function() {
 	form_order_info.setAttribute("onsubmit", "return submit_orderform(this)");
 
 	// 무료 서비스 확인
-	var form_good_mny = document.getElementById("good_mny");
-	if(form_good_mny.value == "") {
-		if(confirm("[가격정보 없음]\n무료 서비스를 신청하는 것이 맞습니까?\n무료 서비스 이용이 아니라면 취소를 눌러주세요.")) {
-			document.getElementById("res_cd").value = "9999";
+	var field_good_mny = document.getElementById("good_mny");
+	if(field_good_mny.value == "") {
+		if(confirm("가격이 0원이 맞습니까? 아니라면 취소를 눌러주세요.")) {
+			document.getElementById("res_cd").value = "A001";
 			document.getElementById("route").value = "ordercomplete.pgkcp";
 			form_order_info.submit();
 		} else {
 			window.location.href = document.getElementById("redirect_url").value;
 		}
-	} else {
-		// 결제 모듈 실행
-		setTimeout(function() {
-			jsf__pay(form_order_info);
-		}, 3000);
+		return false;
 	}
+
+	// 수기결제(무통장입금) 확인
+	var field_pay_method_alias = document.getElementById("pay_method_alias");
+	if(field_pay_method_alias.value == "NOP") {
+		if(confirm("수기결제(무통장입금)으로 결제하시겠습니까? 아니라면 취소를 눌러주세요.")) {
+			document.getElementById("res_cd").value = "A002";
+			document.getElementById("route").value = "ordercomplete.pgkcp";
+			form_order_info.submit();
+		} else {
+			window.location.href = document.getElementById("redirect_url").value;
+		}
+		return false;
+	}
+
+	// 결제 모듈 실행
+	setTimeout(function() {
+		jsf__pay(form_order_info);
+	}, 3000);
 }
