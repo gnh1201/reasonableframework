@@ -19,7 +19,7 @@ set_session_token();
 $redirect_url = get_requested_value("redirect_url");
 $ordr_idxx = get_requested_value("ordr_idxx");
 $res_cd = get_requested_value("res_cd");
-$pay_method_alias = get_requested_value("use_pay_method_alias");
+$pay_method_alias = get_requested_value("pay_method_alias");
 
 // set action
 // 0000: completed payment (완료된 결제)
