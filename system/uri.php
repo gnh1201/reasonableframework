@@ -198,6 +198,13 @@ if(!function_exists("get_requested_value")) {
 	}
 }
 
+if(!function_exists("get_requested_condition")) {
+	function get_requested_condition($name, $method="_ALL") {
+		$value = get_requested_value($name, $method);
+		return !(!$value);
+	}
+}
+
 if(!function_exists("get_requested_values")) {
 	function get_requested_values($names, $method="_ALL", $escape_quotes=true, $escape_tags=false) {
 		$values = array();
