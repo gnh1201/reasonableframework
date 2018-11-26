@@ -86,15 +86,22 @@ if(!function_exists("get_web_cmd")) {
 			$args[] = "-X POST"; // set post request (the same as -X)
 			$args[] = sprintf("-A '%s'", make_safe_argument($ua)); // set agent
 			$args[] = "-k"; // allow self-signed certificate (the same as --insecure)
+			$headers['Content-Type'] = "application/json";
 			foreach($headers as $k=>$v) {
 				$args[] = sprintf("--header '%s: %s'", make_safe_argument($k), make_safe_argument($v));
 			}
-			$args[] = sprintf("-d '%s'", json_encode($data));
+			$args[] = sprintf("--data '%s'", json_encode($data));
 			$args[] = $url;
 		}
 
 		// complete and run command
 		$cmd = trim(implode(" ", $args));
+		
+		var_dump($cmd);
+		
+		//exit;
+		
+		
 		if(!empty($cmd)) {
 			$output = exec_command($cmd, "shell_exec");
 		}
@@ -280,6 +287,11 @@ if(!function_exists("get_web_page")) {
 		$content = false;
 		$req_method = $method;
 		
+		// set user agent
+		if(empty($ua)) {
+			$ua = "github://gnh1201/reasonableframework";
+		}
+
 		// redefine data
 		$headers = array();
 		if(array_key_is_array("headers", $data)) {
