@@ -44,7 +44,8 @@ if(!function_exists("get_web_build_qs")) {
 if(!function_exists("get_web_cmd")) {
 	function get_web_cmd($url, $method="get", $data=array(), $proxy="", $ua="", $ct_out=45, $t_out=45, $headers=array()) {
 		$output = "";
-		$cmd_fin = "";
+
+		$args = array("curl");
 		$cmd = "";
 
 		if(!loadHelper("exectool")) {
@@ -53,37 +54,49 @@ if(!function_exists("get_web_cmd")) {
 		}
 
 		if($method == "get") {
-			$cmd = "curl -A '%s' -k '%s'";
-			$cmd_fin = sprintf($cmd, make_safe_argument($ua), make_safe_argument(get_web_build_qs($url, $data)));
+			$args[] = sprintf("-A '%s'", make_safe_argument($ua)); // set agent
+			$args[] = "-k"; // allow self-signed certificate (the same as --insecure)
+			foreach($headers as $k=>$v) {
+				// the same as --header
+				$args[] = sprintf("-H '%s: %s'", make_safe_argument($k), make_safe_argument($v));
+			}
+			$args[] = get_web_build_qs($url, $data);
 		}
 
 		if($method == "post") {
-			$cmd = "curl -X POST -A '%s' -k '%s' %s";
-			$params_cmd = "";
+			$args[] = "-X POST"; // set post request (the same as --request)
+			$args[] = sprintf("-A '%s'", make_safe_argument($ua)); // set agent
+			$args[] = "-k"; // allow self-signed certificate (the same as --insecure)
+			foreach($headers as $k=>$v) {
+				// the same as --header
+				$args[] = sprintf("-H '%s: %s'", make_safe_argument($k), make_safe_argument($v));
+			}
 			foreach($data as $k=>$v) {
-				if(substr($v, 0, 1) == "@") { // if file
-					$params_cmd .= sprintf("-F '%s=%s' ", make_safe_argument($k), make_safe_argument($v));
+				if(substr($v, 0, 1) == "@") { // if this is a file
+					// the same as --form
+					$args[] = sprintf("-F '%s=%s' ", make_safe_argument($k), make_safe_argument($v));
 				} else {
-					$params_cmd .= sprintf("-d '%s=%s' ", make_safe_argument($k), make_safe_argument($v));
+					// the same as --data
+					$args[] = sprintf("-d '%s=%s' ", make_safe_argument($k), make_safe_argument($v));
 				}
 			}
-			$cmd_fin = sprintf($cmd, make_safe_argument($ua), make_safe_argument($url), $params_cmd);
 		}
 
 		if($method == "jsondata") {
-			$headers_cmd = "";
-			$headers["Content-Type"] = "application/json";
+			$args[] = "-X POST"; // set post request (the same as -X)
+			$args[] = sprintf("-A '%s'", make_safe_argument($ua)); // set agent
+			$args[] = "-k"; // allow self-signed certificate (the same as --insecure)
 			foreach($headers as $k=>$v) {
-				$headers_cmd .= sprintf(" --header '%s: %s'", make_safe_argument($k), make_safe_argument($v));
+				$args[] = sprintf("--header '%s: %s'", make_safe_argument($k), make_safe_argument($v));
 			}
-			
-			$cmd = "curl -A '%s' " . $headers_cmd . " --request POST --data '%s' %s";
-			$cmd_fin = sprintf($cmd, make_safe_argument($ua), json_encode($data), $url);
+			$args[] = sprintf("-d '%s'", json_encode($data));
+			$args[] = $url;
 		}
 
-		// exec command
-		if(!empty($cmd_fin)) {
-			$output = exec_command($cmd_fin, "shell_exec");
+		// complete and run command
+		$cmd = trim(implode(" ", $args));
+		if(!empty($cmd)) {
+			$output = exec_command($cmd, "shell_exec");
 		}
 
 		return $output;
