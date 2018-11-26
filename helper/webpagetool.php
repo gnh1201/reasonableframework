@@ -210,17 +210,17 @@ if(!function_exists("get_web_page")) {
 		if(in_array("cache", $res_methods)) {
 			$content = get_web_cache($url, $method, $data, $proxy, $ua, $ct_out, $t_out);
 		} elseif(in_array("cmd", $res_methods)) {
-			$content = get_web_cmd($url, "cmd", $data, $proxy, $ua, $ct_out, $t_out);
+			$content = get_web_cmd($url, $res_methods[0], $data, $proxy, $ua, $ct_out, $t_out);
 		} elseif(in_array("fgc", $res_methods)) {
 			$content = get_web_fgc($url);
 		} elseif(in_array("sock", $res_methods)) {
-			$content = get_web_sock($url, "sock", $data, $proxy, $ua, $ct_out, $t_out);
+			$content = get_web_sock($url, $res_methods[0], $data, $proxy, $ua, $ct_out, $t_out);
 		} elseif(in_array("wget", $res_methods)) {
-			$content = get_web_wget($url, "wget", $data, $proxy, $ua, $ct_out, $t_out);
+			$content = get_web_wget($url, $res_methods[0], $data, $proxy, $ua, $ct_out, $t_out);
 		} elseif(in_array("jsondata", $res_methods)) {
 			$content = get_web_cmd($url, "jsondata", $data, $proxy, $ua, $ct_out, $t_out);
 		} elseif(in_array("bearer", $res_methods)) {
-			$content = get_web_bearer($url, $method, $data, $proxy, $ua, $ct_out, $t_out);
+			$content = get_web_bearer($url, $res_methods[0], $data, $proxy, $ua, $ct_out, $t_out);
 		} else {
 			if(!in_array("curl", get_loaded_extensions())) {
 				$error_msg = "cURL extension needs to be installed.";
