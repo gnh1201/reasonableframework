@@ -96,12 +96,6 @@ if(!function_exists("get_web_cmd")) {
 
 		// complete and run command
 		$cmd = trim(implode(" ", $args));
-		
-		var_dump($cmd);
-		
-		//exit;
-		
-		
 		if(!empty($cmd)) {
 			$output = exec_command($cmd, "shell_exec");
 		}
