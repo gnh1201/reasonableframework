@@ -197,13 +197,80 @@ if(!function_exists("get_web_wget")) {
 	}
 }
 
+if(!function_exists("get_web_curl")) {
+	function get_web_curl($url, $method="get", $data=array(), $proxy="", $ua="", $ct_out=45, $t_out=45, $headers=array()) {
+		$content = false;
+
+		if(!in_array("curl", get_loaded_extensions())) {
+			$error_msg = "cURL extension needs to be installed.";
+			set_error($error_msg);
+			show_errors();
+		}
+
+		$options = array(
+			CURLOPT_URL            => $url,     // set remote url
+			CURLOPT_PROXY          => $proxy,   // set proxy server
+			CURLOPT_RETURNTRANSFER => true,     // return web page
+			CURLOPT_HEADER         => false,    // don't return headers
+			CURLOPT_FOLLOWLOCATION => true,     // follow redirects
+			CURLOPT_MAXREDIRS      => 10,       // stop after 10 redirects
+			CURLOPT_ENCODING       => "",       // handle compressed
+			CURLOPT_USERAGENT      => $ua,      // name of client
+			CURLOPT_AUTOREFERER    => true,     // set referrer on redirect
+			CURLOPT_CONNECTTIMEOUT => $ct_out,  // time-out on connect
+			CURLOPT_TIMEOUT        => $t_out,   // time-out on response
+			CURLOPT_FAILONERROR    => true,     // get error code
+			CURLOPT_SSL_VERIFYHOST => false,    // ignore ssl host verification
+			CURLOPT_SSL_VERIFYPEER => false,    // ignore ssl peer verification
+		);
+
+		if(empty($options[CURLOPT_USERAGENT])) {
+			$ua = "Reasonable Framework is PHP framework for make solid and secure web development";
+			$options[CURLOPT_USERAGENT] = $ua;
+		}
+
+		if($method == "post" && count($data) > 0) {
+			$options[CURLOPT_POST] = 1;
+			$options[CURLOPT_POSTFIELDS] = get_web_build_qs("", $data);
+		}
+
+		if($method == "get" && count($data) > 0) {
+			$options[CURLOPT_URL] = get_web_build_qs($url, $data);
+		}
+
+		$ch = curl_init();
+		curl_setopt_array($ch, $options);
+
+		$content = curl_exec($ch);
+		$result = array(
+			"content" => $content,
+			"status" => curl_getinfo($ch, CURLINFO_HTTP_CODE),
+			"resno" => curl_getinfo($ch, CURLINFO_RESPONSE_CODE),
+			"errno" => curl_errno($ch)
+		);
+
+		curl_close($ch);
+		
+		return $result;
+	}
+}
+
 if(!function_exists("get_web_page")) {
 	function get_web_page($url, $method="get", $data=array(), $proxy="", $ua="", $ct_out=45, $t_out=45) {
-		$status = "-1";
-		$resno = "-1";
-		$errno = "-1";
+		$status = false;
+		$resno = false;
+		$errno = false;
 		$req_method = $method;
+		$content = false;
+		$headers = array();
 
+		// redefine data
+		if(array_key_is_array("headers", $data)) {
+			$headers = $data['headers'];
+			$data = $data['data'];
+		}
+
+		// set method
 		$method = strtolower($method);
 		$res_methods = explode(".", $method);
 
@@ -218,67 +285,22 @@ if(!function_exists("get_web_page")) {
 		} elseif(in_array("wget", $res_methods)) {
 			$content = get_web_wget($url, $res_methods[0], $data, $proxy, $ua, $ct_out, $t_out);
 		} elseif(in_array("jsondata", $res_methods)) {
-			$content = get_web_cmd($url, "jsondata", $data, $proxy, $ua, $ct_out, $t_out);
-		} elseif(in_array("bearer", $res_methods)) {
-			$content = get_web_bearer($url, $res_methods[0], $data, $proxy, $ua, $ct_out, $t_out);
+			$content = get_web_cmd($url, "jsondata", $data, $proxy, $ua, $ct_out, $t_out, $headers);
 		} else {
-			if(!in_array("curl", get_loaded_extensions())) {
-				$error_msg = "cURL extension needs to be installed.";
-				set_error($error_msg);
-				return $error_msg;
-			}
-
-			$options = array(
-				CURLOPT_URL            => $url,     // set remote url
-				CURLOPT_PROXY          => $proxy,   // set proxy server
-				CURLOPT_RETURNTRANSFER => true,     // return web page
-				CURLOPT_HEADER         => false,    // don't return headers
-				CURLOPT_FOLLOWLOCATION => true,     // follow redirects
-				CURLOPT_MAXREDIRS      => 10,       // stop after 10 redirects
-				CURLOPT_ENCODING       => "",       // handle compressed
-				CURLOPT_USERAGENT      => $ua,      // name of client
-				CURLOPT_AUTOREFERER    => true,     // set referrer on redirect
-				CURLOPT_CONNECTTIMEOUT => $ct_out,  // time-out on connect
-				CURLOPT_TIMEOUT        => $t_out,   // time-out on response
-				CURLOPT_FAILONERROR    => true,     // get error code
-				CURLOPT_SSL_VERIFYHOST => false,    // ignore ssl host verification
-				CURLOPT_SSL_VERIFYPEER => false,    // ignore ssl peer verification
-			);
-
-			if(empty($options[CURLOPT_USERAGENT])) {
-				$ua = "Reasonable Framework is PHP framework for make solid and secure web development";
-				$options[CURLOPT_USERAGENT] = $ua;
-			}
-
-			if($method == "post" && count($data) > 0) {
-				$options[CURLOPT_POST] = 1;
-				$options[CURLOPT_POSTFIELDS] = get_web_build_qs("", $data);
-			}
-
-			if($method == "get" && count($data) > 0) {
-				$options[CURLOPT_URL] = get_web_build_qs($url, $data);
-			}
-
-			$ch = curl_init();
-			curl_setopt_array($ch, $options);
-
-			$content = curl_exec($ch);
-
-			if(!is_string($content)) {
+			$curl_result = get_web_curl($url, $method, $data, $proxy, $ua, $ct_out, $t_out, $headers);
+			$content = $curl_result['content'];
+			if($content !== false) {
+				$status = $curl_result['status'];
+				$resno = $curl_result['resno'];
+				$errno = $curl_result['errno'];
+			} else {
 				$res = get_web_page($url, $method . ".cmd", $data, $proxy, $ua, $ct_out, $t_out);
 				$content = $res['content'];
 				$req_method = $res['method'];
-			} else {
-				$status = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-				$resno = curl_getinfo($ch, CURLINFO_RESPONSE_CODE);
-				$errno = curl_errno($ch);
 			}
-
-			curl_close($ch);
 		}
 
 		$content_size = strlen($content);
-
 		$gz_content = gzdeflate($content);
 		$gz_content_size = strlen($gz_content);
 		$gz_ratio = ($content_size > 0) ? (floatval($gz_content_size) / floatval($content_size)) : 1.0;
