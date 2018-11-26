@@ -264,11 +264,11 @@ if(!function_exists("get_web_page")) {
 		$status = false;
 		$resno = false;
 		$errno = false;
-		$req_method = $method;
 		$content = false;
-		$headers = array();
-
+		$req_method = $method;
+		
 		// redefine data
+		$headers = array();
 		if(array_key_is_array("headers", $data)) {
 			$headers = $data['headers'];
 			$data = $data['data'];
