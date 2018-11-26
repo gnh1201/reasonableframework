@@ -234,7 +234,7 @@ if(!function_exists("exec_db_fetch")) {
 }
 
 if(!function_exists("get_page_range")) {
-	function get_page_range($page=1, $limit=0) {
+	function get_page_range($page=1, $limit=16) {
 		$append_sql = "";
 
 		if($page < 1) {
@@ -243,10 +243,10 @@ if(!function_exists("get_page_range")) {
 
 		if($limit > 0) {
 			$record_start = ($page - 1) * $limit;
-			$record_end = $record_start + $limit - 1;
-			$append_sql .= sprintf(" limit %s, %s", $record_start, $record_end);
+			$number_of_records = $limit;
+			$append_sql .= sprintf(" limit %s, %s", $record_start, $number_of_records);
 		}
-		
+
 		return $append_sql;
 	}
 }
