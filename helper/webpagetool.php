@@ -84,7 +84,7 @@ if(!function_exists("get_web_cmd")) {
 		// process http headers
 		if(count($headers) > 0) {
 			foreach($headers as $k=>$v) {
-				$cmd_fin .= sprintf("-H '%s: %s' ", make_safe_argument($k), make_safe_argument($v));
+				$cmd_fin .= sprintf(" -H '%s: %s' ", make_safe_argument($k), make_safe_argument($v));
 			}
 		}
 
