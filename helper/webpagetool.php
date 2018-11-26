@@ -225,7 +225,7 @@ if(!function_exists("get_web_curl")) {
 		);
 
 		if(empty($options[CURLOPT_USERAGENT])) {
-			$ua = "Reasonable Framework is PHP framework for make solid and secure web development";
+			$ua = "github://gnh1201/reasonableframework";
 			$options[CURLOPT_USERAGENT] = $ua;
 		}
 
