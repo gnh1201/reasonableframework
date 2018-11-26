@@ -238,6 +238,10 @@ if(!function_exists("get_web_curl")) {
 			$options[CURLOPT_URL] = get_web_build_qs($url, $data);
 		}
 
+		if(count($headers) > 0) {
+			$options[CURLOPT_HTTPHEADER] = $headers;
+		}
+
 		$ch = curl_init();
 		curl_setopt_array($ch, $options);
 
