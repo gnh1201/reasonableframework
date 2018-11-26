@@ -47,6 +47,12 @@ if(!function_exists("get_web_cmd")) {
 		$cmd_fin = "";
 		$cmd = "";
 
+		$headers = array();
+		if(is_array("headers", $data)) {
+			$headers = $data['headers'];
+			unset($data['headers']);
+		}
+
 		if(!loadHelper("exectool")) {
 			set_error("Helper exectool is required");
 			show_errors();
@@ -73,9 +79,16 @@ if(!function_exists("get_web_cmd")) {
 		if($method == "jsondata") {
 			$cmd = "curl -A '%s' --header 'Content-Type: application/json' --request POST --data '%s' %s";
 			$cmd_fin = sprintf($cmd, make_safe_argument($ua), json_encode($data), $url);
-			$output = exec_command($cmd_fin, "shell_exec");
+		}
+		
+		// process http headers
+		if(count($headers) > 0) {
+			foreach($headers as $k=>$v) {
+				$cmd_fin .= sprintf("-H '%s: %s' ", make_safe_argument($k), make_safe_argument($v));
+			}
 		}
 
+		// exec command
 		if(!empty($cmd_fin)) {
 			$output = exec_command($cmd_fin, "shell_exec");
 		}
