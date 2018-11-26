@@ -184,6 +184,20 @@ if(!function_exists("array_key_equals")) {
 	}
 }
 
+if(!function_exists("array_key_is_array")) {
+	function array_key_is_array($key, $array) {
+		$flag = false;
+
+		if(is_array($array)) {
+			if(array_key_exists($key, $array)) {
+				$flag = is_array($array[$key]);
+			}
+		}
+
+		return $flag;
+	}
+}
+
 if(!function_exists("array_multikey_empty")) {
 	function array_multikey_empty($keys, $array) {
 		$flag = false;
