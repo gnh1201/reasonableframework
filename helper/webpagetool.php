@@ -194,7 +194,7 @@ if(!function_exists("get_web_sock")) {
 
 if(!function_exists("get_web_wget")) {
 	function get_web_wget($url, $method="get", $data=array(), $proxy="", $ua="", $ct_out=45, $t_out=45) {
-		$content = "";
+		$content = false;
 		
 		$filename = make_random_id(32);
 		$filepath = write_storage_file("", array(
@@ -203,9 +203,10 @@ if(!function_exists("get_web_wget")) {
 		));
 
 		$cmd = sprintf("wget '%s' -O %s", $url, $filepath);
-		shell_exec($cmd);
-
-		$content = read_storage_file($filename);
+		if(loadHelper("exectool")) {
+			exec_command($cmd, "shell_exec");
+			$content = read_storage_file($filename);
+		}
 
 		return $content;
 	}
