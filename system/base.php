@@ -212,7 +212,7 @@ if(!function_exists("array_multikey_empty")) {
 
 if(!function_exists("get_value_in_array")) {
 	function get_value_in_array($name, $arr=array(), $default=0) {
-		$output = 0;
+		$output = false;
 
 		if(is_array($arr)) {
 			$output = array_key_empty($name, $arr) ? $default : $arr[$name];
