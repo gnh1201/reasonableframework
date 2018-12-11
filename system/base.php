@@ -211,7 +211,7 @@ if(!function_exists("array_multikey_empty")) {
 }
 
 if(!function_exists("get_value_in_array")) {
-	function get_value_in_array($name, $arr=array(), $default=0) {
+	function get_value_in_array($name, $arr=array(), $default=false) {
 		$output = false;
 
 		if(is_array($arr)) {
