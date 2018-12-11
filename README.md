@@ -68,8 +68,8 @@ $ php cli.php --route [route name]
 ```
 
 ## Demo
-- https://utilhome.000webhostapp.com/
-- https://utilhome.epizy.com/
+- http://utilhome.000webhostapp.com/
+- http://utilhome.epizy.com/
 
 ## Korean
 - Resonable PHP Framework(이유있는 PHP 프레임워크)는 한국의 웹 개발 환경에 적합한 PHP 프레임워크입니다.
