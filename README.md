@@ -1,22 +1,20 @@
 # Reasonable PHP Framework
-- Reasonable Framework is PHP framework for critical legacy web environments. 
+- Reasonable Framework is PHP framework for make solid and secure web development.
 - Old version name: Very Simple PHP Framework (VSPF)
  
-## Supported feature
-- Database connection (via PDO)
-- URL Route, Route Controller
-- Sperated View
-- Model, or somethings is your freedom!
+## Specification
+- Database connection (via PDO, MySQLi (MySQL Improved), MySQL Tranditional)
+- Route (Controller), Helper, View Structrue (Model is optional)
 
 ## Compatible
 - Tested in PHP 5.3.3
 - Tested in PHP 7.x
 
 ## How to use
-- Extract or clone this project to your shared web hosting.
-- You can use and intergrate all of PHP packages without Composer and Additional PHP Extensions! (supported autoloader)
+- Extract or clone this project to your (restrictive) shared web hosting.
+- You can use and intergrate all of PHP packages without Composer and additional extensions! (supported autoloader)
 - You can use and rewrite by route feature! without heavy frameworks!
-- You can write your back-end code in route. (same as controller)
+- You can write your back-end code in route. (the same as controller)
 - You can config database if you add your custom ini file in config directory.
 - Enjoy it!
 
@@ -68,6 +66,10 @@ renderView('templates/default/footer');
 ```
 $ php cli.php --route [route name]
 ```
+
+## Demo
+- https://utilhome.000webhostapp.com/
+- https://utilhome.epizy.com/
 
 ## Korean
 - Resonable PHP Framework(이유있는 PHP 프레임워크)는 한국의 웹 개발 환경에 적합한 PHP 프레임워크입니다.
