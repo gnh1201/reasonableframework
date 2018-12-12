@@ -331,9 +331,6 @@ if(!function_exists("get_web_page")) {
 			$status = $curl_result['status'];
 			$resno = $curl_result['resno'];
 			$errno = $curl_result['errno'];
-			
-			var_dump($curl_result);
-			exit;
 
 			if($content !== false) {
 				// nothing
