@@ -83,14 +83,16 @@ if(!function_exists("get_web_cmd")) {
 		}
 
 		if($method == "jsondata") {
+			$data_string = json_encode($data);
 			$args[] = "-X POST"; // set post request (the same as -X)
 			$args[] = sprintf("-A '%s'", make_safe_argument($ua)); // set agent
 			$args[] = "-k"; // allow self-signed certificate (the same as --insecure)
 			$headers['Content-Type'] = "application/json";
+			$headers['Content-Length'] = strlen($data_string);
 			foreach($headers as $k=>$v) {
 				$args[] = sprintf("--header '%s: %s'", make_safe_argument($k), make_safe_argument($v));
 			}
-			$args[] = sprintf("--data '%s'", json_encode($data));
+			$args[] = sprintf("--data '%s'", $data_string);
 			$args[] = $url;
 		}
 
@@ -215,6 +217,7 @@ if(!function_exists("get_web_wget")) {
 if(!function_exists("get_web_curl")) {
 	function get_web_curl($url, $method="get", $data=array(), $proxy="", $ua="", $ct_out=45, $t_out=45, $headers=array()) {
 		$content = false;
+		$req_headers = array();
 
 		if(!in_array("curl", get_loaded_extensions())) {
 			$error_msg = "cURL extension needs to be installed.";
@@ -265,7 +268,10 @@ if(!function_exists("get_web_curl")) {
 		}
 
 		if(count($headers) > 0) {
-			$options[CURLOPT_HTTPHEADER] = $headers;
+			foreach($headers as $k=>$v) {
+				$req_headers[] = sprintf("%s: %s", make_safe_argument($k), make_safe_argument($v));
+			}
+			$options[CURLOPT_HTTPHEADER] = $req_headers;
 		}
 
 		$ch = curl_init();
@@ -325,6 +331,9 @@ if(!function_exists("get_web_page")) {
 			$status = $curl_result['status'];
 			$resno = $curl_result['resno'];
 			$errno = $curl_result['errno'];
+			
+			var_dump($curl_result);
+			exit;
 
 			if($content !== false) {
 				// nothing
