@@ -327,7 +327,7 @@ if(!function_exists("get_web_page")) {
 			$errno = $curl_result['errno'];
 
 			if($content !== false) {
-				$req_method = "post"; // JSON data is post request
+				// nothing
 			} else {
 				$content = get_web_cmd($url, "jsondata", $data, $proxy, $ua, $ct_out, $t_out, $headers);
 			}
@@ -339,7 +339,7 @@ if(!function_exists("get_web_page")) {
 			$errno = $curl_result['errno'];
 
 			if($content !== false) {
-				$req_method = "post"; // JSON data is post request
+				// nothing
 			} else {
 				$res = get_web_page($url, $method . ".cmd", $data, $proxy, $ua, $ct_out, $t_out);
 				$content = $res['content'];
