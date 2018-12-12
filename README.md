@@ -67,10 +67,6 @@ renderView('templates/default/footer');
 $ php cli.php --route [route name]
 ```
 
-## Demo
-- http://utilhome.000webhostapp.com/
-- http://utilhome.epizy.com/
-
 ## Korean
 - Resonable PHP Framework(이유있는 PHP 프레임워크)는 한국의 웹 개발 환경에 적합한 PHP 프레임워크입니다.
 - Composer를 포함한 별도의 개발 보조 도구, PHP 플러그인, PHP 프레임워크가 사용 불가능한 환경에 적합합니다.
