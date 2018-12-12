@@ -243,14 +243,25 @@ if(!function_exists("get_web_curl")) {
 			$ua = "github://gnh1201/reasonableframework";
 			$options[CURLOPT_USERAGENT] = $ua;
 		}
+		
+		if(count($data) > 0) {
+			if($method == "post") {
+				$options[CURLOPT_POST] = 1;
+				$options[CURLOPT_POSTFIELDS] = get_web_build_qs("", $data);
+			}
 
-		if($method == "post" && count($data) > 0) {
-			$options[CURLOPT_POST] = 1;
-			$options[CURLOPT_POSTFIELDS] = get_web_build_qs("", $data);
-		}
+			if($method == "get") {
+				$options[CURLOPT_URL] = get_web_build_qs($url, $data);
+			}
 
-		if($method == "get" && count($data) > 0) {
-			$options[CURLOPT_URL] = get_web_build_qs($url, $data);
+			if($method == "jsondata") {
+				$data_string = json_encode($data);
+				$options[CURLOPT_CUSTOMREQUEST] = "POST";
+				$options[CURLOPT_POST] = 1;
+				$options[CURLOPT_POSTFIELDS] = $data_string;
+				$headers['Content-Type'] = "application/json";
+				$headers['Content-Length'] = strlen($data_string);
+			}
 		}
 
 		if(count($headers) > 0) {
@@ -309,14 +320,26 @@ if(!function_exists("get_web_page")) {
 		} elseif(in_array("wget", $res_methods)) {
 			$content = get_web_wget($url, $res_methods[0], $data, $proxy, $ua, $ct_out, $t_out);
 		} elseif(in_array("jsondata", $res_methods)) {
-			$content = get_web_cmd($url, "jsondata", $data, $proxy, $ua, $ct_out, $t_out, $headers);
+			$curl_result = get_web_curl($url, "jsondata", $data, $proxy, $ua, $ct_out, $t_out, $headers);
+			$content = $curl_result['content'];
+			$status = $curl_result['status'];
+			$resno = $curl_result['resno'];
+			$errno = $curl_result['errno'];
+
+			if($content !== false) {
+				$req_method = "post"; // JSON data is post request
+			} else {
+				$content = get_web_cmd($url, "jsondata", $data, $proxy, $ua, $ct_out, $t_out, $headers);
+			}
 		} else {
 			$curl_result = get_web_curl($url, $method, $data, $proxy, $ua, $ct_out, $t_out, $headers);
 			$content = $curl_result['content'];
+			$status = $curl_result['status'];
+			$resno = $curl_result['resno'];
+			$errno = $curl_result['errno'];
+
 			if($content !== false) {
-				$status = $curl_result['status'];
-				$resno = $curl_result['resno'];
-				$errno = $curl_result['errno'];
+				$req_method = "post"; // JSON data is post request
 			} else {
 				$res = get_web_page($url, $method . ".cmd", $data, $proxy, $ua, $ct_out, $t_out);
 				$content = $res['content'];
