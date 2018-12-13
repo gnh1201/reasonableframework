@@ -249,8 +249,18 @@ if(!function_exists("get_web_curl")) {
 		
 		if(count($data) > 0) {
 			if($method == "post") {
+				foreach($data as $k=>$v) {
+					if(substr($v, 0, 1) == "@") { // if this is a file
+						if(function_exists("curl_file_create")) { // php 5.5+
+							$data[$k] = curl_file_create(substr($v, 1));
+						} else {
+							$data[$k] = "@" . realpath(substr($v, 1));
+						}
+					}
+				}
+
 				$options[CURLOPT_POST] = 1;
-				$options[CURLOPT_POSTFIELDS] = get_web_build_qs("", $data);
+				$options[CURLOPT_POSTFIELDS] = $data;
 			}
 
 			if($method == "get") {
