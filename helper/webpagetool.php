@@ -476,7 +476,7 @@ if(!function_exists("get_parsed_json")) {
 	function get_parsed_json($raw, $options=array()) {
 		$result = false;
 
-		if(!array_key_empty("stdClass", $options)) {
+		if(!array_key_equals("stdClass", $options, false)) {
 			$result = json_decode($raw);
 		} else {
 			$result = json_decode($raw, true);
