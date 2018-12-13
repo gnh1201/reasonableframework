@@ -318,7 +318,7 @@ if(!function_exists("get_web_page")) {
 		if(in_array("cache", $res_methods)) {
 			$content = get_web_cache($url, $method, $data, $proxy, $ua, $ct_out, $t_out);
 		} elseif(in_array("cmd", $res_methods)) {
-			$content = get_web_cmd($url, $res_methods[0], $data, $proxy, $ua, $ct_out, $t_out);
+			$content = get_web_cmd($url, $res_methods[0], $data, $proxy, $ua, $ct_out, $t_out, $headers);
 		} elseif(in_array("fgc", $res_methods)) {
 			$content = get_web_fgc($url);
 		} elseif(in_array("sock", $res_methods)) {
