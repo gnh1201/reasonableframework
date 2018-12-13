@@ -141,25 +141,31 @@ if(!function_exists("read_storage_file")) {
 		$upload_filename = $upload_base_path . "/" . $filename;
 
 		if(file_exists($upload_filename)) {
-			if($fhandle = fopen($upload_filename, "r")) {
-				$result = fread($fhandle, filesize($upload_filename));
-				fclose($fhandle);
-			}
+			$upload_filesize = filesize($upload_filename);
 
-			if(!array_key_empty("encode_base64", $options)) {
-				$result = base64_encode($result);
-			}
+			if($upload_filesize > 0) {
+				if($fhandle = fopen($upload_filename, "r")) {
+					$result = fread($fhandle, filesize($upload_filename));
+					fclose($fhandle);
+				}
 
-			if(!array_key_empty("format", $options)) {
-				if(loadHelper("webpagetool")) {
-					if($options['format'] == "json") {
-						$result = get_parsed_json($result, array("stdClass" => true));
-					} elseif($options['format'] == "xml") {
-						$result = get_parsed_xml($result);
-					} elseif($options['format'] == "dom") {
-						$result = get_parsed_dom($result);
+				if(!array_key_empty("encode_base64", $options)) {
+					$result = base64_encode($result);
+				}
+
+				if(!array_key_empty("format", $options)) {
+					if(loadHelper("webpagetool")) {
+						if($options['format'] == "json") {
+							$result = get_parsed_json($result, array("stdClass" => true));
+						} elseif($options['format'] == "xml") {
+							$result = get_parsed_xml($result);
+						} elseif($options['format'] == "dom") {
+							$result = get_parsed_dom($result);
+						}
 					}
 				}
+			} else {
+				$result = "";
 			}
 		}
 
