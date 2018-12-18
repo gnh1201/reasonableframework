@@ -7,21 +7,21 @@
  */
 
 if(!function_exists("read_config")) {
-        function read_config() {
-                $config = array();
+	function read_config() {
+		$config = array();
 
-                $files = retrieve_storage_files("config");
-                foreach($files as $file) {
-                        if(check_file_extension($file, "ini")) {
-                                $ini = parse_ini_file($file);
-                                foreach($ini as $k=>$v) {
-                                        $config[$k] = $v;
-                                }
-                        }
-                }
+		$files = retrieve_storage_files("config");
+		foreach($files as $file) {
+			if(check_file_extension($file, "ini.php", array("multiple" => true))) {
+				$ini = parse_ini_file(include($file));
+				foreach($ini as $k=>$v) {
+					$config[$k] = $v;
+				}
+			}
+		}
 
-                return $config;
-        }
+		return $config;
+	}
 }
 
 if(!function_exists("get_config")) {

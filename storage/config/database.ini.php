@@ -1,7 +1,10 @@
+<?php
+return <<<EOF
 [database]
 db_driver = mysql
 db_host = localhost
 db_name = dbname
 db_username = dbusername
 db_password = dbpassword
-filedb_storage = ./storage
+storage_dir = storage
+EOF;

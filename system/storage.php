@@ -299,14 +299,25 @@ if(!function_exists("retrieve_storage_files")) {
 }
 
 if(!function_exists("get_file_extension")) {
-	function get_file_extension($file) {
-		return pathinfo($file, PATHINFO_EXTENSION);
+	function get_file_extension($file, $options=array()) {
+		$result = false;
+
+		// option 'multiple': extension a.b.c.d.f...z
+		if(array_key_equals("multiple", $options, true)) {
+			$name = basename($file);
+			$pos = strpos($name, '.');
+			$result = substr($name, $pos + 1);
+		} else {
+			$result = pathinfo($file, PATHINFO_EXTENSION);
+		}
+
+		return $result;
 	}
 }
 
 if(!function_exists("check_file_extension")) {
-	function check_file_extension($file, $extension) {
-		return (get_file_extension($file) === $extension);
+	function check_file_extension($file, $extension, $options=array()) {
+		return (get_file_extension($file, $options) === $extension);
 	}
 }
 
