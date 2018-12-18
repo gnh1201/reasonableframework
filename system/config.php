@@ -12,8 +12,18 @@ if(!function_exists("read_config")) {
 
 		$files = retrieve_storage_files("config");
 		foreach($files as $file) {
+			$ini = array();
+
 			if(check_file_extension($file, "ini.php", array("multiple" => true))) {
-				$ini = parse_ini_file(include($file));
+				$ini = parse_ini_string(include($file));
+			} elseif(check_file_extension($file, "config.php", array("multiple" => true))) {
+				$name = basename($file, ".config.php");
+				$ini[$name] = include($file);
+			} elseif(check_file_extension($file, "ini")) {
+				$ini = parse_ini_file($file);
+			}
+
+			if(count($ini) > 0) {
 				foreach($ini as $k=>$v) {
 					$config[$k] = $v;
 				}
