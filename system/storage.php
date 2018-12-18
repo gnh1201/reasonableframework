@@ -316,8 +316,8 @@ if(!function_exists("get_file_extension")) {
 }
 
 if(!function_exists("check_file_extension")) {
-	function check_file_extension($file, $extension) {
-		return (get_file_extension($file) === $extension);
+	function check_file_extension($file, $extension, $options) {
+		return (get_file_extension($file, $options) === $extension);
 	}
 }
 
