@@ -3,7 +3,7 @@
 - Old version name: Very Simple PHP Framework (VSPF)
  
 ## Specification
-- Database connection (via PDO, MySQLi (MySQL Improved), MySQL Tranditional)
+- Database connection (via PDO, MySQLi (MySQL Improved), MySQL Tranditional, Oracle(OCI))
 - Route (Controller), Helper, View Structrue (Model is optional)
 
 ## Compatible
