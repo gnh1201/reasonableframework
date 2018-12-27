@@ -168,9 +168,7 @@ if(!function_exists("exec_db_query")) {
 		if($display_error) {
 			$error_info = $stmt->errorInfo();
 			if(count($error_info) > 0) {
-				foreach($error_info as $err) {
-					set_error($err, "DATABASE-ERROR");
-				}
+				set_error(implode(" ", $error_info), "DATABASE-ERROR");
 			}
 			show_errors(false);
 		}
@@ -188,7 +186,7 @@ if(!function_exists("exec_db_query")) {
 		}
 
 		if($flag === false) {
-			set_error(md5($sql), "DATABASE-QUERY-FAILURE");
+			set_error(get_hashed_text($sql), "DATABASE-QUERY-FAILURE");
 		}
 
 		return $flag;
