@@ -80,7 +80,7 @@ if(!function_exists("read_requests")) {
 if(!function_exists("get_requests")) {
 	function get_requests() {
 		$requests = get_scope("requests");
-		
+
 		if(!is_array($requests)) {
 			set_scope("requests", read_requests());
 		}
@@ -99,8 +99,8 @@ if(!function_exists("get_final_link")) {
 		$query_str = "";
 
 		$strings = explode("?", $url);
-		$pos = (count($strings) > 1) ? strlen($strings[0]) : -1;	
-		
+		$pos = (count($strings) > 1) ? strlen($strings[0]) : -1;
+
 		if($pos < 0) {
 			$base_url = $url;
 		} else {
@@ -112,7 +112,7 @@ if(!function_exists("get_final_link")) {
 		foreach($data as $k=>$v) {
 			$params[$k] = $v;
 		}
-		
+
 		if(count($params) > 0) {
 			$link = $base_url . "?" . http_build_query($params);
 		} else {
@@ -207,7 +207,7 @@ if(!function_exists("get_requested_values")) {
 				$values[$name] = get_requested_value($name);
 			}
 		}
-		
+
 		return $values;
 	}
 }
@@ -222,7 +222,7 @@ if(!function_exists("empty_requested_value")) {
 if(!function_exists("get_binded_requests")) {
 	function get_binded_requests($rules, $method="_ALL") {
 		$data = array();
-		
+
 		foreach($rules as $k=>$v) {
 			if(!empty($v)) {
 				$data[$v] = get_requested_value($k);

@@ -38,10 +38,8 @@ if(!function_exists("get_db_connect")) {
 					$conn = get_db_connect($a, $b);
 				}
 			}
-		} else {
-			if(loadHelper("database.alt")) {
-				$conn = call_user_func("get_db_alt_connect", $db_driver);
-			}
+		} elseif(loadHelper("database.alt")) {
+			$conn = call_user_func("get_db_alt_connect", $db_driver);
 		}
 
 		return $conn;
@@ -88,7 +86,7 @@ if(!function_exists("get_db_binded_sql")) {
 				$sql = str_replace(":" . $k, "'" . addslashes($bind[$k]) . "'", $sql);
 			}
 		}
-		
+
 		return $sql;
 	}
 }
@@ -118,7 +116,19 @@ if(!function_exists("get_db_stmt")) {
 
 if(!function_exists("get_db_last_id")) {
 	function get_db_last_id() {
-		return get_dbc_object()->lastInsertId();
+		$last_id = false;
+
+		$dbc = get_dbc_object();
+                $config = get_config();
+                $db_driver = get_value_in_array("db_driver", $config, "");
+
+		if(in_array($db_driver, array("mysql", "mysql.pdo"))) {
+			$last_id = $dbc->lastInsertId();
+		} elseif(loadHelper("database.dbt")) {
+			$last_id = call_user_func("get_db_alt_last_id", $db_driver);
+		}
+
+		return $last_id;
 	}
 }
 
@@ -459,7 +469,7 @@ if(!function_exists("get_timediff_on_query")) {
 if(!function_exists("json_decode_to_assoc")) {
 	function json_decode_to_assoc($data) {
 		$result = array();
-		
+
 		$func_rules = array(
 			"json_decode" => "Dose not exists json_decode function",
 			"json_last_error" => "Dose not exists json_last_error function",
