@@ -37,7 +37,7 @@ $max_execution_time = get_value_in_array("max_execution_time", $config, 0);
 
 // autoload module
 if(!array_key_empty("enable_autoload", $config)) {
-	loadModule("autoload");
+	set_autoloader();
 }
 
 // set timezone
