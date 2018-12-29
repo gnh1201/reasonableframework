@@ -15,7 +15,7 @@ if(!function_exists("exec_db_alt_callback")) {
 				if(loadHelper(sprintf("database.%s", $rule['driver']))) {
 					if(function_exists($rule['callback'])) {
 						if(is_array($params) && count($params) > 0) {
-							$result = call_user_func_array($rule['callback'], $params); 
+							$result = call_user_func_array($rule['callback'], $params);
 						} else {
 							$result = call_user_func($rule['callback']);
 						}
@@ -27,7 +27,7 @@ if(!function_exists("exec_db_alt_callback")) {
 				break;
 			}
 		}
-		
+
 		return $result;
 	}
 }
@@ -53,9 +53,13 @@ if(!function_exists("get_db_alt_connect")) {
 			array(
 				"driver" => "oracle",
 				"callback" => "get_db_oracle_connect"
+			),
+			array(
+				"driver" => "pgsql",
+				"callback" => "get_db_pgsql_connect"
 			)
 		);
-		
+
 		$conn = exec_db_alt_callback($rules);
 
 		return $conn;
@@ -82,9 +86,13 @@ if(!function_exists("exec_db_alt_query")) {
 			array(
 				"driver" => "oracle",
 				"callback" => "exec_db_oracle_query"
+			),
+			array(
+				"driver" => "pgsql",
+				"callback" => "exec_db_pgsql_query"
 			)
 		);
-		
+
 		$result = exec_db_alt_callback($rules, array($sql, $bind));
 
 		return $result;
@@ -111,9 +119,13 @@ if(!function_exists("exec_db_alt_fetch_all")) {
 			array(
 				"driver" => "oracle",
 				"callback" => "exec_db_oracle_fetch_all"
-			)
+			),
+                        array(
+                                "driver" => "pgsql",
+                                "callback" => "exec_db_pgsql_fetch_all"
+                        )
 		);
-		
+
 		$rows = exec_db_alt_callback($rules, array($sql, $bind));
 
 		return $rows;
@@ -131,5 +143,19 @@ if(!function_exists("exec_db_alt_fetch")) {
 		}
 
 		return $fetched;
+	}
+}
+
+if(!function_exists("get_db_alt_last_id")) {
+	function get_db_alt_last_id($driver) {
+		$last_id = false;
+
+		if($driver == "mysql.imp") {
+			$last_id = @mysqli_insert_id();
+		} elseif($driver == "mysql.old") {
+			$last_id = @mysql_insert_id();
+		}
+
+		return $last_id;
 	}
 }
