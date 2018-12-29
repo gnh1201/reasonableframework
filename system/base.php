@@ -48,6 +48,13 @@ if(!function_exists("include_isolate")) {
 	}
 }
 
+// set autoloader
+if(!function_exists("set_autoloader")) {
+	function set_autoloader() {
+		include('./vendor/autoload.php');
+	}
+}
+
 // load view file
 if(!function_exists("renderView")) {
 	function renderView($name, $data=array()) {
