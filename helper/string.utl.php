@@ -27,7 +27,7 @@ if(!function_exists("parse_tel_number_kr")) {
 if(!function_exists("get_converted_string")) {
 	function get_converted_string($str, $to_charset, $from_charset) {
 		$result = false;
-		
+
 		if($form_charset == "detect") {
 			if(function_exists("mb_detect_encoding") && function_exists("mb_detect_order")) {
 				$from_charset = mb_detect_encoding($str, mb_detect_order(), true);
@@ -148,5 +148,17 @@ if(!function_exists("parse_pipelined_data")) {
 		}
 
 		return $result;
+	}
+}
+
+if(function_exists("eregi_compatible")) {
+	function eregi_compatible($pattern, $subject, &$matches=NULL) {
+		return preg_match(sprintf("/%s/i", $pattern), $subject, $matches);
+	}
+}
+
+if(function_exists("eregi_replace_compatible")) {
+	function eregi_replace_compatible($pattern, $replacement, $subject) {
+		return preg_replace(sprintf("/%s/i", $pattern), $replacement, $subject);
 	}
 }
