@@ -1,0 +1,12 @@
+{
+    "name": "gnh1201/reasonableframework",
+    "description": "Reasonable Framework is PHP framework for make solid and secure web development.",
+    "license": "LGPL-3.0",
+    "authors": [
+        {
+            "name": "Go Namhyeon",
+            "email": "gnh1201@gmail.com"
+        }
+    ],
+    "require": {}
+}
