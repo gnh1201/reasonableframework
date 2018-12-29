@@ -51,12 +51,7 @@ if(!function_exists("include_isolate")) {
 // set autoloader
 if(!function_exists("set_autoloader")) {
 	function set_autoloader() {
-		$ret = NULL;
-		$inc_file = './vendor/autoload.php';
-		if(file_exists($inc_file)) {
-			$ret = include($inc_file);
-		}
-		return $ret;
+		return include('./vendor/autoload.php');
 	}
 }
 
