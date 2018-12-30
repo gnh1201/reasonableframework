@@ -173,22 +173,39 @@ if(!function_exists("authenticate_wp")) {
 }
 
 if(!function_exists("write_wp_post")) {
-	function write_wp_post($wp_server_url, $access_token, $title, $content, $author=1, $status="publish") {
-		$response = get_web_page(get_web_build_qs($wp_server_url, array(
+	function write_wp_post($wp_server_url, $access_token, $data=array()) {
+		$default_data = array(
+			"title" => "Untitled",
+			"content" => "insert your content",
+			"author" => 2,
+			"status" => "publish",
+			"categories" => ""
+		);
+
+		foreach($data as $k=>$v) {
+			$default_data[$k] = $v;
+		}
+
+		$response = get_web_json(get_web_build_qs($wp_server_url, array(
 				"rest_route" => "/wp/v2/posts"
 			)), "jsondata", array(
 				"headers" => array(
 					"Content-Type" => "application/x-www-form-urlencoded",
 					"Authorization" => "Bearer " . $access_token
 				),
-				"data" => array(
-					"title" => $title,
-					"content" => $content,
-					"author" => $author,
-					"status" => $status
-				)
+				"data" => $default_data
 			)
 		);
+
+		return $response;
+	}
+}
+
+if(!function_exists("get_wp_categories")) {
+	function get_wp_categories($wp_server_url, $access_token) {
+		$response = get_web_json(get_web_build_qs($wp_server_url, array(
+			"rest_route" => "/wp/v2/categories"
+		)), "get");
 
 		return $response;
 	}
