@@ -110,3 +110,86 @@ if(!function_exists("get_wp_new_message")) {
 		return $new_message;
 	}
 }
+
+if(!function_exists("authenticate_wp")) {
+	function authenticate_wp($wp_server_url, $client_id, $client_secret, $route="", $code="", $scope="basic", $state="") {
+			$flag = false;
+
+			$wp_access_token = get_session("wp_access_token");
+			$result = array(
+				"redirect_uri" => false,
+				"response" => false
+			);
+
+			if(empty($wp_access_token)) {
+				if(empty($code)) {
+					// step 1
+					$redirect_uri = get_web_build_qs($wp_server_url . "/oauth/authorize", array(
+						"client_id" => $client_id,
+						"redirect_uri" => get_route_link($route),
+						"response_type" => "code",
+						"scope" => $scope,
+						"state" => $state
+					));
+					$result['redirect_uri'] = $redirect_uri;
+				} else {
+					// step 2
+					$response = get_web_json($wp_server_url . "/oauth/token/", "jsondata", array(
+						"headers" => array(
+							"Content-Type" => "application/x-www-form-urlencoded",
+							"Authorization" => sprintf("Basic %s", base64_encode($client_id . ":" . $client_secret))
+						),
+						"data" => array(
+							"grant_type" => "authorization_code",
+							"code" => $code,
+							"client_id" => $client_id,
+							"client_secret" => $client_secret,
+							"redirect_uri" => get_route_link($route),
+							"state" => $state
+						)
+					));
+
+					// store access token to session
+					set_session("wp_access_token", $response->access_token);
+					set_session("wp_expires_in", $response->expires_in);
+					set_session("wp_token_type", $response->token_type);
+					set_session("wp_scope", $response->scope);
+					set_session("refresh_token", $response->refresh_token);
+
+					// store respose to result
+					$result['redirect_uri'] = get_route_link($route);
+					$result['response'] = $response;
+				}
+
+				if(!array_key_empty("redirect_uri", $result)) {
+					redirect_uri($result['redirect_uri']);
+				}
+			} else {
+				$flag = true;
+			}
+
+			return $result;
+	}
+}
+
+if(!function_exists("write_wp_post")) {
+	function write_wp_post($wp_server_url, $access_token, $title, $content, $author=1, $status="publish") {
+		$response = get_web_page(get_web_build_qs($wp_server_url, array(
+				"rest_route" => "/wp/v2/posts"
+			)), "jsondata", array(
+				"headers" => array(
+					"Content-Type" => "application/x-www-form-urlencoded",
+					"Authorization" => "Bearer " . $access_token
+				),
+				"data" => array(
+					"title" => $title,
+					"content" => $content,
+					"author" => $author,
+					"status" => $status
+				)
+			)
+		);
+
+		return $response;
+	}
+}
