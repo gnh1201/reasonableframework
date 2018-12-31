@@ -32,7 +32,7 @@ if(!function_exists("get_uri")) {
 }
 
 if(!function_exists("read_requests")) {
-	function read_requests() {
+	function read_requests($options=array()) {
 		// process http encryption
 		$config = get_config();
 		$httpencrypt = strtolower(get_value_in_array("httpencrypt", $config, ""));
@@ -50,7 +50,8 @@ if(!function_exists("read_requests")) {
 			"_GET"   => $_GET,
 			"_URI"   => get_value_in_array("REQUEST_URI", $_SERVER, false),
 			"_FILES" => get_array($_FILES),
-			"_JSON" => false
+			"_JSON" => false,
+			"_SEAL" => false
 		);
 
 		// check if json request
@@ -64,8 +65,13 @@ if(!function_exists("read_requests")) {
 			}
 		}
 
+		// check if seal(serialize) request
+		if(array_key_equals("unserialize", $options, true)) {
+			$requests['_SEAL'] = unserialize(file_get_contents('php://input'));
+		}
+
 		// with security module
-		$protect_methods = array("_ALL", "_GET", "_POST", "_JSON");
+		$protect_methods = array("_ALL", "_GET", "_POST", "_JSON". "_SEAL");
 		if(function_exists("get_clean_xss")) {
 			foreach($protect_methods as $method) {
 				foreach($requests[$method] as $k=>$v) {
@@ -81,7 +87,8 @@ if(!function_exists("read_requests")) {
 			"get" => "_GET",
 			"uri" => "_URI",
 			"files" => "_FILES",
-			"json" => "_JSON"
+			"json" => "_JSON",
+			"seal" => "_SEAL"
 		);
 		foreach($aliases as $k=>$v) {
 			$requests[$k] = $requests[$v];
