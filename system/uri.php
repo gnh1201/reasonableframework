@@ -88,7 +88,7 @@ if(!function_exists("read_requests")) {
 			"get" => "_GET",
 			"uri" => "_URI",
 			"files" => "_FILES",
-            "raw" => "_RAW",
+			"raw" => "_RAW",
 			"json" => "_JSON",
 			"seal" => "_SEAL"
 		);
