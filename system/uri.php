@@ -50,22 +50,22 @@ if(!function_exists("read_requests")) {
 			"_GET"   => $_GET,
 			"_URI"   => get_value_in_array("REQUEST_URI", $_SERVER, false),
 			"_FILES" => get_array($_FILES),
-            "_JSON" => false
+			"_JSON" => false
 		);
 
-        // check if json request
-        foreach(getallheaders() as $name=>$value) {
-            if($name == "Accept") {
-                $accepts = explode(',', $value);
-                if(in_array("application/json", $accepts)) {
-                    $requests['_JSON'] = json_decode(file_get_contents('php://input'));
-                }
-                break;
-            }
-        }
+		// check if json request
+		foreach(getallheaders() as $name=>$value) {
+			if($name == "Accept") {
+				$accepts = explode(',', $value);
+				if(in_array("application/json", $accepts)) {
+					$requests['_JSON'] = json_decode(file_get_contents('php://input'));
+				}
+				break;
+			}
+		}
 
 		// with security module
-		if(function_exists("get_clean_xss")) {
+	\if(function_exists("get_clean_xss")) {
 			foreach($requests['_GET'] as $k=>$v) {
 				if(is_string($v)) {
 					$requests['_GET'][$k] = get_clean_xss($v);
@@ -80,7 +80,7 @@ if(!function_exists("read_requests")) {
 			"get" => "_GET",
 			"uri" => "_URI",
 			"files" => "_FILES",
-            "json" => "_JSON"
+			"json" => "_JSON"
 		);
 		foreach($aliases as $k=>$v) {
 			$requests[$k] = $requests[$v];
@@ -192,11 +192,11 @@ if(!function_exists("get_requested_value")) {
 
 		// set validated value
 		if(array_key_exists($method, $requests)) {
-            if(is_array($requests[$method])) {
-                $value = get_value_in_array($name, $requests[$method], $value);
-            } elseif(is_object($requests[$method])) {
-                $value = get_property_value($name, $requests[$method]);
-            }
+			if(is_array($requests[$method])) {
+				$value = get_value_in_array($name, $requests[$method], $value);
+			} elseif(is_object($requests[$method])) {
+				$value = get_property_value($name, $requests[$method]);
+			}
 
 			if(is_string($value)) {
 				// security: set escape quotes
