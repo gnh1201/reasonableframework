@@ -71,7 +71,7 @@ if(!function_exists("read_requests")) {
 		}
 
 		// with security module
-		$protect_methods = array("_ALL", "_GET", "_POST", "_JSON". "_SEAL");
+		$protect_methods = array("_ALL", "_GET", "_POST", "_JSON", "_SEAL");
 		if(function_exists("get_clean_xss")) {
 			foreach($protect_methods as $method) {
 				foreach($requests[$method] as $k=>$v) {
