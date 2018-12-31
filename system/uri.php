@@ -50,6 +50,7 @@ if(!function_exists("read_requests")) {
 			"_GET"   => $_GET,
 			"_URI"   => get_value_in_array("REQUEST_URI", $_SERVER, false),
 			"_FILES" => get_array($_FILES),
+			"_RAW" => file_get_contents('php://input'),
 			"_JSON" => false,
 			"_SEAL" => false
 		);
@@ -59,7 +60,7 @@ if(!function_exists("read_requests")) {
 			if($name == "Accept") {
 				$accepts = explode(',', $value);
 				if(in_array("application/json", $accepts)) {
-					$requests['_JSON'] = json_decode(file_get_contents('php://input'));
+					$requests['_JSON'] = json_decode($requests['_RAW']);
 				}
 				break;
 			}
@@ -67,7 +68,7 @@ if(!function_exists("read_requests")) {
 
 		// check if seal(serialize) request
 		if(array_key_equals("unserialize", $options, true)) {
-			$requests['_SEAL'] = unserialize(file_get_contents('php://input'));
+			$requests['_SEAL'] = unserialize($requests['_RAW']);
 		}
 
 		// with security module
@@ -87,6 +88,7 @@ if(!function_exists("read_requests")) {
 			"get" => "_GET",
 			"uri" => "_URI",
 			"files" => "_FILES",
+            "raw" => "_RAW",
 			"json" => "_JSON",
 			"seal" => "_SEAL"
 		);
