@@ -48,9 +48,21 @@ if(!function_exists("read_requests")) {
 			"_ALL"   => $_REQUEST,
 			"_POST"  => $_POST,
 			"_GET"   => $_GET,
-			"_URI"   => !array_key_empty("REQUEST_URI", $_SERVER) ? $_SERVER["REQUEST_URI"] : '',
-			"_FILES" => is_array($_FILES) ? $_FILES : array(),
+			"_URI"   => get_value_in_array("REQUEST_URI", $_SERVER, false),
+			"_FILES" => get_array($_FILES),
+            "_JSON" => false
 		);
+
+        // check if json request
+        foreach(getallheaders() as $name=>$value) {
+            if($name == "Accept") {
+                $accepts = explode(',', $value);
+                if(in_array("application/json", $accepts)) {
+                    $requests['_JSON'] = json_decode(file_get_contents('php://input'));
+                }
+                break;
+            }
+        }
 
 		// with security module
 		if(function_exists("get_clean_xss")) {
@@ -67,7 +79,8 @@ if(!function_exists("read_requests")) {
 			"post" => "_POST",
 			"get" => "_GET",
 			"uri" => "_URI",
-			"files" => "_FILES"
+			"files" => "_FILES",
+            "json" => "_JSON"
 		);
 		foreach($aliases as $k=>$v) {
 			$requests[$k] = $requests[$v];
@@ -174,12 +187,16 @@ if(!function_exists("redirect_route")) {
 
 if(!function_exists("get_requested_value")) {
 	function get_requested_value($name, $method="_ALL", $escape_quotes=true, $escape_tags=false) {
-		$value = "";
+		$value = false;
 		$requests = get_requests();
 
 		// set validated value
 		if(array_key_exists($method, $requests)) {
-			$value = array_key_empty($name, $requests[$method]) ? $value : $requests[$method][$name];
+            if(is_array($requests[$method])) {
+                $value = get_value_in_array($name, $requests[$method], $value);
+            } elseif(is_object($requests[$method])) {
+                $value = get_property_value($name, $requests[$method]);
+            }
 
 			if(is_string($value)) {
 				// security: set escape quotes
