@@ -50,9 +50,9 @@ if(!function_exists("read_requests")) {
 			"_GET"   => $_GET,
 			"_URI"   => get_value_in_array("REQUEST_URI", $_SERVER, false),
 			"_FILES" => get_array($_FILES),
-			"_RAW" => file_get_contents('php://input'),
-			"_JSON" => false,
-			"_SEAL" => false
+			"_RAW"   => file_get_contents('php://input'),
+			"_JSON"  => false,
+			"_SEAL"  => false
 		);
 
 		// check if json request
