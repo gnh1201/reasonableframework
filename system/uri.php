@@ -60,14 +60,21 @@ if(!function_exists("read_requests")) {
 			if($name == "Accept") {
 				$accepts = explode(',', $value);
 				if(in_array("application/json", $accepts)) {
-					$requests['_JSON'] = json_decode($requests['_RAW']);
+					$options['json'] = true;
+				} elseif(in_array("application/vnd.php.serialized", $accepts)) {
+					$options['serialized'] = true;
 				}
 				break;
 			}
 		}
 
+		// check if json request
+		if(array_key_equals("json", $options, true)) {
+			$requests['_JSON'] = json_decode($requests['_RAW']);
+		}
+
 		// check if seal(serialize) request
-		if(array_key_equals("unserialize", $options, true)) {
+		if(array_key_equals("serialized", $options, true)) {
 			$requests['_SEAL'] = unserialize($requests['_RAW']);
 		}
 
