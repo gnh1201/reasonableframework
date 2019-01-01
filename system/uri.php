@@ -57,11 +57,10 @@ if(!function_exists("read_requests")) {
 
 		// check if json request
 		foreach(getallheaders() as $name=>$value) {
-			if($name == "Accept") {
-				$accepts = explode(',', $value);
-				if(in_array("application/json", $accepts)) {
+			if($name == "Content-Type") {
+				if($value == "application/json") {
 					$options['json'] = true;
-				} elseif(in_array("application/vnd.php.serialized", $accepts)) {
+				} elseif($value == "application/vnd.php.serialized") {
 					$options['serialized'] = true;
 				}
 				break;
