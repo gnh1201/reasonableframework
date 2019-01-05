@@ -1,354 +1,212 @@
 <?php
 /**
- * @file storage.php
- * @date 2018-05-27
+ * @file wprest.php
+ * @date 2018-03-14
  * @author Go Namhyeon <gnh1201@gmail.com>
- * @brief Stroage module for ReasonableFramework
+ * @brief Wordpress Rest API helper
  */
 
-if(!function_exists("get_current_working_dir")) {
-	function get_current_working_dir($method="getcwd") {
-		$working_dir = "";
+if(!function_exists("get_wp_posts")) {
+	function get_wp_posts($wp_server_url) {
+		$results = array();
 
-		switch($method) {
-			case "getcwd":
-				$working_dir = getcwd();
-				break;
-			case "dirname":
-				$working_dir = dirname(__FILE__);
-				break;
-			case "basename":
-				$working_dir = basename(__DIR__);
-				break;
-			case "unix":
-				if(loadHelper("exectool")) {
-					$working_dir = exec_command("pwd");
-				}
-				break;
-			case "windows":
-				if(loadHelper("exectool")) {
-					$exec_contents = implode("\r\n", array("@echo off", "SET var=%cd%", "ECHO %var%"));
-					$exec_file = write_storage_file($exec_contents, array(
-						"filename" => "pwd.bat"
-					));
-					$working_dir = exec_command($exec_file);
-				}
-				break;
-				
+		$posts = parse_wp_posts($wp_server_url);
+		$url_res = parse_url($wp_server_url);
+		$origin = $url_res['host'];
+
+		foreach($posts as $post) {
+			$title = $post['title'];
+			$content = $post['content'];
+			$link = $post['link'];
+			$object_id = $post['id'];
+
+			$new_message = get_wp_new_message($title, $content, $link);
+			$alt_message = get_wp_new_message($title, $content);
+
+			$results[] = array(
+				"origin"           => $origin,
+				"title"            => $title,
+				"content"          => $content,
+				"link"             => $link,
+				"message"          => $new_message,
+				"alt_message"      => $alt_message,
+				"object_id"        => $object_id,
+				"hash_title"       => get_hashed_text($title),
+				"hash_content"     => get_hashed_text($content),
+				"hash_link"        => get_hashed_text($link),
+				"hash_message"     => get_hashed_text($new_message),
+				"hash_alt_message" => get_hashed_text($alt_message)
+			);
 		}
 
-		return $working_dir;
+		return $results;
 	}
 }
 
-if(!function_exists("get_storage_dir")) {
-	function get_storage_dir() {
-		return "storage";
-	}
-}
+if(!function_exists("parse_wp_posts")) {
+	function parse_wp_posts($wp_server_url) {
+		$rest_no_route = false;
 
-if(!function_exists("get_storage_path")) {
-	function get_storage_path($type="data") {
-		$dir_path = sprintf("./%s/%s", get_storage_dir(), $type);
+		$posts = array();
+		$results = array();
 
-		if(!is_dir($dir_path)) {
-			if(!@mkdir($dir_path, 0777)) {
-				set_error("can not create directory. " . $dir_path);
-				show_errors();
+		$response = get_web_json($wp_server_url, "get", array(
+			"rest_route" => "/wp/v2/posts/"
+		));
+
+		$code = get_value_in_object("code", $response);
+		if($code === "rest_no_route") {
+			$rest_no_route = true;
+			$response = get_web_xml($wp_server_url, "get", array(
+				"feed" => "rss2"
+			));
+		}
+
+		if($rest_no_route === false) {
+			$posts = $response;
+			foreach($posts as $post) {		
+				$results[] = array(
+					"title" => get_clean_xss($post->title->rendered, 1),
+					"content" => get_clean_xss($post->content->rendered, 1),
+					"link" => get_clean_xss($post->guid->rendered, 1),
+					"id" => $post->id,
+				);
 			}
-		}
-		return $dir_path;
-	}
-}
-
-if(!function_exists("get_storage_url")) {
-	function get_storage_url($type="data") {
-		return sprintf("%s%s/%s", base_url(), get_storage_dir(), $type);
-	}
-}
-
-if(!function_exists("move_uploaded_file_to_storage")) {
-	function move_uploaded_file_to_stroage($options=array()) {
-		$response = array(
-			"files" => array()
-		);
-
-		$requests = get_requests();
-		$files = $requests['_FILES'];
-
-		$storage_type = get_value_in_array("storage_type", $options, "data");
-		$upload_base_path = get_storage_path($storage_type);
-		$upload_base_url = get_storage_url($storage_type);
-
-		if(!array_key_empty("only_image", $options)) {
-			$upload_allow_ext = array(
-				"png", "gif", "jpg", "jpeg", "tif"
-			);
-		} elseif(!array_key_empty("only_docs", $options)) {
-			$upload_allow_ext = array(
-				"png", "gif", "jpg", "jpeg", "tif",
-				"xls", "ppt", "doc", "xlsx", "pptx",
-				"docx", "odt", "odp", "ods", "xlsm",
-				"tiff", "pdf", "xlsm"
-			);
-		} elseif(!array_key_empty("only_audio", $options)) {
-			$upload_allow_ext = array(
-				"mp3", "ogg", "m4a", "wma", "wav"
-			);
 		} else {
-			$upload_allow_ext = array();
-		}
-
-		foreach($files as $k=>$file) {
-			$upload_ext = get_file_extension($files[$k]['name']);
-			$upload_name = make_random_id(32) . (empty($upload_ext) ? "" : "." . $upload_ext);
-			$upload_file = $upload_base_path . "/" . $upload_name;
-			$upload_url = $upload_base_url . "/" . $upload_name;
-
-			if(count($upload_allow_ext) == 0 || in_array($upload_ext, $upload_allow_ext)) {
-				if(move_uploaded_file($files[$k]['tmp_name'], $upload_file)) {
-					$response['files'][$k] = array(
-						"storage_type" => $storage_type,
-						"upload_ext" => $upload_ext,
-						"upload_name" => $upload_name,
-						"upload_file" => $upload_file,
-						"upload_url" => $upload_url,
-						"upload_error" => ""
-					);
-				} else {
-					$response['files'][$k] = array(
-						"upload_error" => "File write error."
-					);
-				}
-			} else {
-				$response['files'][$k] = array(
-					"upload_error" => "Not allowed file type."
+			$posts = $response->channel->item;
+			foreach($posts as $post) {
+				$post_link = get_clean_xss($post->link);
+				$post_link_paths = array_filter(explode("/", $post_link), "strlen");
+				$results[] = array(
+					"title" => get_clean_xss($post->title),
+					"content" => get_clean_xss($post->description),
+					"link" => $post_link,
+					"id" => end($post_link_paths),
 				);
 			}
 		}
 
-		return $response['files'];
+		return $results;
 	}
 }
 
-if(!function_exists("read_storage_file")) {
-	function read_storage_file($filename, $options=array()) {
-		$result = false;
+if(!function_exists("get_wp_new_message")) {
+	function get_wp_new_message($title, $content, $link="") {
+		$new_message = "";
 
-		$storage_type = get_value_in_array("storage_type", $options, "data");
-		$upload_base_path = get_storage_path($storage_type);
-		$upload_base_url = get_storage_url($storage_type);
-		$upload_filename = $upload_base_path . "/" . $filename;
+		$clean_title = get_clean_text($title);
+		$clean_content = get_clean_text($content);
+		$clean_llnk = get_clean_text($link);
 
-		if(file_exists($upload_filename)) {
-			$upload_filesize = filesize($upload_filename);
+		$message = $clean_title . " \n" . $clean_content;
+		$words = explode(' ', $message);
+		$words_choice = array_slice($words, 0, 30);
+		$new_message = trim(implode(' ', $words_choice));
 
-			if($upload_filesize > 0) {
-				if($fhandle = fopen($upload_filename, "r")) {
-					$result = fread($fhandle, filesize($upload_filename));
-					fclose($fhandle);
-				}
-
-				if(!array_key_empty("encode_base64", $options)) {
-					$result = base64_encode($result);
-				}
-
-				if(!array_key_empty("format", $options)) {
-					if(loadHelper("webpagetool")) {
-						if($options['format'] == "json") {
-							$result = get_parsed_json($result, array("stdClass" => true));
-						} elseif($options['format'] == "xml") {
-							$result = get_parsed_xml($result);
-						} elseif($options['format'] == "dom") {
-							$result = get_parsed_dom($result);
-						}
-					}
-				}
-			} else {
-				$result = "";
-			}
+		if(!empty($clean_llnk)) {
+			$new_message .= " " . $clean_llnk;
 		}
 
-		return $result;
+		return $new_message;
 	}
 }
 
-if(!function_exists("iterate_storage_files")) {
-	function iterate_storage_files($storage_type, $options=array()) {
-		$filenames = array();
+if(!function_exists("authenticate_wp")) {
+	function authenticate_wp($wp_server_url, $client_id, $client_secret, $route="", $code="", $scope="basic", $state="") {
+			$flag = false;
 
-		$excludes = array(".", "..");
-		$storage_path = get_storage_path($type);
+			$wp_access_token = get_session("wp_access_token");
+			$result = array(
+				"redirect_uri" => false,
+				"response" => false
+			);
 
-		if(is_dir($storage_path)) {
-			if($handle = opendir($storage_path)) {
-				while(false !== ($file = readdir($handle))) {
-					if(!in_array($file, $excludes)) {
-						$filenames[] = $file;
-					}
+			if(empty($wp_access_token)) {
+				if(empty($code)) {
+					// step 1
+					$redirect_uri = get_web_build_qs($wp_server_url . "/oauth/authorize", array(
+						"client_id" => $client_id,
+						"redirect_uri" => get_route_link($route),
+						"response_type" => "code",
+						"scope" => $scope,
+						"state" => $state
+					));
+					$result['redirect_uri'] = $redirect_uri;
+				} else {
+					// step 2
+					$response = get_web_json($wp_server_url . "/oauth/token/", "jsondata", array(
+						"headers" => array(
+							"Content-Type" => "application/x-www-form-urlencoded",
+							"Authorization" => sprintf("Basic %s", base64_encode($client_id . ":" . $client_secret))
+						),
+						"data" => array(
+							"grant_type" => "authorization_code",
+							"code" => $code,
+							"client_id" => $client_id,
+							"client_secret" => $client_secret,
+							"redirect_uri" => get_route_link($route),
+							"state" => $state
+						)
+					));
+
+					// store access token to session
+					set_session("wp_access_token", $response->access_token);
+					set_session("wp_expires_in", $response->expires_in);
+					set_session("wp_token_type", $response->token_type);
+					set_session("wp_scope", $response->scope);
+					set_session("refresh_token", $response->refresh_token);
+
+					// store respose to result
+					$result['redirect_uri'] = get_route_link($route);
+					$result['response'] = $response;
 				}
-			}
-		}
 
-		return $filenames;
-}
-
-if(!function_exists("remove_storage_file")) {
-	function remove_storage_file($filename, $options=array()) {
-		$result = false;
-
-		$storage_type = get_value_in_array("storage_type", $options, "data");
-		$upload_base_path = get_storage_path($storage_type);
-		$upload_base_url = get_storage_url($storage_type);
-		$upload_filename = $upload_base_path . "/" . $filename;
-		
-		// add option: encryption
-		$encryption = get_value_in_array("encryption", $options, "");
-		if(!empty($encryption)) {
-			if(!loadHelper("encryptiontool")) {
-				$encryption = "";
-			}
-		}
-
-		if(file_exists($upload_filename)) {
-			if(!array_key_empty("chmod", $options)) {
-				@chmod($upload_filename, $options['chmod']);
-			}
-
-			if(!array_key_empty("chown", $options)) {
-				@chown($upload_filename, $options['chown']);
-			}
-
-			if(!array_key_empty("shell", $options)) {
-				if(loadHelper("exectool")) {
-					$exec_cmd = ($options['shell'] == "windows") ? "del '%s'" : "rm -f '%s'";
-					exec_command(sprintf($exec_cmd, make_safe_argument($upload_filename)));
+				if(!array_key_empty("redirect_uri", $result)) {
+					redirect_uri($result['redirect_uri']);
 				}
 			} else {
-				@unlink($upload_filename);
+				$flag = true;
 			}
 
-			$result = !file_exists($upload_filename);
-		}
-
-		return $result;
+			return $result;
 	}
 }
 
-if(!function_exists("write_storage_file")) {
-	function write_storage_file($data, $options=array()) {
-		$result = false;
+if(!function_exists("write_wp_post")) {
+	function write_wp_post($wp_server_url, $access_token, $data=array()) {
+		$default_data = array(
+			"title" => "Untitled",
+			"content" => "insert your content",
+			"author" => 2,
+			"status" => "publish",
+			"categories" => ""
+		);
 
-		$filename = get_value_in_array("filename", $options, make_random_id(32));
-		$storage_type = get_value_in_array("storage_type", $options, "data");
-		$mode = get_value_in_array("mode", $options, "w");
-		$upload_base_path = get_storage_path($storage_type);
-		$upload_base_url = get_storage_url($storage_type);
-		$upload_filename = $upload_base_path . "/" . $filename;
-
-		// add option: encryption
-		$encryption = get_value_in_array("encryption", $options, "");
-		if(!empty($encryption)) {
-			if(!loadHelper("encryptiontool")) {
-				$encryption = "";
-			}
+		foreach($data as $k=>$v) {
+			$default_data[$k] = $v;
 		}
 
-		if(file_exists($upload_filename) && in_array($mode, array("fake", "w"))) {
-			if(!array_key_empty("filename", $options)) {
-				$result = $upload_filename;
-			} else {
-				$result = write_storage_file($data, $options);
-			}
-		} else {
-			if($mode == "fake") {
-				$result = $upload_filename;
-			} elseif($fhandle = fopen($upload_filename, $mode)) {
-				if(fwrite($fhandle, $data)) {
-					$result = $upload_filename;
-					if(!array_key_empty("chmod", $options)) {
-						@chmod($result, $options['chmod']);
-					}
-					if(!array_key_empty("chown", $options)) {
-						@chown($result, $options['chown']);
-					}
-				}
-				fclose($fhandle);
-			} else {
-				set_error("maybe, your storage is write-protected. " . $upload_filename);
-				show_errors();
-			}
-		}
+		$response = get_web_json(get_web_build_qs($wp_server_url, array(
+				"rest_route" => "/wp/v2/posts"
+			)), "jsondata", array(
+				"headers" => array(
+					"Content-Type" => "application/x-www-form-urlencoded",
+					"Authorization" => "Bearer " . $access_token
+				),
+				"data" => $default_data
+			)
+		);
 
-		if(array_key_equals("basename", $options, true)) {
-			$result = basename($result);
-		}
-
-		return $result;
+		return $response;
 	}
 }
 
-if(!function_exists("get_real_path")) {
-	function get_real_path($file) {
-		return file_exists($file) ? realpath($file) : false;
-	}
-}
+if(!function_exists("get_wp_categories")) {
+	function get_wp_categories($wp_server_url, $access_token) {
+		$response = get_web_json(get_web_build_qs($wp_server_url, array(
+			"rest_route" => "/wp/v2/categories"
+		)), "get");
 
-if(!function_exists("retrieve_storage_files")) {
-	function retrieve_storage_files($type, $recursive=false, $excludes=array(".", ".."), $files=array()) {
-		$storage_path = get_storage_path($type);
-
-		if(is_dir($storage_path)) {
-			if($handle = opendir($storage_path)) {
-				while(false !== ($file = readdir($handle))) {
-					if(!in_array($file, $excludes)) {
-						$file_path = $storage_path . "/" . $file;
-						if(is_file($file_path)) {
-							$files[] = $file_path;
-						} elseif($recursive) {
-							$files = retrieve_storage_dir($type . "/" . $file, $recursive, $excludes, $files);
-						}
-					}
-				}
-				closedir($handle);
-			}
-		}
-
-		return $files;
-	}
-}
-
-if(!function_exists("get_file_extension")) {
-	function get_file_extension($file, $options=array()) {
-		$result = false;
-
-		// option 'multiple': extension a.b.c.d.f...z
-		if(array_key_equals("multiple", $options, true)) {
-			$name = basename($file);
-			$pos = strpos($name, '.');
-			$result = substr($name, $pos + 1);
-		} else {
-			$result = pathinfo($file, PATHINFO_EXTENSION);
-		}
-
-		return $result;
-	}
-}
-
-if(!function_exists("check_file_extension")) {
-	function check_file_extension($file, $extension, $options=array()) {
-		return (get_file_extension($file, $options) === $extension);
-	}
-}
-
-if(!function_exists("get_file_name")) {
-	function get_file_name($name, $extension="", $basepath="") {
-		$result = "";
-
-		$result .= empty($basepath) ? "" : ($name . "/");
-		$result .= $name;
-		$result .= empty($extension) ? "" : ("." . $extension);
-
-		return $result;
+		return $response;
 	}
 }
