@@ -173,6 +173,26 @@ if(!function_exists("read_storage_file")) {
 	}
 }
 
+if(!function_exists("iterate_storage_Files")) {
+	function iterate_storage_files($storage_type, $options=array()) {
+		$filenames = array();
+
+		$excludes = array(".", "..");
+		$storage_path = get_storage_path($type);
+
+		if(is_dir($storage_path)) {
+			if($handle = opendir($storage_path)) {
+				while(false !== ($file = readdir($handle))) {
+					if(!in_array($file, $excludes)) {
+						$filenames[] = $file;
+					}
+				}
+			}
+		}
+
+		return $filenames;
+}
+
 if(!function_exists("remove_storage_file")) {
 	function remove_storage_file($filename, $options=array()) {
 		$result = false;
