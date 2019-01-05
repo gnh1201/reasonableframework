@@ -1,4 +1,5 @@
 <?php
+// this is example
 loadHelper("exectool");
 
 $result = array(
@@ -7,7 +8,7 @@ $result = array(
 );
 
 $directories = array(
-        "/home2/hosting_users/easysys/"
+        "/home/reasonableframework/"
 );
 
 foreach($directories as $dir) {
