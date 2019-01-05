@@ -173,7 +173,7 @@ if(!function_exists("read_storage_file")) {
 	}
 }
 
-if(!function_exists("iterate_storage_Files")) {
+if(!function_exists("iterate_storage_files")) {
 	function iterate_storage_files($storage_type, $options=array()) {
 		$filenames = array();
 
