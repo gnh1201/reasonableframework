@@ -190,6 +190,7 @@ if(!function_exists("iterate_storage_files")) {
 			}
 		}
 		return $filenames;
+        }
     }
 }
 
