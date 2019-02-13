@@ -190,8 +190,7 @@ if(!function_exists("iterate_storage_files")) {
 			}
 		}
 		return $filenames;
-        }
-    }
+	}
 }
 
 if(!function_exists("remove_storage_file")) {
