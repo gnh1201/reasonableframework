@@ -243,7 +243,7 @@ if(!function_exists("get_web_curl")) {
 		);
 
 		if(empty($options[CURLOPT_USERAGENT])) {
-			$ua = "github://gnh1201/reasonableframework";
+			$ua = "ReasonableFramework/1.1 (https://github.com/gnh1201/reasonableframework)";
 			$options[CURLOPT_USERAGENT] = $ua;
 		}
 		
@@ -311,7 +311,7 @@ if(!function_exists("get_web_page")) {
 		
 		// set user agent
 		if(empty($ua)) {
-			$ua = "github://gnh1201/reasonableframework";
+			$ua = "ReasonableFramework/1.1 (https://github.com/gnh1201/reasonableframework)";
 		}
 
 		// redefine data
