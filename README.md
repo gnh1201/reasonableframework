@@ -12,14 +12,13 @@
 
 ## How to use
 - Extract or clone this project to your (restrictive) shared web hosting.
-- You can use and intergrate all of PHP packages without Composer and additional extensions! (supported autoloader)
-- You can use and rewrite by route feature! without heavy frameworks!
-- You can write your back-end code in route. (the same as controller)
-- You can config database if you add your custom ini file in config directory.
+- You can intergrate all of PHP projects (linear, modular, or others) without complicated extensions.
+- You can write your code and rewrite by route parameter without heavy framework. (like as `controller`)
+- You can add your custom `ini.php` configuration file in `config` directory.
 - Enjoy it!
 
 ## Map of structure
-![Map of ResaonableFramework structure](https://github.com/gnh1201/reasonableframework/raw/master/assets/img/reasonableframework.jpg)
+![Map of structure](https://github.com/gnh1201/reasonableframework/raw/master/assets/img/reasonableframework.jpg)
 
 ## Roadmap: Support legacy
 - Support critical legacy web server (old: PHP 4.x ~ modern: 7.x)
