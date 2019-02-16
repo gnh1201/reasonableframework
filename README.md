@@ -4,7 +4,7 @@
  
 ## Specification
 - Database connection (via PDO, MySQLi (MySQL Improved), MySQL Tranditional, Oracle(OCI))
-- Route (Controller), Helper (like as `import` on Python or Go), View Structrue (Model is optional)
+- R-H-V Structure: Route (like as controller), Helper (like as `import` on Python or Go), View, Model is optional.
 
 ## Compatible
 - Tested in PHP 5.3.3
