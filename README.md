@@ -4,7 +4,7 @@
  
 ## Specification
 - Database connection (via PDO, MySQLi (MySQL Improved), MySQL Tranditional, Oracle(OCI))
-- R-H-V Structure: `R` is Route (like as `controller`), `H` is Helper (like as `import` on Python or Go or NodeJS), `V` is View, Model is optional.
+- RVH Structure: `R` is Route (like as `controller`), `V` is View, `H` is Helper (like as `import` on Python or Go or NodeJS), Model is optional.
 
 ## Compatible
 - Tested in PHP 5.3.3
