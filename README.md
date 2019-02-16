@@ -1,10 +1,10 @@
-# Reasonable PHP Framework
-- Reasonable Framework is PHP framework for make solid and secure web development.
+# ReasonableFramework
+- ReasonableFramework is PHP framework for make solid and secure web development.
 - Old version name: Very Simple PHP Framework (VSPF)
  
 ## Specification
 - Database connection (via PDO, MySQLi (MySQL Improved), MySQL Tranditional, Oracle(OCI))
-- Route (Controller), Helper, View Structrue (Model is optional)
+- Route (Controller), Helper (like as `import` on Python or Go), View Structrue (Model is optional)
 
 ## Compatible
 - Tested in PHP 5.3.3
