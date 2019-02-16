@@ -12,7 +12,7 @@
 
 ## How to use
 - Extract or clone this project to your (restrictive) shared web hosting.
-- You can intergrate all of PHP projects (linear, modular, or others) without complicated extensions.
+- You can intergrate all of PHP projects (linear, modular (ex. `autoloader`), or others) without complicated extensions.
 - You can write your code and rewrite by `route` parameter without heavy framework. (like as `controller`)
 - You can add your custom `ini.php` configuration file in `config` directory.
 - Enjoy it!
