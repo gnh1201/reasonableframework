@@ -31,12 +31,12 @@
 
 ## Quick Start
 1. git clone https://github.com/gnh1201/reasonableframework.git
-2. set up database configuration: `storage/config/database.ini.php`
+2. set up database configuration: `/storage/config/database.ini.php`
 3. touch(make new file): `/route/example.php`
 4. go to `[base_url]/?route=example` in your web browser.
 5. enjoy it.
 
-##  Website example
+## Example
 ```
 <?php
 if(!defined("_DEF_RSF_")) set_error_exit("do not allow access");
@@ -73,3 +73,4 @@ $ php cli.php --route [route name]
 - Resonable PHP Framework는 CSRF, XSS, SQL Injection 보안 조치를 기본적으로 가지고 있습니다.
 - 한국에서 사용되는 각종 CMS와 API와 연동되어 한국 환경에서 사용 빈도가 높은 구현 유형을 작성하는데 적합합니다.
 - MVC 모델과 유사하지만 기존 개발 스킬로도 사용할 수 있도록 더 유연한 모델을 가지고 있습니다.
+- https://medium.com/@gonamhyeon/%EB%82%B4%EA%B0%80-mvc-%EB%8C%80%EC%8B%A0-rvh%EB%A5%BC-%EC%84%A0%ED%83%9D%ED%95%9C-%EC%9D%B4%EC%9C%A0-a61d4cd63dc8
