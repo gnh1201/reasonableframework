@@ -10,7 +10,14 @@
 
 define("_DEF_VSPF_", true); // compatible to VSPF
 define("_DEF_RSF_", true); // compatible to RSF
-define("DOC_EOL", "\r\n"); // add common 'the end of line' expression
+define("APP_DEVELOPMENT", false); // add development flag
+define("DOC_EOL", "\r\n"); // add 'the end of line' of document
+
+// check if current status is development
+if(APP_DEVELOPMENT == true) {
+	error_reporting(E_ALL);
+	ini_set("display_errors", 1);
+}
 
 // define system modules
 $load_systems = array("base", "storage", "config", "security", "uri");
