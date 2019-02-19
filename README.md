@@ -36,7 +36,7 @@
 4. go to `[base_url]/?route=example` in your web browser.
 5. enjoy it.
 
-## Example
+## Examples
 - [Rest API Integration (Naver Papago Translation REST API)](https://gist.github.com/gnh1201/081484e6f5e10bd3be819093ba5f49c8)
 
 ## CLI mode example
