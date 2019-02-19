@@ -297,5 +297,13 @@ if(!function_exists("set_header_content_type")) {
 	}
 }
 
+if(!function_exists("get_requested_json")) {
+	function get_requested_json($name, $escape_quotes=true, $escape_tags=false) {
+		return get_requested_value($name, "_JSON", $escape_quotes, $escape_tags);
+	}
+}
+
 // set scope
 set_scope("requests", read_requests());
+
+//EOF
