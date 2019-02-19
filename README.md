@@ -37,7 +37,7 @@
 5. enjoy it.
 
 ## Examples
-- [Rest API Integration (Naver Papago Translation REST API)](https://gist.github.com/gnh1201/081484e6f5e10bd3be819093ba5f49c8)
+- [REST API Integration (Naver Papago Translation REST API)](https://gist.github.com/gnh1201/081484e6f5e10bd3be819093ba5f49c8)
 - [Payment Gateway Integration (KCP Korea Cyber Payment)](https://github.com/gnh1201/reasonableframework/blob/master/route/orderpay.pgkcp.php)
 
 ## CLI mode example
