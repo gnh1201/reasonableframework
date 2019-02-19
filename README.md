@@ -37,29 +37,7 @@
 5. enjoy it.
 
 ## Example
-```
-<?php
-if(!defined("_DEF_RSF_")) set_error_exit("do not allow access");
-
-loadHelper("string.utl");
-
-$copyright = read_storage_file("copyright.txt", array(
-    "storage_type" => "terms"
-));
-$lines = explode_by_line($copyright);
-foreach($lines as $line) {
-    $copyright .= "<p>" . $line . "</p>";
-}
-
-$data = array(
-    "copyright" => $copyright
-);
-
-renderView('templates/default/header');
-renderView('view_copyright', $data);
-renderView('templates/default/footer');
-?>
-```
+- Rest API Integration (Naver Papago Translation REST API): https://gist.github.com/gnh1201/081484e6f5e10bd3be819093ba5f49c8
 
 ## CLI mode example
 ```
