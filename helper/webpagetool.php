@@ -54,7 +54,7 @@ if(!function_exists("get_web_cmd")) {
 		}
 
 		if($method == "get") {
-			$args[] = sprintf("-A '%s'", make_safe_argument($ua)); // set agent
+			$args[] = sprintf("-A '%s'", get_web_user_agent($ua)); // set agent
 			$args[] = "-k"; // allow self-signed certificate (the same as --insecure)
 			foreach($headers as $k=>$v) {
 				// the same as --header
@@ -65,7 +65,7 @@ if(!function_exists("get_web_cmd")) {
 
 		if($method == "post") {
 			$args[] = "-X POST"; // set post request (the same as --request)
-			$args[] = sprintf("-A '%s'", make_safe_argument($ua)); // set agent
+			$args[] = sprintf("-A '%s'", get_web_user_agent($ua)); // set agent
 			$args[] = "-k"; // allow self-signed certificate (the same as --insecure)
 			foreach($headers as $k=>$v) {
 				// the same as --header
@@ -85,7 +85,7 @@ if(!function_exists("get_web_cmd")) {
 		if($method == "jsondata") {
 			$data_string = json_encode($data);
 			$args[] = "-X POST"; // set post request (the same as -X)
-			$args[] = sprintf("-A '%s'", make_safe_argument($ua)); // set agent
+			$args[] = sprintf("-A '%s'", get_web_user_agent($ua)); // set agent
 			$args[] = "-k"; // allow self-signed certificate (the same as --insecure)
 			$headers['Content-Type'] = "application/json";
 			$headers['Content-Length'] = strlen($data_string);
@@ -243,7 +243,7 @@ if(!function_exists("get_web_curl")) {
 		);
 
 		if(empty($options[CURLOPT_USERAGENT])) {
-			$ua = "ReasonableFramework/1.1 (https://github.com/gnh1201/reasonableframework)";
+			$ua = get_web_user_agent($ua);
 			$options[CURLOPT_USERAGENT] = $ua;
 		}
 		
@@ -308,11 +308,9 @@ if(!function_exists("get_web_page")) {
 		$errno = false;
 		$content = false;
 		$req_method = $method;
-		
+
 		// set user agent
-		if(empty($ua)) {
-			$ua = "ReasonableFramework/1.1 (https://github.com/gnh1201/reasonableframework)";
-		}
+		$ua = get_web_user_agent($ua);
 
 		// redefine data
 		$headers = array();
@@ -544,5 +542,16 @@ if(!function_exists("get_webproxy_url")) {
 		return get_route_link($route, array(
 			"url" => $url
 		));
+	}
+}
+
+if(!function_exists("get_web_user_agent")) {
+	function get_web_user_agent($ua="") {
+		if(empty($ua)) {
+			$ua = "ReasonableFramework/1.1 (https://github.com/gnh1201/reasonableframework)";
+		} else {
+			$ua = make_safe_argument($ua);
+		}
+		return $ua;
 	}
 }
