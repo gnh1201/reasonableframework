@@ -65,6 +65,11 @@ if(!function_exists("read_route_all")) {
 		$d1 = explode("/index.php/", $d0[0]);
 		if(count($d1) > 1 && $d1[0] == "") {
 			$routes = explode("/", $d1[1]);
+		} else {
+			$d2 = explode("/", $d0[0]);
+			if(count($d2) > 0) {
+				$routes = array_slice($d2 , 1);
+			}
 		}
 
 		return $routes;
