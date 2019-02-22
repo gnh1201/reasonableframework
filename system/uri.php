@@ -41,7 +41,15 @@ if(!function_exists("read_route")) {
 
 		// if empty route
 		if(empty($route)) {
-			$route = get_value_in_array("default_route", $config, "welcome");
+			$request_uri = $_SERVER['REQUEST_URI'];
+			$d = explode("/index.php/", $request_uri);
+			if(count($d) > 1 && $d[0] == "") {
+				$route = $d[1];
+			}
+
+			if(empty($route)) {
+				$route = get_value_in_array("default_route", $config, "welcome");
+			}
 		}
 
 		return $route;
