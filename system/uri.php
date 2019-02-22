@@ -31,6 +31,23 @@ if(!function_exists("get_uri")) {
 	}
 }
 
+if(!function_exists("read_route")) {
+	function read_route($route=false) {
+		$config = get_config();
+		$requests = get_requests();
+
+		// get requested route
+		$route = get_requested_value("route");
+
+		// if empty route
+		if(empty($route)) {
+			$route = get_value_in_array("default_route", $config, "welcome");
+		}
+
+		return $route;
+	}
+}
+
 if(!function_exists("read_requests")) {
 	function read_requests($options=array()) {
 		// process http encryption
