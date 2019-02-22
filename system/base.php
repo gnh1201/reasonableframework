@@ -124,13 +124,36 @@ if(!function_exists("loadRoute")) {
 		$flag = true;
 		$routes = explode(";", $name);
 		foreach($routes as $name2) {
-			$routefile = './route/' . $name2 . '.php';
-			if(file_exists($routefile)) {
-				register_loaded("route", $name2);
-				$flag = $flag && !include_isolate($routefile, $data);
-			} else { 
+			$routefile = './route/' . $name2. '.php';
+			if(!file_exists($routefile)) {
 				set_error("Route " . $name . "dose not exists");
 			}
+
+			$routes = explode("/", $name2);
+			$current_routes = array();
+			foreach($routes as $name3) {
+				$current_routes[] = $name3;
+				$route_name = implode("/", $current_routes);
+				$routefile = './route/' . $route_name . '.php';
+				if(file_exists($routefile)) {
+					register_loaded("route", $route_name);
+
+					$route_scope = get_scope("route/" . $route_name);
+					if(is_array($route_scope)) {
+						foreach($route_scope as $k=>$v) {
+							$data[$k] = $v;
+						}
+					}
+
+					if($name2 == $route_name) {
+						$flag = $flag && !include_isolate($routefile, $data);
+					} else {
+						include_isolate($routefile, $data);
+					}
+				}
+			}
+
+
 		}
 		return !$flag;
 	}
