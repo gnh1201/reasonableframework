@@ -17,9 +17,12 @@ if($routes[0] == "") {
 	$appfile_path = $appfile . ".php";
 
 	// get end of routes
+	$is_static_file = false;
 	$end_route = end($routes);
 	$end_routes_attributes = explode(".", $end_route);
-	if(end($end_routes_attributes) == "php" || count($end_routes_attributes) == 1) {
+	$end_era = end($end_routes_attributes);
+
+	if($end_era == "php" || file_exists($appfile_path)) {
 		$appfile_path = str_replace(".php.php", ".php", $appfile_path);
 		if(file_exists($appfile_path)) {
 			include($appfile_path);
@@ -28,7 +31,21 @@ if($routes[0] == "") {
 			show_errors();
 		}
 	} else {
-		set_header_content_type(end($end_routes_attributes));
+		if(file_exists($appfile . "index.php")) {
+			$appfile .= "index.php";
+			include($appfile);
+		} elseif(file_exists($appfile . "index.html")) {
+			$is_static_file = true;
+			$appfile .= "index.html";
+			$end_era = "html";
+		} else {
+			$is_static_file = true;
+		}
+	}
+
+	if($is_static_file == true) {
+		set_header_content_type($end_era);
+		header("Cache-Control: max-age=86400");
 		$fp = fopen($appfile, "r") or die("file does not exists");
 		$buffer = fread($fp, filesize($appfile));
 		echo $buffer;
