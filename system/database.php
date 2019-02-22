@@ -6,12 +6,18 @@
  * @brief Database module
  */
 
+if(!function_exists("get_db_driver")) {
+	function get_db_driver() {
+		$config = get_config();
+		return get_value_in_array("db_driver", $config, false);
+	}
+}
+
 if(!function_exists("get_db_connect")) {
 	function get_db_connect($a=3, $b=0) {
 		$conn = false;
 		$config = get_config();
-
-		$db_driver = get_value_in_array("db_driver", $config, "");
+		$db_driver = get_db_driver();
 
 		if(in_array($db_driver, array("mysql", "mysql.pdo"))) {
 			try {
@@ -120,7 +126,7 @@ if(!function_exists("get_db_last_id")) {
 
 		$dbc = get_dbc_object();
                 $config = get_config();
-                $db_driver = get_value_in_array("db_driver", $config, "");
+                $db_driver = get_db_driver();
 
 		if(in_array($db_driver, array("mysql", "mysql.pdo"))) {
 			$last_id = $dbc->lastInsertId();
