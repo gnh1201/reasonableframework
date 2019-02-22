@@ -337,7 +337,7 @@ if(!function_exists("set_header_content_type")) {
 		if(array_key_exists($type, $rules)) {
 			header(sprintf("Content-type: %s", $rules[$type]));
 		} else {
-			header(sprintf("Content-type: %s", $type));
+			header("Content-type: plain/text");
 		}
 	}
 }
