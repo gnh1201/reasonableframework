@@ -9,9 +9,10 @@
 if(!function_exists("exec_db_alt_callback")) {
 	function exec_db_alt_callback($rules, $params=array()) {
 		$result = false;
+		$db_driver = get_db_driver();
 
 		foreach($rules as $rule) {
-			if($rule['driver'] == $driver) {
+			if($rule['driver'] == $db_driver) {
 				if(loadHelper(sprintf("database.%s", $rule['driver']))) {
 					if(function_exists($rule['callback'])) {
 						if(is_array($params) && count($params) > 0) {
