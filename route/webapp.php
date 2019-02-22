@@ -25,8 +25,8 @@ foreach($_REQUEST as $k=>$v) {
 	$_REQUEST[$k] = get_requested_value($k, "_ALL");
 }
 
-// SET UTF8MB4
-exec_db_query("set names utf8mb4");
+// get self filename
+$self_filename = "";
 
 // get routes
 $routes = read_route_all();
@@ -47,12 +47,14 @@ $is_static_file = false;
 $is_redirect_to_index = false;
 $end_route = end($routes);
 $end_routes_attributes = explode(".", $end_route);
+$end_fra = $end_routes_attributes[0];
 $end_era = end($end_routes_attributes);
 
 if($end_era == "php" || file_exists($appfile_path)) {
 	$appfile_path = str_replace(".php.php", ".php", $appfile_path);
 	if(file_exists($appfile_path)) {
 		include($appfile_path);
+		$self_filename = $end_fra . ".php";
 	} else {
 		set_error("Webapp 404 Not Found");
 		show_errors();
