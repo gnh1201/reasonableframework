@@ -18,6 +18,9 @@ if(APP_DEVELOPMENT == true) {
 	ini_set("display_errors", 1);
 }
 
+// set empty scope
+$scope = array();
+
 // define system modules
 $load_systems = array("base", "storage", "config", "database", "uri", "security", "logger");
 
@@ -33,7 +36,8 @@ foreach($load_systems as $system_name) {
 		}
 	}
 }
- 
+
+// get config
 $config = get_config();
 
 // set max_execution_time
@@ -52,7 +56,7 @@ date_default_timezone_set($default_timezone);
 // write visit log
 write_visit_log();
 
-// get route (controller)
+// get requested route
 $route = read_route();
 
 // load route file
