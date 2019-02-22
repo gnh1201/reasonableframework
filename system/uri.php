@@ -33,6 +33,8 @@ if(!function_exists("get_uri")) {
 
 if(!function_exists("read_route")) {
 	function read_route($route=false) {
+		$route = false;
+		
 		$config = get_config();
 		$requests = get_requests();
 
