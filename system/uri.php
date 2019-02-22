@@ -43,13 +43,9 @@ if(!function_exists("read_route")) {
 
 		// if empty route
 		if(empty($route)) {
-			$request_uri = $_SERVER['REQUEST_URI'];
-			$d = explode("/index.php/", $request_uri);
-			if(count($d) > 1 && $d[0] == "") {
-				$pos = strpos($d[1], "/");
-				if($pos !== false) {
-					$route = substr($d[1], 0, $pos);
-				}
+			$routes = read_route_all();
+			if(count($routes) > 0) {
+				$route = $routes[0];
 			}
 
 			if(empty($route)) {
@@ -58,6 +54,20 @@ if(!function_exists("read_route")) {
 		}
 
 		return $route;
+	}
+}
+
+if(!function_exists("read_route_all")) {
+	function read_route_all() {
+		$routes = false;
+
+		$d0 = explode("?", $_SERVER['REQUEST_URI']);
+		$d1 = explode("/index.php/", $d0[0]);
+		if(count($d1) > 1 && $d1[0] == "") {
+			$routes = explode("/", $d1[1]);
+		}
+
+		return $routes;
 	}
 }
 
