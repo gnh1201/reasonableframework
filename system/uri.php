@@ -46,7 +46,10 @@ if(!function_exists("read_route")) {
 			$request_uri = $_SERVER['REQUEST_URI'];
 			$d = explode("/index.php/", $request_uri);
 			if(count($d) > 1 && $d[0] == "") {
-				$route = str_replace("../", "", $d[1]);
+				$pos = strpos($d[1], "/");
+				if($pos !== false) {
+					$route = substr($d[1], 0, $pos);
+				}
 			}
 
 			if(empty($route)) {
