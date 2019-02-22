@@ -6,6 +6,8 @@
  * @brief Compatible for legacy applications
  */
 
+loadHelper("isemail.lnk");
+
 if(!defined("_DEF_RSF_")) set_error_exit("do not allow access");
 
 // Protect GET method
@@ -22,6 +24,9 @@ foreach($_POST as $k=>$v) {
 foreach($_REQUEST as $k=>$v) {
 	$_REQUEST[$k] = get_requested_value($k, "_ALL");
 }
+
+// SET UTF8MB4
+exec_db_query("set names utf8mb4");
 
 // get routes
 $routes = read_route_all();
