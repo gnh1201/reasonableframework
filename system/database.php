@@ -13,6 +13,12 @@ if(!function_exists("get_db_driver")) {
 	}
 }
 
+if(!function_exists("check_db_driver")) {
+	function check_db_driver($db_driver) {
+		return (get_db_driver() == $db_driver);
+	}
+}
+
 if(!function_exists("get_db_connect")) {
 	function get_db_connect($a=3, $b=0) {
 		$conn = false;
