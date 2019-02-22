@@ -35,7 +35,6 @@ foreach($load_systems as $system_name) {
 }
  
 $config = get_config();
-$requests = get_requests();
 
 // set max_execution_time
 $max_execution_time = get_value_in_array("max_execution_time", $config, 0);
@@ -53,18 +52,8 @@ date_default_timezone_set($default_timezone);
 // write visit log
 write_visit_log();
 
-// route controller
-$route = get_value_in_array("route", $requests['all'], "");
-
-// load route
-if(empty($route)) {
-	$route = get_value_in_array("default_route", $config, "welcome");
-} else {
-	$route_names = explode('/', $route);
-	if(count($route_names) > 1) {
-		$route = $route_names[0];
-	}
-}
+// get route (controller)
+$route = read_route();
 
 // load route file
 if(!loadRoute($route, $scope)) {
