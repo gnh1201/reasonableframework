@@ -89,7 +89,7 @@ if($is_static_file == true) {
 	if(file_exists($appfile)) {
 		set_header_content_type($end_era);
 
-		$fp = fopen($appfile, "r") or set_error_exit("file does not exists");
+		$fp = fopen($appfile, "r") or die("file does not exists");
 		while(!feof($fp)) {
 			echo fread($fp, 8192);
 		}
