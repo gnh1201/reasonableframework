@@ -88,10 +88,11 @@ if($is_redirect_to_index == true) {
 if($is_static_file == true) {
 	if(file_exists($appfile)) {
 		set_header_content_type($end_era);
-		header("Cache-Control: max-age=86400");
-		$fp = fopen($appfile, "r") or die("file does not exists");
-		$buffer = fread($fp, filesize($appfile));
-		echo $buffer;
+
+		$fp = fopen($appfile, "r") or set_error_exit("file does not exists");
+		while(!feof($fp)) {
+			echo fread($fp, 8192);
+		}
 		fclose($fp);
 	} else {
 		echo "File Not Found";
