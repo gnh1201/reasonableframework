@@ -95,7 +95,7 @@ if(!function_exists("get_db_binded_sql")) {
 			usort($bind_keys, "compare_db_key_length");
 
 			foreach($bind_keys as $k) {
-				$sql = str_replace(":" . $k, "'" . addslashes($bind[$k]) . "'", $sql);
+				$sql = str_replace(":" . $k, "'" . make_safe_argument($bind[$k]) . "'", $sql);
 			}
 		}
 
