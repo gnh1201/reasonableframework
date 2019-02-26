@@ -19,8 +19,11 @@ if(APP_DEVELOPMENT == true) {
 	ini_set("display_errors", 1);
 }
 
+// set empty scope
+$scope = array();
+
 // define system modules
-$load_systems = array("base", "storage", "config", "security", "uri");
+$load_systems = array("base", "storage", "config", "security", "database", "uri");
 
 // load system modules
 foreach($load_systems as $system_name) {
