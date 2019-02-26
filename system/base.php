@@ -19,7 +19,7 @@ if(!function_exists("check_invaild_function")) {
 				}
 			} 
 		} else {
-			if(function_exists($fn)) {
+			if(!function_exists($fn)) {
 				$status = 0;
 			}
 		}
