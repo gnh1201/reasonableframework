@@ -28,9 +28,7 @@ if(!check_function_exists("get_kr_get_lastname")) {
 			$words = read_storage_file_by_line("kr.lastname.txt", array(
 				"storage_type" => "country",
 			)));
-			$prefix_names = explode(",", $words);
-			shuffle($prefix_names);
-			return $prefix_names[0];
+			return $words[get_random_index($words)];
 		}
 	}
 }
@@ -41,9 +39,7 @@ if(!check_function_exists("get_kr_get_firstname")) {
 			$words = read_storage_file_by_line("kr.firstname.txt", array(
 				"storage_type" => "country",
 			)));
-			$prefix_names = explode(",", $words);
-			shuffle($prefix_names);
-			return $prefix_names[0];
+			return $words[get_random_index($words)];
 		}
 	}
 }
