@@ -92,8 +92,8 @@ if(!check_function_exists("get_cutted_string")) {
 	}
 }
 
-if(!check_function_exists("explode_by_line")) {
-	function explode_by_line($str) {
+if(!check_function_exists("split_by_line")) {
+	function split_by_line($str) {
 		return preg_split('/\n|\r\n?/', $str);
 	}
 }
@@ -124,8 +124,8 @@ if(!check_function_exists("endsWith")) {
 }
 
 // https://stackoverflow.com/questions/4955433/php-multiple-delimiters-in-explode/27767665#27767665
-if(!check_function_exists("multiexplode")) {
-	function multiexplode($delimiters, $string) {
+if(!check_function_exists("multi_explode")) {
+	function multi_explode($delimiters, $string) {
 		$ready = str_replace($delimiters, $delimiters[0], $string);
 		$launch = explode($delimiters[0], $ready);
 		return $launch;
