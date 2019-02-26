@@ -92,11 +92,17 @@ if(!check_function_exists("get_db_binded_param")) {
 
 if(!check_function_exists("get_db_binded_sql")) {
 	function get_db_binded_sql($sql, $bind) {
-		$exps = multi_str_split($sql, array(" ", "<>", ">=", "<=", "=", "(", ")", "\r\n", "\n", "\t"));
-		foreach($exps as $k=>$v) {
-			$exps[$k] = get_db_binded_param($v, $bind);
+		$binded_sql = false;
+
+		if(loadHelper("string.utils")) {
+			$exps = multi_str_split($sql, array(" ", "<>", ">=", "<=", "=", "(", ")", "\r\n", "\n", "\t"));
+			foreach($exps as $k=>$v) {
+				$exps[$k] = get_db_binded_param($v, $bind);
+			}
+			$binded_sql = implode("", $exps);
 		}
-		return implode("", $exps);
+
+		return $binded_sql;
 	}
 }
 
