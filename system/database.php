@@ -482,12 +482,13 @@ if(!function_exists("json_decode_to_assoc")) {
 	function json_decode_to_assoc($data) {
 		$result = array();
 
-		$func_rules = array(
-			"json_decode" => "Dose not exists json_decode function",
-			"json_last_error" => "Dose not exists json_last_error function",
+		$fn = array(
+			"NO_FUNCTION_JSON_DECODE" => "json_decode",
+			"NO_FUNCTION_JSON_LAST_ERROR" => "json_last_error",
 		);
 
-		if(check_function_exists($func_rules)) {
+		$error = check_invaild_function($fn);
+		if($error == -1) {
 			$obj = @json_decode($data, true);
 			$result = (@json_last_error() === 0) ? $obj : $result;
 		}
