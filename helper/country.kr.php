@@ -25,7 +25,7 @@ if(!check_function_exists("get_kr_parsed_tel_number")) {
 if(!check_function_exists("get_kr_get_lastname")) {
 	function get_kr_get_lastname() 
 		if(loadHelper("string.utils")) {
-			$words = split_by_line(read_stroage_file("kr.lastname.txt", array(
+			$words = read_storage_file_by_line("kr.lastname.txt", array(
 				"storage_type" => "country",
 			)));
 			$prefix_names = explode(",", $words);
@@ -38,7 +38,7 @@ if(!check_function_exists("get_kr_get_lastname")) {
 if(!check_function_exists("get_kr_get_firstname")) {
 	function get_kr_get_firstname() {
 		if(loadHelper("string.utils")) {
-			$words = split_by_line(read_stroage_file("kr.firstname.txt", array(
+			$words = read_storage_file_by_line("kr.firstname.txt", array(
 				"storage_type" => "country",
 			)));
 			$prefix_names = explode(",", $words);
