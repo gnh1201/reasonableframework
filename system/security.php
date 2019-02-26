@@ -6,7 +6,7 @@
  * @brief Security module for ReasonableFramework
  */
 
-if(!function_exists("check_token_abuse")) {
+if(!check_valid_function("check_token_abuse")) {
 	function check_token_abuse($_p_token, $_n_token) {
 		$abuse = false;
 		
@@ -19,7 +19,7 @@ if(!function_exists("check_token_abuse")) {
 	}
 }
 
-if(!function_exists("make_random_id")) {
+if(!check_valid_function("make_random_id")) {
 	function make_random_id($length = 10) {
 		$characters = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
 		$charactersLength = strlen($characters);
@@ -31,7 +31,7 @@ if(!function_exists("make_random_id")) {
 	}
 }
 
-if(!function_exists("set_session")) {
+if(!check_valid_function("set_session")) {
 	function set_session($session_name, $value) {
 		if(PHP_VERSION < '5.3.0') {
 			session_register($session_name);
@@ -40,7 +40,7 @@ if(!function_exists("set_session")) {
 	}
 }
 
-if(!function_exists("get_session")) {
+if(!check_valid_function("get_session")) {
 	function get_session($session_name) {
 		$session_value = "";
 		if(!array_key_empty($session_name, $_SESSION)) {
@@ -50,7 +50,7 @@ if(!function_exists("get_session")) {
 	}
 }
 
-if(!function_exists("set_session_token")) {
+if(!check_valid_function("set_session_token")) {
 	function set_session_token() {
 		$_token = make_random_id(10);
 		set_session("_token", $_token);
@@ -59,13 +59,13 @@ if(!function_exists("set_session_token")) {
 	}
 }
 
-if(!function_exists("get_session_token")) {
+if(!check_valid_function("get_session_token")) {
 	function get_session_token() {
 		return get_session("_token");
 	}
 }
 
-if(!function_exists("check_token_abuse_by_requests")) {
+if(!check_valid_function("check_token_abuse_by_requests")) {
 	function check_token_abuse_by_requests($name, $method="_POST") {
 		$requests = get_requests();
 		
@@ -80,7 +80,7 @@ if(!function_exists("check_token_abuse_by_requests")) {
 	}
 }
 
-if(!function_exists("check_login_session")) {
+if(!check_valid_function("check_login_session")) {
 	function check_login_session($ss_key, $config) {
 		$flag = false;
 
@@ -94,7 +94,7 @@ if(!function_exists("check_login_session")) {
 	}
 }
 
-if(!function_exists("store_login_session")) {
+if(!check_valid_function("store_login_session")) {
 	function store_login_session($ss_key, $config) {
 		$flag = false;
 
@@ -113,7 +113,7 @@ if(!function_exists("store_login_session")) {
 	}
 }
 
-if(!function_exists("process_safe_login")) {
+if(!check_valid_function("process_safe_login")) {
 	function process_safe_login($user_name, $user_password, $user_profile=array(), $escape_safe=false) {
 		$config = get_config();
 
@@ -147,7 +147,7 @@ if(!function_exists("process_safe_login")) {
 	}
 }
 
-if(!function_exists("check_empty_requests")) {
+if(!check_valid_function("check_empty_requests")) {
 	function check_empty_requests($fieldnames, $method="get") {
 		$requests = get_requests();
 		$errors = array();
@@ -173,7 +173,7 @@ if(!function_exists("check_empty_requests")) {
 	}
 }
 
-if(!function_exists("get_hashed_text")) {
+if(!check_valid_function("get_hashed_text")) {
 	function get_hashed_text($text, $algo="sha1", $options=array()) {
 		$hashed_text = false;
 
@@ -230,17 +230,17 @@ if(!function_exists("get_hashed_text")) {
 	}
 }
 
-if(!function_exists("hash_algo_exists")) {
+if(!check_valid_function("hash_algo_exists")) {
 	function hash_algo_exists($algo) {
 		$flag = false;
-		if(function_exists("hash_algos")) {
+		if(check_valid_function("hash_algos")) {
 			$flag = in_array($algo, hash_algos());
 		}
 		return $flag;
 	}
 }
 
-if(!function_exists("get_salt")) {
+if(!check_valid_function("get_salt")) {
 	function get_salt() {
 		$config = get_config();
 		
@@ -255,7 +255,7 @@ if(!function_exists("get_salt")) {
 	}
 }
 
-if(!function_exists("get_password")) {
+if(!check_valid_function("get_password")) {
 	function get_password($text, $algo="sha1") {
 		$config = get_config();
 
@@ -282,7 +282,7 @@ if(!function_exists("get_password")) {
 	}
 }
 
-if(!function_exists("check_match_password")) {
+if(!check_valid_function("check_match_password")) {
 	function check_match_password($p, $n, $algo="sha1") {
 		$flag = false;
 		$salt = get_salt();
@@ -304,14 +304,14 @@ if(!function_exists("check_match_password")) {
 	}
 }
 
-if(!function_exists("protect_dir_path")) {
+if(!check_valid_function("protect_dir_path")) {
 	function protect_dir_path($path) {
 		$path = str_replace('/', '_', $path);
 		return $path;
 	}
 }
 
-if(!function_exists("session_logout")) {
+if(!check_valid_function("session_logout")) {
 	function session_logout() {
 		$config = get_config();
 
@@ -347,19 +347,19 @@ if(!function_exists("session_logout")) {
 	}
 }
 
-if(!function_exists("get_current_user_id")) {
+if(!check_valid_function("get_current_user_id")) {
 	function get_current_user_id() {
 		return get_current_session_data("ss_user_id");
 	}
 }
 
-if(!function_exists("get_current_user_name")) {
+if(!check_valid_function("get_current_user_name")) {
 	function get_current_user_name() {
 		return get_current_session_data("ss_user_name");
 	}
 }
 
-if(!function_exists("get_current_session_data")) {
+if(!check_valid_function("get_current_session_data")) {
 	function get_current_session_data($name) {
 		$current_data = "";
 
@@ -377,7 +377,7 @@ if(!function_exists("get_current_session_data")) {
 	}
 }
 
-if(!function_exists("get_user_profile")) {
+if(!check_valid_function("get_user_profile")) {
 	function get_user_profile() {
 		$user_profile = array(
 			"user_id"   => get_current_user_id(),
@@ -388,7 +388,7 @@ if(!function_exists("get_user_profile")) {
 	}
 }
 
-if(!function_exists("get_fixed_id")) {
+if(!check_valid_function("get_fixed_id")) {
 	function get_fixed_id($str, $len=0, $salt="") {
 		$config = get_config();
 
@@ -399,7 +399,7 @@ if(!function_exists("get_fixed_id")) {
 }
 
 // https://stackoverflow.com/questions/1996122/how-to-prevent-xss-with-html-php
-if(!function_exists("get_clean_xss")) {
+if(!check_valid_function("get_clean_xss")) {
 	function get_clean_xss($data, $notags=0) {
 		if(is_string($data)) {
 			// if no tags (equals to strip_tags)
@@ -443,20 +443,20 @@ if(!function_exists("get_clean_xss")) {
 	}
 }
 
-if(!function_exists("get_clean_newlines")) {
+if(!check_valid_function("get_clean_newlines")) {
 	function get_clean_newlines($data) {
 		return is_string($data) ? trim(preg_replace('~[\r\n]+~', ' ', $data)) : $data;
 	}
 }
 
-if(!function_exists("get_clean_text")) {
+if(!check_valid_function("get_clean_text")) {
 	function get_clean_text($data) {
 		return is_string($data) ? get_clean_newlines(get_clean_xss($data, 1)) : $data;
 	}
 }
 
 // support curl or jsonp(callback)
-if(!function_exists("get_callable_token")) {
+if(!check_valid_function("get_callable_token")) {
 	function get_callable_token($token, $callback="", $charset="utf-8") {
 		$callback = get_clean_xss($callback);
 		$retdata = "";
@@ -471,7 +471,7 @@ if(!function_exists("get_callable_token")) {
 	}
 }
 
-if(!function_exists("encapsulate_text")) {
+if(!check_valid_function("encapsulate_text")) {
 	function encapsulate_text($text, $algo="aes-128-cbc", $key="", $iv="", $hash="", $hash_algo="sha1") {
 		$config = get_config();
 
@@ -494,7 +494,7 @@ if(!function_exists("encapsulate_text")) {
 			$init_key = empty($key) ? $config['masterkey'] : $key;
 			$init_iv = empty($iv) ? $config['masteriv'] : $iv;
 
-			if(function_exists("openssl_encrypt")) {
+			if(check_valid_function("openssl_encrypt")) {
 				$encrypted_text = @openssl_encrypt($init_text, $algo, $init_key, true, $init_iv);
 			} else {
 				$encrypted_text = xor_this($init_key, $init_text);
@@ -509,7 +509,7 @@ if(!function_exists("encapsulate_text")) {
 	}
 }
 
-if(!function_exists("decapsulate_text")) {
+if(!check_valid_function("decapsulate_text")) {
 	function decapsulate_text($text, $algo="aes-128-cbc", $key="", $iv="", $hash="", $hash_algo="sha1") {
 		$config = get_config();
 
@@ -525,7 +525,7 @@ if(!function_exists("decapsulate_text")) {
 			$init_key = empty($key) ? $config['masterkey'] : $key;
 			$init_iv = empty($iv) ? $config['masteriv'] : $iv;
 
-			if(function_exists("openssl_decrypt")) {
+			if(check_valid_function("openssl_decrypt")) {
 				$decrypted_text = @openssl_decrypt($init_text, $algo, $init_key, true, $init_iv);
 			} else {
 				$decrypted_text = xor_this($init_key, $init_text);
@@ -547,14 +547,14 @@ if(!function_exists("decapsulate_text")) {
 	}
 }
 
-if(!function_exists("make_safe_argument")) {
+if(!check_valid_function("make_safe_argument")) {
 	function make_safe_argument($str) {
 		return addslashes($str);
 	}
 }
 
 // https://stackoverflow.com/questions/14673551/encrypt-decrypt-with-xor-in-php
-if(!function_exists("xor_this")) {
+if(!check_valid_function("xor_this")) {
 	function xor_this($key, $string, $debug=false) {
 		$text = $string;
 		$outText = "";
@@ -574,7 +574,7 @@ if(!function_exists("xor_this")) {
 }
 
 // https://wiki.ubuntu.com/DevelopmentCodeNames
-if(!function_exists("get_generated_name")) {
+if(!check_valid_function("get_generated_name")) {
 	function get_generated_name() {
 		$config = get_config();
 
@@ -592,7 +592,7 @@ if(!function_exists("get_generated_name")) {
 	}
 }
 
-if(!function_exists("check_redirect_origin")) {
+if(!check_valid_function("check_redirect_origin")) {
 	function check_redirect_origin($url) {
 		$flag = false;
 

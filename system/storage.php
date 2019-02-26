@@ -6,7 +6,7 @@
  * @brief Stroage module for ReasonableFramework
  */
 
-if(!function_exists("get_current_working_dir")) {
+if(!check_valid_function("get_current_working_dir")) {
 	function get_current_working_dir($method="getcwd") {
 		$working_dir = "";
 
@@ -41,13 +41,13 @@ if(!function_exists("get_current_working_dir")) {
 	}
 }
 
-if(!function_exists("get_storage_dir")) {
+if(!check_valid_function("get_storage_dir")) {
 	function get_storage_dir() {
 		return "storage";
 	}
 }
 
-if(!function_exists("get_storage_path")) {
+if(!check_valid_function("get_storage_path")) {
 	function get_storage_path($type="data") {
 		$dir_path = sprintf("./%s/%s", get_storage_dir(), $type);
 
@@ -61,13 +61,13 @@ if(!function_exists("get_storage_path")) {
 	}
 }
 
-if(!function_exists("get_storage_url")) {
+if(!check_valid_function("get_storage_url")) {
 	function get_storage_url($type="data") {
 		return sprintf("%s%s/%s", base_url(), get_storage_dir(), $type);
 	}
 }
 
-if(!function_exists("move_uploaded_file_to_storage")) {
+if(!check_valid_function("move_uploaded_file_to_storage")) {
 	function move_uploaded_file_to_stroage($options=array()) {
 		$response = array(
 			"files" => array()
@@ -131,7 +131,7 @@ if(!function_exists("move_uploaded_file_to_storage")) {
 	}
 }
 
-if(!function_exists("read_storage_file")) {
+if(!check_valid_function("read_storage_file")) {
 	function read_storage_file($filename, $options=array()) {
 		$result = false;
 
@@ -173,7 +173,7 @@ if(!function_exists("read_storage_file")) {
 	}
 }
 
-if(!function_exists("iterate_storage_files")) {
+if(!check_valid_function("iterate_storage_files")) {
 	function iterate_storage_files($storage_type, $options=array()) {
 		$filenames = array();
 
@@ -193,7 +193,7 @@ if(!function_exists("iterate_storage_files")) {
 	}
 }
 
-if(!function_exists("remove_storage_file")) {
+if(!check_valid_function("remove_storage_file")) {
 	function remove_storage_file($filename, $options=array()) {
 		$result = false;
 
@@ -235,7 +235,7 @@ if(!function_exists("remove_storage_file")) {
 	}
 }
 
-if(!function_exists("write_storage_file")) {
+if(!check_valid_function("write_storage_file")) {
 	function write_storage_file($data, $options=array()) {
 		$result = false;
 
@@ -288,13 +288,13 @@ if(!function_exists("write_storage_file")) {
 	}
 }
 
-if(!function_exists("get_real_path")) {
+if(!check_valid_function("get_real_path")) {
 	function get_real_path($file) {
 		return file_exists($file) ? realpath($file) : false;
 	}
 }
 
-if(!function_exists("retrieve_storage_files")) {
+if(!check_valid_function("retrieve_storage_files")) {
 	function retrieve_storage_files($type, $recursive=false, $excludes=array(".", ".."), $files=array()) {
 		$storage_path = get_storage_path($type);
 
@@ -318,7 +318,7 @@ if(!function_exists("retrieve_storage_files")) {
 	}
 }
 
-if(!function_exists("get_file_extension")) {
+if(!check_valid_function("get_file_extension")) {
 	function get_file_extension($file, $options=array()) {
 		$result = false;
 
@@ -335,13 +335,13 @@ if(!function_exists("get_file_extension")) {
 	}
 }
 
-if(!function_exists("check_file_extension")) {
+if(!check_valid_function("check_file_extension")) {
 	function check_file_extension($file, $extension, $options=array()) {
 		return (get_file_extension($file, $options) === $extension);
 	}
 }
 
-if(!function_exists("get_file_name")) {
+if(!check_valid_function("get_file_name")) {
 	function get_file_name($name, $extension="", $basepath="") {
 		$result = "";
 

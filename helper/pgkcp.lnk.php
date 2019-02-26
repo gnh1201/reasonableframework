@@ -8,7 +8,7 @@
 
 if(!defined("_DEF_RSF_")) set_error_exit("do not allow access");
 
-if(!function_exists("get_pgkcp_config")) {
+if(!check_valid_function("get_pgkcp_config")) {
 	function get_pgkcp_config() {
 		$pgkcp_config = array();
 
@@ -60,7 +60,7 @@ if(!function_exists("get_pgkcp_config")) {
 	}
 }
 
-if(!function_exists("get_pgkcp_platform")) {
+if(!check_valid_function("get_pgkcp_platform")) {
 	function get_pgkcp_platform($pgkcp_config) {
 		$platform = false;
 
@@ -80,7 +80,7 @@ if(!function_exists("get_pgkcp_platform")) {
 	}
 }
 
-if(!function_exists("load_pgkcp_library")) {
+if(!check_valid_function("load_pgkcp_library")) {
 	function load_pgkcp_library() {
 		$inc_file = get_current_working_dir() . "/vendor/pgkcp/res/pp_cli_hub_lib.php";
 		if(file_exists($inc_file)) {

@@ -6,7 +6,7 @@
  * @brief Wordpress Rest API helper
  */
 
-if(!function_exists("get_wp_posts")) {
+if(!check_valid_function("get_wp_posts")) {
 	function get_wp_posts($wp_server_url) {
 		$results = array();
 
@@ -43,7 +43,7 @@ if(!function_exists("get_wp_posts")) {
 	}
 }
 
-if(!function_exists("parse_wp_posts")) {
+if(!check_valid_function("parse_wp_posts")) {
 	function parse_wp_posts($wp_server_url) {
 		$rest_no_route = false;
 
@@ -90,7 +90,7 @@ if(!function_exists("parse_wp_posts")) {
 	}
 }
 
-if(!function_exists("get_wp_new_message")) {
+if(!check_valid_function("get_wp_new_message")) {
 	function get_wp_new_message($title, $content, $link="") {
 		$new_message = "";
 
@@ -111,7 +111,7 @@ if(!function_exists("get_wp_new_message")) {
 	}
 }
 
-if(!function_exists("authenticate_wp")) {
+if(!check_valid_function("authenticate_wp")) {
 	function authenticate_wp($wp_server_url, $client_id, $client_secret, $route="", $code="", $scope="basic", $state="") {
 			$flag = false;
 
@@ -172,7 +172,7 @@ if(!function_exists("authenticate_wp")) {
 	}
 }
 
-if(!function_exists("write_wp_post")) {
+if(!check_valid_function("write_wp_post")) {
 	function write_wp_post($wp_server_url, $access_token, $data=array()) {
 		$default_data = array(
 			"title" => "Untitled",
@@ -201,7 +201,7 @@ if(!function_exists("write_wp_post")) {
 	}
 }
 
-if(!function_exists("get_wp_categories")) {
+if(!check_valid_function("get_wp_categories")) {
 	function get_wp_categories($wp_server_url, $access_token) {
 		$response = get_web_json(get_web_build_qs($wp_server_url, array(
 			"rest_route" => "/wp/v2/categories"

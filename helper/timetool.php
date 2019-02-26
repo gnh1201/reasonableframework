@@ -7,7 +7,7 @@
  */
 
 /* Query a time server (C) 1999-09-29, Ralf D. Kloth (QRQ.software) <ralf at qrq.de> */
-if(!function_exists("query_time_server")) {
+if(!check_valid_function("query_time_server")) {
   function query_time_server($timeserver, $socket) {
       // parameters: server, socket, error code, error text, timeout
       $fp = fsockopen($timeserver,$socket,$err,$errstr,5); 
@@ -28,7 +28,7 @@ if(!function_exists("query_time_server")) {
   }
 }
 
-if(!function_exists("get_server_time")) {
+if(!check_valid_function("get_server_time")) {
   function get_server_time($timeserver="time.bora.net") {
     $timestamp = false;
     $timercvd = query_time_server($timeserver, 37);

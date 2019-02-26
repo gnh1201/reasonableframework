@@ -6,7 +6,7 @@
  * @brief jCryption (alternative HTTPS on javascript) Helper
  */
   
-if(!function_exists("jcryption_load")) {
+if(!check_valid_function("jcryption_load")) {
   function jcryption_load() {
     $required_files = array(
       "jCryption/sqAES",
@@ -21,19 +21,19 @@ if(!function_exists("jcryption_load")) {
   }
 }
 
-if(!function_exists("jcryption_get_code")) {
+if(!check_valid_function("jcryption_get_code")) {
   function jcryption_get_code() {
     return "JCryption::decrypt();";
   }
 }
 
-if(!function_exists("jcryption_get_jscode")) {
+if(!check_valid_function("jcryption_get_jscode")) {
   function jcryption_get_jscode($selector) {
     return "$(function() { $(" . $selector . ").jCryption(); });";
   }
 }
 
-if(!function_exists("jcryption_get_js_url")) {
+if(!check_valid_function("jcryption_get_js_url")) {
   function jcryption_get_js_url() {
     return "JCryption::decrypt();";
   }

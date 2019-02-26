@@ -13,30 +13,30 @@ if(!function_exists("check_invalid_function")) {
 
 		if(is_array($fn)) {
 			foreach($fn as $k=>$v) {
-				if(!function_exists($v)) {
+				if(!check_valid_function($v)) {
 					$status = $k;
 					break;
 				}
-			} 
+			}
 		} else {
-			if(!function_exists($fn)) {
+			if(!check_valid_function($fn)) {
 				$status = 0;
 			}
 		}
 	}
-	
-	return $status;   
+
+	return $status;
 }
 
 // check valid function (bool)
-if(!function_exists("check_valid_function")) {
+if(check_invalid_function("check_valid_function") == -1) {
 	function check_valid_function($fn) {
 		return (check_invalid_function($fn) == -1);
 	}
 }
 
 // get all scope
-if(!function_exists("get_scope_all")) {
+if(!check_valid_function("get_scope_all")) {
 	function get_scope_all() {
 		global $scope;
 		return $scope;
@@ -44,7 +44,7 @@ if(!function_exists("get_scope_all")) {
 }
 
 // set scope
-if(!function_exists("set_scope")) {
+if(!check_valid_function("set_scope")) {
 	function set_scope($k, $v) {
 		global $scope;
 		$scope[$k] = $v;
@@ -52,7 +52,7 @@ if(!function_exists("set_scope")) {
 }
 
 // get scope
-if(!function_exists("get_scope")) {
+if(!check_valid_function("get_scope")) {
 	function get_scope($k) {
 		global $scope;
 		return array_key_exists($k, $scope) ? $scope[$k] : null;
@@ -60,7 +60,7 @@ if(!function_exists("get_scope")) {
 }
 
 // register loaded resources
-if(!function_exists("register_loaded")) {
+if(!check_valid_function("register_loaded")) {
 	function register_loaded($k, $v) {
 		global $scope;
 		$scope['loaded'][$k][] = $v;
@@ -68,7 +68,7 @@ if(!function_exists("register_loaded")) {
 }
 
 // sandbox for include function
-if(!function_exists("include_isolate")) {
+if(!check_valid_function("include_isolate")) {
 	function include_isolate($file, $data=array()) {
 		if(count($data) > 0) {
 			extract($data);
@@ -78,14 +78,14 @@ if(!function_exists("include_isolate")) {
 }
 
 // set autoloader
-if(!function_exists("set_autoloader")) {
+if(!check_valid_function("set_autoloader")) {
 	function set_autoloader() {
 		return include('./vendor/autoload.php');
 	}
 }
 
 // load view file
-if(!function_exists("renderView")) {
+if(!check_valid_function("renderView")) {
 	function renderView($name, $data=array()) {
 		$flag = true;
 		$views = explode(';', $name);
@@ -101,7 +101,7 @@ if(!function_exists("renderView")) {
 }
 
 // load view by rules
-if(!function_exists("renderViewByRules")) {
+if(!check_valid_function("renderViewByRules")) {
 	function renderViewByRules($rules, $data=array()) {
 		foreach($rules as $k=>$v) {
 			if(in_array($k, get_routes())) {
@@ -112,7 +112,7 @@ if(!function_exists("renderViewByRules")) {
 }
 
 // load system module
-if(!function_exists("loadModule")) {
+if(!check_valid_function("loadModule")) {
 	function loadModule($name) {
 		$flag = true;
 		$modules = explode(';', $name);
@@ -130,7 +130,7 @@ if(!function_exists("loadModule")) {
 }
 
 // load helper file
-if(!function_exists("loadHelper")) {
+if(!check_valid_function("loadHelper")) {
 	function loadHelper($name) {
 		$flag = true;
 		$helpers = explode(';', $name);
@@ -148,7 +148,7 @@ if(!function_exists("loadHelper")) {
 }
 
 // load route file
-if(!function_exists("loadRoute")) {
+if(!check_valid_function("loadRoute")) {
 	function loadRoute($name, $data=array()) {
 		$flag = true;
 		$routes = explode(";", $name);
@@ -166,7 +166,7 @@ if(!function_exists("loadRoute")) {
 }
 
 // load vendor file
-if(!function_exists("loadVendor")) {
+if(!check_valid_function("loadVendor")) {
 	function loadVendor($uses, $data=array()) {
 		$flag = true;
 		$usenames = array();
@@ -192,7 +192,7 @@ if(!function_exists("loadVendor")) {
 	}
 }
 
-if(!function_exists("array_key_empty")) {
+if(!check_valid_function("array_key_empty")) {
 	function array_key_empty($key, $array) {
 		$empty = true;
 		
@@ -206,7 +206,7 @@ if(!function_exists("array_key_empty")) {
 	}
 }
 
-if(!function_exists("array_key_equals")) {
+if(!check_valid_function("array_key_equals")) {
 	function array_key_equals($key, $array, $value) {
 		$equals = false;
 
@@ -220,7 +220,7 @@ if(!function_exists("array_key_equals")) {
 	}
 }
 
-if(!function_exists("array_key_is_array")) {
+if(!check_valid_function("array_key_is_array")) {
 	function array_key_is_array($key, $array) {
 		$flag = false;
 
@@ -234,7 +234,7 @@ if(!function_exists("array_key_is_array")) {
 	}
 }
 
-if(!function_exists("array_multikey_empty")) {
+if(!check_valid_function("array_multikey_empty")) {
 	function array_multikey_empty($keys, $array) {
 		$flag = false;
 		foreach($keys as $key) {
@@ -246,7 +246,7 @@ if(!function_exists("array_multikey_empty")) {
 	}
 }
 
-if(!function_exists("get_value_in_array")) {
+if(!check_valid_function("get_value_in_array")) {
 	function get_value_in_array($name, $arr=array(), $default=false) {
 		$output = false;
 
@@ -260,7 +260,7 @@ if(!function_exists("get_value_in_array")) {
 	}
 }
 
-if(!function_exists("get_value_in_object")) {
+if(!check_valid_function("get_value_in_object")) {
 	function get_value_in_object($name, $obj, $default="") {
 		$output = $obj->$name;
 		return $output;
@@ -268,14 +268,14 @@ if(!function_exists("get_value_in_object")) {
 }
 
 // error handler
-if(!function_exists("set_error")) {
+if(!check_valid_function("set_error")) {
 	function set_error($msg, $code="ERROR") {
 		global $scope;
 		$scope['errors'][] = $code . ": " . $msg;
 	}
 }
 
-if(!function_exists("get_errors")) {
+if(!check_valid_function("get_errors")) {
 	function get_errors($d=false, $e=false) { // d: display, e: exit
 		global $scope;
 		$errors = $scope['errors'];
@@ -293,13 +293,13 @@ if(!function_exists("get_errors")) {
 	}
 }
 
-if(!function_exists("show_errors")) {
+if(!check_valid_function("show_errors")) {
 	function show_errors($exit=true) {
 		return get_errors(true, $exit);
 	}
 }
 
-if(!function_exists("set_error_exit")) {
+if(!check_valid_function("set_error_exit")) {
 	function set_error_exit($msg, $code="ERROR") {
 		set_error($msg, $code);
 		show_errors();
@@ -307,7 +307,7 @@ if(!function_exists("set_error_exit")) {
 }
 
 
-if(!function_exists("get_property_value")) {
+if(!check_valid_function("get_property_value")) {
 	function get_property_value($prop, $obj, $ac=false) {
 		$result = false;
 		if(is_object($obj) && property_exists($obj, $prop)) {
@@ -324,7 +324,7 @@ if(!function_exists("get_property_value")) {
 	}
 }
 
-if(!function_exists("get_routes")) {
+if(!check_valid_function("get_routes")) {
 	function get_routes() {
 		$loaded = get_scope("loaded");
 		return $loaded['route'];

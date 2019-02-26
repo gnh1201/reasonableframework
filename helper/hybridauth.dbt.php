@@ -6,7 +6,7 @@
  * @brief HybridAuth DB Helper
  */
  
-if(!function_exists("store_hybridauth_session")) {
+if(!check_valid_function("store_hybridauth_session")) {
 	function store_hybridauth_session($data, $user_id) {
 		$connection_id = false;
 
@@ -23,7 +23,7 @@ if(!function_exists("store_hybridauth_session")) {
 	}
 }
 
-if(!function_exists("get_stored_hybridauth_session")) {
+if(!check_valid_function("get_stored_hybridauth_session")) {
 	function get_stored_hybridauth_session($connection_id) {
 		$stored_session = false;
 
@@ -39,7 +39,7 @@ if(!function_exists("get_stored_hybridauth_session")) {
 	}
 }
 
-if(!function_exists("get_hybridauth_connection_info")) {
+if(!check_valid_function("get_hybridauth_connection_info")) {
 	function get_hybridauth_connection_info($connection_id) {
 		$connection_info = false;
 
@@ -57,7 +57,7 @@ if(!function_exists("get_hybridauth_connection_info")) {
 	}
 }
 
-if(!function_exists("get_hybridauth_connection_id")) {
+if(!check_valid_function("get_hybridauth_connection_id")) {
 	function get_hybridauth_connection_id($user_id) {
 		$connection_id = false;
 		

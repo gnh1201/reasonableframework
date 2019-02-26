@@ -6,7 +6,7 @@
  * @brief Configuration module
  */
 
-if(!function_exists("read_config")) {
+if(!check_valid_function("read_config")) {
 	function read_config() {
 		$config = array();
 
@@ -30,7 +30,7 @@ if(!function_exists("read_config")) {
 	}
 }
 
-if(!function_exists("get_config")) {
+if(!check_valid_function("get_config")) {
 	function get_config() {
 		$config = get_scope("config");
 
@@ -42,7 +42,7 @@ if(!function_exists("get_config")) {
 	}
 }
 
-if(!function_exists("get_config_value")) {
+if(!check_valid_function("get_config_value")) {
 	function get_config_value($key) {
 		$config = get_config();
 
@@ -55,7 +55,7 @@ if(!function_exists("get_config_value")) {
 	}
 }
 
-if(!function_exists("get_current_datetime")) {
+if(!check_valid_function("get_current_datetime")) {
 	function get_current_datetime() {
 		$datetime = false;
 

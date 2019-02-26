@@ -6,13 +6,13 @@
  * @brief Oracle database helper for ReasonableFramework
  */
 
-if(!function_exists("get_db_orable_binded_sql")) {
+if(!check_valid_function("get_db_orable_binded_sql")) {
 	function get_db_orable_binded_sql($sql, $bind) {
 		return get_db_binded_sql($sql, $bind);
 	}
 }
 
-if(!function_exists("get_db_oracle_stmt")) {
+if(!check_valid_function("get_db_oracle_stmt")) {
 	function get_db_oracle_stmt($sql, $bind) {
 		$stmt = NULL;
 
@@ -23,12 +23,12 @@ if(!function_exists("get_db_oracle_stmt")) {
 	}
 }
 
-if(!function_exists("exec_db_oracle_connect")) {
+if(!check_valid_function("exec_db_oracle_connect")) {
 	function exec_db_oracle_connect($host, $port, $user, $password, $options=array()) {
 		$conn = NULL;
 		$envs = get_value_in_array("envs", $options, array());
 
-		if(!function_exists("oci_connect")) {
+		if(!check_valid_function("oci_connect")) {
 			exit("OCI (Oracle Extension for PHP) not installed!");	
 		}
 
@@ -67,13 +67,13 @@ if(!function_exists("exec_db_oracle_connect")) {
 	}
 }
 
-if(!function_exists("exec_db_oracle_fetch_all")) {
+if(!check_valid_function("exec_db_oracle_fetch_all")) {
 	function exec_db_oracle_fetch_all($sql, $bind, $conn) {
 		$rows = array();
 
 		$required_functions = array("oci_parse", "oci_execute", "oci_fetch_assoc", "oci_free_statement");
 		foreach($required_functions as $func_name) {
-			if(!function_exists($func_name)) {
+			if(!check_valid_function($func_name)) {
 				exit("OCI (Oracle Extension for PHP) not installed!");	
 			}
 		}
@@ -91,7 +91,7 @@ if(!function_exists("exec_db_oracle_fetch_all")) {
 	}
 }
 
-if(!function_exists("exec_db_oracle_query")) {
+if(!check_valid_function("exec_db_oracle_query")) {
 	function exec_db_oracle_query($sql, $bind, $conn) {
 		$flag = false;
 
@@ -104,7 +104,7 @@ if(!function_exists("exec_db_oracle_query")) {
 	}
 }
 
-if(!function_exists("close_db_oracle_connect")) {
+if(!check_valid_function("close_db_oracle_connect")) {
 	function close_db_oracle_connect() {
 		$dbc = get_scope("dbc");
 		return oci_close($dbc);
