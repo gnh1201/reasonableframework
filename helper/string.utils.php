@@ -115,8 +115,13 @@ if(!check_function_exists("multi_explode")) {
 }
 
 if(!check_function_exists("multi_strpos")) {
-	function multi_strpos($string, $delimiters) {
+	function multi_strpos($string, $delimiters, $offset=0) {
 		$pos = false;
+		
+		if($offset > 0) {
+			$string = substr($offset);
+		}
+
 		foreach($delimiters as $s) {
 			$cur_pos = strpos($string, $s);
 			if($cur_pos !== false) {
