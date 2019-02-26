@@ -28,9 +28,9 @@ if(!function_exists("check_invalid_function")) {
 	return $status;
 }
 
-// check valid function (bool)
-if(check_invalid_function("check_valid_function") == -1) {
-	function check_valid_function($fn) {
+// check function exists (bool)
+if(check_function_exists("check_function_exists") == -1) {
+	function check_function_exists($fn) {
 		return (check_invalid_function($fn) == -1);
 	}
 }
