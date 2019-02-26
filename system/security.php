@@ -173,6 +173,20 @@ if(!check_function_exists("check_empty_requests")) {
 	}
 }
 
+if(!check_function_exists("get_hash_algos")) {
+	function get_hash_algos() {
+		$config = get_config();
+		$algos = explode(",", get_value_in_array("hashalgos", $config, "md5,sha1,crypt,crc32,base64,sql_password"));
+		return $algos;
+	}
+}
+
+if(!check_function_exists("check_hash_algo")) {
+	function check_hash_algo($algo) {
+		$flag = in_array($algo, get_hash_algos());
+	}
+}
+
 if(!check_function_exists("get_hashed_text")) {
 	function get_hashed_text($text, $algo="sha1", $options=array()) {
 		$hashed_text = false;
@@ -219,24 +233,20 @@ if(!check_function_exists("get_hashed_text")) {
 					$hashed_text = base64_decode($text);
 				}
 				break;
+			case "sql_password":
+				$row = exec_db_fetch("select password(:text) as pw", array(
+					"text" => $text,
+				));
+				$hashed_text = get_value_in_array("pw", $row, $hashed_text);
+				break;
 			default:
-				if(hash_algo_exists($algo)) {
-					$hashed_text = hash($algo, $text, false); 
+				if(check_hash_algo($algo)) {
+					$hashed_text = hash($algo, $text, false);
 				}
 				break;
 		}
 
 		return $hashed_text;
-	}
-}
-
-if(!check_function_exists("hash_algo_exists")) {
-	function hash_algo_exists($algo) {
-		$flag = false;
-		if(check_function_exists("hash_algos")) {
-			$flag = in_array($algo, hash_algos());
-		}
-		return $flag;
 	}
 }
 
