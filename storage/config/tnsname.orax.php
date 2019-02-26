@@ -1,3 +1,5 @@
+<?php
+return <<<EOF
 %service_name% = (DESCRIPTION =
   (ADDRESS_LIST =
     (ADDRESS = (PROTOCOL = %protocol%)(HOST = %host%)(PORT = %port%))
@@ -7,3 +9,4 @@
     (SERVICE_NAME = %service_name%)
   )
 )
+EOF;
