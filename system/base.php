@@ -13,13 +13,13 @@ if(!function_exists("check_invalid_function")) {
 
 		if(is_array($fn)) {
 			foreach($fn as $k=>$v) {
-				if(!check_valid_function($v)) {
+				if(!function_exists($v)) {
 					$status = $k;
 					break;
 				}
 			}
 		} else {
-			if(!check_valid_function($fn)) {
+			if(!function_exists($fn)) {
 				$status = 0;
 			}
 		}
