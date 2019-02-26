@@ -114,6 +114,26 @@ if(!check_function_exists("multi_explode")) {
 	}
 }
 
+if(!check_function_exists("multi_strpos")) {
+	function multi_strpos($string, $delimiters) {
+		$pos = false;
+		foreach($delimiters as $s) {
+			$cur_pos = strpos($string, $s);
+			if($cur_pos !== false) {
+				if($pos !== false) {
+					if($pos > $cur_pos) {
+						$pos = $cur_pos;
+					}
+				} else {
+					$pos = $cur_pos;
+				}
+			}
+		}
+
+		return $pos;
+	}
+}
+
 if(!check_function_exists("parse_pipelined_data")) {
 	function parse_pipelined_data($pipelined_data, $keynames=array()) {
 		$result = array();
