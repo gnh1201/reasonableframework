@@ -6,6 +6,34 @@
  * @brief Base module
  */
 
+// check function
+if(!function_exists("check_invaild_function")) {
+	function check_invaild_function($fn) {
+		$status = -1;
+
+		if(is_array($fn)) {
+			foreach($fn as $k=>$v) {
+				if(!function_exists($v)) {
+					$status = $k;
+					break;
+				}
+			} 
+		} else {
+			if(function_exists($fn)) {
+				$status = 0;
+			}
+		}
+	}
+	
+	return $status;   
+}
+
+if(!function_exists("check_vaild_function")) {
+	function check_vaild_function($fn) {
+		return (check_invaild_function($fn) == -1);
+	}
+}
+
 // get all scope
 if(!function_exists("get_scope_all")) {
 	function get_scope_all() {
@@ -277,30 +305,6 @@ if(!function_exists("set_error_exit")) {
 	}
 }
 
-// check function exists
-if(!function_exists("check_function_exists")) {
-	function check_function_exists($rules) {
-		$flag = true;
-
-		if(is_string($rules)) {
-			$rules = explode(";", $rules);
-		}
-
-		foreach($rules as $k=>$v) {
-			$exists = function_exists($k);
-			$flag = $flag && !$exists;
-			if($exists === false) {
-				if(empty($v)) {
-					set_error("Function " . $k . " dose not exists");
-				} else {
-					set_error($v);
-				}
-			}
-		}
-
-		return !$flag;
-	}
-}
 
 if(!function_exists("get_property_value")) {
 	function get_property_value($prop, $obj, $ac=false) {
