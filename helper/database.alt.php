@@ -6,7 +6,7 @@
  * @brief Database alternative driver switcher
  */
 
-if(!check_valid_function("exec_db_alt_callback")) {
+if(check_valid_function("exec_db_alt_callback")) {
 	function exec_db_alt_callback($rules, $params=array()) {
 		$result = false;
 		$db_driver = get_db_driver();
@@ -33,7 +33,7 @@ if(!check_valid_function("exec_db_alt_callback")) {
 	}
 }
 
-if(!check_valid_function("get_db_alt_connect")) {
+if(check_valid_function("get_db_alt_connect")) {
 	function get_db_alt_connect($driver) {
 		$conn = false;
 		$config = get_config();
@@ -67,7 +67,7 @@ if(!check_valid_function("get_db_alt_connect")) {
 	}
 }
 
-if(!check_valid_function("exec_db_alt_query")) {
+if(check_valid_function("exec_db_alt_query")) {
 	function exec_db_alt_query($sql, $bind=array(), $driver="") {
 		$result = false;
 
@@ -100,7 +100,7 @@ if(!check_valid_function("exec_db_alt_query")) {
 	}
 }
 
-if(!check_valid_function("exec_db_alt_fetch_all")) {
+if(check_valid_function("exec_db_alt_fetch_all")) {
 	function exec_db_alt_fetch_all($sql, $bind=array()) {
 		$rows = array();
 
@@ -133,7 +133,7 @@ if(!check_valid_function("exec_db_alt_fetch_all")) {
 	}
 }
 
-if(!check_valid_function("exec_db_alt_fetch")) {
+if(check_valid_function("exec_db_alt_fetch")) {
 	function exec_db_alt_fetch($sql, $bind) {
 		$fetched = false;
 
@@ -147,7 +147,7 @@ if(!check_valid_function("exec_db_alt_fetch")) {
 	}
 }
 
-if(!check_valid_function("get_db_alt_last_id")) {
+if(check_valid_function("get_db_alt_last_id")) {
 	function get_db_alt_last_id($driver) {
 		$last_id = false;
 

@@ -6,7 +6,7 @@
  * @brief SocialHub Utilities (refactoring from SocioRouter Utilities)
  */
  
-if(!check_valid_function("socialhub_send_message")) {
+if(check_valid_function("socialhub_send_message")) {
 	function socialhub_send_message($provider, $adapter, $message, $options=array()) {
 		$response = false;
 		$status = array(
@@ -48,7 +48,7 @@ if(!check_valid_function("socialhub_send_message")) {
 	}
 }
  
-if(!check_valid_function("socialhub_parse_object_id")) {
+if(check_valid_function("socialhub_parse_object_id")) {
 	function socialhub_parse_object_id($provider, $response) {
 		$object_id = false;
 
@@ -69,7 +69,7 @@ if(!check_valid_function("socialhub_parse_object_id")) {
 	}
 }
 
-if(!check_valid_function("socialhub_get_object")) {
+if(check_valid_function("socialhub_get_object")) {
 	function socialhub_get_object($provider, $adapter, $object_id) {
 		$result = false;
 		$access_token = $adapter->getAccessToken();
@@ -90,7 +90,7 @@ if(!check_valid_function("socialhub_get_object")) {
 	}
 }
 
-if(!check_valid_function("socialhub_get_object_facebook")) {
+if(check_valid_function("socialhub_get_object_facebook")) {
 	function socialhub_get_object_facebook($adapter, $object_id, $type="post") {
 		$result = false;
 		$response = false;

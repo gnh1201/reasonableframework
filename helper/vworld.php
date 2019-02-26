@@ -6,7 +6,7 @@
  * @brief Geo Helper based on vWorld (vworld.kr, molit.go.kr)
  */
 
-if(!check_valid_function("vworld_utf8_replace")) {
+if(check_valid_function("vworld_utf8_replace")) {
 	function vworld_utf8_replace($data) {
 		$regex = <<<'END'
 		/
@@ -32,7 +32,7 @@ END;
 	}
 }
 
-if(!check_valid_function("vworld_geocode_keyword")) {
+if(check_valid_function("vworld_geocode_keyword")) {
 	function vworld_geocode_keyword($keyword, $category="Poi", $multiple=false) {
 		global $config;
 		
@@ -132,7 +132,7 @@ if(!check_valid_function("vworld_geocode_keyword")) {
 }
 
 // get geocode from vworld
-if(!check_valid_function("vworld_geocode_addr2coord")) {
+if(check_valid_function("vworld_geocode_addr2coord")) {
 	function vworld_geocode_addr2coord($addr) {
 		global $config;
 		
@@ -228,7 +228,7 @@ if(!check_valid_function("vworld_geocode_addr2coord")) {
 	}
 }
 
-if(!check_valid_function("vworld_adaptive_addr2coord")) {
+if(check_valid_function("vworld_adaptive_addr2coord")) {
 	function vworld_adaptive_addr2coord($addr) {
 		$geopoint = array(
 			"address" => "",

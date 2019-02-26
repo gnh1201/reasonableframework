@@ -6,7 +6,7 @@
  * @brief Page navigation helper
  */
 
-if(!check_valid_function("paginate_get_current_page")) {
+if(check_valid_function("paginate_get_current_page")) {
 	function paginate_get_current_page($page=1) {
 		$current_page = 1;
 
@@ -18,7 +18,7 @@ if(!check_valid_function("paginate_get_current_page")) {
 	}
 }
 
-if(!check_valid_function("paginate_get_total_pages")) {
+if(check_valid_function("paginate_get_total_pages")) {
 	function paginate_get_total_pages($item_per_page=1.0, $total_records=1.0) {
 		$total_pages = 1;
 
@@ -30,7 +30,7 @@ if(!check_valid_function("paginate_get_total_pages")) {
 	}
 }
 
-if(!check_valid_function("paginate_get_query_string")) {
+if(check_valid_function("paginate_get_query_string")) {
 	function paginate_get_query_string() {
 		loadHelper("networktool");
 		$net_event = get_network_event();
@@ -39,7 +39,7 @@ if(!check_valid_function("paginate_get_query_string")) {
 }
 
 // https://www.sanwebe.com/2011/05/php-pagination-function
-if(!check_valid_function("paginate_make_html")) {
+if(check_valid_function("paginate_make_html")) {
 	function paginate_make_html($item_per_page, $current_page, $total_records, $total_pages, $page_url, $qry='') {
 		$pagination = '';
 		if($total_pages > 0 && $total_pages != 1 && $current_page <= $total_pages) { //verify total pages and current page number

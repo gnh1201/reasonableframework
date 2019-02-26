@@ -6,7 +6,7 @@
  * @brief MySQLi database helper
  */
 
-if(!check_valid_function("get_db_mysql_imp_connect")) {
+if(check_valid_function("get_db_mysql_imp_connect")) {
 	function get_db_mysql_imp_connect() {
 		$conn = false;
 		$config = get_config();
@@ -23,7 +23,7 @@ if(!check_valid_function("get_db_mysql_imp_connect")) {
 	}
 }
 
-if(!check_valid_function("exec_db_mysql_imp_query")) {
+if(check_valid_function("exec_db_mysql_imp_query")) {
 	function exec_db_mysql_imp_query($sql, $bind) {
 		$result = false;
 		$dbc = get_dbc_object();
@@ -35,7 +35,7 @@ if(!check_valid_function("exec_db_mysql_imp_query")) {
 	}
 }
 
-if(!check_valid_function("exec_db_mysql_imp_fetch_all")) {
+if(check_valid_function("exec_db_mysql_imp_fetch_all")) {
 	function exec_db_mysql_imp_fetch_all($sql, $bind) {
 		$rows = array();
 		$result = exec_db_mysql_imp_query($sql, $bind);
@@ -48,7 +48,7 @@ if(!check_valid_function("exec_db_mysql_imp_fetch_all")) {
 	}
 }
 
-if(!check_valid_function("close_db_mysql_imp_connect")) {
+if(check_valid_function("close_db_mysql_imp_connect")) {
 	function close_db_mysql_imp_connect() {
 		$dbc = get_scope("dbc");
 		return mysqli_close($dbc);

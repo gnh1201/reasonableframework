@@ -6,7 +6,7 @@
   * @brief HybridAuth library RSF Linker
 ***/
 
-if(!check_valid_function("hybridauth_load")) {
+if(check_valid_function("hybridauth_load")) {
 	function hybridauth_load($provider="") {
 		$result = false;
 
@@ -43,7 +43,7 @@ if(!check_valid_function("hybridauth_load")) {
 	}
 }
 
-if(!check_valid_function("hybridauth_check_redirect")) {
+if(check_valid_function("hybridauth_check_redirect")) {
 	function hybridauth_check_redirect() {
 		$flag = false;
 		$requests = get_requests();
@@ -61,7 +61,7 @@ if(!check_valid_function("hybridauth_check_redirect")) {
 	}
 }
 
-if(!check_valid_function("hybridauth_process")) {
+if(check_valid_function("hybridauth_process")) {
 	function hybridauth_process() {
 		Hybrid_Endpoint::process();
 	}

@@ -6,7 +6,7 @@
  * @brief Logger module for ReasonableFramework
  */
  
-if(!check_valid_function("write_visit_log")) {
+if(check_valid_function("write_visit_log")) {
 	function write_visit_log() {
 		$fw = false;
 		if(loadHelper("networktool")) {
@@ -22,7 +22,7 @@ if(!check_valid_function("write_visit_log")) {
 	}
 }
 	
-if(!check_valid_function("write_common_log")) {
+if(check_valid_function("write_common_log")) {
 	function write_common_log($msg) {
 		$msg = "\r\n" . $msg;
 		return write_storage_file($msg, array(
