@@ -6,7 +6,7 @@
  * @brief Base module
  */
 
-// check function
+// check invaild function (mixed)
 if(!function_exists("check_invaild_function")) {
 	function check_invaild_function($fn) {
 		$status = -1;
@@ -28,6 +28,7 @@ if(!function_exists("check_invaild_function")) {
 	return $status;   
 }
 
+// check vaild function (bool)
 if(!function_exists("check_vaild_function")) {
 	function check_vaild_function($fn) {
 		return (check_invaild_function($fn) == -1);
