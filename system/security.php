@@ -233,7 +233,7 @@ if(!check_function_exists("get_hashed_text")) {
 if(!check_function_exists("hash_algo_exists")) {
 	function hash_algo_exists($algo) {
 		$flag = false;
-		if(!check_function_exists("hash_algos")) {
+		if(check_function_exists("hash_algos")) {
 			$flag = in_array($algo, hash_algos());
 		}
 		return $flag;
@@ -494,10 +494,12 @@ if(!check_function_exists("encapsulate_text")) {
 			$init_key = empty($key) ? $config['masterkey'] : $key;
 			$init_iv = empty($iv) ? $config['masteriv'] : $iv;
 
-			if(!check_function_exists("openssl_encrypt")) {
+			if(check_function_exists("openssl_encrypt")) {
 				$encrypted_text = @openssl_encrypt($init_text, $algo, $init_key, true, $init_iv);
 			} else {
-				$encrypted_text = xor_this($init_key, $init_text);
+				$encrypted_text = get_hashed_text(get_xor_text($init_key, $init_text), "base64", array(
+					"decode" => true,
+				));
 			}
 
 			if(!empty($encrypted_text)) {
@@ -517,7 +519,9 @@ if(!check_function_exists("decapsulate_text")) {
 		$decrypted_text = "";
 
 		// initialize text
-		$init_text = get_hashed_text($text, "base64", array("decode" => true));
+		$init_text = get_hashed_text($text, "base64", array(
+			"decode" => true,
+		));
 
 		if($algo = "base64") {
 			$decapsulate_text = $init_text;
@@ -528,11 +532,15 @@ if(!check_function_exists("decapsulate_text")) {
 			if(!check_function_exists("openssl_decrypt")) {
 				$decrypted_text = @openssl_decrypt($init_text, $algo, $init_key, true, $init_iv);
 			} else {
-				$decrypted_text = xor_this($init_key, $init_text);
+				$encrypted_text = get_hashed_text(get_xor_text($init_key, $init_text), "base64", array(
+					"decode" => true,
+				));
 			}
 
 			if(!empty($encrypted_text)) {
-				$decapsulate_text = get_hashed_text($decrypted_text, "base64", array("decode" => true));
+				$decapsulate_text = get_hashed_text($decrypted_text, "base64", array(
+					"decode" => true,
+				));
 			}
 		}
 
@@ -554,8 +562,8 @@ if(!check_function_exists("make_safe_argument")) {
 }
 
 // https://stackoverflow.com/questions/14673551/encrypt-decrypt-with-xor-in-php
-if(!check_function_exists("xor_this")) {
-	function xor_this($key, $string, $debug=false) {
+if(!check_function_exists("get_xor_text")) {
+	function get_xor_text($key, $string, $debug=false) {
 		$text = $string;
 		$outText = "";
 
@@ -569,7 +577,7 @@ if(!check_function_exists("xor_this")) {
 			}
 		}
 
-		return $outText;
+		return get_hashed_text($outText, "base64");
 	}
 }
 
