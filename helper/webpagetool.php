@@ -251,7 +251,7 @@ if(!check_function_exists("get_web_curl")) {
 			if($method == "post") {
 				foreach($data as $k=>$v) {
 					if(substr($v, 0, 1) == "@") { // if this is a file
-						if(!check_function_exists("curl_file_create")) { // php 5.5+
+						if(check_function_exists("curl_file_create")) { // php 5.5+
 							$data[$k] = curl_file_create(substr($v, 1));
 						} else {
 							$data[$k] = "@" . realpath(substr($v, 1));
@@ -498,7 +498,7 @@ if(!check_function_exists("get_parsed_xml")) {
 	function get_parsed_xml($raw, $options=array()) {
 		$result = false;
 
-		if(!check_function_exists("simplexml_load_string")) {
+		if(check_function_exists("simplexml_load_string")) {
 			$result = simplexml_load_string($response['content'], null, LIBXML_NOCDATA);
 		}
 
@@ -511,7 +511,7 @@ if(!check_function_exists("get_parsed_dom")) {
 		$result = false;
 
 		if(loadHelper("simple_html_dom")) {
-			$result = !check_function_exists("str_get_html") ? str_get_html($response['content']) : $raw;
+			$result = check_function_exists("str_get_html") ? str_get_html($response['content']) : $raw;
 		}
 
 		return $result;
