@@ -29,12 +29,7 @@ if(!check_function_exists("get_converted_string")) {
 		$result = false;
 
 		if($form_charset == "detect") {
-			$fn = check_invalid_function(array(
-				"NO_FUNCTION_MB_DETECT_ENCODING" => "mb_detect_encoding",
-				"NO_FUNCTION_MB_DETECT_ORDER" => "mb_detect_order",
-			));
-
-			if($fn == -1) {
+			if(check_function_exists(array("mb_detect_encoding", "mb_detect_order"))) {
 				$from_charset = mb_detect_encoding($str, mb_detect_order(), true);
 			} else {
 				$from_charset = "ISO-8859-1";
