@@ -591,6 +591,22 @@ if(!check_function_exists("get_xor_text")) {
 	}
 }
 
+if(!check_function_exists("get_random_index")) {
+	function get_random_index($data) {
+		$index = 0;
+
+		if(is_array($data)) {
+			$d = array_keys($data);
+			if(count($d) > 0) {
+				shuffle($d);
+				$index = $d[0];
+			}
+		}
+
+		return $index;
+	}
+}
+
 // https://wiki.ubuntu.com/DevelopmentCodeNames
 if(!check_function_exists("get_generated_name")) {
 	function get_generated_name() {
@@ -601,8 +617,8 @@ if(!check_function_exists("get_generated_name")) {
 		$adjectives = explode(',', $config['adjectives']);
 		$animals = explode(',', $config['animals']);
 
-		$c_adjective = ucfirst($adjectives[rand(0, count($adjectives) - 1)]);
-		$c_animal = ucfirst($animals[rand(0, count($animals) - 1)]);
+		$c_adjective = ucfirst($adjectives[get_random_index($adjectives)]);
+		$c_animal = ucfirst($animals[get_random_index($animals)]);
 
 		$generated_name = $c_adjective . " " . $c_animal;
 
