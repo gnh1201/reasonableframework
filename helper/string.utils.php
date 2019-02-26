@@ -116,26 +116,21 @@ if(!check_function_exists("multi_explode")) {
 
 if(!check_function_exists("multi_strpos")) {
 	function multi_strpos($string, $delimiters, $offset=0) {
-		$pos = false;
-		
+		$pos = strlen(string) - 1;
+		$d = array();
+
 		if($offset > 0) {
 			$string = substr($offset);
 		}
 
 		foreach($delimiters as $s) {
-			$cur_pos = strpos($string, $s);
-			if($cur_pos !== false) {
-				if($pos !== false) {
-					if($pos > $cur_pos) {
-						$pos = $cur_pos;
-					}
-				} else {
-					$pos = $cur_pos;
-				}
+			$new_pos = strpos($string, $s);
+			if($new_pos !== false && $pos > $new_pos) {
+				$pos = $new_pos;
 			}
 		}
 
-		return $pos;
+		return ($pos < 0) ? false : $pos;
 	}
 }
 
@@ -146,7 +141,7 @@ if(!check_function_exists("multi_str_split")) {
 		if(is_string($string)) {
 			$offset = 0;
 			$pos = -1;
-			while($pos !== false) {
+			while(!($pos !== false)) {
 				$offset = $pos + 1;
 				$pos = multi_strpos($string, $delimiters, $offset);
 				$strings[] = substr($string, $offset, $pos - $offset);
