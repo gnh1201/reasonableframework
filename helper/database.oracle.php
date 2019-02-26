@@ -71,11 +71,17 @@ if(!check_valid_function("exec_db_oracle_fetch_all")) {
 	function exec_db_oracle_fetch_all($sql, $bind, $conn) {
 		$rows = array();
 
-		$required_functions = array("oci_parse", "oci_execute", "oci_fetch_assoc", "oci_free_statement");
-		foreach($required_functions as $func_name) {
-			if(!check_valid_function($func_name)) {
-				exit("OCI (Oracle Extension for PHP) not installed!");	
-			}
+		$fn = array(
+			"NO_FUNCTION_OCI_PARSE" => "oci_parse",
+			"NO_FUNCTION_OCI_EXECUTE" => "oci_execute",
+			"NO_FUNCTION_OCI_FETCH_ASSOC" => "oci_fetch_assoc",
+			"NO_FUNCTION_OCI_FREE_STATEMENT" => "oci_free_statement",
+		);
+		
+		$invalid_fn = check_invalid_function($fn);
+		if($invalid_fn != -1) {
+			set_error($invalid_fn);
+			show_errors();
 		}
 
 		$stmt = get_db_oracle_stmt($sql, $bind);
