@@ -56,7 +56,7 @@ if(!check_function_exists("get_network_server_addr")) {
             $addr = $_SERVER['SERVER_ADDR'];
         } else if(isset($_SERVER['LOCAL_ADDR'])) {
             $addr = $_SERVER['LOCAL_ADDR'];
-        } else if(!check_function_exists('gethostname') && !check_function_exists('gethostbyname')) {
+        } else if(check_function_exists(array("gethostname", "gethostbyname"))) {
             $host = gethostname();
             $addr = gethostbyname($host);
         } else {
