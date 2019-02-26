@@ -6,24 +6,6 @@
  * @brief String utility helper
  */
 
-// for Korean Telephone Number
-if(!check_function_exists("parse_tel_number_kr")) {
-	function parse_tel_number_kr($tel) {
-		$output = preg_replace("/[^0-9]/", "", $tel); // 숫자 이외 제거
-		$local_code = substr($tel, 0, 2);
-
-		if ($local_code == '02') {
-			$output = preg_replace("/([0-9]{2})([0-9]{3,4})([0-9]{4})$/", "\\1-\\2-\\3", $tel);
-		} elseif (strlen($tel) == '8' && in_array($local_code, array('15', '16', '18'))) {
-			$output = preg_replace("/([0-9]{4})([0-9]{4})$/", "\\1-\\2", $tel); // 지능망 번호이면
-		} else {
-			$output = preg_replace("/([0-9]{3})([0-9]{3,4})([0-9]{4})$/", "\\1-\\2-\\3", $tel);
-		}
-
-		return $output;
-	}
-}
-
 if(!check_function_exists("get_converted_string")) {
 	function get_converted_string($str, $to_charset, $from_charset) {
 		$result = false;
@@ -100,7 +82,7 @@ if(!check_function_exists("split_by_line")) {
 
 if(!check_function_exists("read_storage_file_by_line")) {
 	function read_storage_file_by_line($filename, $options=array()) {
-		return explode_by_line(read_storage_file($filename, $options));
+		return split_by_line(read_storage_file($filename, $options));
 	}
 }
 
