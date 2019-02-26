@@ -14,7 +14,7 @@ if(!check_function_exists("exec_db_alt_callback")) {
 		foreach($rules as $rule) {
 			if($rule['driver'] == $db_driver) {
 				if(loadHelper(sprintf("database.%s", $rule['driver']))) {
-					if(!check_function_exists($rule['callback'])) {
+					if(check_function_exists($rule['callback'])) {
 						if(is_array($params) && count($params) > 0) {
 							$result = call_user_func_array($rule['callback'], $params);
 						} else {
