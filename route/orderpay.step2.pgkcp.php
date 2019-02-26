@@ -16,7 +16,7 @@ if(check_token_abuse_by_requests("_token", "_POST")) {
 
 loadHelper("webpagetool"); // load webpage tools
 loadHelper("networktool"); // load network tools
-loadHelper("string.utl"); // load string utility
+loadHelper("string.urils"); // load string utility
 loadHelper("pgkcp.lnk"); // load KCP PG Helper
 loadHelper("JSLoader.class"); // load javascript loader
 
