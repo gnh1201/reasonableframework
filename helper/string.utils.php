@@ -139,6 +139,24 @@ if(!check_function_exists("multi_strpos")) {
 	}
 }
 
+if(!check_function_exists("multi_str_split")) {
+	function multi_str_split($string, $delimiters) {
+		$strings = array();
+
+		if(is_string($string)) {
+			$offset = 0;
+			$pos = -1;
+			while($pos !== false) {
+				$offset = $pos + 1;
+				$pos = multi_strpos($string, $delimiters, $offset);
+				$strings[] = substr($string, $offset, $pos - $offset);
+			}
+		}
+
+		return $strings;
+	}
+}
+
 if(!check_function_exists("parse_pipelined_data")) {
 	function parse_pipelined_data($pipelined_data, $keynames=array()) {
 		$result = array();
