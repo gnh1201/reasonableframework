@@ -29,16 +29,21 @@ if(!check_function_exists("get_converted_string")) {
 		$result = false;
 
 		if($form_charset == "detect") {
-			if(!check_function_exists("mb_detect_encoding") && !check_function_exists("mb_detect_order")) {
+			$fn = check_invalid_function(array(
+				"NO_FUNCTION_MB_DETECT_ENCODING" => "mb_detect_encoding",
+				"NO_FUNCTION_MB_DETECT_ORDER" => "mb_detect_order",
+			));
+
+			if($fn == -1) {
 				$from_charset = mb_detect_encoding($str, mb_detect_order(), true);
 			} else {
 				$from_charset = "ISO-8859-1";
 			}
 		}
 
-		if(!check_function_exists("iconv")) {
+		if(check_function_exists("iconv")) {
 			$result = iconv($from_charset, $to_charset, $str);
-		} elseif(!check_function_exists("mb_convert_encoding")) {
+		} elseif(check_function_exists("mb_convert_encoding")) {
 			$result = mb_convert_encoding($str, $to_charset, $from_charset);
 		}
 
@@ -80,9 +85,9 @@ if(!check_function_exists("get_cutted_string")) {
 	function get_cutted_string($str, $start, $len=0, $charset="utf-8") {
 		$result = "";
 
-		if(!check_function_exists("iconv_substr")) {
+		if(check_function_exists("iconv_substr")) {
 			$result = iconv_substr($str, $start, $len, $charset);
-		} elseif(!check_function_exists("mb_substr")) {
+		} elseif(check_function_exists("mb_substr")) {
 			$result = mb_substr($str, $start, $len, $charset);
 		} else {
 			$result = substr($str, $start, $len);
