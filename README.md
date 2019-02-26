@@ -33,7 +33,7 @@
 1. git clone https://github.com/gnh1201/reasonableframework.git
 2. set up database configuration: `/storage/config/database.ini.php`
 3. touch(make new file): `/route/example.php`
-4. go to `[base_url]/?route=example` in your web browser.
+4. go to `http://[base_url]/?route=example` or `http://[base_url]/example/`(with `.htaccess`) in your web browser.
 5. enjoy it.
 
 ## Examples
