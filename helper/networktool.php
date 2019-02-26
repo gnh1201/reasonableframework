@@ -6,7 +6,7 @@
  * @brief Network tool helper
  */
 
-if(check_valid_function("get_network_event")) {
+if(!check_function_exists("get_network_event")) {
     function get_network_event() {
         $config = get_config();
 
@@ -24,7 +24,7 @@ if(check_valid_function("get_network_event")) {
     }
 }
 
-if(check_valid_function("get_network_client_addr")) {
+if(!check_function_exists("get_network_client_addr")) {
     function get_network_client_addr() {
         $addr = '';
         if (isset($_SERVER['HTTP_CLIENT_IP']))
@@ -47,7 +47,7 @@ if(check_valid_function("get_network_client_addr")) {
     }
 }
 
-if(check_valid_function("get_network_server_addr")) {
+if(!check_function_exists("get_network_server_addr")) {
     function get_network_server_addr() {
         $addr = '';
         if(isset($_SERVER['SERVER_ADDR']) && isset($_SERVER['SERVER_PORT'])) {
@@ -56,7 +56,7 @@ if(check_valid_function("get_network_server_addr")) {
             $addr = $_SERVER['SERVER_ADDR'];
         } else if(isset($_SERVER['LOCAL_ADDR'])) {
             $addr = $_SERVER['LOCAL_ADDR'];
-        } else if(check_valid_function('gethostname') && check_valid_function('gethostbyname')) {
+        } else if(!check_function_exists('gethostname') && !check_function_exists('gethostbyname')) {
             $host = gethostname();
             $addr = gethostbyname($host);
         } else {
@@ -66,14 +66,14 @@ if(check_valid_function("get_network_server_addr")) {
     }
 }
 
-if(check_valid_function("get_network_hostname")) {
+if(!check_function_exists("get_network_hostname")) {
     function get_network_hostname() {
         $host = '';
         if(isset($_SERVER['HTTP_HOST'])) {
             $host = $_SERVER['HTTP_HOST'];
         } else if(isset($_SERVER['SERVER_NAME'])) {
             $host = $_SERVER['SERVER_NAME'];
-        } else if(check_valid_function('gethostname')) {
+        } else if(!check_function_exists('gethostname')) {
             $host = gethostname();
         } else {
             $host = 'UNKNOWN';
@@ -83,13 +83,13 @@ if(check_valid_function("get_network_hostname")) {
     }
 }
 
-if(check_valid_function("check_secure_protocol")) {
+if(!check_function_exists("check_secure_protocol")) {
 	function check_secure_protocol() {
 		return (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') || $_SERVER['SERVER_PORT'] == 443;
 	}
 }
 
-if(check_valid_function("get_os_platform")) {
+if(!check_function_exists("get_os_platform")) {
 	function get_os_platform() {
 		$os = "";
 
@@ -103,7 +103,7 @@ if(check_valid_function("get_os_platform")) {
 	}
 }
 
-if(check_valid_function("get_network_outbound_addr")) {
+if(!check_function_exists("get_network_outbound_addr")) {
 	function get_network_outbound_addr($protocol="") {
 		$addr = false;
 		$config = get_config();

@@ -7,21 +7,21 @@
  */
 
 // get database prefix
-if(check_valid_function("gnb_get_db_prefix")) {
+if(!check_function_exists("gnb_get_db_prefix")) {
 	function gnb_get_db_prefix($version=4) {
 		return ($version > 4) ? "g5_" : "g4_";
 	}
 }
 
 // get table
-if(check_valid_function("gnb_get_db_table")) {
+if(!check_function_exists("gnb_get_db_table")) {
 	function gnb_get_db_table($tablename) {
 		return (gnb_get_db_prefix() . $tablename);
 	}
 }
 
 // get write table
-if(check_valid_function("gnb_get_write_table")) {
+if(!check_function_exists("gnb_get_write_table")) {
 	function gnb_get_write_table($tablename, $version=4) {
 		$write_prefix = gnb_get_db_prefix() . "write_";
 		$write_table = $write_prefix . $tablename;
@@ -30,7 +30,7 @@ if(check_valid_function("gnb_get_write_table")) {
 }
 
 // get write next
-if(check_valid_function("gnb_get_write_next")) {
+if(!check_function_exists("gnb_get_write_next")) {
 	function gnb_get_write_next($tablename) {
 		$row = exec_db_fetch("select min(wr_num) as min_wr_num from " . gnb_get_write_table($tablename));
 		return (intval(get_value_in_array("min_wr_num", $row, 0)) - 1);
@@ -38,7 +38,7 @@ if(check_valid_function("gnb_get_write_next")) {
 }
 
 // write post
-if(check_valid_function("gnb_write_post")) {
+if(!check_function_exists("gnb_write_post")) {
 	function gnb_write_post($tablename, $data=array(), $version=4) {
 		$result = 0;
 
@@ -112,14 +112,14 @@ if(check_valid_function("gnb_write_post")) {
 	}
 }
 
-if(check_valid_function("gnb_get_posts")) {
+if(!check_function_exists("gnb_get_posts")) {
 	function gnb_get_posts($table_name, $page=1, $limit=20, $options=array()) {
 		$sql = "select * from " . gnb_get_write_table($table_name) . " order by wr_id desc" . get_page_range($page, $limit);
 		return exec_db_fetch_all($sql);
 	}
 }
 
-if(check_valid_function("gnb_get_post_by_id")) {
+if(!check_function_exists("gnb_get_post_by_id")) {
 	function gnb_get_post_by_id($table_name, $post_id) {
 		$sql = "select * from " . gnb_get_write_table($table_name) . " where wr_id = :wr_id";
 		return exec_db_fetch($sql, array(
@@ -128,7 +128,7 @@ if(check_valid_function("gnb_get_post_by_id")) {
 	}
 }
 
-if(check_valid_function("gnb_set_post_parameters")) {
+if(!check_function_exists("gnb_set_post_parameters")) {
 	function gnb_set_post_parameters($tablename, $wr_id, $bind=array()) {
 		$flag = false;
 		$excludes = array("wr_id");
@@ -144,7 +144,7 @@ if(check_valid_function("gnb_set_post_parameters")) {
 }
 
 // get member data
-if(check_valid_function("gnb_get_member")) {
+if(!check_function_exists("gnb_get_member")) {
 	function gnb_get_member($user_name, $tablename="member") {
 		$result = array();
 
@@ -160,7 +160,7 @@ if(check_valid_function("gnb_get_member")) {
 }
 
 // get password
-if(check_valid_function("gnb_get_password")) {
+if(!check_function_exists("gnb_get_password")) {
 	function gnb_get_password($password) {
 		$bind = array(
 			"password" => $password,
@@ -171,7 +171,7 @@ if(check_valid_function("gnb_get_password")) {
 }
 
 // get config
-if(check_valid_function("gnb_get_config")) {
+if(!check_function_exists("gnb_get_config")) {
 	function gnb_get_config($tablename="config") {
 		$result = array();
 
@@ -183,7 +183,7 @@ if(check_valid_function("gnb_get_config")) {
 }
 
 // run login process
-if(check_valid_function("gnb_process_safe_login")) {
+if(!check_function_exists("gnb_process_safe_login")) {
 	function gnb_process_safe_login($user_name, $user_password) {
 		$result = false;
 		$mb = gnb_get_member($user_name);
@@ -201,7 +201,7 @@ if(check_valid_function("gnb_process_safe_login")) {
 }
 
 // run join member
-if(check_valid_function("gnb_join_member")) {
+if(!check_function_exists("gnb_join_member")) {
 	function gnb_join_member($user_name, $user_password, $data=array(), $tablename="member") {
 		$result = false;
 
@@ -288,7 +288,7 @@ if(check_valid_function("gnb_join_member")) {
 	}
 }
 
-if(check_valid_function("gnb_make_pipelined_data")) {
+if(!check_function_exists("gnb_make_pipelined_data")) {
 	function gnb_make_pipelined_data($data, $delimiter="|") {
 		foreach($data as $k=>$v) {
 			$data[$k] = str_replace($delimiter, " ", $v);

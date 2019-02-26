@@ -6,19 +6,19 @@
  * @brief URI module
  */
 
-if(check_valid_function("base_url")) {
+if(!check_function_exists("base_url")) {
 	function base_url() {
 		return get_config_value("base_url");
 	}
 }
 
-if(check_valid_function("base_api_url")) {
+if(!check_function_exists("base_api_url")) {
 	function base_api_url() {
 		return get_config_value("base_api_url");
 	}
 }
 
-if(check_valid_function("get_uri")) {
+if(!check_function_exists("get_uri")) {
 	function get_uri() {
 		$requests = get_requests();
 
@@ -31,7 +31,7 @@ if(check_valid_function("get_uri")) {
 	}
 }
 
-if(check_valid_function("read_route")) {
+if(!check_function_exists("read_route")) {
 	function read_route($route=false) {
 		$route = false;
 		
@@ -57,7 +57,7 @@ if(check_valid_function("read_route")) {
 	}
 }
 
-if(check_valid_function("read_route_all")) {
+if(!check_function_exists("read_route_all")) {
 	function read_route_all() {
 		$routes = false;
 
@@ -76,7 +76,7 @@ if(check_valid_function("read_route_all")) {
 	}
 }
 
-if(check_valid_function("read_requests")) {
+if(!check_function_exists("read_requests")) {
 	function read_requests($options=array()) {
 		// process http encryption
 		$config = get_config();
@@ -124,7 +124,7 @@ if(check_valid_function("read_requests")) {
 
 		// with security module
 		$protect_methods = array("_ALL", "_GET", "_POST", "_JSON", "_SEAL");
-		if(check_valid_function("get_clean_xss")) {
+		if(!check_function_exists("get_clean_xss")) {
 			foreach($protect_methods as $method) {
 				foreach($requests[$method] as $k=>$v) {
 					$requests[$method][$k] = is_string($v) ? get_clean_xss($v) : $v;
@@ -151,7 +151,7 @@ if(check_valid_function("read_requests")) {
 	}
 }
 
-if(check_valid_function("get_requests")) {
+if(!check_function_exists("get_requests")) {
 	function get_requests() {
 		$requests = get_scope("requests");
 
@@ -163,7 +163,7 @@ if(check_valid_function("get_requests")) {
 	}
 }
 
-if(check_valid_function("get_final_link")) {
+if(!check_function_exists("get_final_link")) {
 	function get_final_link($url, $data=array(), $entity=true) {
 		$link = "";
 		$url = urldecode($url);
@@ -201,7 +201,7 @@ if(check_valid_function("get_final_link")) {
 	}
 }
 
-if(check_valid_function("get_route_link")) {
+if(!check_function_exists("get_route_link")) {
 	function get_route_link($route, $data=array(), $entity=true, $base_url="") {
 		$_data = array(
 			"route" => $route
@@ -220,7 +220,7 @@ if(check_valid_function("get_route_link")) {
 
 // URI: Uniform Resource Identifier
 // URL: Uniform Resource Locator
-if(check_valid_function("redirect_uri")) {
+if(!check_function_exists("redirect_uri")) {
 	function redirect_uri($uri, $permanent=false, $options=array()) {
 		if(array_key_equals("check_origin", $options, true)) {
 			if(!check_redirect_origin($uri)) {
@@ -234,19 +234,19 @@ if(check_valid_function("redirect_uri")) {
 	}
 }
 
-if(check_valid_function("redirect_with_params")) {
+if(!check_function_exists("redirect_with_params")) {
 	function redirect_with_params($uri, $data=array(), $permanent=false, $entity=false) {
 		redirect_uri(get_final_link($uri, $data, $entity), $permanent);
 	}
 }
 
-if(check_valid_function("redirect_route")) {
+if(!check_function_exists("redirect_route")) {
 	function redirect_route($route, $data=array()) {
 		redirect_uri(get_route_link($route, $data, false));
 	}
 }
 
-if(check_valid_function("get_requested_value")) {
+if(!check_function_exists("get_requested_value")) {
 	function get_requested_value($name, $method="_ALL", $escape_quotes=true, $escape_tags=false) {
 		$value = false;
 		$requests = get_requests();
@@ -276,7 +276,7 @@ if(check_valid_function("get_requested_value")) {
 	}
 }
 
-if(check_valid_function("get_requested_values")) {
+if(!check_function_exists("get_requested_values")) {
 	function get_requested_values($names, $method="_ALL", $escape_quotes=true, $escape_tags=false) {
 		$values = array();
 
@@ -290,14 +290,14 @@ if(check_valid_function("get_requested_values")) {
 	}
 }
 
-if(check_valid_function("empty_requested_value")) {
+if(!check_function_exists("empty_requested_value")) {
 	function empty_requested_value($name, $method="_ALL") {
 		$value = get_requested_value($name, $method);
 		return empty($value);
 	}
 }
 
-if(check_valid_function("get_binded_requests")) {
+if(!check_function_exists("get_binded_requests")) {
 	function get_binded_requests($rules, $method="_ALL") {
 		$data = array();
 
@@ -311,19 +311,19 @@ if(check_valid_function("get_binded_requests")) {
 	}
 }
 
-if(check_valid_function("get_array")) {
+if(!check_function_exists("get_array")) {
 	function get_array($arr) {
 		return is_array($arr) ? $arr : array();
 	}
 }
 
-if(check_valid_function("check_is_string_not_array")) {
+if(!check_function_exists("check_is_string_not_array")) {
 	function check_is_string_not_array($str) {
 		return (is_string($str) && !(is_array($str) || $str == "Array"));
 	}
 }
 
-if(check_valid_function("set_header_content_type")) {
+if(!check_function_exists("set_header_content_type")) {
 	function set_header_content_type($type) {
 		$type = strtolower($type);
 		$rules = array(
@@ -342,7 +342,7 @@ if(check_valid_function("set_header_content_type")) {
 	}
 }
 
-if(check_valid_function("get_requested_json_value")) {
+if(!check_function_exists("get_requested_json_value")) {
 	function get_requested_json_value($name, $escape_quotes=true, $escape_tags=false) {
 		return get_requested_value($name, "_JSON", $escape_quotes, $escape_tags);
 	}

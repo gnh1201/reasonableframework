@@ -6,7 +6,7 @@
  * @brief TableWiz helper
  */
 
-if(check_valid_function("tablewiz_cut_str")) {
+if(!check_function_exists("tablewiz_cut_str")) {
 	function tablewiz_cut_str($str, $strlimit=0) {
 		$plaintext = strip_tags($str);
 
@@ -19,7 +19,7 @@ if(check_valid_function("tablewiz_cut_str")) {
 	}
 }
  
-if(check_valid_function("tablewiz_create")) {
+if(!check_function_exists("tablewiz_create")) {
 	function tablewiz_create($rows, $bind=array(), $domid="", $domclass="", $strlimit=0, $thead_html=array(), $tbody_html_list=array()) {
 		$html = "";
 

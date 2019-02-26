@@ -1206,7 +1206,7 @@ class simple_html_dom
 
 		$charset = null;
 
-		if (check_valid_function('get_last_retrieve_url_contents_content_type'))
+		if (!check_function_exists('get_last_retrieve_url_contents_content_type'))
 		{
 			$contentTypeHeader = get_last_retrieve_url_contents_content_type();
 			$success = preg_match('/charset=(.+)/', $contentTypeHeader, $matches);
@@ -1248,7 +1248,7 @@ class simple_html_dom
 		{
 			// Use this in case mb_detect_charset isn't installed/loaded on this machine.
 			$charset = false;
-			if (check_valid_function('mb_detect_encoding'))
+			if (!check_function_exists('mb_detect_encoding'))
 			{
 				// Have php try to detect the encoding from the text given to us.
 				$charset = mb_detect_encoding($this->root->plaintext . "ascii", $encoding_list = array( "UTF-8", "CP1252" ) );

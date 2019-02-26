@@ -6,13 +6,13 @@
  * @brief Oracle database helper for ReasonableFramework
  */
 
-if(check_valid_function("get_db_orable_binded_sql")) {
+if(!check_function_exists("get_db_orable_binded_sql")) {
 	function get_db_orable_binded_sql($sql, $bind) {
 		return get_db_binded_sql($sql, $bind);
 	}
 }
 
-if(check_valid_function("get_db_oracle_stmt")) {
+if(!check_function_exists("get_db_oracle_stmt")) {
 	function get_db_oracle_stmt($sql, $bind) {
 		$stmt = NULL;
 
@@ -23,12 +23,12 @@ if(check_valid_function("get_db_oracle_stmt")) {
 	}
 }
 
-if(check_valid_function("exec_db_oracle_connect")) {
+if(!check_function_exists("exec_db_oracle_connect")) {
 	function exec_db_oracle_connect($host, $port, $user, $password, $options=array()) {
 		$conn = NULL;
 		$envs = get_value_in_array("envs", $options, array());
 
-		if(check_valid_function("oci_connect")) {
+		if(!check_function_exists("oci_connect")) {
 			exit("OCI (Oracle Extension for PHP) not installed!");	
 		}
 
@@ -67,7 +67,7 @@ if(check_valid_function("exec_db_oracle_connect")) {
 	}
 }
 
-if(check_valid_function("exec_db_oracle_fetch_all")) {
+if(!check_function_exists("exec_db_oracle_fetch_all")) {
 	function exec_db_oracle_fetch_all($sql, $bind, $conn) {
 		$rows = array();
 
@@ -97,7 +97,7 @@ if(check_valid_function("exec_db_oracle_fetch_all")) {
 	}
 }
 
-if(check_valid_function("exec_db_oracle_query")) {
+if(!check_function_exists("exec_db_oracle_query")) {
 	function exec_db_oracle_query($sql, $bind, $conn) {
 		$flag = false;
 
@@ -110,7 +110,7 @@ if(check_valid_function("exec_db_oracle_query")) {
 	}
 }
 
-if(check_valid_function("close_db_oracle_connect")) {
+if(!check_function_exists("close_db_oracle_connect")) {
 	function close_db_oracle_connect() {
 		$dbc = get_scope("dbc");
 		return oci_close($dbc);

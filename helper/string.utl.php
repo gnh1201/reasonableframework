@@ -7,7 +7,7 @@
  */
 
 // for Korean Telephone Number
-if(check_valid_function("parse_tel_number_kr")) {
+if(!check_function_exists("parse_tel_number_kr")) {
 	function parse_tel_number_kr($tel) {
 		$output = preg_replace("/[^0-9]/", "", $tel); // 숫자 이외 제거
 		$local_code = substr($tel, 0, 2);
@@ -24,21 +24,21 @@ if(check_valid_function("parse_tel_number_kr")) {
 	}
 }
 
-if(check_valid_function("get_converted_string")) {
+if(!check_function_exists("get_converted_string")) {
 	function get_converted_string($str, $to_charset, $from_charset) {
 		$result = false;
 
 		if($form_charset == "detect") {
-			if(check_valid_function("mb_detect_encoding") && check_valid_function("mb_detect_order")) {
+			if(!check_function_exists("mb_detect_encoding") && !check_function_exists("mb_detect_order")) {
 				$from_charset = mb_detect_encoding($str, mb_detect_order(), true);
 			} else {
 				$from_charset = "ISO-8859-1";
 			}
 		}
 
-		if(check_valid_function("iconv")) {
+		if(!check_function_exists("iconv")) {
 			$result = iconv($from_charset, $to_charset, $str);
-		} elseif(check_valid_function("mb_convert_encoding")) {
+		} elseif(!check_function_exists("mb_convert_encoding")) {
 			$result = mb_convert_encoding($str, $to_charset, $from_charset);
 		}
 
@@ -46,7 +46,7 @@ if(check_valid_function("get_converted_string")) {
 	}
 }
 
-if(check_valid_function("nl2p")) {
+if(!check_function_exists("nl2p")) {
 	function nl2p($string) {
 		$paragraphs = '';
 		foreach (explode("\n", $string) as $line) {
@@ -58,31 +58,31 @@ if(check_valid_function("nl2p")) {
 	}
 }
 
-if(check_valid_function("br2nl")) {
+if(!check_function_exists("br2nl")) {
 	function br2nl($string) {
 		return preg_replace('/\<br(\s*)?\/?\>/i', "\n", $string); 
 	}
 }
 
-if(check_valid_function("br2p")) {
+if(!check_function_exists("br2p")) {
 	function br2p($string) {
 		return nl2p(br2nl($string));
 	}
 }
 
-if(check_valid_function("get_formatted_number")) {
+if(!check_function_exists("get_formatted_number")) {
 	function get_formatted_number($value) {
 		return number_format(floatval($value));
 	}
 }
 
-if(check_valid_function("get_cutted_string")) {
+if(!check_function_exists("get_cutted_string")) {
 	function get_cutted_string($str, $start, $len=0, $charset="utf-8") {
 		$result = "";
 
-		if(check_valid_function("iconv_substr")) {
+		if(!check_function_exists("iconv_substr")) {
 			$result = iconv_substr($str, $start, $len, $charset);
-		} elseif(check_valid_function("mb_substr")) {
+		} elseif(!check_function_exists("mb_substr")) {
 			$result = mb_substr($str, $start, $len, $charset);
 		} else {
 			$result = substr($str, $start, $len);
@@ -92,27 +92,27 @@ if(check_valid_function("get_cutted_string")) {
 	}
 }
 
-if(check_valid_function("explode_by_line")) {
+if(!check_function_exists("explode_by_line")) {
 	function explode_by_line($str) {
 		return preg_split('/\n|\r\n?/', $str);
 	}
 }
 
-if(check_valid_function("read_storage_file_by_line")) {
+if(!check_function_exists("read_storage_file_by_line")) {
 	function read_storage_file_by_line($filename, $options=array()) {
 		return explode_by_line(read_storage_file($filename, $options));
 	}
 }
 
 // https://stackoverflow.com/questions/834303/startswith-and-endswith-functions-in-php
-if(check_valid_function("startsWith")) {
+if(!check_function_exists("startsWith")) {
 	function startsWith($haystack, $needle) {
 		$length = strlen($needle);
 		return (substr($haystack, 0, $length) === $needle);
 	}
 }
 
-if(check_valid_function("endsWith")) {
+if(!check_function_exists("endsWith")) {
 	function endsWith($haystack, $needle) {
 		$length = strlen($needle);
 		if($length == 0) {
@@ -124,7 +124,7 @@ if(check_valid_function("endsWith")) {
 }
 
 // https://stackoverflow.com/questions/4955433/php-multiple-delimiters-in-explode/27767665#27767665
-if(check_valid_function("multiexplode")) {
+if(!check_function_exists("multiexplode")) {
 	function multiexplode($delimiters, $string) {
 		$ready = str_replace($delimiters, $delimiters[0], $string);
 		$launch = explode($delimiters[0], $ready);
@@ -132,7 +132,7 @@ if(check_valid_function("multiexplode")) {
 	}
 }
 
-if(check_valid_function("parse_pipelined_data")) {
+if(!check_function_exists("parse_pipelined_data")) {
 	function parse_pipelined_data($pipelined_data, $keynames=array()) {
 		$result = array();
 		$parsed_data = explode("|", $pipelined_data);
@@ -151,13 +151,13 @@ if(check_valid_function("parse_pipelined_data")) {
 	}
 }
 
-if(check_valid_function("eregi_compatible")) {
+if(!check_function_exists("eregi_compatible")) {
 	function eregi_compatible($pattern, $subject, &$matches=NULL) {
 		return preg_match(sprintf("/%s/i", $pattern), $subject, $matches);
 	}
 }
 
-if(check_valid_function("eregi_replace_compatible")) {
+if(!check_function_exists("eregi_replace_compatible")) {
 	function eregi_replace_compatible($pattern, $replacement, $subject) {
 		return preg_replace(sprintf("/%s/i", $pattern), $replacement, $subject);
 	}

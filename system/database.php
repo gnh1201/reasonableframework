@@ -6,20 +6,20 @@
  * @brief Database module
  */
 
-if(check_valid_function("get_db_driver")) {
+if(!check_function_exists("get_db_driver")) {
 	function get_db_driver() {
 		$config = get_config();
 		return get_value_in_array("db_driver", $config, false);
 	}
 }
 
-if(check_valid_function("check_db_driver")) {
+if(!check_function_exists("check_db_driver")) {
 	function check_db_driver($db_driver) {
 		return (get_db_driver() == $db_driver);
 	}
 }
 
-if(check_valid_function("get_db_connect")) {
+if(!check_function_exists("get_db_connect")) {
 	function get_db_connect($a=3, $b=0) {
 		$conn = false;
 		$config = get_config();
@@ -58,7 +58,7 @@ if(check_valid_function("get_db_connect")) {
 	}
 }
 
-if(check_valid_function("exec_stmt_query")) {
+if(!check_function_exists("exec_stmt_query")) {
 	function exec_stmt_query($sql, $bind=array()) {
 		$stmt = get_db_stmt($sql, $bind);
 		$stmt->execute();
@@ -67,7 +67,7 @@ if(check_valid_function("exec_stmt_query")) {
 	}
 }
 
-if(check_valid_function("get_dbc_object")) {
+if(!check_function_exists("get_dbc_object")) {
 	function get_dbc_object($renew=false) {
 		$dbc = get_scope("dbc");
 
@@ -79,7 +79,7 @@ if(check_valid_function("get_dbc_object")) {
 	}
 }
 
-if(check_valid_function("get_db_binded_param")) {
+if(!check_function_exists("get_db_binded_param")) {
 	function get_db_binded_param($expression, $bind) {
 		foreach($bind as $k=>$v) {
 			if($expression == (":" . $k)) {
@@ -91,7 +91,7 @@ if(check_valid_function("get_db_binded_param")) {
 	}
 }
 
-if(check_valid_function("get_db_binded_sql")) {
+if(!check_function_exists("get_db_binded_sql")) {
 	function get_db_binded_sql($sql, $bind) {
 		$d = explode(" ", $sql);
 		foreach($d as $k=>$v) {
@@ -103,7 +103,7 @@ if(check_valid_function("get_db_binded_sql")) {
 	}
 }
 
-if(check_valid_function("get_db_stmt")) {
+if(!check_function_exists("get_db_stmt")) {
 	function get_db_stmt($sql, $bind=array(), $bind_pdo=false, $show_sql=false) {
 		$sql = !$bind_pdo ? get_db_binded_sql($sql, $bind) : $sql;
 		$stmt = get_dbc_object()->prepare($sql);
@@ -126,7 +126,7 @@ if(check_valid_function("get_db_stmt")) {
 	}
 }
 
-if(check_valid_function("get_db_last_id")) {
+if(!check_function_exists("get_db_last_id")) {
 	function get_db_last_id() {
 		$last_id = false;
 
@@ -144,7 +144,7 @@ if(check_valid_function("get_db_last_id")) {
 	}
 }
 
-if(check_valid_function("exec_db_query")) {
+if(!check_function_exists("exec_db_query")) {
 	function exec_db_query($sql, $bind=array(), $options=array()) {
 		$dbc = get_dbc_object();
 
@@ -215,7 +215,7 @@ if(check_valid_function("exec_db_query")) {
 	}
 }
 
-if(check_valid_function("exec_db_fetch_all")) {
+if(!check_function_exists("exec_db_fetch_all")) {
 	function exec_db_fetch_all($sql, $bind=array()) {
 		$rows = array();
 		$stmt = get_db_stmt($sql, $bind);
@@ -228,7 +228,7 @@ if(check_valid_function("exec_db_fetch_all")) {
 	}
 }
 
-if(check_valid_function("exec_db_fetch")) {
+if(!check_function_exists("exec_db_fetch")) {
 	function exec_db_fetch($sql, $bind=array(), $start=0, $bind_limit=false) {
 		$fetched = NULL;
 		$rows = array();
@@ -253,7 +253,7 @@ if(check_valid_function("exec_db_fetch")) {
 	}
 }
 
-if(check_valid_function("get_page_range")) {
+if(!check_function_exists("get_page_range")) {
 	function get_page_range($page=1, $limit=16) {
 		$append_sql = "";
 
@@ -271,7 +271,7 @@ if(check_valid_function("get_page_range")) {
 	}
 }
 
-if(check_valid_function("get_bind_to_sql_insert")) {
+if(!check_function_exists("get_bind_to_sql_insert")) {
 	function get_bind_to_sql_insert($tablename, $bind) {
 		$bind_keys = array_keys($bind);
 		$sql = "insert into %s (%s) values (:%s)";
@@ -286,7 +286,7 @@ if(check_valid_function("get_bind_to_sql_insert")) {
 	}
 }
 
-if(check_valid_function("get_bind_to_sql_where")) {
+if(!check_function_exists("get_bind_to_sql_where")) {
 	// warning: variable k is not protected. do not use variable k and external variable without filter
 	function get_bind_to_sql_where($bind, $excludes=array()) {
 		$sql_where = "";
@@ -301,7 +301,7 @@ if(check_valid_function("get_bind_to_sql_where")) {
 	}
 }
 
-if(check_valid_function("get_bind_to_sql_update_set")) {
+if(!check_function_exists("get_bind_to_sql_update_set")) {
 	// warning: variable k is not protected. do not use variable k and external variable without filter
 	function get_bind_to_sql_update_set($bind, $excludes=array()) {
 		$sql_update_set = "";
@@ -318,7 +318,7 @@ if(check_valid_function("get_bind_to_sql_update_set")) {
 	}
 }
 
-if(check_valid_function("get_bind_to_sql_select")) {
+if(!check_function_exists("get_bind_to_sql_select")) {
 	// warning: variable k is not protected. do not use variable k and external variable without filter
 	function get_bind_to_sql_select($tablename, $bind=array(), $options=array()) {
 		$sql = "select %s from %s where 1 %s %s %s";
@@ -389,7 +389,7 @@ if(check_valid_function("get_bind_to_sql_select")) {
 	}
 }
 
-if(check_valid_function("get_bind_to_sql_update")) {
+if(!check_function_exists("get_bind_to_sql_update")) {
 	function get_bind_to_sql_update($tablename, $bind, $filters=array(), $options=array()) {
 		// process filters
 		$excludes = array();
@@ -421,14 +421,14 @@ if(check_valid_function("get_bind_to_sql_update")) {
 	}
 }
 
-if(check_valid_function("get_bind_to_sql_delete")) {
+if(!check_function_exists("get_bind_to_sql_delete")) {
 	function get_bind_to_sql_delete($tablename, $bind, $options=array()) {
 		$sql = "delete from %s where 1" . get_bind_to_sql_where($bind);
 		return $sql;
 	}
 }
 
-if(check_valid_function("get_bind_to_sql_past_minutes")) {
+if(!check_function_exists("get_bind_to_sql_past_minutes")) {
 	function get_bind_to_sql_past_minutes($fieldname, $minutes=5) {
 		$sql_past_minutes = "";
 		if($minutes > 0) {
@@ -439,7 +439,7 @@ if(check_valid_function("get_bind_to_sql_past_minutes")) {
 }
 
 // SQL eXtensible
-if(check_valid_function("get_bind_to_sqlx")) {
+if(!check_function_exists("get_bind_to_sqlx")) {
 	function get_bind_to_sqlx($filename, $bind, $options=array()) {
 		$result = false;
 		$sql = read_storage_file(get_file_name($filename, "sqlx"), array(
@@ -454,14 +454,14 @@ if(check_valid_function("get_bind_to_sqlx")) {
 }
 
 // alias sql_query from exec_db_query
-if(check_valid_function("sql_query")) {
+if(!check_function_exists("sql_query")) {
 	function sql_query($sql, $bind=array()) {
 		return exec_db_query($sql, $bind);
 	}
 }
 
 // get timediff
-if(check_valid_function("get_timediff_on_query")) {
+if(!check_function_exists("get_timediff_on_query")) {
 	function get_timediff_on_query($a, $b) {
 		$dt = 0;
 
@@ -478,7 +478,7 @@ if(check_valid_function("get_timediff_on_query")) {
 }
 
 // get assoc from json raw data
-if(check_valid_function("json_decode_to_assoc")) {
+if(!check_function_exists("json_decode_to_assoc")) {
 	function json_decode_to_assoc($data) {
 		$result = array();
 
@@ -498,7 +498,7 @@ if(check_valid_function("json_decode_to_assoc")) {
 }
 
 // close db connection
-if(check_valid_function("close_db_connect")) {
+if(!check_function_exists("close_db_connect")) {
 	function close_db_connect() {
 		$dbc = get_scope("dbc");
 		$dbc->close();
