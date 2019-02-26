@@ -66,9 +66,9 @@ if(!check_function_exists("exec_db_oracle_connect")) {
 
 		// get oracle db connection info
 		$dbs_id = read_storage_file("tnsname.orax", array(
-			"storage_type" => "config"
+			"storage_type" => "example",
 		));
-		
+
 		// set replace rules
 		$dbs_rules = array(
 			"protocol" => get_value_in_array("service_name", $options, "TCP"),
