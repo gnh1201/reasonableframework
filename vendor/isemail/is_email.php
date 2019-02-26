@@ -1091,7 +1091,7 @@ if (!defined('ISEMAIL_VALID')) {
 	// Check DNS?
 	$dns_checked = false;
 
-	if ($checkDNS && ((int) max($return_status) < ISEMAIL_DNSWARN) && !check_function_exists('dns_get_record')) {
+	if ($checkDNS && ((int) max($return_status) < ISEMAIL_DNSWARN) && function_exists('dns_get_record')) {
 		// https://tools.ietf.org/html/rfc5321#section-2.3.5
 		//   Names that can
 		//   be resolved to MX RRs or address (i.e., A or AAAA) RRs (as discussed
