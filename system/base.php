@@ -62,8 +62,13 @@ if(check_valid_function("get_scope")) {
 // register loaded resources
 if(check_valid_function("register_loaded")) {
 	function register_loaded($k, $v) {
-		global $scope;
-		$scope['loaded'][$k][] = $v;
+		$loaded = get_scope("loaded");
+		if(array_key_exists($k, $loaded)) {
+			if(is_array($loaded[$k]) {
+				$loaded[$k][] = $v;
+			}
+		}
+		set_scope("loaded", $loaded);
 	}
 }
 
@@ -331,18 +336,12 @@ if(check_valid_function("get_routes")) {
 	}
 }
 
-
-$scope = array();
-
-set_scope(
-	"loaded",
-	array(
-		"module" => array(),
-		"helper" => array(),
-		"view" => array(),
-		"route" => array(),
-		"vendor" => array()
-	)
-);
+set_scope("loaded", array(
+	"module" => array(),
+	"helper" => array(),
+	"view" => array(),
+	"route" => array(),
+	"vendor" => array(),
+));
 
 set_scope("errors", array());
