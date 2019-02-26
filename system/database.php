@@ -482,12 +482,12 @@ if(check_valid_function("json_decode_to_assoc")) {
 	function json_decode_to_assoc($data) {
 		$result = array();
 
-		$fn = array(
+		$invalid_fn = array(
 			"NO_FUNCTION_JSON_DECODE" => "json_decode",
 			"NO_FUNCTION_JSON_LAST_ERROR" => "json_last_error",
 		);
 
-		$error = check_invaild_function($fn);
+		$error = check_invaild_function($invalid_fn);
 		if($error == -1) {
 			$obj = @json_decode($data, true);
 			$result = (@json_last_error() === 0) ? $obj : $result;
