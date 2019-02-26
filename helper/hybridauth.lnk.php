@@ -48,7 +48,7 @@ if(!check_function_exists("hybridauth_check_redirect")) {
 		$flag = false;
 		$requests = get_requests();
 
-		if(loadHelper("string.utl")) {
+		if(loadHelper("string.utils")) {
 			foreach($requests['_ALL'] as $k=>$v) {
 				if(startsWith($k, "hauth")) {
 					$flag = true;
