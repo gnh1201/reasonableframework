@@ -6,9 +6,9 @@
  * @brief Base module
  */
 
-// check invaild function (mixed)
-if(!function_exists("check_invaild_function")) {
-	function check_invaild_function($fn) {
+// check invalid function (mixed)
+if(!function_exists("check_invalid_function")) {
+	function check_invalid_function($fn) {
 		$status = -1;
 
 		if(is_array($fn)) {
@@ -28,10 +28,10 @@ if(!function_exists("check_invaild_function")) {
 	return $status;   
 }
 
-// check vaild function (bool)
-if(!function_exists("check_vaild_function")) {
-	function check_vaild_function($fn) {
-		return (check_invaild_function($fn) == -1);
+// check valid function (bool)
+if(!function_exists("check_valid_function")) {
+	function check_valid_function($fn) {
+		return (check_invalid_function($fn) == -1);
 	}
 }
 
