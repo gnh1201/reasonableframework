@@ -35,14 +35,6 @@ if(check_invalid_function("check_valid_function") == -1) {
 	}
 }
 
-// get all scope
-if(check_valid_function("get_scope_all")) {
-	function get_scope_all() {
-		global $scope;
-		return $scope;
-	}
-}
-
 // set scope
 if(check_valid_function("set_scope")) {
 	function set_scope($k, $v) {
