@@ -80,26 +80,23 @@ if(!check_function_exists("get_dbc_object")) {
 }
 
 if(!check_function_exists("get_db_binded_param")) {
-	function get_db_binded_param($expression, $bind) {
-		foreach($bind as $k=>$v) {
-			if($expression == (":" . $k)) {
-				$expression = sprintf("'%s'", make_safe_argument($v));
+	function get_db_binded_param($exp, $bind) {
+		if($exp == (":" . $k)) {
+			foreach($bind as $k=>$v) {
+				$exp = sprintf("'%s'", make_safe_argument($v));
 			}
 		}
-
-		return $expression;
+		return $exp;
 	}
 }
 
 if(!check_function_exists("get_db_binded_sql")) {
 	function get_db_binded_sql($sql, $bind) {
-		$d = explode(" ", $sql);
-		foreach($d as $k=>$v) {
-			$d[$k] = get_db_binded_param($v, $bind);
+		$exps = multi_str_split($sql, array(" ", "<>", ">=", "<=", "=", "(", ")", "\r\n", "\n", "\t"));
+		foreach($exps as $k=>$v) {
+			$exps[$k] = get_db_binded_param($v, $bind);
 		}
-		$sql = implode(" ", $d);
-
-		return $sql;
+		return implode("", $exps);
 	}
 }
 
