@@ -1,6 +1,6 @@
 <?php
 /**
- * @file string.utl.php
+ * @file string.utils.php
  * @date 2018-05-27
  * @author Go Namhyeon <gnh1201@gmail.com>
  * @brief String utility helper
