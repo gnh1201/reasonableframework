@@ -116,8 +116,8 @@ if(!check_function_exists("multi_explode")) {
 
 if(!check_function_exists("multi_strpos")) {
 	function multi_strpos($string, $delimiters, $offset=0) {
-		$pos = strlen(string) - 1;
-		$d = array();
+		$last_pos = strlen($string) - 1;
+		$pos = $last_pos;
 
 		if($offset > 0) {
 			$string = substr($offset);
@@ -130,7 +130,7 @@ if(!check_function_exists("multi_strpos")) {
 			}
 		}
 
-		return ($pos < 0) ? false : $pos;
+		return (($pos < $last_pos) ? $pos : false);
 	}
 }
 
