@@ -6,6 +6,25 @@
  * @brief Oracle database helper for ReasonableFramework
  */
 
+if(!check_function_exists("check_db_oracle_installed")) {
+	function check_db_oracle_installed() {
+		$fn = check_invalid_function(array(
+			"NO_FUNCTION_OCI_PARSE" => "oci_parse",
+			"NO_FUNCTION_OCI_EXECUTE" => "oci_execute",
+			"NO_FUNCTION_OCI_FETCH_ASSOC" => "oci_fetch_assoc",
+			"NO_FUNCTION_OCI_FREE_STATEMENT" => "oci_free_statement",
+			"NO_FUNCTION_OCI_CLOSE" => "oci_close",
+		));
+		
+		$is_installed = ($fn == -1);
+		if(!$is_installed) {
+			set_error($fn);
+		}
+
+		return $is_installed;
+	}
+}
+
 if(!check_function_exists("get_db_orable_binded_sql")) {
 	function get_db_orable_binded_sql($sql, $bind) {
 		return get_db_binded_sql($sql, $bind);
@@ -15,6 +34,10 @@ if(!check_function_exists("get_db_orable_binded_sql")) {
 if(!check_function_exists("get_db_oracle_stmt")) {
 	function get_db_oracle_stmt($sql, $bind) {
 		$stmt = NULL;
+
+		if(!check_db_oracle_installed()) {
+			show_errors();
+		}
 
 		$sql = get_db_orable_binded_sql($sql, $bind);
 		$stmt = oci_parse($conn, $sql);
@@ -28,8 +51,8 @@ if(!check_function_exists("exec_db_oracle_connect")) {
 		$conn = NULL;
 		$envs = get_value_in_array("envs", $options, array());
 
-		if(!check_function_exists("oci_connect")) {
-			exit("OCI (Oracle Extension for PHP) not installed!");	
+		if(!check_db_oracle_installed()) {
+			show_errors();
 		}
 
 		if(array_key_empty("NLS_LANG", $envs)) {
@@ -40,7 +63,7 @@ if(!check_function_exists("exec_db_oracle_connect")) {
 		foreach($envs as $env) {
 			putenv($env);
 		}
-		
+
 		// get oracle db connection info
 		$dbs_id = read_storage_file("tnsname.orax", array(
 			"storage_type" => "config"
@@ -71,16 +94,7 @@ if(!check_function_exists("exec_db_oracle_fetch_all")) {
 	function exec_db_oracle_fetch_all($sql, $bind, $conn) {
 		$rows = array();
 
-		$fn = array(
-			"NO_FUNCTION_OCI_PARSE" => "oci_parse",
-			"NO_FUNCTION_OCI_EXECUTE" => "oci_execute",
-			"NO_FUNCTION_OCI_FETCH_ASSOC" => "oci_fetch_assoc",
-			"NO_FUNCTION_OCI_FREE_STATEMENT" => "oci_free_statement",
-		);
-		
-		$invalid_fn = check_invalid_function($fn);
-		if($invalid_fn != -1) {
-			set_error($invalid_fn);
+		if(!check_db_oracle_installed()) {
 			show_errors();
 		}
 
@@ -101,6 +115,10 @@ if(!check_function_exists("exec_db_oracle_query")) {
 	function exec_db_oracle_query($sql, $bind, $conn) {
 		$flag = false;
 
+		if(!check_db_oracle_installed()) {
+			show_errors();
+		}
+
 		$stmt = get_db_oracle_stmt($sql, $bind);
 		$flag = oci_execute($stmt);
 
@@ -113,6 +131,11 @@ if(!check_function_exists("exec_db_oracle_query")) {
 if(!check_function_exists("close_db_oracle_connect")) {
 	function close_db_oracle_connect() {
 		$dbc = get_scope("dbc");
-		return oci_close($dbc);
+
+		if(!check_db_oracle_installed()) {
+			show_errors();
+		}
+
+		return @oci_close($dbc);
 	}
 }
