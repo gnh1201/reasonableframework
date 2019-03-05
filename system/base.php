@@ -25,7 +25,7 @@ if(!function_exists("check_invalid_function")) {
 		}
 
 		return $status;
-	}	
+	}
 }
 
 // check function exists (bool)
