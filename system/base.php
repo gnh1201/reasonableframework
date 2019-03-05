@@ -23,15 +23,15 @@ if(!function_exists("check_invalid_function")) {
 				$status = 0;
 			}
 		}
-	}
 
-	return $status;
+		return $status;
+	}	
 }
 
 // check function exists (bool)
-if(check_function_exists("check_function_exists") == -1) {
+if(!(check_invalid_function("check_function_exists") < 0)) {
 	function check_function_exists($fn) {
-		return (check_invalid_function($fn) == -1);
+		return (check_invalid_function($fn) < 0);
 	}
 }
 
