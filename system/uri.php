@@ -126,7 +126,8 @@ if(!check_function_exists("read_requests")) {
 		$protect_methods = array("_ALL", "_GET", "_POST", "_JSON", "_SEAL");
 		if(check_function_exists("get_clean_xss")) {
 			foreach($protect_methods as $method) {
-				foreach($requests[$method] as $k=>$v) {
+				$requested_data = get_array(get_value_in_array($method, $requests, false));
+				foreach($requested_data as $k=>$v) {
 					$requests[$method][$k] = is_string($v) ? get_clean_xss($v) : $v;
 				}
 			}
