@@ -131,7 +131,7 @@ if(!check_function_exists("read_requests")) {
 				}
 			}
 		} else {
-			set_error("Can not use GET/POST request without security module");
+			set_error("Disabled XSS Protection", "Security");
 			show_errors();
 		}
 
