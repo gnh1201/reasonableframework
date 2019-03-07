@@ -124,12 +124,15 @@ if(!check_function_exists("read_requests")) {
 
 		// with security module
 		$protect_methods = array("_ALL", "_GET", "_POST", "_JSON", "_SEAL");
-		if(!check_function_exists("get_clean_xss")) {
+		if(check_function_exists("get_clean_xss")) {
 			foreach($protect_methods as $method) {
 				foreach($requests[$method] as $k=>$v) {
 					$requests[$method][$k] = is_string($v) ? get_clean_xss($v) : $v;
 				}
 			}
+		} else {
+			set_error("Can not use GET/POST request without security module");
+			show_errors();
 		}
 
 		// set alias
