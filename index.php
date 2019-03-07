@@ -22,7 +22,7 @@ if(APP_DEVELOPMENT == true) {
 $scope = array();
 
 // define system modules
-$load_systems = array("base", "storage", "config", "database", "security", "uri", "logger");
+$load_systems = array("base", "storage", "config", "security", "database", "uri", "logger");
 
 // load system modules
 foreach($load_systems as $system_name) {
