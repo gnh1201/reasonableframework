@@ -302,12 +302,14 @@ if(!check_function_exists("empty_requested_value")) {
 }
 
 if(!check_function_exists("get_binded_requests")) {
-	function get_binded_requests($rules, $method="_ALL") {
+	function get_binded_requests($rules, $method="_ALL", $equals_kv=false) {
 		$data = array();
 
 		foreach($rules as $k=>$v) {
-			if(!empty($v)) {
+			if(!$equals_kv) {
 				$data[$v] = get_requested_value($k);
+			} else {
+				$data[$k] = get_requested_value($k);
 			}
 		}
 
