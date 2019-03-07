@@ -144,9 +144,15 @@ if(!check_function_exists("read_storage_file")) {
 			$upload_filesize = filesize($upload_filename);
 
 			if($upload_filesize > 0) {
-				if($fhandle = fopen($upload_filename, "r")) {
-					$result = fread($fhandle, filesize($upload_filename));
-					fclose($fhandle);
+				if($fp = fopen($upload_filename, "r")) {
+					if(array_key_equals("binary_safe", $options, true)) {
+						while(!feof($fp)) {
+							$result = fread($fp, 8192);
+						}
+					} else {
+						$result = fread($fp, filesize($upload_filename));
+					}
+					fclose($fp);
 				}
 
 				if(!array_key_empty("encode_base64", $options)) {
