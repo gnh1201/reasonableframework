@@ -145,9 +145,10 @@ if(!check_function_exists("read_storage_file")) {
 
 			if($upload_filesize > 0) {
 				if($fp = fopen($upload_filename, "r")) {
-					if(array_key_equals("binary_safe", $options, true)) {
+					if(array_key_equals("safemode", $options, true)) {
 						while(!feof($fp)) {
-							$result = fread($fp, 8192);
+							$blocksize = get_value_in_array("blocksize", $options, 8192);
+							$result = fread($fp, $blocksize);
 						}
 					} else {
 						$result = fread($fp, filesize($upload_filename));
