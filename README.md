@@ -5,6 +5,7 @@
 ## Specification
 - Database connection (via PDO, MySQLi (MySQL Improved), MySQL Tranditional, Oracle(OCI))
 - RVH Structure: `R` is Route (like as `controller`), `V` is View, `H` is Helper (like as `import` on Python or Go or NodeJS), Model is optional.
+- WebApp Sandbox: You can use legacy apps without modifying the source code.
 
 ## Compatible
 - Tested in PHP 5.3.3
