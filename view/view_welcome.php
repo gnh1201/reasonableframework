@@ -23,7 +23,7 @@ if(!defined("_DEF_RSF_")) set_error_exit("do not allow access");
 		<div class="container">
 			<div class="hero">
 				<h1>ReasonableFramework</h1>
-				<p>Reasonable Framework is PHP framework for make solid and secure web development.</p>
+				<p>ReasonableFramework is RVHM structured PHP Web Framework, Securely. Compatibility.</p>
 				<p>Do support lagacy systems (IE 5.5+, PHP 4.4.9+, and more).</p>
 				<a class="btn btn-b" href="https://github.com/gnh1201/reasonableframework">Fork me</a>
 			</div>
