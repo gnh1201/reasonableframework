@@ -1,5 +1,5 @@
 # ReasonableFramework
-- ReasonableFramework is PHP framework for make solid and secure web development.
+- ReasonableFramework is RVHM structured PHP Web Framework, Securely.
 - Old version name: Very Simple PHP Framework (VSPF)
  
 ## Specification
