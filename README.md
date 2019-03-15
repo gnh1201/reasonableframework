@@ -55,3 +55,11 @@ $ php cli.php --route [route name]
 - Resonable PHP Framework는 CSRF, XSS, SQL Injection 보안 조치를 기본적으로 가지고 있습니다.
 - 한국에서 사용되는 각종 CMS와 API와 연동되어 한국 환경에서 사용 빈도가 높은 구현 유형을 작성하는데 적합합니다.
 - RVHM 구조는 MVC 구조와 함께 사용하실 수 있으며, 기존 개발 스킬로도 사용할 수 있도록 더 유연한 구조를 가지고 있습니다.
+
+## English
+- It is stable in some North America and Europe free web hosting.
+- Ideal for environments where separate development aids, including Composer, PHP plug-ins, and the PHP framework are not available.
+- Ensures a lifecycle similar to that of an object-oriented (OOP) training for development team members.
+- The Resonable PHP Framework has CSRF, XSS, and SQL Injection security measures as defaults.
+- Compatible with various CMS and API used with REST API, it is suitable to create implementation type that is frequently used in Korean environment.
+- RVHM structure can be used with MVC structure, and has more flexible structure to use as existing development skill.
