@@ -100,7 +100,7 @@ if(!check_function_exists("read_requests")) {
 			"_SEAL"  => false
 		);
 
-		// check if json request
+		// check if json or serialized request
 		foreach(getallheaders() as $name=>$value) {
 			if($name == "Content-Type") {
 				if($value == "application/json") {
@@ -112,9 +112,17 @@ if(!check_function_exists("read_requests")) {
 			}
 		}
 
+		// check if `JSONData` request (referenced from NHBank API competition)
+		$jsondata = false;
+		if(!array_key_empty("JSONData", $requests['_ALL'])) {
+			$options['json'] = true;
+			$jsondata = get_value_in_array("JSONData", $requests['_ALL'], false);
+		}
+
 		// check if json request
 		if(array_key_equals("json", $options, true)) {
-			$requests['_JSON'] = json_decode($requests['_RAW']);
+			$jsondata = ($jsondata !== false) ? $jsondata : $requests['_RAW'];
+			$requests['_JSON'] = json_decode($jsondata);
 		}
 
 		// check if seal(serialize) request
@@ -348,9 +356,9 @@ if(!check_function_exists("set_header_content_type")) {
 	}
 }
 
-if(!check_function_exists("get_requested_json_value")) {
-	function get_requested_json_value($name, $escape_quotes=true, $escape_tags=false) {
-		return get_requested_value($name, "_JSON", $escape_quotes, $escape_tags);
+if(!check_function_exists("get_requested_jsondata")) {
+	function get_requested_jsondata($name, $escape_quotes=true, $escape_tags=false) {
+		return get_requested_jsondata($name, "_JSON", $escape_quotes, $escape_tags);
 	}
 }
 
