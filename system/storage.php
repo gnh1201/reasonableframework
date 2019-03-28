@@ -295,6 +295,13 @@ if(!check_function_exists("write_storage_file")) {
 	}
 }
 
+if(!check_function_exists("append_storage_file")) {
+	function append_storage_file($data, $options=array()) {
+		$options['mode'] = "a";
+		return write_storage_file($data, $options);
+	}
+}
+
 if(!check_function_exists("get_real_path")) {
 	function get_real_path($file) {
 		return file_exists($file) ? realpath($file) : false;
