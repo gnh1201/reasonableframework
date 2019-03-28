@@ -10,7 +10,7 @@ if(!check_function_exists("write_visit_log")) {
 	function write_visit_log() {
 		$fw = false;
 		if(loadHelper("networktool")) {
-			$data = "\r\n" . json_encode(get_network_event());
+			$data = DOC_EOL . json_encode(get_network_event());
 			$fw = write_storage_file($data, array(
 				"storage_type" => "logs",
 				"filename" => "network.log",
@@ -24,7 +24,7 @@ if(!check_function_exists("write_visit_log")) {
 	
 if(!check_function_exists("write_common_log")) {
 	function write_common_log($msg) {
-		$msg = "\r\n" . $msg;
+		$msg = DOC_EOL . $msg;
 		return write_storage_file($msg, array(
 			"storage_type" => "logs",
 			"filename" => "common.log",
