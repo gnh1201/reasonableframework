@@ -2,7 +2,7 @@
 - ReasonableFramework is `RVHM` structured PHP Web Framework, Securely, Compatibility.
 - Old version name: Very Simple PHP Framework (VSPF)
 
-## Donate us
+## Donate us (or if you need technical support)
 - https://www.patreon.com/posts/25380536
  
 ## Specification
