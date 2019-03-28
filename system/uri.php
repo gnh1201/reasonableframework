@@ -90,14 +90,15 @@ if(!check_function_exists("read_requests")) {
 
 		// process requests
 		$requests = array(
-			"_ALL"   => $_REQUEST,
-			"_POST"  => $_POST,
-			"_GET"   => $_GET,
-			"_URI"   => get_value_in_array("REQUEST_URI", $_SERVER, false),
-			"_FILES" => get_array($_FILES),
-			"_RAW"   => file_get_contents('php://input'),
-			"_JSON"  => false,
-			"_SEAL"  => false
+			"_ALL"    => $_REQUEST,
+			"_POST"   => $_POST,
+			"_GET"    => $_GET,
+			"_URI"    => get_value_in_array("REQUEST_URI", $_SERVER, false),
+			"_FILES"  => get_array($_FILES),
+			"_RAW"    => file_get_contents("php://input"),
+			"_JSON"   => false,
+			"_SEAL"   => false,
+			"_SERVER" => array_map("make_safe_argument", get_array($_SERVER)),
 		);
 
 		// check if json or serialized request
