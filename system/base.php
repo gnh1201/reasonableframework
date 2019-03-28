@@ -55,11 +55,13 @@ if(!check_function_exists("get_scope")) {
 if(!check_function_exists("register_loaded")) {
 	function register_loaded($k, $v) {
 		$loaded = get_scope("loaded");
+
 		if(array_key_exists($k, $loaded)) {
-			if(is_array($loaded[$k]) {
+			if(is_array($loaded[$k])) {
 				$loaded[$k][] = $v;
 			}
 		}
+		
 		set_scope("loaded", $loaded);
 	}
 }
@@ -327,13 +329,16 @@ if(!check_function_exists("get_routes")) {
 		return $loaded['route'];
 	}
 }
-
-set_scope("loaded", array(
+			   
+$loaded = array(
 	"module" => array(),
 	"helper" => array(),
 	"view" => array(),
 	"route" => array(),
 	"vendor" => array(),
-));
+);
 
-set_scope("errors", array());
+$errors = array();
+
+set_scope("loaded", $loaded);
+set_scope("errors", $errors);
