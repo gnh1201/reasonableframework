@@ -458,8 +458,8 @@ if(!check_function_exists("get_bind_to_sqlx")) {
 
 // alias sql_query from exec_db_query
 if(!check_function_exists("sql_query")) {
-	function sql_query($sql, $bind=array()) {
-		return exec_db_query($sql, $bind);
+	function sql_query($sql, $bind=array(), $options=array()) {
+		return exec_db_query($sql, $bind, $options);
 	}
 }
 
