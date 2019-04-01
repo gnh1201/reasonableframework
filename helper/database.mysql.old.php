@@ -17,7 +17,7 @@ if(!check_function_exists("get_db_mysql_old_connect")) {
 			show_errors();
 		}
 
-		if(!@mysql_select_db('database_name', $conn)) {
+		if(!@mysql_select_db($config['db_name'], $conn)) {
 			set_error("Could not select database.");
 			show_errors();
 		}
