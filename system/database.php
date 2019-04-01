@@ -222,6 +222,7 @@ if(!check_function_exists("exec_db_fetch_all")) {
 	function exec_db_fetch_all($sql, $bind=array(), $options=array()) {
 		$response = array();
 		$length = 0;
+		$is_not_countable = false;
 		
 		$rows = array();
 		$stmt = get_db_stmt($sql, $bind);
@@ -234,13 +235,18 @@ if(!check_function_exists("exec_db_fetch_all")) {
 			$count_sql = sprintf("select count(*) as cnt from (%s) a", $sql);
 			$count_data = exec_db_fetch($count_sql);
 			$length = get_value_in_array("cnt", $count_data, $length);
+		} elseif(array_key_equals("do_count", $options, "function_count")) {
+			$length = count($rows);
+		} else {
+			$response = $rows;
+			$is_not_countable = true;
+		}
 
+		if(!$is_not_countable) {
 			$response = array(
 				"length" => $length,
 				"data" => $rows,
 			);
-		} else {
-			$response = $rows;
 		}
 		
 		return $response;
