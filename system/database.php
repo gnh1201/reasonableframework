@@ -95,7 +95,7 @@ if(!check_function_exists("get_db_binded_sql")) {
 		$binded_sql = false;
 
 		if(loadHelper("string.utils")) {
-			$exps = multi_str_split($sql, array(" ", "<>", ">=", "<=", "=", "(", ")", "\r\n", "\n", "\t"));
+			$exps = multi_str_split($sql, array(" ", "<>", ">=", "<=", "=", ">", "<", "(", ")", "\r\n", "\n", "\t", "'", "\""));
 			foreach($exps as $k=>$v) {
 				$exps[$k] = get_db_binded_param($v, $bind);
 			}
