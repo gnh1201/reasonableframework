@@ -219,15 +219,31 @@ if(!check_function_exists("exec_db_query")) {
 }
 
 if(!check_function_exists("exec_db_fetch_all")) {
-	function exec_db_fetch_all($sql, $bind=array()) {
+	function exec_db_fetch_all($sql, $bind=array(), $options=array()) {
+		$response = array();
+
+		$length = 0;
 		$rows = array();
 		$stmt = get_db_stmt($sql, $bind);
 
 		if($stmt->execute() && $stmt->rowCount() > 0) {
 			$rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
 		}
+		
+		// Count rows
+		$count_data = exec_db_fetch(sprintf("select count(*) as cnt from (%s)", $sql));
+		$length = get_value_in_array("cnt", $count_data, $length);
 
-		return $rows;
+		if(array_key_equals("do_count", $options, true)) {
+			$response = array(
+				"length" => $length,
+				"data" => $rows,
+			);
+		} else {
+			$response = $rows;
+		}
+		
+		return $response;
 	}
 }
 
