@@ -235,7 +235,7 @@ if(!check_function_exists("exec_db_fetch_all")) {
 			$count_sql = sprintf("select count(*) as cnt from (%s) a", $sql);
 			$count_data = exec_db_fetch($count_sql);
 			$length = get_value_in_array("cnt", $count_data, $length);
-		} elseif(array_key_equals("do_count", $options, "function_count")) {
+		} elseif(array_key_equals("do_count", $options, "fn_count")) {
 			$length = count($rows);
 		} else {
 			$response = $rows;
