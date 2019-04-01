@@ -525,9 +525,9 @@ if(!check_function_exists("get_adaptive_json")) {
 		$lines = array();
 		foreach($data as $k=>$v) {
 			if(is_array($v)) {
-				$lines[] = sprintf("\"%s\":%s", addslashes($k), get_adaptive_json($v));
+				$lines[] = sprintf("\"%s\":%s", make_safe_argument($k), get_adaptive_json($v));
 			} else {
-				$lines[] = sprintf("\"%s\":\"%s\"", addslashes($k), addslashes($v));
+				$lines[] = sprintf("\"%s\":\"%s\"", make_safe_argument($k), make_safe_argument($v));
 			}
 		}
 		$result = "{" . implode(",", $lines) . "}";
@@ -548,7 +548,7 @@ if(!check_function_exists("get_webproxy_url")) {
 if(!check_function_exists("get_web_user_agent")) {
 	function get_web_user_agent($ua="") {
 		if(empty($ua)) {
-			$ua = "ReasonableFramework/1.2 (https://github.com/gnh1201/reasonableframework)";
+			$ua = "ReasonableFramework/1.2-dev (https://github.com/gnh1201/reasonableframework)";
 		} else {
 			$ua = make_safe_argument($ua);
 		}
