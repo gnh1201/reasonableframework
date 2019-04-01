@@ -513,7 +513,7 @@ if(!check_function_exists("json_decode_to_assoc")) {
 		);
 
 		$error = check_invaild_function($invalid_fn);
-		if($error == -1) {
+		if($error < 0) {
 			$obj = @json_decode($data, true);
 			$result = (@json_last_error() === 0) ? $obj : $result;
 		}
