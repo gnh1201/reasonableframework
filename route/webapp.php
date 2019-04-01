@@ -3,7 +3,7 @@
  * @file webapp.php
  * @date 2019-02-23
  * @author Go Namhyeon <gnh1201@gmail.com>
- * @brief Compatible for legacy applications
+ * @brief Isolator(Compatibility mode) for legacy application
  */
 
 loadHelper("isemail.lnk");
