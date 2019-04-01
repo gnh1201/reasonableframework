@@ -363,7 +363,7 @@ if(!check_function_exists("get_bind_to_sql_select")) {
 
 		// s3: fields of where clause
 		$s3 = get_bind_to_sql_where($bind);
-		if(!array_multikey_empty(array("settimefield", "setminutes"), $options)) {
+		if(!array_keys_empty(array("settimefield", "setminutes"), $options)) {
 			$s3 .= get_bind_to_sql_past_minutes($options['settimefield'], $options['setminutes']);
 		}
 		if(!array_key_empty("setwheres", $options)) {
@@ -397,7 +397,7 @@ if(!check_function_exists("get_bind_to_sql_select")) {
 
 		// s5: set page and limit
 		$s5 = "";
-		if(!array_multikey_empty(array("setpage", "setlimit"), $options)) {
+		if(!array_keys_empty(array("setpage", "setlimit"), $options)) {
 			$s5 .= get_page_range($options['setpage'], $options['setlimit']);
 		}
 
