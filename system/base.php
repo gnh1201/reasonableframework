@@ -197,25 +197,25 @@ if(!check_function_exists("array_key_empty")) {
 		
 		if(is_array($array)) {
 			if(array_key_exists($key, $array)) {
-				$empty = $empty && empty($array[$key]);
+				$flag = $flag && empty($array[$key]);
 			}
 		}
 
-		return $empty;
+		return $flag;
 	}
 }
 
 if(!check_function_exists("array_key_equals")) {
 	function array_key_equals($key, $array, $value) {
-		$equals = false;
+		$flag = false;
 
 		if(is_array($array)) {
 			if(array_key_exists($key, $array)) {
-				$equals = ($array[$key] == $value);
+				$flag = ($array[$key] == $value);
 			}
 		}
 
-		return $equals;
+		return $flag;
 	}
 }
 
@@ -233,8 +233,8 @@ if(!check_function_exists("array_key_is_array")) {
 	}
 }
 
-if(!check_function_exists("array_multikey_empty")) {
-	function array_multikey_empty($keys, $array) {
+if(!check_function_exists("array_keys_empty")) {
+	function array_keys_empty($keys, $array) {
 		$flag = false;
 		foreach($keys as $key) {
 			if(array_key_empty($key, $array)) {
@@ -329,7 +329,14 @@ if(!check_function_exists("get_routes")) {
 		return $loaded['route'];
 	}
 }
-			   
+
+// Deprecated: array_multikey_empty is changed to array_keys_empty, since version 1.2
+if(!check_function_exists("array_multikey_empty")) {
+	function array_multikey_empty($keys, $array) {
+		return array_keys_empty($keys, $array);
+	}
+}
+
 $loaded = array(
 	"module" => array(),
 	"helper" => array(),
