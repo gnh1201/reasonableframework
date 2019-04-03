@@ -81,11 +81,12 @@ if(!check_function_exists("get_dbc_object")) {
 
 if(!check_function_exists("get_db_binded_param")) {
 	function get_db_binded_param($exp, $bind) {
-		if($exp == (":" . $k)) {
-			foreach($bind as $k=>$v) {
-				$exp = sprintf("'%s'", make_safe_argument($v));
+		foreach($bind as $k=>$v) {
+			if($exp == sprintf(":%s", $k)) {
+				$exp = make_safe_argument($v);
 			}
 		}
+		
 		return $exp;
 	}
 }
