@@ -84,6 +84,7 @@ if(!check_function_exists("get_db_binded_param")) {
 		foreach($bind as $k=>$v) {
 			if($exp == sprintf(":%s", $k)) {
 				$exp = make_safe_argument($v);
+				break;
 			}
 		}
 		
