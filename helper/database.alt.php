@@ -39,26 +39,12 @@ if(!check_function_exists("get_db_alt_connect")) {
 		$config = get_config();
 
 		$rules = array(
-			array(
-				"driver" => "mysql.pdo",
-				"callback" => "get_db_mysql_pdo_connect"
-			),
-			array(
-				"driver" => "mysql.imp",
-				"callback" => "get_db_mysql_imp_connect"
-			),
-			array(
-				"driver" => "mysql.old",
-				"callback" => "get_db_mysql_old_connect"
-			),
-			array(
-				"driver" => "oracle",
-				"callback" => "get_db_oracle_connect"
-			),
-			array(
-				"driver" => "pgsql",
-				"callback" => "get_db_pgsql_connect"
-			)
+			array("driver" => "mysql.pdo", "callback" => "get_db_mysql_pdo_connect"),
+			array("driver" => "mysql.imp", "callback" => "get_db_mysql_imp_connect"),
+			array("driver" => "mysql.old", "callback" => "get_db_mysql_old_connect"),
+			array("driver" => "mysql.cmd", "callback" => "get_db_mysql_cmd_connect"),
+			array("driver" => "oracle", "callback" => "get_db_oracle_connect"),
+			//array("driver" => "pgsql", "callback" => "get_db_pgsql_connect"),
 		);
 
 		$conn = exec_db_alt_callback($rules);
@@ -72,26 +58,12 @@ if(!check_function_exists("exec_db_alt_query")) {
 		$result = false;
 
 		$rules = array(
-			array(
-				"driver" => "mysql.pdo",
-				"callback" => "exec_db_mysql_pdo_query"
-			),
-			array(
-				"driver" => "mysql.imp",
-				"callback" => "exec_db_mysql_imp_query"
-			),
-			array(
-				"driver" => "mysql.old",
-				"callback" => "exec_db_mysql_old_query"
-			),
-			array(
-				"driver" => "oracle",
-				"callback" => "exec_db_oracle_query"
-			),
-			array(
-				"driver" => "pgsql",
-				"callback" => "exec_db_pgsql_query"
-			)
+			array("driver" => "mysql.pdo", "callback" => "exec_db_mysql_pdo_query"),
+			array("driver" => "mysql.imp", "callback" => "exec_db_mysql_imp_query"),
+			array("driver" => "mysql.old", "callback" => "exec_db_mysql_old_query"),
+			array("driver" => "mysql.cmd", "callback" => "exec_db_mysql_cmd_query"),
+			array("driver" => "oracle", "callback" => "exec_db_oracle_query"),
+			//array("driver" => "pgsql", "callback" => "exec_db_pgsql_query"),
 		);
 
 		$result = exec_db_alt_callback($rules, array($sql, $bind));
@@ -105,26 +77,12 @@ if(!check_function_exists("exec_db_alt_fetch_all")) {
 		$rows = array();
 
 		$rules = array(
-			array(
-				"driver" => "mysql.pdo",
-				"callback" => "exec_db_mysql_pdo_fetch_all"
-			),
-			array(
-				"driver" => "mysql.imp",
-				"callback" => "exec_db_mysql_imp_fetch_all"
-			),
-			array(
-				"driver" => "mysql.old",
-				"callback" => "exec_db_mysql_old_fetch_all"
-			),
-			array(
-				"driver" => "oracle",
-				"callback" => "exec_db_oracle_fetch_all"
-			),
-                        array(
-                                "driver" => "pgsql",
-                                "callback" => "exec_db_pgsql_fetch_all"
-                        )
+			array("driver" => "mysql.pdo", "callback" => "exec_db_mysql_pdo_fetch_all"),
+			array("driver" => "mysql.imp", "callback" => "exec_db_mysql_imp_fetch_all"),
+			array("driver" => "mysql.old", "callback" => "exec_db_mysql_old_fetch_all"),
+			array("driver" => "mysql.cmd", "callback" => "exec_db_mysql_cmd_fetch_all"),
+			array("driver" => "oracle", "callback" => "exec_db_oracle_fetch_all"),
+                        //array("driver" => "pgsql", "callback" => "exec_db_pgsql_fetch_all"),
 		);
 
 		$rows = exec_db_alt_callback($rules, array($sql, $bind));
