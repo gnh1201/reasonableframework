@@ -6,7 +6,7 @@
 - https://www.patreon.com/posts/25380536
  
 ## Specification
-- Database connection (via PDO, MySQLi (MySQL Improved), MySQL Tranditional, Oracle(OCI))
+- Database connection (via PDO, MySQLi (MySQL Improved), MySQL Tranditional, MySQL CLI, Oracle(OCI))
 - RVHM Structure: `R` is Route (like as `controller`), `V` is View, `H` is Helper (like as `import` on Python/Go/NodeJS), `M` is Model and implemented with `KV bind`(like as `Map` data structure), Modal is optional.
 - WebApp Sandbox: You can use legacy apps without modifying the source code.
 
