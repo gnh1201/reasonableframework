@@ -2,7 +2,7 @@
 /**
  * @file exectool.php
  * @date 2018-07-22
- * @auther Go Namhyeon <gnh1201@gmail.com>
+ * @author Go Namhyeon <gnh1201@gmail.com>
  * @forked from https://github.com/scipag/PHPUtilities
  * @brief ExecTool helper
  */
