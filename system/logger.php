@@ -14,6 +14,7 @@ if(!check_function_exists("write_visit_log")) {
 			$fw = append_storage_file($data, array(
 				"storage_type" => "logs",
 				"filename" => "network.log",
+				"chmod" => 0644,
 			));
 		}
 
@@ -27,6 +28,7 @@ if(!check_function_exists("write_common_log")) {
 		return append_storage_file($msg, array(
 			"storage_type" => "logs",
 			"filename" => "common.log",
+			"chmod" => 0644,
 		));
 	}
 }
