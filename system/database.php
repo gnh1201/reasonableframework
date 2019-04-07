@@ -351,7 +351,7 @@ if(!check_function_exists("get_bind_to_sql_select")) {
 		$sql = "select %s from %s where 1 %s %s %s";
 
 		// s1: select fields
-		$s1 = "*";
+		$s1 = "";
 		if(!array_key_empty("fieldnames", $options)) {
 			$s1 .= (count($options['fieldnames']) > 0) ? implode(", ", $options['fieldnames']) : "*";
 		} elseif(array_key_equals("getcnt", $options, true)) {
