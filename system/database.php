@@ -79,6 +79,33 @@ if(!check_function_exists("get_dbc_object")) {
 	}
 }
 
+
+// 2018-08-19: support lower php version (not supported anonymous function)
+if(!function_exists("compare_db_key_length")) {
+	function compare_db_key_length($a, $b) {
+		return strlen($b) - strlen($a);
+	}
+}
+
+if(!function_exists("get_db_binded_sql")) {
+	function get_db_binded_sql($sql, $bind) {
+		if(count($bind) > 0) {
+			$bind_keys = array_keys($bind);
+
+			// 2018-08-19: support lower php version (not supported anonymous function)
+			usort($bind_keys, "compare_db_key_length");
+
+			foreach($bind_keys as $k) {
+				$sql = str_replace(":" . $k, "'" . addslashes($bind[$k]) . "'", $sql);
+			}
+		}
+
+		return $sql;
+	}
+}
+
+/*
+// todo: the new parameter binding method
 if(!check_function_exists("get_db_binded_param")) {
 	function get_db_binded_param($exp, $bind) {
 		foreach($bind as $k=>$v) {
@@ -107,6 +134,7 @@ if(!check_function_exists("get_db_binded_sql")) {
 		return $binded_sql;
 	}
 }
+*/
 
 if(!check_function_exists("get_db_stmt")) {
 	function get_db_stmt($sql, $bind=array(), $bind_pdo=false, $show_sql=false) {
