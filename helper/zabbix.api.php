@@ -1,5 +1,5 @@
 <?php
-// @file zabbix.rpc.php
+// @file zabbix.api.php
 
 if(!check_function_exists("zabbix_get_base_url")) {
   function zabbix_get_base_url() {
