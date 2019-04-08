@@ -22,7 +22,7 @@ if(!check_function_exists("zabbix_authenticate")) {
 		
 		// connect to zabbix server
 		if(loadHelper("webpagetool")) {
-			$response = get_web_json($zabbix_api_url, "post", array(
+			$response = get_web_json($zabbix_api_url, "jsondata", array(
 				"headers" => array(
 					"Content-Type" => "application/json-rpc",
 				),
@@ -47,8 +47,8 @@ if(!check_function_exists("zabbix_authenticate")) {
 	}
 }
 
-if(!check_function_exists("zabbix_retrive_hosts")) {
-	function zabbix_retrive_hosts() {
+if(!check_function_exists("zabbix_retrieve_hosts")) {
+	function zabbix_retrieve_hosts() {
 		$response = false;
 		
 		// get zabbix authentication
@@ -57,7 +57,7 @@ if(!check_function_exists("zabbix_retrive_hosts")) {
 		
 		// connect to zabbix server
 		if(loadHelper("webpagetool")) {
-			$response = get_web_json($zabbix_api_url, array(
+			$response = get_web_json($zabbix_api_url, "jsondata", array(
 				"headers" => array(
 					"Content-Type" => "application/json-rpc",
 				),
@@ -69,7 +69,7 @@ if(!check_function_exists("zabbix_retrive_hosts")) {
 						"selectInterfaces" => array("interfaceid", "ip"),
 					),
 					"id" => 2,
-					"auth" => $zabbix_auth
+					"auth" => $zabbix_auth,
 				),
 			));
 		}
