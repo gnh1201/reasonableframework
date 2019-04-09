@@ -13,6 +13,12 @@ if(!check_function_exists("zabbix_get_base_url")) {
 	}
 }
 
+if(!check_function_exists("zabbix_get_id")) {
+	function zabbix_get_id() {
+		return rand(10000, 99999) * rand(10000, 99999));
+	}
+}
+
 if(!check_function_exists("zabbix_authenticate")) {
 	function zabbix_authenticate($host, $username, $password, $protocol="http") {
 		$response = false;
@@ -33,7 +39,7 @@ if(!check_function_exists("zabbix_authenticate")) {
 						"user" => $username,
 						"password" => $password,
 					),
-					"id" => 1,
+					"id" => zabbix_get_id(),
 					"auth" => null,
 				),
 			));
@@ -54,7 +60,7 @@ if(!check_function_exists("zabbix_retrieve_hosts")) {
 		// get zabbix authentication
 		$zabbix_api_url = get_scope("zabbix_api_url");
 		$zabbix_auth = get_scope("zabbix_auth");
-		
+
 		// connect to zabbix server
 		if(loadHelper("webpagetool")) {
 			$response = get_web_json($zabbix_api_url, "jsondata", array(
@@ -68,7 +74,48 @@ if(!check_function_exists("zabbix_retrieve_hosts")) {
 						"output" => array("hostid", "host"),
 						"selectInterfaces" => array("interfaceid", "ip"),
 					),
-					"id" => 2,
+					"id" => zabbix_get_id(),
+					"auth" => $zabbix_auth,
+				),
+			));
+		}
+		
+		return $response;
+	}
+}
+
+if(!check_function_exists("zabbix_get_items")) {
+	function zabbix_get_items($hostids="") {
+		$response = false;
+		
+		// check type
+		if(!(is_array($host_ids) && is_string($host_ids)) {
+			set_error("hostids must be array or string");
+			show_errors();
+		}
+
+		// get zabbix authentication
+		$zabbix_api_url = get_scope("zabbix_api_url");
+		$zabbix_auth = get_scope("zabbix_auth");
+		
+		// connect to zabbix server
+		if(loadHelper("webpagetool")) {
+			$response = get_web_json($zabbix_api_url, "jsondata", array(
+				"headers" => array(
+					"Content-Type" => "application/json-rpc",
+				),
+				"data" => array(
+					"jsonprc" => "2.0",
+					"method" => "host.get",
+					"params" => array(
+						"selectInventory" => true,
+						"selectItems" => array("name", "lastvalue", "units", "itemid", "lastclock", "value_type", "itemid"),
+						"output" => "extend",
+						"hostids" => $hostids,
+						"expandDescription" => 1,
+						"expandData" => 1,
+					),
+					"id" => zabbix_get_id(),
 					"auth" => $zabbix_auth,
 				),
 			));
