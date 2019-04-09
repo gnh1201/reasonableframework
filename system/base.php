@@ -193,7 +193,7 @@ if(!check_function_exists("loadVendor")) {
 
 if(!check_function_exists("array_key_empty")) {
 	function array_key_empty($key, $array) {
-		$empty = true;
+		$flag = true;
 		
 		if(is_array($array)) {
 			if(array_key_exists($key, $array)) {
