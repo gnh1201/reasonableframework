@@ -15,17 +15,17 @@ if(!check_function_exists("zabbix_get_base_url")) {
 
 if(!check_function_exists("zabbix_get_id")) {
 	function zabbix_get_id() {
-		return rand(10000, 99999) * rand(10000, 99999));
+		return rand(10000, 99999) * rand(10000, 99999);
 	}
 }
 
 if(!check_function_exists("zabbix_authenticate")) {
 	function zabbix_authenticate($host, $username, $password, $protocol="http") {
 		$response = false;
-		
+
 		// get zabbix api url
 		$zabbix_api_url = zabbix_get_api_url($host, $protocol);
-		
+
 		// connect to zabbix server
 		if(loadHelper("webpagetool")) {
 			$response = get_web_json($zabbix_api_url, "jsondata", array(
@@ -44,7 +44,7 @@ if(!check_function_exists("zabbix_authenticate")) {
 				),
 			));
 		}
-		
+
 		// set connection to global scope
 		set_scope("zabbix_api_url", $zabbix_api_url);
 		set_scope("zabbix_auth", get_property_value("result", $response));
@@ -56,7 +56,7 @@ if(!check_function_exists("zabbix_authenticate")) {
 if(!check_function_exists("zabbix_retrieve_hosts")) {
 	function zabbix_retrieve_hosts() {
 		$response = false;
-		
+
 		// get zabbix authentication
 		$zabbix_api_url = get_scope("zabbix_api_url");
 		$zabbix_auth = get_scope("zabbix_auth");
@@ -68,7 +68,7 @@ if(!check_function_exists("zabbix_retrieve_hosts")) {
 					"Content-Type" => "application/json-rpc",
 				),
 				"data" => array(
-					"jsonprc" => "2.0",
+					"jsonrpc" => "2.0",
 					"method" => "host.get",
 					"params" => array(
 						"output" => array("hostid", "host"),
@@ -79,7 +79,7 @@ if(!check_function_exists("zabbix_retrieve_hosts")) {
 				),
 			));
 		}
-		
+
 		return $response;
 	}
 }
@@ -87,17 +87,11 @@ if(!check_function_exists("zabbix_retrieve_hosts")) {
 if(!check_function_exists("zabbix_get_items")) {
 	function zabbix_get_items($hostids="") {
 		$response = false;
-		
-		// check type
-		if(!(is_array($host_ids) && is_string($host_ids)) {
-			set_error("hostids must be array or string");
-			show_errors();
-		}
 
 		// get zabbix authentication
 		$zabbix_api_url = get_scope("zabbix_api_url");
 		$zabbix_auth = get_scope("zabbix_auth");
-		
+
 		// connect to zabbix server
 		if(loadHelper("webpagetool")) {
 			$response = get_web_json($zabbix_api_url, "jsondata", array(
@@ -105,7 +99,7 @@ if(!check_function_exists("zabbix_get_items")) {
 					"Content-Type" => "application/json-rpc",
 				),
 				"data" => array(
-					"jsonprc" => "2.0",
+					"jsonrpc" => "2.0",
 					"method" => "host.get",
 					"params" => array(
 						"selectInventory" => true,
@@ -120,7 +114,7 @@ if(!check_function_exists("zabbix_get_items")) {
 				),
 			));
 		}
-		
+
 		return $response;
 	}
 }
