@@ -58,7 +58,18 @@ if(!check_function_exists("get_web_cmd")) {
 			$args[] = "-k"; // allow self-signed certificate (the same as --insecure)
 			foreach($headers as $k=>$v) {
 				// the same as --header
-				$args[] = sprintf("-H '%s: %s'", make_safe_argument($k), make_safe_argument($v));
+				if(is_array($v)) {
+					if($k == "Authentication") {
+						if($v[0] == "Basic") {
+							$args[] = sprintf("-u '%s:%s'", $v[1], $v[2]);
+						} else {
+							$args[] = sprintf("-H '%s: %s'", $k, implode(" ", $v));
+						}
+					}
+				} else {
+					$args[] = sprintf("-H '%s: %s'", make_safe_argument($k), make_safe_argument($v));
+				}
+				
 			}
 			$args[] = get_web_build_qs($url, $data);
 		}
