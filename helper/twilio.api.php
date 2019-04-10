@@ -7,7 +7,7 @@
  * @documentation https://www.twilio.com/docs/sms/send-messages
  */
  
-if(check_function_exists("twilio_send_message")) {
+if(!check_function_exists("twilio_send_message")) {
 	function twilio_send_message($message, $from, $to, $sid, $token) {
 		$response = false;
 
@@ -29,9 +29,13 @@ if(check_function_exists("twilio_send_message")) {
 	}
 }
 
-if(check_function_exists("twilio_send_voice")) {
-	function twilio_send_voice($url="http://demo.twilio.com/docs/voice.xml", $from, $to, $sid, $token) {
+if(!check_function_exists("twilio_send_voice")) {
+	function twilio_send_voice($url="", $from, $to, $sid, $token) {
 		$response = false;
+		
+		if(empty($url)) {
+			$url = "http://demo.twilio.com/docs/voice.xml";
+		}
 
 		if(loadHelper("webpagetool")) {
 			$request_url = sprintf("https://api.twilio.com/2010-04-01/Accounts/%s/Calls.json", $sid);
