@@ -60,7 +60,7 @@ if(!check_function_exists("get_web_cmd")) {
 				// the same as --header
 				if(is_array($v)) {
 					if($k == "Authentication") {
-						if($v[0] == "Basic") {
+						if($v[0] == "Basic" && check_array_length($v, 3) == 0) {
 							$args[] = sprintf("-u '%s:%s'", $v[1], $v[2]);
 						} else {
 							$args[] = sprintf("-H '%s: %s'", $k, implode(" ", $v));
