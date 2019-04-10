@@ -267,7 +267,7 @@ if(!check_function_exists("get_value_in_object")) {
 }
 
 if(!check_function_exists("check_array_length")) {
-	functon check_array_length($arr, $len) {
+	function check_array_length($arr, $len) {
 		$flag = -1;
 
 		$arr_len = count($arr);
