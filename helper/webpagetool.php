@@ -61,9 +61,9 @@ if(!check_function_exists("get_web_cmd")) {
 				if(is_array($v)) {
 					if($k == "Authentication") {
 						if($v[0] == "Basic" && check_array_length($v, 3) == 0) {
-							$args[] = sprintf("-u '%s:%s'", $v[1], $v[2]);
+							$args[] = sprintf("-u '%s:%s'", make_safe_argument($v[1]), make_safe_argument($v[2]));
 						} else {
-							$args[] = sprintf("-H '%s: %s'", $k, implode(" ", $v));
+							$args[] = sprintf("-H '%s: %s'", make_safe_argument($k), make_safe_argument(implode(" ", $v)));
 						}
 					}
 				} else {
@@ -80,7 +80,17 @@ if(!check_function_exists("get_web_cmd")) {
 			$args[] = "-k"; // allow self-signed certificate (the same as --insecure)
 			foreach($headers as $k=>$v) {
 				// the same as --header
-				$args[] = sprintf("-H '%s: %s'", make_safe_argument($k), make_safe_argument($v));
+				if(is_array($v)) {
+					if($k == "Authentication") {
+						if($v[0] == "Basic" && check_array_length($v, 3) == 0) {
+							$args[] = sprintf("-u '%s:%s'", make_safe_argument($v[1]), make_safe_argument($v[2]));
+						} else {
+							$args[] = sprintf("-H '%s: %s'", make_safe_argument($k), make_safe_argument(implode(" ", $v)));
+						}
+					}
+				} else {
+					$args[] = sprintf("-H '%s: %s'", make_safe_argument($k), make_safe_argument($v));
+				}
 			}
 			foreach($data as $k=>$v) {
 				if(substr($v, 0, 1) == "@") { // if this is a file
@@ -293,9 +303,9 @@ if(!check_function_exists("get_web_curl")) {
 				if(is_array($v)) {
 					if($k == "Authentication") {
 						if($v[0] == "Basic" && check_array_length($v, 3) == 0) {
-							$options[CURLOPT_USERPWD] = sprintf("%s:%s", $v[1], $v[2]);
+							$options[CURLOPT_USERPWD] = sprintf("%s:%s", make_safe_argument($v[1]), make_safe_argument($v[2]));
 						} else {
-							$args[] = sprintf("%s: %s", $k, make_safe_argument(implode(" ", $v)));
+							$args[] = sprintf("%s: %s", make_safe_argument($k), make_safe_argument(implode(" ", $v)));
 						}
 					}
 				} else {
