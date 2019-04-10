@@ -7,4 +7,46 @@
  * @documentation https://www.twilio.com/docs/sms/send-messages
  */
  
- // todo
+if(check_function_exists("twilio_send_message")) {
+	function twilio_send_message($message, $from, $to, $sid, $token) {
+		$response = false;
+
+		if(loadHelper("webpagetool")) {
+			$request_url = sprintf("https://api.twilio.com/2010-04-01/Accounts/%s/Messages.json", $sid);
+			$response = get_web_json($request_url, "post", array(
+				"headers" = array(
+					"Authentication" => array("Basic", $sid, $token),
+				),
+				"data" => array(
+					"Body" => $message,
+					"From" => $from,
+					"To" => $to,
+				),
+			);
+		}
+		
+		return $response;
+	}
+}
+
+if(check_function_exists("twilio_send_voice")) {
+	function twilio_send_voice($url="http://demo.twilio.com/docs/voice.xml", $from, $to, $sid, $token) {
+		$response = false;
+
+		if(loadHelper("webpagetool")) {
+			$request_url = sprintf("https://api.twilio.com/2010-04-01/Accounts/%s/Calls.json", $sid);
+			$response = get_web_json($request_url, "post", array(
+				"headers" = array(
+					"Authentication" => array("Basic", $sid, $token),
+				),
+				"data" => array(
+					"Url" => $url,
+					"From" => $from,
+					"To" => $to,
+				),
+			);
+		}
+		
+		return $response;
+	}
+}
