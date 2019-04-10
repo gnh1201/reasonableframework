@@ -305,7 +305,7 @@ if(!check_function_exists("get_web_curl")) {
 						if($v[0] == "Basic" && check_array_length($v, 3) == 0) {
 							$options[CURLOPT_USERPWD] = sprintf("%s:%s", make_safe_argument($v[1]), make_safe_argument($v[2]));
 						} else {
-							$args[] = sprintf("%s: %s", make_safe_argument($k), make_safe_argument(implode(" ", $v)));
+							$req_headers[] = sprintf("%s: %s", make_safe_argument($k), make_safe_argument(implode(" ", $v)));
 						}
 					}
 				} else {
