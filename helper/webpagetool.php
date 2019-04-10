@@ -290,7 +290,17 @@ if(!check_function_exists("get_web_curl")) {
 
 		if(count($headers) > 0) {
 			foreach($headers as $k=>$v) {
-				$req_headers[] = sprintf("%s: %s", make_safe_argument($k), make_safe_argument($v));
+				if(is_array($v)) {
+					if($k == "Authentication") {
+						if($v[0] == "Basic" && check_array_length($v, 3) == 0) {
+							$options[CURLOPT_USERPWD] = sprintf("%s:%s", $v[1], $v[2]);
+						} else {
+							$args[] = sprintf("%s: %s", $k, make_safe_argument(implode(" ", $v)));
+						}
+					}
+				} else {
+					$req_headers[] = sprintf("%s: %s", make_safe_argument($k), make_safe_argument($v));
+				}
 			}
 			$options[CURLOPT_HTTPHEADER] = $req_headers;
 		}
