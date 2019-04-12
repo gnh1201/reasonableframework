@@ -29,15 +29,15 @@ return array(
         "Google" => array(
             "enabled" => true,
             "keys" => array(
-                "id" => get_value_in_array("sns_google_id", $config, ""),
-                "secret" => get_value_in_array("sns_google_secret", $config, ""),
+                "id" => get_value_in_array("social_google_id", $config, ""),
+                "secret" => get_value_in_array("social_google_secret", $config, ""),
             ),
         ),
         "Facebook" => array(
             "enabled" => true,
             "keys" => array(
-                "id" => get_value_in_array("sns_facebook_id", $config, ""),
-                "secret" => get_value_in_array("sns_facebook_secret", $config, ""),
+                "id" => get_value_in_array("social_facebook_id", $config, ""),
+                "secret" => get_value_in_array("social_facebook_secret", $config, ""),
             ),
             "trustForwarded" => false,
             "scope" => array("email", "public_profile"),
@@ -45,8 +45,8 @@ return array(
         "Twitter" => array(
             "enabled" => true,
             "keys" => array(
-                "key" => get_value_in_array("sns_twitter_key", $config, ""),
-                "secret" => get_value_in_array("sns_twitter_secret", $config, ""),
+                "key" => get_value_in_array("social_twitter_key", $config, ""),
+                "secret" => get_value_in_array("social_twitter_secret", $config, ""),
             ),
             "includeEmail" => false,
         ),
@@ -58,8 +58,8 @@ return array(
         "LinkedIn" => array(
             "enabled" => true,
             "keys" => array(
-                "id" => get_value_in_array("sns_linkedin_id", $config, ""),
-                "secret" => get_value_in_array("sns_linkedin_secret", $config, ""),
+                "id" => get_value_in_array("social_linkedin_id", $config, ""),
+                "secret" => get_value_in_array("social_linkedin_secret", $config, ""),
             ),
             "fields" => array(),
         ),

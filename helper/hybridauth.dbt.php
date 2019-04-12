@@ -5,7 +5,7 @@
  * @author Go Namhyeon <gnh1201@gmail.com>
  * @brief HybridAuth DB Helper
  */
- 
+
 if(!check_function_exists("store_hybridauth_session")) {
 	function store_hybridauth_session($data, $user_id) {
 		$connection_id = false;
@@ -60,7 +60,7 @@ if(!check_function_exists("get_hybridauth_connection_info")) {
 if(!check_function_exists("get_hybridauth_connection_id")) {
 	function get_hybridauth_connection_id($user_id) {
 		$connection_id = false;
-		
+
 		$bind = array(
 			"user_id" => $user_id
 		);
