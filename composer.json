@@ -1,6 +1,6 @@
 {
     "name": "gnh1201/reasonableframework",
-    "description": "Reasonable Framework is PHP framework for make solid and secure web development.",
+    "description": "ReasonableFramework is RVHM structured PHP Web Framework, Securely, Compatibility.",
     "license": "LGPL-3.0",
     "authors": [
         {
@@ -8,5 +8,7 @@
             "email": "gnh1201@gmail.com"
         }
     ],
-    "require": {}
+    "require": {
+        "bozhinov/pChart2.0-for-PHP7": "*"
+    }
 }
