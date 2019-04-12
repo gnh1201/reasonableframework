@@ -8,7 +8,15 @@
             "email": "gnh1201@gmail.com"
         }
     ],
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/bozhinov/pChart2.0-for-PHP7"
+        }
+    ],
     "require": {
-        "bozhinov/pChart2.0-for-PHP7": "*"
+        "bozhinov/pChart2.0-for-PHP7": "dev-master"
     }
 }
+
+
