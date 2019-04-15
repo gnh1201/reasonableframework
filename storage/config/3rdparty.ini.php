@@ -4,8 +4,8 @@ return <<<EOF
 zabbix_host=
 zabbix_username=
 zabbix_password=
-twilo_sid=
-twilo_token=
+twilio_sid=
+twilio_token=
 vworld_api_key=
 vworld_api_domain=
 EOF;
