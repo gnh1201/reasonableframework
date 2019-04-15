@@ -7,7 +7,6 @@
  * @documentation https://www.twilio.com/docs/sms/send-messages
  */
 
-
 if(!check_function_exists("twilio_get_config")) {
 	function twilio_get_config() {
 		$config = get_config();
@@ -15,24 +14,27 @@ if(!check_function_exists("twilio_get_config")) {
 		return array(
 			"sid" => get_value_in_array("twilio_sid", $config, ""),
 			"token" => get_value_in_array("twilio_token", $config, ""),
+			"from" => get_value_in_array("twilio_from", $config, ""),
 		);
 	}
 }
 
 if(!check_function_exists("twilio_send_message")) {
-	function twilio_send_message($message, $from, $to, $sid, $token) {
+	function twilio_send_message($message, $to) {
 		$response = false;
+
+		$cnf = twilio_get_config();
 
 		if(loadHelper("webpagetool")) {
 			$request_url = sprintf("https://api.twilio.com/2010-04-01/Accounts/%s/Messages.json", $sid);
 			$response = get_web_json($request_url, "post", array(
 				"headers" = array(
 					"Content-Type" => "application/x-www-form-urlencoded",
-					"Authentication" => array("Basic", $sid, $token),
+					"Authentication" => array("Basic", $cnf['sid'], $cnf['token']),
 				),
 				"data" => array(
 					"Body" => $message,
-					"From" => $from,
+					"From" => $cnf['from'],
 					"To" => $to,
 				),
 			);
@@ -43,9 +45,11 @@ if(!check_function_exists("twilio_send_message")) {
 }
 
 if(!check_function_exists("twilio_send_voice")) {
-	function twilio_send_voice($url="", $from, $to, $sid, $token) {
+	function twilio_send_voice($url="", $to) {
 		$response = false;
-		
+
+		$cnf = twilio_get_config();
+
 		if(empty($url)) {
 			$url = "http://demo.twilio.com/docs/voice.xml";
 		}
@@ -55,11 +59,11 @@ if(!check_function_exists("twilio_send_voice")) {
 			$response = get_web_json($request_url, "post", array(
 				"headers" = array(
 					"Content-Type" => "application/x-www-form-urlencoded",
-					"Authentication" => array("Basic", $sid, $token),
+					"Authentication" => array("Basic", $cnf['sid'], $cnf['token']),
 				),
 				"data" => array(
 					"Url" => $url,
-					"From" => $from,
+					"From" => $cnf['from'],
 					"To" => $to,
 				),
 			);
