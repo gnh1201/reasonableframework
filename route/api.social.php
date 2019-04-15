@@ -1,14 +1,14 @@
 <?php
 /**
- * @file api.socialhub.php
+ * @file api.social.php
  * @date 2018-09-26
  * @author Go Namhyeon <gnh1201@gmail.com>
- * @brief SocialHub API (refactoring from SocioRouter API)
+ * @brief SocialTools API (refactoring from SocioRouter API)
  */
 
 loadHelper("hybridauth.lnk");
 loadHelper("hybridauth.dbt");
-loadHelper("socialhub.utl");
+loadHelper("socialtools");
 
 set_session_token();
 $_token = get_session_token();
@@ -130,7 +130,7 @@ try {
 
 if(!$session_flag) {
 	// if failed authenticate
-	redirect_uri(get_route_link("api.socialhub", array(
+	redirect_uri(get_route_link("api.social", array(
 		"provider" => $provider,
 		"action" => $action,
 		"redirect_uri" => $redirect_uri,
@@ -148,8 +148,8 @@ switch($action) {
 	case "inbound":
 		break;
 	case "outbound":
-		$response = socialhub_send_message($provider, $hauth_adapter, $message);
-		$object_id = socialhub_parse_object_id($provider, $response);
+		$response = social_send_message($provider, $hauth_adapter, $message);
+		$object_id = social_parse_object_id($provider, $response);
 		$context = array(
 			"success"   => !(!$object_id),
 			"message"   => "Have a nice day",
@@ -177,8 +177,8 @@ switch($action) {
 		);
 		break;
 	case "bgworker":
-		$response = socialhub_send_message($provider, $hauth_adapter, $message);
-		$object_id = socialhub_parse_object_id($provider, $response);
+		$response = social_send_message($provider, $hauth_adapter, $message);
+		$object_id = social_parse_object_id($provider, $response);
 		$context = array(
 			"success"    => !(!$object_id),
 			"message"    => "Have a nice day",
@@ -199,7 +199,7 @@ switch($action) {
 		$context = array(
 			"success" => true,
 			"message" => "Found",
-			"response" => socialhub_get_object($provider, $hauth_adapter, $object_id)
+			"response" => social_get_object($provider, $hauth_adapter, $object_id)
 		);
 		break;
 	default:
