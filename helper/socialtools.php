@@ -1,13 +1,13 @@
 <?php
 /**
- * @file socialhub.utl.php
+ * @file socialtools.php
  * @date 2018-09-27
  * @author Go Namhyeon <gnh1201@gmail.com>
- * @brief SocialHub Utilities (refactoring from SocioRouter Utilities)
+ * @brief SocialTools (refactoring from SocioRouter)
  */
  
-if(!check_function_exists("socialhub_send_message")) {
-	function socialhub_send_message($provider, $adapter, $message, $options=array()) {
+if(!check_function_exists("social_send_message")) {
+	function social_send_message($provider, $adapter, $message, $options=array()) {
 		$response = false;
 		$status = array(
 			"message" => $message
@@ -48,8 +48,8 @@ if(!check_function_exists("socialhub_send_message")) {
 	}
 }
  
-if(!check_function_exists("socialhub_parse_object_id")) {
-	function socialhub_parse_object_id($provider, $response) {
+if(!check_function_exists("social_parse_object_id")) {
+	function social_parse_object_id($provider, $response) {
 		$object_id = false;
 
 		switch($provider) {
@@ -69,19 +69,19 @@ if(!check_function_exists("socialhub_parse_object_id")) {
 	}
 }
 
-if(!check_function_exists("socialhub_get_object")) {
-	function socialhub_get_object($provider, $adapter, $object_id) {
+if(!check_function_exists("social_get_object")) {
+	function social_get_object($provider, $adapter, $object_id) {
 		$result = false;
 		$access_token = $adapter->getAccessToken();
 
 		switch($provider) {
 			case "facebook":
 				$result = array(
-					"post" => socialhub_get_object_facebook($provider, $adapter, $object_id, "post"),
-					"likes" => socialhub_get_object_facebook($provider, $adapter, $object_id, "likes"),
-					"comments" => socialhub_get_object_facebook($provider, $adapter, $object_id, "comments"),
-					"sharedposts" => socialhub_get_object_facebook($provider, $adapter, $object_id, "sharedposts"),
-					"reactions" => socialhub_get_object_facebook($provider, $adapter, $object_id, "reactions"),
+					"post" => social_get_object_facebook($provider, $adapter, $object_id, "post"),
+					"likes" => social_get_object_facebook($provider, $adapter, $object_id, "likes"),
+					"comments" => social_get_object_facebook($provider, $adapter, $object_id, "comments"),
+					"sharedposts" => social_get_object_facebook($provider, $adapter, $object_id, "sharedposts"),
+					"reactions" => social_get_object_facebook($provider, $adapter, $object_id, "reactions"),
 				);
 				break;
 		}
@@ -90,8 +90,8 @@ if(!check_function_exists("socialhub_get_object")) {
 	}
 }
 
-if(!check_function_exists("socialhub_get_object_facebook")) {
-	function socialhub_get_object_facebook($adapter, $object_id, $type="post") {
+if(!check_function_exists("social_get_object_facebook")) {
+	function social_get_object_facebook($adapter, $object_id, $type="post") {
 		$result = false;
 		$response = false;
 
