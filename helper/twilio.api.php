@@ -6,7 +6,19 @@
  * @brief Twilio REST API interface module
  * @documentation https://www.twilio.com/docs/sms/send-messages
  */
- 
+
+
+if(!check_function_exists("twilio_get_config")) {
+	function twilio_get_config() {
+		$config = get_config();
+		
+		return array(
+			"sid" => get_value_in_array("twilio_sid", $config, ""),
+			"token" => get_value_in_array("twilio_token", $config, ""),
+		);
+	}
+}
+
 if(!check_function_exists("twilio_send_message")) {
 	function twilio_send_message($message, $from, $to, $sid, $token) {
 		$response = false;
@@ -15,8 +27,8 @@ if(!check_function_exists("twilio_send_message")) {
 			$request_url = sprintf("https://api.twilio.com/2010-04-01/Accounts/%s/Messages.json", $sid);
 			$response = get_web_json($request_url, "post", array(
 				"headers" = array(
-					"Authentication" => array("Basic", $sid, $token),
 					"Content-Type" => "application/x-www-form-urlencoded",
+					"Authentication" => array("Basic", $sid, $token),
 				),
 				"data" => array(
 					"Body" => $message,
@@ -42,8 +54,8 @@ if(!check_function_exists("twilio_send_voice")) {
 			$request_url = sprintf("https://api.twilio.com/2010-04-01/Accounts/%s/Calls.json", $sid);
 			$response = get_web_json($request_url, "post", array(
 				"headers" = array(
-					"Authentication" => array("Basic", $sid, $token),
 					"Content-Type" => "application/x-www-form-urlencoded",
+					"Authentication" => array("Basic", $sid, $token),
 				),
 				"data" => array(
 					"Url" => $url,
