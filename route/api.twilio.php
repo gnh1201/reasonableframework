@@ -1,9 +1,9 @@
 <?php
 /**
- * @file api.twilo.php
+ * @file api.twilio.php
  * @date 2019-04-15
  * @author Go Namhyeon <gnh1201@gmail.com>
- * @brief Twilo API
+ * @brief Twilio API controller
  */
 
 loadHelper("twilio.api");
