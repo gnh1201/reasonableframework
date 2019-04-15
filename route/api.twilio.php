@@ -12,8 +12,10 @@ $action = get_requested_value("action", array("_JSON", "_ALL"));
 $from = get_requested_value("from", array("_JSON", "_ALL"));
 $to = get_requested_value("to", array("_JSON", "_ALL"));
 
-$sid = "";
-$token = "";
+$twi = twilio_get_config();
+
+$sid = $twi['twilio_sid'];
+$token = $twi['twilio_token'];
 
 $response = "";
 switch($action) {
