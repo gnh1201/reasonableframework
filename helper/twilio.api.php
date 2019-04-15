@@ -16,6 +16,7 @@ if(!check_function_exists("twilio_send_message")) {
 			$response = get_web_json($request_url, "post", array(
 				"headers" = array(
 					"Authentication" => array("Basic", $sid, $token),
+					"Content-Type" => "x-www-form-urlencoded",
 				),
 				"data" => array(
 					"Body" => $message,
@@ -42,6 +43,7 @@ if(!check_function_exists("twilio_send_voice")) {
 			$response = get_web_json($request_url, "post", array(
 				"headers" = array(
 					"Authentication" => array("Basic", $sid, $token),
+					"Content-Type" => "x-www-form-urlencoded",
 				),
 				"data" => array(
 					"Url" => $url,
