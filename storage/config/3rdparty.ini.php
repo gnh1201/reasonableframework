@@ -1,6 +1,6 @@
 <?php
 return <<<EOF
-[thirdparty]
+[3rdparty]
 zabbix_host=
 zabbix_username=
 zabbix_password=
