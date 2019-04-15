@@ -15,6 +15,7 @@ $to = get_requested_value("to");
 $sid = "";
 $token = "";
 
+$response = "";
 switch($action) {
   case "message":
     $response = twilio_send_message($message, $from, $to, $sid, $token);
