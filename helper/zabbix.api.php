@@ -15,6 +15,7 @@ if(!check_function_exists("get_zabbix_config")) {
 			"host" => get_value_in_array("zabbix_host", $config, "127.0.0.1"),
 			"username" => get_value_in_array("zabbix_username", $config, "Admin"),
 			"password" => get_value_in_array("zabbix_password", $config, "zabbix"),
+			"protocol" => get_value_in_array("zabbix_protocol", $config, "http"),
 		);
 	}
 }
@@ -32,11 +33,14 @@ if(!check_function_exists("zabbix_get_id")) {
 }
 
 if(!check_function_exists("zabbix_authenticate")) {
-	function zabbix_authenticate($host, $username, $password, $protocol="http") {
+	function zabbix_authenticate() {
 		$response = false;
 
+		// get zabbix configuration
+		$cnf = get_zabbix_config();
+
 		// get zabbix api url
-		$zabbix_api_url = zabbix_get_api_url($host, $protocol);
+		$zabbix_api_url = zabbix_get_api_url($cnf['host'], $cnf['protocol']);
 
 		// connect to zabbix server
 		if(loadHelper("webpagetool")) {
@@ -48,8 +52,8 @@ if(!check_function_exists("zabbix_authenticate")) {
 					"jsonrpc" => "2.0",
 					"method" => "user.login",
 					"params" => array(
-						"user" => $username,
-						"password" => $password,
+						"user" => $cnf['username'],
+						"password" => $cnf['password'],
 					),
 					"id" => zabbix_get_id(),
 					"auth" => null,
