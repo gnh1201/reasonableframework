@@ -8,9 +8,11 @@
 
 loadHelper("zabbix.api");
 
+$zbx = get_zabbix_config();
+
 $data = array();
 
-$data['authenticate'] = zabbix_authenticate("127.0.0.1", "Admin", "zabbix");
+$data['authenticate'] = zabbix_authenticate($zbx['host'], $zbx['username'], $zbx['password']);
 $data['hosts'] = zabbix_retrieve_hosts();
 $data['items'] = array();
 
