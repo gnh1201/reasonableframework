@@ -8,7 +8,7 @@
 
 loadHelper("hybridauth.lnk");
 loadHelper("hybridauth.dbt");
-loadHelper("socialtools");
+loadHelper("socialtool");
 
 set_session_token();
 $_token = get_session_token();
