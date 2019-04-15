@@ -99,6 +99,7 @@ if(!check_function_exists("read_requests")) {
 			"_JSON"   => false,
 			"_SEAL"   => false,
 			"_SERVER" => array_map("make_safe_argument", get_array($_SERVER)),
+			"_MIXED"  => array(),
 		);
 
 		// check if json or serialized request
@@ -131,8 +132,11 @@ if(!check_function_exists("read_requests")) {
 			$requests['_SEAL'] = unserialize($requests['_RAW']);
 		}
 
+		// set mixed (PostData + JSON) requests
+		// todo
+
 		// with security module
-		$protect_methods = array("_ALL", "_GET", "_POST", "_JSON", "_SEAL");
+		$protect_methods = array("_ALL", "_GET", "_POST", "_JSON", "_SEAL", "_MIXED");
 		if(check_function_exists("get_clean_xss")) {
 			foreach($protect_methods as $method) {
 				$requested_data = get_array(get_value_in_array($method, $requests, false));
@@ -154,7 +158,8 @@ if(!check_function_exists("read_requests")) {
 			"files" => "_FILES",
 			"raw" => "_RAW",
 			"json" => "_JSON",
-			"seal" => "_SEAL"
+			"seal" => "_SEAL",
+			"mixed" => "_MIXED",
 		);
 		foreach($aliases as $k=>$v) {
 			$requests[$k] = $requests[$v];
