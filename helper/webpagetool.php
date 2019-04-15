@@ -97,10 +97,11 @@ if(!check_function_exists("get_web_cmd")) {
 					// the same as --form
 					$args[] = sprintf("-F %s='%s'", make_safe_argument($k), make_safe_argument($v));
 				} else {
-					// the same as --data
 					if(array_key_equals("Content-Type", $headers, "multipart/form-data")) {
 						$args[] = sprintf("-F %s='%s'", make_safe_argument($k), make_safe_argument($v));
-					} else { // x-www-form-urlencoded
+					} elseif(array_key_equals("Content-Type", $headers, "x-www-form-urlencoded")) (
+						$args[] = sprintf("--data-urlencode %s='%s'", make_safe_argument($k), make_safe_argument($v));
+					} else { // the same as --data
 						$args[] = sprintf("-d %s='%s'", make_safe_argument($k), make_safe_argument($v));
 					}
 				}
