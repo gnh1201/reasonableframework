@@ -34,7 +34,7 @@ if(!check_function_exists("get_uri")) {
 if(!check_function_exists("read_route")) {
 	function read_route($route=false) {
 		$route = false;
-		
+
 		$config = get_config();
 		$requests = get_requests();
 
@@ -99,7 +99,6 @@ if(!check_function_exists("read_requests")) {
 			"_JSON"   => false,
 			"_SEAL"   => false,
 			"_SERVER" => array_map("make_safe_argument", get_array($_SERVER)),
-			"_MIXED"  => array(),
 		);
 
 		// check if json or serialized request
@@ -131,9 +130,6 @@ if(!check_function_exists("read_requests")) {
 		if(array_key_equals("serialized", $options, true)) {
 			$requests['_SEAL'] = unserialize($requests['_RAW']);
 		}
-
-		// set mixed (PostData + JSON) requests
-		// todo
 
 		// with security module
 		$protect_methods = array("_ALL", "_GET", "_POST", "_JSON", "_SEAL", "_MIXED");
@@ -269,23 +265,33 @@ if(!check_function_exists("get_requested_value")) {
 		$value = false;
 		$requests = get_requests();
 
-		// set validated value
-		if(array_key_exists($method, $requests)) {
-			if(is_array($requests[$method])) {
-				$value = get_value_in_array($name, $requests[$method], $value);
-			} elseif(is_object($requests[$method])) {
-				$value = get_property_value($name, $requests[$method]);
-			}
+		$req_methods = array();
+		if(is_array($method)) {
+			$req_methods = array_merge($req_methods, $method);
+		} else {
+			$req_methods[] = $mehtod;
+		}
+		$req_methods = array_reverse($req_methods);
 
-			if(is_string($value)) {
-				// security: set escape quotes
-				if($escape_quotes == true) {
-					$value = addslashes($value);
+		// set validated value
+		foreach($req_methods as $method) {
+			if(array_key_exists($method, $requests)) {
+				if(is_array($requests[$method])) {
+					$value = get_value_in_array($name, $requests[$method], $value);
+				} elseif(is_object($requests[$method])) {
+					$value = get_property_value($name, $requests[$method]);
 				}
 
-				// security: set escape tags
-				if($escape_tags == true) {
-					$value = htmlspecialchars($value);
+				if(is_string($value)) {
+					// security: set escape quotes
+					if($escape_quotes == true) {
+						$value = addslashes($value);
+					}
+
+					// security: set escape tags
+					if($escape_tags == true) {
+						$value = htmlspecialchars($value);
+					}
 				}
 			}
 		}
