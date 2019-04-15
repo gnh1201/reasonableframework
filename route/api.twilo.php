@@ -8,9 +8,9 @@
 
 loadHelper("twilio.api");
 
-$action = get_requested_value("action");
-$from = get_requested_value("from");
-$to = get_requested_value("to");
+$action = get_requested_value("action", array("_JSON", "_ALL"));
+$from = get_requested_value("from", array("_JSON", "_ALL"));
+$to = get_requested_value("to", array("_JSON", "_ALL"));
 
 $sid = "";
 $token = "";
