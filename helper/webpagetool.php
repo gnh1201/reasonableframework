@@ -95,10 +95,14 @@ if(!check_function_exists("get_web_cmd")) {
 			foreach($data as $k=>$v) {
 				if(substr($v, 0, 1) == "@") { // if this is a file
 					// the same as --form
-					$args[] = sprintf("-F '%s=%s' ", make_safe_argument($k), make_safe_argument($v));
+					$args[] = sprintf("-F %s='%s'", make_safe_argument($k), make_safe_argument($v));
 				} else {
 					// the same as --data
-					$args[] = sprintf("-d '%s=%s' ", make_safe_argument($k), make_safe_argument($v));
+					if(array_key_equals("Content-Type", $headers, "multipart/form-data")) {
+						$args[] = sprintf("-F %s='%s'", make_safe_argument($k), make_safe_argument($v));
+					} else { // x-www-form-urlencoded
+						$args[] = sprintf("-d %s='%s'", make_safe_argument($k), make_safe_argument($v));
+					}
 				}
 			}
 		}
