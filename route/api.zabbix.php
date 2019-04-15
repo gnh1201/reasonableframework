@@ -1,4 +1,11 @@
 <?php
+/**
+ * @file api.zabbix.php
+ * @date 2019-04-15
+ * @author Go Namhyeon <gnh1201@gmail.com>
+ * @brief Zabbix API
+ */
+
 loadHelper("zabbix.api");
 
 $data = array();
