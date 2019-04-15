@@ -281,20 +281,20 @@ if(!check_function_exists("get_requested_value")) {
 				} elseif(is_object($requests[$method])) {
 					$value = get_property_value($name, $requests[$method]);
 				}
-
-				if(is_string($value)) {
-					// security: set escape quotes
-					if($escape_quotes == true) {
-						$value = addslashes($value);
-					}
-
-					// security: set escape tags
-					if($escape_tags == true) {
-						$value = htmlspecialchars($value);
-					}
-				}
 			}
 		}
+
+	        if(is_string($value)) {
+                        // security: set escape quotes
+                        if($escape_quotes == true) {
+                                $value = addslashes($value);
+                        }
+
+                        // security: set escape tags
+                        if($escape_tags == true) {
+                                $value = htmlspecialchars($value);
+                        }
+                }
 
 		return $value;
 	}
