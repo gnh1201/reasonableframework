@@ -227,7 +227,7 @@ if(!check_function_exists("get_web_wget")) {
 		$filename = make_random_id(32);
 		$filepath = write_storage_file("", array(
 			"filename" => $filename,
-			"mode" => "fake"ata. Otherwise, use applicati
+			"mode" => "fake",
 		));
 
 		$cmd = sprintf("wget '%s' -O %s", $url, $filepath);
