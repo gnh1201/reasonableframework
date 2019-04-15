@@ -99,7 +99,7 @@ if(!check_function_exists("get_web_cmd")) {
 				} else {
 					if(array_key_equals("Content-Type", $headers, "multipart/form-data")) {
 						$args[] = sprintf("-F %s='%s'", make_safe_argument($k), make_safe_argument($v));
-					} elseif(array_key_equals("Content-Type", $headers, "x-www-form-urlencoded")) (
+					} elseif(array_key_equals("Content-Type", $headers, "application/x-www-form-urlencoded")) (
 						$args[] = sprintf("--data-urlencode %s='%s'", make_safe_argument($k), make_safe_argument($v));
 					} else { // the same as --data
 						$args[] = sprintf("-d %s='%s'", make_safe_argument($k), make_safe_argument($v));
@@ -227,7 +227,7 @@ if(!check_function_exists("get_web_wget")) {
 		$filename = make_random_id(32);
 		$filepath = write_storage_file("", array(
 			"filename" => $filename,
-			"mode" => "fake"
+			"mode" => "fake"ata. Otherwise, use applicati
 		));
 
 		$cmd = sprintf("wget '%s' -O %s", $url, $filepath);
