@@ -7,6 +7,18 @@
  * @documentation https://www.zabbix.com/documentation/3.0/manual/api
  */
 
+if(!check_function_exists("get_zabbix_config")) {
+	function get_zabbix_config() {
+		$config = get_config();
+		
+		return array(
+			"host" => get_value_in_array("zabbix_host", $config, "127.0.0.1"),
+			"username" => get_value_in_array("zabbix_username", $config, "Admin"),
+			"password" => get_value_in_array("zabbix_password", $config, "zabbix"),
+		);
+	}
+}
+
 if(!check_function_exists("zabbix_get_base_url")) {
 	function zabbix_get_api_url($host, $protocol="http") {
 		return sprintf("%s://%s/zabbix/api_jsonrpc.php", $protocol, $host);
