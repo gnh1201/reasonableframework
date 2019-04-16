@@ -106,6 +106,7 @@ if(!check_function_exists("get_web_cmd")) {
 					}
 				}
 			}
+			$args[] = $url;
 		}
 
 		if($method == "jsondata") {
@@ -124,6 +125,9 @@ if(!check_function_exists("get_web_cmd")) {
 
 		// complete and run command
 		$cmd = trim(implode(" ", $args));
+
+		var_dump($cmd);
+
 		if(!empty($cmd)) {
 			$output = exec_command($cmd, "shell_exec");
 		}

@@ -425,7 +425,7 @@ if(!check_function_exists("get_bind_to_sql_select")) {
 				foreach($options['setorders'] as $opts) {
 					if(check_is_string_not_array($opts)) {
 						$s4a[] = $opts;
-					} elseif(check_array_length($opts, 2) == 0)) {
+					} elseif(check_array_length($opts, 2) == 0) {
 						// example: array("desc", "datetime")
 						$s4a[] = sprintf("%s %s", $opts[1], $opts[0]);
 					}

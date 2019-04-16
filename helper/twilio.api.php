@@ -10,7 +10,7 @@
 if(!check_function_exists("twilio_get_config")) {
 	function twilio_get_config() {
 		$config = get_config();
-		
+
 		return array(
 			"sid" => get_value_in_array("twilio_sid", $config, ""),
 			"token" => get_value_in_array("twilio_token", $config, ""),
@@ -28,7 +28,7 @@ if(!check_function_exists("twilio_send_message")) {
 		if(loadHelper("webpagetool")) {
 			$request_url = sprintf("https://api.twilio.com/2010-04-01/Accounts/%s/Messages.json", $sid);
 			$response = get_web_json($request_url, "post", array(
-				"headers" = array(
+				"headers" => array(
 					"Content-Type" => "application/x-www-form-urlencoded",
 					"Authentication" => array("Basic", $cnf['sid'], $cnf['token']),
 				),
@@ -36,28 +36,28 @@ if(!check_function_exists("twilio_send_message")) {
 					"Body" => $message,
 					"From" => $cnf['from'],
 					"To" => $to,
-				),
-			);
+				)
+			));
 		}
-		
+
 		return $response;
 	}
 }
 
 if(!check_function_exists("twilio_send_voice")) {
-	function twilio_send_voice($url="", $to) {
+	function twilio_send_voice($message="", $to) {
 		$response = false;
 
 		$cnf = twilio_get_config();
+		$url = "http://demo.twilio.com/docs/voice.xml";
 
-		if(empty($url)) {
-			$url = "http://demo.twilio.com/docs/voice.xml";
-		}
+		var_dump($cnf);
+
 
 		if(loadHelper("webpagetool")) {
-			$request_url = sprintf("https://api.twilio.com/2010-04-01/Accounts/%s/Calls.json", $sid);
-			$response = get_web_json($request_url, "post", array(
-				"headers" = array(
+			$request_url = sprintf("https://api.twilio.com/2010-04-01/Accounts/%s/Calls.json", $cnf['sid']);
+			$response = get_web_page($request_url, "post.cmd", array(
+				"headers" => array(
 					"Content-Type" => "application/x-www-form-urlencoded",
 					"Authentication" => array("Basic", $cnf['sid'], $cnf['token']),
 				),
@@ -66,9 +66,11 @@ if(!check_function_exists("twilio_send_voice")) {
 					"From" => $cnf['from'],
 					"To" => $to,
 				),
-			);
+			));
+			var_dump($response);
+
 		}
-		
+
 		return $response;
 	}
 }

@@ -155,7 +155,6 @@ if(!check_function_exists("read_requests")) {
 			"raw" => "_RAW",
 			"json" => "_JSON",
 			"seal" => "_SEAL",
-			"mixed" => "_MIXED",
 		);
 		foreach($aliases as $k=>$v) {
 			$requests[$k] = $requests[$v];
@@ -269,7 +268,7 @@ if(!check_function_exists("get_requested_value")) {
 		if(is_array($method)) {
 			$req_methods = array_merge($req_methods, $method);
 		} else {
-			$req_methods[] = $mehtod;
+			$req_methods[] = $method;
 		}
 		$req_methods = array_reverse($req_methods);
 
