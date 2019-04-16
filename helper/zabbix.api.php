@@ -21,8 +21,9 @@ if(!check_function_exists("get_zabbix_config")) {
 }
 
 if(!check_function_exists("zabbix_get_base_url")) {
-	function zabbix_get_api_url($host, $protocol="http") {
-		return sprintf("%s://%s/zabbix/api_jsonrpc.php", $protocol, $host);
+	function zabbix_get_api_url() {
+		$cnf = get_zabbix_config();
+		return sprintf("%s://%s/zabbix/api_jsonrpc.php", $cnf['protocol'], $cnf['host']);
 	}
 }
 
