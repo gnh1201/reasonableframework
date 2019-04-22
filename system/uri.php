@@ -326,9 +326,9 @@ if(!check_function_exists("get_binded_requests")) {
 
 		foreach($rules as $k=>$v) {
 			if(!$equals_kv) {
-				$data[$v] = get_requested_value($k);
+				$data[$v] = get_requested_value($k); // if dictionary
 			} else {
-				$data[$k] = get_requested_value($k);
+				$data[$v] = get_requested_value($v); // if non-dictionary
 			}
 		}
 
