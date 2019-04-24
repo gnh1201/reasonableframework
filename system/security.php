@@ -196,13 +196,13 @@ if(!check_function_exists("get_hashed_text")) {
 			if(!array_key_equals("2p", $options, true)) {
 				if($options['salt'] == true) {
 					$text .= get_salt();
-				} elseif(is_string($options['salt']) && $strlen($options['salt']) > 0) {
+				} elseif(strlen($options['salt']) > 0) {
 					$text .= $options['salt'];
 				}
 			}
 		}
 
-		// with 2-pass
+		// with 2-pass hashing
 		if(array_key_equals("2p", $options, true)) {
 			$options['2p'] = false;
 			$text = get_hashed_text($text, $algo, $options);
