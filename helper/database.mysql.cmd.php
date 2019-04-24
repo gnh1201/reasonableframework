@@ -7,31 +7,24 @@
  */
 
 if(function_exists("exec_db_mysql_cmd_query")) {
-  function exec_db_mysql_cmd_query($sql, $bind) {
-    $result = false;
-    $config = get_config();
-    
-    $sql = get_db_binded_sql($sql, $bind);
+	function exec_db_mysql_cmd_query($sql, $bind) {
+		$result = false;
+		$config = get_config();
 
-    if(loadHelper("exectool")) {
-      $cmd = sprintf(
-        "mysql -u%s -p%s -h%s -D %s -e '%s'",
-        $config['db_username'],
-        $config['db_password'],
-        $config['db_host'],
-        $config['db_name'],
-        make_safe_argument($sql)
-      );
+		$args = array("mysql");
+		$sql = get_db_binded_sql($sql, $bind);
 
-      $executed = exec_command($cmd);
-      if(strlen($executed) == 0) {
-        $result = true;
-      } else {
-        set_error($executed);
-        show_errors();
-      }
-    }
-    
-    return $result;
-  }
+		if(loadHelper("exectool")) {
+			$args[] = sprintf("-u%s", $config['db_username']);
+			$args[] = sprintf("-p%s", $config['db_password']);
+			$args[] = sprintf("-h%s", $config['db_host']);
+			$args[] = sprintf("-D %s", $config['db_name']);
+			$args[] = sprintf("-e '%s'", make_safe_argument($sql));
+
+			$cmd = trim(implode(" ", $args));
+			$result = exec_command($cmd);
+		}
+
+		return $result;
+	}
 }
