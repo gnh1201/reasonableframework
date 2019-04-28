@@ -9,19 +9,19 @@
 
 if(!check_function_exists("detect_mobile")) {
     function detect_mobile() {
-        // This function returns the value of a local variable ($mb)
+        // This function returns the value of a local variable ($dm)
         // that is 0 if a desktop client is detected and > 0 for mobile.
         // Adapted only very lightly from original code posted PascalV in response to 
         // the lightweight device detection (http://mobiforge.com/developing/story/lightweight-device-detection-php)
 
-        $mb = 0;
+        $dm = 0;
 
         if(preg_match('/(up.browser|up.link|mmp|symbian|smartphone|midp|wap|phone)/i', strtolower($_SERVER['HTTP_USER_AGENT']))) {
-            $mb++;
+            $dm++;
         }
 
         if((strpos(strtolower($_SERVER['HTTP_ACCEPT']),'application/vnd.wap.xhtml+xml') > 0) or ((isset($_SERVER['HTTP_X_WAP_PROFILE']) or isset($_SERVER['HTTP_PROFILE'])))) {
-            $mb++;
+            $dm++;
         }    
 
         $mobile_ua = strtolower(substr($_SERVER['HTTP_USER_AGENT'], 0, 4));
@@ -38,37 +38,37 @@ if(!check_function_exists("detect_mobile")) {
         );
 
         if(in_array($mobile_ua, $mobile_agents)) {
-            $mb++;
+            $dm++;
         }
 
         if(strpos(strtolower($_SERVER['ALL_HTTP']),'operamini') > 0) {
-            $mb++;
+            $dm++;
         }
 
         if(strpos(strtolower($_SERVER['HTTP_USER_AGENT']),' ppc;') > 0) {
-            $mb++;
+            $dm++;
         }
 
         if(strpos(strtolower($_SERVER['HTTP_USER_AGENT']), 'windows ce') > 0) {
-            $mb++;
+            $dm++;
         } elseif(strpos(strtolower($_SERVER['HTTP_USER_AGENT']), 'windows') > 0) {
-            $mb = 0;
+            $dm = 0;
         }
 
         if(strpos(strtolower($_SERVER['HTTP_USER_AGENT']), 'iemobile') > 0) {
-            $mb++;
+            $dm++;
         }
 
         // detect android os
         if(strpos(strtolower($_SERVER['HTTP_USER_AGENT']), 'android') > 0) {
-            $mb++;
+            $dm++;
         }
 
         // detect tizen os
         if(strpos(strtolower($_SERVER['HTTP_USER_AGENT']), 'tizen') > 0) {
-            $mb++;
+            $dm++;
         }
 
-        return $mb;
+        return $dm;
     }
 }
