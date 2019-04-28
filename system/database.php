@@ -89,7 +89,7 @@ if(!function_exists("compare_db_key_length")) {
 
 if(!function_exists("get_db_binded_sql")) {
 	function get_db_binded_sql($sql, $bind) {
-		if(check_array_length($bind, 0) == 1) {
+		if(check_array_length($bind, 0) > 0) {
 			$bind_keys = array_keys($bind);
 
 			// 2018-08-19: support lower php version (not supported anonymous function)
@@ -148,7 +148,7 @@ if(!check_function_exists("get_db_stmt")) {
 
 		// bind parameter by PDO statement
 		if($bind_pdo) {
-			if(check_array_length($bind, 0) == 1) {
+			if(check_array_length($bind, 0) > 0) {
 				foreach($bind as $k=>$v) {
 					$stmt->bindParam(':' . $k, $v);
 				}
@@ -198,7 +198,7 @@ if(!check_function_exists("exec_db_query")) {
 		$sql_terms = explode(" ", $sql);
 		if($sql_terms[0] == "insert") {
 			$stmt = get_db_stmt($sql);
-			if(check_array_length($bind, 0) == 1) {
+			if(check_array_length($bind, 0) > 0) {
 				$is_insert_with_bind = true;
 			}
 		} else {
@@ -222,7 +222,7 @@ if(!check_function_exists("exec_db_query")) {
 
 		if($display_error) {
 			$error_info = $stmt->errorInfo();
-			if(check_array_length($error_info, 0) == 1) {
+			if(check_array_length($error_info, 0) > 0) {
 				set_error(implode(" ", $error_info), "DATABASE-ERROR");
 			}
 			show_errors(false);
@@ -293,7 +293,7 @@ if(!check_function_exists("exec_db_fetch")) {
 		}
 		$rows = exec_db_fetch_all($sql, $bind);
 
-		if(check_array_length($rows, $start) == 1) {
+		if(check_array_length($rows, $start) > 0) {
 			$idx = 0;
 			foreach($rows as $row) {
 				if($idx >= $start) {
@@ -381,7 +381,7 @@ if(!check_function_exists("get_bind_to_sql_select")) {
 		// s1: select fields
 		$s1 = "";
 		if(!array_key_empty("fieldnames", $options)) {
-			$s1 .= (check_array_length($options['fieldnames'], 0) == 1 ? implode(", ", $options['fieldnames']) : "*");
+			$s1 .= (check_array_length($options['fieldnames'], 0) > 0) ? implode(", ", $options['fieldnames']) : "*";
 		} elseif(array_key_equals("getcnt", $options, true)) {
 			$s1 .= "count(*) as cnt";
 		} elseif(!array_key_empty("getsum", $options)) {
