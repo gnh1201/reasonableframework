@@ -387,6 +387,24 @@ if(!check_function_exists("get_bind_to_sql_select")) {
 		} elseif(!array_key_empty("getsum", $options)) {
 			$s1 .= sprintf("sum(%s) as sum", $options['getsum']);
 		}
+		
+		// s1a: s1 additonal (set new fields)
+		$s1a = array();
+		if(array_key_is_array("setfields", $options)) {
+			$addfields = $options['setfields'];
+
+			foreach($addfields as $k=>$v) {
+				$exps = array();
+				if(!array_keys_empty(array("concat", "delimiter"), $v)) {
+					foreach($v['concat'] as $exp) {
+						$exps[] = $exp;
+					}
+
+					// add to s1a
+					$s1a[$k] = sprintf("concat(%s)", implode(sprintf(", '%s', ", $v['delimiter']), $exps));
+				}
+			}
+		}
 
 		// s2: set table name
 		$s2 = "";
@@ -409,6 +427,12 @@ if(!check_function_exists("get_bind_to_sql_select")) {
 						$s3 .= sprintf(" and (%s)", $opts);
 					} elseif(count($opts) == 3 && is_array($opts[2])) {
 						$s3 .= sprintf(" %s (%s)", $opts[0], get_db_binded_sql($opts[1], $opts[2]));
+					} elseif(count($opts) == 2 && is_array($opts[1])) {
+						if($opts[1][1] == "like") {
+							$s3 .= sprintf(" %s (%s like %s)", $opts[0], $s1a[$opts[1][0]], "'%{$opts[1][2]}%'");
+						} else {
+							$s3 .= sprintf(" %s (%s %s '%s')", $opts[0], $opts[1][0], $opts[1][1], $opts[1][2]);
+						}
 					} elseif(count($opts) == 2) {
 						$s3 .= sprintf(" %s (%s)", $opts[0], $opts[1]);
 					}
