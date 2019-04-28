@@ -57,6 +57,7 @@ if(check_function_exists("detect_mobile")) {
      if (strpos(strtolower($_SERVER['HTTP_USER_AGENT']),'iemobile')>0) {
        $mb++;
      }
+
      return $mb;
    }
  }
