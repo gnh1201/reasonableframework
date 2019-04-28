@@ -249,8 +249,20 @@ if(!check_function_exists("get_value_in_array")) {
 	function get_value_in_array($name, $arr=array(), $default=false) {
 		$output = false;
 
+		$_name = "";
+		if(is_array($name)) {
+			foreach($name as $w) {
+				if(!empty($w)) {
+					$_name = $w;
+					break;
+				}
+			}
+		} else {
+			$_name = $name;
+		}
+
 		if(is_array($arr)) {
-			$output = array_key_empty($name, $arr) ? $default : $arr[$name];
+			$output = array_key_empty($_name, $arr) ? $default : $arr[$_name];
 		} else {
 			$output = $default;
 		}
