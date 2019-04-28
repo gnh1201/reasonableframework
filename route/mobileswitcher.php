@@ -34,4 +34,32 @@ $data = array(
     )),
 );
 
+/* note: mobileswitcher client example */
+/*
+// mobileswitcher
+if($_GET['action'] == "mobileswitcher") {
+    if($_GET['do'] == "logout") {
+        session_unset();
+        session_destroy();
+        set_cookie("ck_mb_id", "", 0);
+        set_cookie("ck_auto", "", 0);
+
+        // go to redirect url
+        if(!empty($_GET['redirect_url'])) {
+            header("location: " . $_GET['redirect_url']);
+        } else {
+            header("location: /");
+        }
+    }
+
+    // get session value
+    $_SESSION['dm'] = $_GET['dm'];
+}
+
+// detect mobile
+if(!array_key_exists("dm", $_SESSION)) {
+    header("location: /payman/?route=mobileswitcher&redirect_url=" . urlencode("http://" . $_SERVER['HTTP_HOST']));
+}
+*/
+
 renderView("view_mobileswitcher", $data);
