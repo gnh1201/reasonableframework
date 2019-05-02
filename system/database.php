@@ -428,10 +428,21 @@ if(!check_function_exists("get_bind_to_sql_select")) {
 					} elseif(check_array_length($opts, 3) == 0 && is_array($opts[2])) {
 						$s3 .= sprintf(" %s (%s)", $opts[0], get_db_binded_sql($opts[1], $opts[2]));
 					} elseif(check_array_length($opts, 2) == 0 && is_array($opts[1])) {
-						if($opts[1][1] == "like") {
-							$s3 .= sprintf(" %s (%s like %s)", $opts[0], $s1a[$opts[1][0]], "'%{$opts[1][2]}%'");
+						if($opts[1][0] == "like") {
+							$s3 .= sprintf(" %s (%s like %s)", $opts[0], $s1a[$opts[1][1]], "'%{$opts[1][2]}%'");
 						} else {
-							$s3 .= sprintf(" %s (%s %s '%s')", $opts[0], $opts[1][0], $opts[1][1], $opts[1][2]);
+							$opcode = $opts[1][0];
+							switch($opts[1][0]) {
+								case "eq": $opcode = "="; break;
+								case "lt": $opcode = "<"; break;
+								case "lte": $opcode = "<="; break;
+								case "gt": $opcode = ">"; break;
+								case "gte": $opcode = ">="; break;
+								default: break;
+							}
+							if(!empty($opcode)) {
+								$s3 .= sprintf(" %s (%s %s '%s')", $opts[0], $opts[1][1], $opcode, $opts[1][2]);
+							}
 						}
 					} elseif(check_array_length($opts, 2) == 0) {
 						$s3 .= sprintf(" %s (%s)", $opts[0], $opts[1]);
