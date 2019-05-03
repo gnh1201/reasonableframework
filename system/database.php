@@ -402,9 +402,9 @@ if(!check_function_exists("get_bind_to_sql_select")) {
 
 				// use function
 				if(!array_key_empty("call_func", $v)) {
-					if(check_array_length($v['call_func'], 2)) {
+					if(check_array_length($v['call_func'], 1) > 0) {
 						// add to s1a
-						$s1a[$k] = sprintf("%s(%s)", $v['call_func'][0], implode(", ", $v['call_func'][1]));
+						$s1a[$k] = sprintf("%s(%s)", $v['call_func'][0], implode(", ", array_slice($v['call_func'], 1)));
 					}
 				}
 			}
