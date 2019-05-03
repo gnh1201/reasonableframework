@@ -173,7 +173,11 @@ if(!check_function_exists("parse_pipelined_data")) {
 
 if(!check_function_exists("get_highlighted_html_by_word")) {
     function get_highlighted_html_by_word($word, $text) {
-        return preg_replace("/\w*?$word\w*/i", "<strong class=\"highlight\">$0</strong>", $text);
+        $html = $text;
+        if(strlen($word) > 0) {
+            $html = preg_replace("/\w*?$word\w*/i", "<strong class=\"highlight\">$0</strong>", $text);
+        }
+        return $html;
     }
 }
 
