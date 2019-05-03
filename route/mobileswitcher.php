@@ -7,11 +7,13 @@
  */
 
 loadHelper("mobiletool");
+loadHelper("networktool");
 
 $do = get_requested_value("do");
 $from = get_requested_value("from");
 $redirect_url = get_requested_value("redirect_url");
 $dm = detect_mobile();
+$ne = get_network_event();
 
 if($from == "pc") {
     $dm = 1;
@@ -32,7 +34,7 @@ $data = array(
             "dm" => $dm,
         ), false),
     )),
-    "ua" => get_hashed_text($_SERVER['HTTP_USER_AGENT'], "base64"),
+    "ua" => get_hashed_text($ne['agent'], "base64"),
 );
 
 renderView("view_mobileswitcher", $data);
