@@ -34,7 +34,10 @@ foreach($load_systems as $system_name) {
 		} else {
 			loadModule($system_name);
 		}
-	}
+	} else {
+                echo "ERROR: Dose not exists " . $system_inc_file;
+                exit;
+        }
 }
 
 // get config
