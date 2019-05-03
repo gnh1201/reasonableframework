@@ -430,7 +430,8 @@ if(!check_function_exists("get_bind_to_sql_select")) {
 					} elseif(check_array_length($opts, 2) == 0 && is_array($opts[1])) {
 						if($opts[1][0] == "like") {
 							if(is_array($opts[1][2])) {
-								$s3 .= sprintf(" %s (%s regexp '%s')", $opts[0], $s1a[$opts[1][1]], implode("|", $opts[1][2]));
+								// regexp: ^(^a|^b) == a and b
+								$s3 .= sprintf(" %s (%s regexp '^(^%s)')", $opts[0], $s1a[$opts[1][1]], implode("|^", $opts[1][2]));
 							} else {
 								$s3 .= sprintf(" %s (%s like %s)", $opts[0], $s1a[$opts[1][1]], "'%{$opts[1][2]}%'");
 							}
