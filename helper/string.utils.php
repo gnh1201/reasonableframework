@@ -171,13 +171,22 @@ if(!check_function_exists("parse_pipelined_data")) {
 	}
 }
 
-if(!check_function_exists("get_highlighted_html_by_word")) {
-    function get_highlighted_html_by_word($word, $text) {
-        $html = $text;
-        if(strlen($word) > 0) {
-            $html = preg_replace("/\w*?$word\w*/i", "<strong class=\"highlight\">$0</strong>", $text);
-        }
-        return $html;
+if(!check_function_exists("get_tokenized_text")) {
+	function get_tokenized_text($text, $delimiters=array(",", " ", "|", "-", "+")) {
+		return multi_explode($delimiters, $text);
+	}
+}
+
+if(!check_function_exists("get_highlighted_html_by_words")) {
+	function get_highlighted_html_by_word($word, $text, $delimiters=array(",", " ", "|", "-", "+")) {
+		$html = $text;
+
+		$words = get_tokenized_text($word, $delimiters);
+		if(check_array_length($words, 0) > 0) {
+			$html = preg_replace(sprintf("/%s/i", implode("|", $words)), "<strong class=\"highlight\">$0</strong>", $text);
+		}
+
+		return $html;
     }
 }
 
