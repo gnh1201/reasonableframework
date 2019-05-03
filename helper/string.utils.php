@@ -171,6 +171,12 @@ if(!check_function_exists("parse_pipelined_data")) {
 	}
 }
 
+if(!check_function_exists("get_highlighted_html_by_word")) {
+    function get_highlighted_html_by_word($word, $text) {
+        return preg_replace("/\w*?$word\w*/i", "<strong class=\"highlight\">$0</strong>", $text);
+    }
+}
+
 if(!check_function_exists("eregi_compatible")) {
 	function eregi_compatible($pattern, $subject, &$matches=NULL) {
 		return preg_match(sprintf("/%s/i", $pattern), $subject, $matches);
