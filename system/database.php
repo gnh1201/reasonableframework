@@ -394,14 +394,18 @@ if(!check_function_exists("get_bind_to_sql_select")) {
 			$addfields = $options['setfields'];
 
 			foreach($addfields as $k=>$v) {
-				$exps = array();
+				// concat and delimiter
 				if(!array_keys_empty(array("concat", "delimiter"), $v)) {
-					foreach($v['concat'] as $exp) {
-						$exps[] = $exp;
-					}
-
 					// add to s1a
-					$s1a[$k] = sprintf("concat(%s)", implode(sprintf(", '%s', ", $v['delimiter']), $exps));
+					$s1a[$k] = sprintf("concat(%s)", implode(sprintf(", '%s', ", $v['delimiter']), $v['concat']));
+				}
+
+				// use function
+				if(!array_key_empty("call_func", $v)) {
+					if(check_array_length($v['call_func'], 2)) {
+						// add to s1a
+						$s1a[$k] = sprintf("%s(%s)", $v['call_func'][0], implode(", ", $v['call_func'][1]));
+					}
 				}
 			}
 		}
