@@ -173,7 +173,7 @@ if(!check_function_exists("parse_pipelined_data")) {
 
 if(!check_function_exists("get_tokenized_text")) {
 	function get_tokenized_text($text, $delimiters=array(",", " ", "|", "-", "+")) {
-		return multi_explode($delimiters, $text);
+		return array_filter(multi_explode($delimiters, $text));
 	}
 }
 
