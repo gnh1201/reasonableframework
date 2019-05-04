@@ -1,4 +1,15 @@
 <?php
+/**
+ * @file webhooktool.php
+ * @date 2019-05-04
+ * @author Go Namhyeon <gnh1201@gmail.com>
+ * @brief WebhookTools
+ * @trademark
+ * * `NateOn` is trademark of SK Communications Co Ltd, or SK planet Co Ltd, or other SK internet business
+ * * `Discord' is trademark of Discord Inc. (Originally Hammer And Chisel)
+ * * `Slack` is trademark of Slack Technologies Inc.
+ */
+
 
 function send_web_hook($message, $networkid, $options=array()) {
 	$response = false;
