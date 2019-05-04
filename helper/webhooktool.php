@@ -24,7 +24,7 @@ if(check_function_exists("send_web_hook")) {
 							"Content-Type" => "application/x-www-form-urlencoded",
 						),
 						"data" => array(
-							"content" => urlencode($message),
+							"content" => $message,
 						),
 					));
 				}
