@@ -386,6 +386,8 @@ if(!check_function_exists("get_bind_to_sql_select")) {
 			$s1 .= "count(*) as cnt";
 		} elseif(!array_key_empty("getsum", $options)) {
 			$s1 .= sprintf("sum(%s) as sum", $options['getsum']);
+		} else {
+			$s1 .= "*";
 		}
 		
 		// s1a: s1 additonal (set new fields)
