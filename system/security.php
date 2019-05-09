@@ -1,8 +1,8 @@
 <?php
 /**
  * @file security.php
- * @createdAt 2018-05-27
- * @updatedAt [commit date]
+ * @date 2018-05-27
+ * @updated [commit date]
  * @author Go Namhyeon <gnh1201@gmail.com>
  * @brief Security module for ReasonableFramework
  */
