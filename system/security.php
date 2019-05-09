@@ -571,6 +571,12 @@ if(!check_function_exists("make_safe_argument")) {
 	}
 }
 
+if(!check_function_exists("make_safe_path")) {
+	function make_safe_path($path) {
+		return str_replace("../", "", $path);
+	}
+}
+
 // https://stackoverflow.com/questions/14673551/encrypt-decrypt-with-xor-in-php
 if(!check_function_exists("get_xor_text")) {
 	function get_xor_text($key, $string, $debug=false) {
