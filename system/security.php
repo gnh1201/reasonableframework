@@ -2,7 +2,7 @@
 /**
  * @file security.php
  * @date 2018-05-27
- * @updated [commit date]
+ * @updated [last commit date]
  * @author Go Namhyeon <gnh1201@gmail.com>
  * @brief Security module for ReasonableFramework
  */
