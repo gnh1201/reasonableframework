@@ -49,7 +49,7 @@ if(!check_function_exists("get_storage_dir")) {
 
 if(!check_function_exists("get_storage_path")) {
 	function get_storage_path($type="data") {
-		$dir_path = sprintf("./%s/%s", get_storage_dir(), $type);
+		$dir_path = sprintf("./%s/%s", get_storage_dir(), make_safe_path($type));
 
 		if(!is_dir($dir_path)) {
 			if(!@mkdir($dir_path, 0777)) {
@@ -63,7 +63,7 @@ if(!check_function_exists("get_storage_path")) {
 
 if(!check_function_exists("get_storage_url")) {
 	function get_storage_url($type="data") {
-		return sprintf("%s%s/%s", base_url(), get_storage_dir(), $type);
+		return sprintf("%s%s/%s", base_url(), get_storage_dir(), make_safe_path($type));
 	}
 }
 
@@ -138,7 +138,7 @@ if(!check_function_exists("read_storage_file")) {
 		$storage_type = get_value_in_array("storage_type", $options, "data");
 		$upload_base_path = get_storage_path($storage_type);
 		$upload_base_url = get_storage_url($storage_type);
-		$upload_filename = $upload_base_path . "/" . $filename;
+		$upload_filename = sprintf("%s/%s", $upload_base_path, make_safe_path($filename));
 
 		if(file_exists($upload_filename)) {
 			$upload_filesize = filesize($upload_filename);
@@ -207,7 +207,7 @@ if(!check_function_exists("remove_storage_file")) {
 		$storage_type = get_value_in_array("storage_type", $options, "data");
 		$upload_base_path = get_storage_path($storage_type);
 		$upload_base_url = get_storage_url($storage_type);
-		$upload_filename = $upload_base_path . "/" . $filename;
+		$upload_filename = sprintf("%s/%s", $upload_base_path, make_safe_path($filename));
 		
 		// add option: encryption
 		$encryption = get_value_in_array("encryption", $options, "");
@@ -251,7 +251,7 @@ if(!check_function_exists("write_storage_file")) {
 		$mode = get_value_in_array("mode", $options, "w");
 		$upload_base_path = get_storage_path($storage_type);
 		$upload_base_url = get_storage_url($storage_type);
-		$upload_filename = $upload_base_path . "/" . $filename;
+		$upload_filename = sprintf("%s/%s", $upload_base_path, make_safe_path($filename));
 
 		// add option: encryption
 		$encryption = get_value_in_array("encryption", $options, "");
@@ -303,20 +303,21 @@ if(!check_function_exists("append_storage_file")) {
 }
 
 if(!check_function_exists("get_real_path")) {
-	function get_real_path($file) {
-		return file_exists($file) ? realpath($file) : false;
+	function get_real_path($filename) {
+		$filename = make_safe_path($filename);
+		return file_exists($filename) ? realpath($filename) : false;
 	}
 }
 
-if(!check_function_exists("retrieve_storage_files")) {
-	function retrieve_storage_files($type, $recursive=false, $excludes=array(".", ".."), $files=array()) {
+if(!check_function_exists("retrieve_storage_dir")) {
+	function retrieve_storage_dir($type, $recursive=false, $excludes=array(".", ".."), $files=array()) {
 		$storage_path = get_storage_path($type);
 
 		if(is_dir($storage_path)) {
 			if($handle = opendir($storage_path)) {
 				while(false !== ($file = readdir($handle))) {
 					if(!in_array($file, $excludes)) {
-						$file_path = $storage_path . "/" . $file;
+						$file_path = sprintf("%s/%s", $storage_path, $file);
 						if(is_file($file_path)) {
 							$files[] = $file_path;
 						} elseif($recursive) {
