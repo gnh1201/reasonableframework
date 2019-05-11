@@ -266,28 +266,9 @@ if(!check_function_exists("get_salt")) {
 
 if(!check_function_exists("get_password")) {
 	function get_password($text, $algo="sha1") {
-		$config = get_config();
-
-		$salt = get_salt();
-		$is_not_supported = false;
-
-		$plain_text = $text;
-		$hashed_text = "";
-
-		if(!empty($salt)) {
-			$plain_text .= $salt;
-		}
-		
-		$hashed_text = get_hashed_text($plain_text, $algo);
-		if(empty($hashed_text)) {
-			$is_not_supported = true;
-		}
-
-		if($is_not_supported) {
-			$hashed_text = $plain_text;
-		}
-
-		return $hashed_text;
+		return get_hashed_text($text, $algo, array(
+			"salt" => true,
+		));
 	}
 }
 
