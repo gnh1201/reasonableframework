@@ -253,13 +253,11 @@ if(!check_function_exists("get_hashed_text")) {
 
 if(!check_function_exists("get_salt")) {
 	function get_salt() {
-		$config = get_config();
-		
 		$salt = "";
-		if(!array_key_empty("salt", $config)) {
-			$salt = $config['salt'];
-		} else {
-			$salt = make_random_id(16);
+		
+		$config = get_config();
+		if(!array_key_equals("saltenable", $config, 1)) {
+			$salt = get_value_in_array("salt", $config, make_random_id(16));
 		}
 
 		return $salt;
