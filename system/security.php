@@ -131,7 +131,7 @@ if(!check_function_exists("process_safe_login")) {
 		}
 
 		if(!empty($ss_key) && check_login_session($ss_key, $config)) {
-			$flag = true;
+			$flag = false; // if alreay login, return false
 		} else {
 			$ss_key = make_random_id(10);
 
