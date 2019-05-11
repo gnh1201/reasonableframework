@@ -45,6 +45,7 @@ if(!check_function_exists("get_db_alt_connect")) {
 			array("driver" => "mysql.cmd", "callback" => "get_db_mysql_cmd_connect"),
 			array("driver" => "oracle", "callback" => "get_db_oracle_connect"),
 			//array("driver" => "pgsql", "callback" => "get_db_pgsql_connect"),
+			array("driver" => "mssql.pdo", "callback" => "get_db_mssql_pdo_connect");
 		);
 
 		$conn = exec_db_alt_callback($rules);
@@ -64,6 +65,7 @@ if(!check_function_exists("exec_db_alt_query")) {
 			array("driver" => "mysql.cmd", "callback" => "exec_db_mysql_cmd_query"),
 			array("driver" => "oracle", "callback" => "exec_db_oracle_query"),
 			//array("driver" => "pgsql", "callback" => "exec_db_pgsql_query"),
+			array("driver" => "mssql.pdo", "callback" => "exec_db_mssql_pdo_query"),
 		);
 
 		$result = exec_db_alt_callback($rules, array($sql, $bind));
@@ -82,7 +84,8 @@ if(!check_function_exists("exec_db_alt_fetch_all")) {
 			array("driver" => "mysql.old", "callback" => "exec_db_mysql_old_fetch_all"),
 			array("driver" => "mysql.cmd", "callback" => "exec_db_mysql_cmd_fetch_all"),
 			array("driver" => "oracle", "callback" => "exec_db_oracle_fetch_all"),
-                        //array("driver" => "pgsql", "callback" => "exec_db_pgsql_fetch_all"),
+			//array("driver" => "pgsql", "callback" => "exec_db_pgsql_fetch_all"),
+			array("driver" => "mssql.pdo", "callback" => "exec_db_mssql_fetch_all"),
 		);
 
 		$rows = exec_db_alt_callback($rules, array($sql, $bind));
