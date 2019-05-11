@@ -256,7 +256,7 @@ if(!check_function_exists("get_salt")) {
 		$salt = "";
 		
 		$config = get_config();
-		if(!array_key_equals("saltenable", $config, 1)) {
+		if(!array_key_equals("saltdisabled", $config, 1)) {
 			$salt = get_value_in_array("salt", $config, make_random_id(16));
 		}
 
