@@ -586,7 +586,7 @@ if(!check_function_exists("get_webproxy_url")) {
 if(!check_function_exists("get_web_user_agent")) {
 	function get_web_user_agent($ua="") {
 		if(empty($ua)) {
-			$ua = "ReasonableFramework/1.2-dev (https://github.com/gnh1201/reasonableframework)";
+			$ua = "ReasonableFramework/1.3 (https://github.com/gnh1201/reasonableframework)";
 		} else {
 			$ua = make_safe_argument($ua);
 		}
