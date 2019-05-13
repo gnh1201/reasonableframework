@@ -259,9 +259,6 @@ if(!check_function_exists("write_storage_file")) {
 		$upload_base_url = get_storage_url($storage_type);
 		$upload_filename = sprintf("%s/%s", $upload_base_path, get_safe_path($filename));
 
-		// add option: encryption 	Update config.php 	4 minutes ago
-	database.php 	Update database.php 	9 days ago
-	logger.php
 		$encryption = get_value_in_array("encryption", $options, "");
 		if(!empty($encryption)) {
 			if(!loadHelper("encryptiontool")) {
