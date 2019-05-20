@@ -190,9 +190,9 @@ switch($action) {
         break;
     case "cancel": // listen cancel authenticated callback
         break;
-    case "delete": // listen delete ping 
+    case "delete": // listen delete ping
         break;
-    case "accept": // listen accept ping 
+    case "accept": // listen accept ping
         break;
     case "object": // get object by id
         $object_id = get_requested_value("object_id");
