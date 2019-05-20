@@ -22,7 +22,7 @@ if(!check_function_exists("jCryption_load")) {
 }
 
 if(!check_function_exists("jCryption_get")) {
-    function jCryption_get($idx, $selector="") {
+    function jCryption_get($idx=0, $selector="") {
         $s = array();
         $s[] = "JCryption::decrypt();";
         $s[] = sprintf("$(function(){$(\"%s\").jCryption(); });", $selector);
