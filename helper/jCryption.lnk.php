@@ -25,7 +25,7 @@ if(!check_function_exists("jCryption_get")) {
     function jCryption_get($idx=0, $selector="") {
         $s = array();
         $s[] = "JCryption::decrypt();";
-        $s[] = sprintf("$(function(){$(\"%s\").jCryption(); });", $selector);
+        $s[] = sprintf("$(function(){$(\"%s\").jCryption();});", $selector);
         $s[] = sprintf("%s/vendor/_dist/jCryption/js/jquery.jcryption.3.1.0.js", base_url());
         return $s[$idx];
     }
