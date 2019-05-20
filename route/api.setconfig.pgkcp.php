@@ -17,39 +17,39 @@ $api_config = array();
 $config_filename = "api.config.pgkcp.json";
 
 if($mode == "clear") {
-	$rm = remove_stroage_file($config_filename, array(
-		"storage_type" => "payman"
-	));
-	if(!$rm) {
-		echo get_callable_token("failed");
-	} else {
-		echo get_callable_token("success");
-	}
+    $rm = remove_stroage_file($config_filename, array(
+        "storage_type" => "payman"
+    ));
+    if(!$rm) {
+        echo get_callable_token("failed");
+    } else {
+        echo get_callable_token("success");
+    }
 
-	exit;
+    exit;
 }
 
 if($mode == "test") {
-	$api_config['g_conf_gw_url'] = "testpaygw.kcp.co.kr";
-	$api_config['g_conf_js_url'] = "https://testpay.kcp.co.kr/plugin/payplus_web.jsp";
-	$api_config['g_conf_site_cd'] = "T0000";
-	$api_config['g_conf_site_key'] = "3grptw1.zW0GSo4PQdaGvsF__";
-	$api_config['g_conf_site_name'] = get_generated_name();
+    $api_config['g_conf_gw_url'] = "testpaygw.kcp.co.kr";
+    $api_config['g_conf_js_url'] = "https://testpay.kcp.co.kr/plugin/payplus_web.jsp";
+    $api_config['g_conf_site_cd'] = "T0000";
+    $api_config['g_conf_site_key'] = "3grptw1.zW0GSo4PQdaGvsF__";
+    $api_config['g_conf_site_name'] = get_generated_name();
 } else {
-	$api_config['g_conf_gw_url'] = "paygw.kcp.co.kr";
-	$api_config['g_conf_js_url'] = "https://pay.kcp.co.kr/plugin/payplus_web.jsp";
-	$api_config['g_conf_site_cd'] = $site_cd;
-	$api_config['g_conf_site_key'] = $site_key;
-	$api_config['g_conf_site_name'] = (empty($site_name) ? get_generated_name() : $site_name);
+    $api_config['g_conf_gw_url'] = "paygw.kcp.co.kr";
+    $api_config['g_conf_js_url'] = "https://pay.kcp.co.kr/plugin/payplus_web.jsp";
+    $api_config['g_conf_site_cd'] = $site_cd;
+    $api_config['g_conf_site_key'] = $site_key;
+    $api_config['g_conf_site_name'] = (empty($site_name) ? get_generated_name() : $site_name);
 }
 
 $api_config_encoded = json_encode($api_config);
 $fw = write_storage_file($api_config_encoded, array(
-	"storage_type" => "payman",
-	"filename" => $config_filename
+    "storage_type" => "payman",
+    "filename" => $config_filename
 ));
 if(!$fw) {
-	echo get_callable_token("failed");
+    echo get_callable_token("failed");
 } else {
-	echo get_callable_token("success");
+    echo get_callable_token("success");
 }

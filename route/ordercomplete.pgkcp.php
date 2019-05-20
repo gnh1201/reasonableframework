@@ -8,8 +8,8 @@
 
 // detect CSRF attack
 if(check_token_abuse_by_requests("_token", "_POST")) {
-	set_error("Access denied. (Expired session or Website attacker)");
-	show_errors();
+    set_error("Access denied. (Expired session or Website attacker)");
+    show_errors();
 }
 
 // set token
@@ -27,38 +27,38 @@ $pay_method_alias = get_requested_value("pay_method_alias");
 // A002: hand-writing payment (수기결제, 무통장입금 등)
 $action = "cancel";
 if(in_array($res_cd, array("0000", "A001")) {
-	$action = "complete";
+    $action = "complete";
 } elseif(in_array($res_cd, array("A002")) {
-	$action = "hold";
+    $action = "hold";
 }
 
 // check ordr_idxx
 if(empty($ordr_idxx)) {
-	set_error("ordr_idxx can not empty");
-	set_errors();
+    set_error("ordr_idxx can not empty");
+    set_errors();
 }
 
 // write storage file
 $fd = json_encode($requests['_POST']);
 $fw = write_storage_file($fd, array(
-	"filename" => get_hashed_text($ordr_idxx) . ".json",
-	"storage_type" => "payman"
+    "filename" => get_hashed_text($ordr_idxx) . ".json",
+    "storage_type" => "payman"
 ));
 
 // check write-protected
 if(!$fw) {
-	set_error("maybe, your storage is write-protected."); 
-	show_errors();
+    set_error("maybe, your storage is write-protected."); 
+    show_errors();
 }
 
 // redirect
 redirect_uri(get_final_link($redirect_url, array(
-	"_token" => get_session_token(),
-	"_route" => get_requested_value("route"),
-	"_action" => $action,
-	"_ordr_idxx" => $ordr_idxx,
-	"_res_cd" => $res_cd,
-	"_pay_method_alias" => $pay_method_alias
+    "_token" => get_session_token(),
+    "_route" => get_requested_value("route"),
+    "_action" => $action,
+    "_ordr_idxx" => $ordr_idxx,
+    "_res_cd" => $res_cd,
+    "_pay_method_alias" => $pay_method_alias
 ), false), array(
-	"check_origin" => true
+    "check_origin" => true
 ));

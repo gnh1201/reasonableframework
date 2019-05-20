@@ -9,12 +9,12 @@ $url = get_requested_value("url");
 $res_method = "get.cache";
 $res_methods = explode(".", $method);
 if(in_array("nocache", $res_methods)) {
-	$res_method = "get";
+    $res_method = "get";
 }
 
 if(!empty($url)) {
-	$response = get_web_page($url, $res_method);
-	echo $response['content'];
+    $response = get_web_page($url, $res_method);
+    echo $response['content'];
 }
 
 write_common_log(sprintf("%s\t%s\t%s", get_current_datetime(), "webproxy", $url));

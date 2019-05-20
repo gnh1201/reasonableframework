@@ -1,5 +1,5 @@
 <?php
-define("VENDOR_PATH", './vendor');
+define("VENDOR_PATH", './vendor/_default');
 
 // class loader
 function my_autoloader($className) {

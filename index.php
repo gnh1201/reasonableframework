@@ -14,8 +14,8 @@ define("DOC_EOL", "\r\n"); // set the 'end of line' commonly
 
 // check if current status is development
 if(APP_DEVELOPMENT == true) {
-	error_reporting(E_ALL);
-	ini_set("display_errors", 1);
+    error_reporting(E_ALL);
+    ini_set("display_errors", 1);
 }
 
 // set empty scope
@@ -26,18 +26,18 @@ $load_systems = array("base", "storage", "config", "security", "database", "uri"
 
 // load system modules
 foreach($load_systems as $system_name) {
-	$system_inc_file = "./system/" . $system_name . ".php";
-	if(file_exists($system_inc_file)) {
-		if($system_name == "base") {
-			include($system_inc_file);
-			register_loaded("system", $system_inc_file);
-		} else {
-			loadModule($system_name);
-		}
-	} else {
-                echo "ERROR: Dose not exists " . $system_inc_file;
-                exit;
+    $system_inc_file = "./system/" . $system_name . ".php";
+    if(file_exists($system_inc_file)) {
+        if($system_name == "base") {
+            include($system_inc_file);
+            register_loaded("system", $system_inc_file);
+        } else {
+            loadModule($system_name);
         }
+    } else {
+        echo "ERROR: Dose not exists " . $system_inc_file;
+        exit;
+    }
 }
 
 // get config
@@ -49,7 +49,7 @@ $max_execution_time = get_value_in_array("max_execution_time", $config, 0);
 
 // set autoloader
 if(!array_key_empty("enable_autoload", $config)) {
-	set_autoloader();
+    set_autoloader();
 }
 
 // set timezone
@@ -64,5 +64,5 @@ $route = read_route();
 
 // load route file
 if(!loadRoute($route, $scope)) {
-	loadRoute("errors/404", $scope);
+    loadRoute("errors/404", $scope);
 }

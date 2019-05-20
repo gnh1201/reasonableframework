@@ -16,6 +16,6 @@
     ],
     "require": {
         "bozhinov/pChart2.0-for-PHP7": "dev-master",
-        "phpoffice/phpspreadsheet": "dev-master"
+        "phpoffice/phpspreadsheet": "dev-master",
     }
 }

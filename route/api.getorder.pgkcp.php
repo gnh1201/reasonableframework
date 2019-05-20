@@ -8,11 +8,11 @@
 
 $ordr_idxx = get_requested_value("ordr_idxx"); 
 if(empty($ordr_idxx)) {
-	set_error("ordr_idxx can not empty");
-	show_errors();
+    set_error("ordr_idxx can not empty");
+    show_errors();
 }
 
 header("Content-type:application/json");
 echo read_storage_file(get_hashed_text($ordr_idxx) . ".json", array(
-	"storage_type" => "payman"
+    "storage_type" => "payman"
 ));

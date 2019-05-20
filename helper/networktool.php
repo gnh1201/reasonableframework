@@ -84,45 +84,45 @@ if(!check_function_exists("get_network_hostname")) {
 }
 
 if(!check_function_exists("check_secure_protocol")) {
-	function check_secure_protocol() {
-		return (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') || $_SERVER['SERVER_PORT'] == 443;
-	}
+    function check_secure_protocol() {
+        return (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') || $_SERVER['SERVER_PORT'] == 443;
+    }
 }
 
 if(!check_function_exists("get_os_platform")) {
-	function get_os_platform() {
-		$os = "";
+    function get_os_platform() {
+        $os = "";
 
-		if(defined("PHP_OS")) {
-			$os = PHP_OS;
-		} else {
-			$os = php_uname(s);
-		}
+        if(defined("PHP_OS")) {
+            $os = PHP_OS;
+        } else {
+            $os = php_uname(s);
+        }
 
-		return $os;
-	}
+        return $os;
+    }
 }
 
 if(!check_function_exists("get_network_outbound_addr")) {
-	function get_network_outbound_addr($protocol="") {
-		$addr = false;
-		$config = get_config();
+    function get_network_outbound_addr($protocol="") {
+        $addr = false;
+        $config = get_config();
 
-		// via icanhazip.com
-		if(loadHelper("webpagetool")) {
-			$remote_host = "http://" . ($protocol == "ipv6" ? "ipv6." : "") . "icanhazip.com";
-			$response = get_web_page($remote_host, "get.cache");
-			$addr = get_value_in_array("content", $response, $addr);
-		}
+        // via icanhazip.com
+        if(loadHelper("webpagetool")) {
+            $remote_host = "http://" . ($protocol == "ipv6" ? "ipv6." : "") . "icanhazip.com";
+            $response = get_web_page($remote_host, "get.cache");
+            $addr = get_value_in_array("content", $response, $addr);
+        }
 
-		// via opendns.com
-		if(!$addr && loadHelper("exectool")) {
-			$cmd = "dig +short myip.opendns.com @resolver1.opendns.com";
-			$addr = exec_command($cmd, "shell_exec", array(
-				"cache" => true
-			));
-		}
+        // via opendns.com
+        if(!$addr && loadHelper("exectool")) {
+            $cmd = "dig +short myip.opendns.com @resolver1.opendns.com";
+            $addr = exec_command($cmd, "shell_exec", array(
+                "cache" => true
+            ));
+        }
 
-		return $addr;
-	}
+        return $addr;
+    }
 }
