@@ -435,7 +435,7 @@ if(!check_function_exists("get_bind_to_sql_select")) {
 						$s3 .= sprintf(" %s (%s)", $opts[0], get_db_binded_sql($opts[1], $opts[2]));
 					} elseif(check_array_length($opts, 2) == 0 && is_array($opts[1])) {
 						if($opts[1][0] == "like") {
-							if(is_array($opts[1][2])) {
+							if(check_array_length($opts[1][2], 0) > 0) {
 								$s3a = array();
 								foreach($opts[1][2] as $word) {
 									$s3a[] = sprintf("%s like '%s'", $s1a[$opts[1][1]], "%{$word}%");
@@ -444,19 +444,14 @@ if(!check_function_exists("get_bind_to_sql_select")) {
 							} else {
 								$s3 .= sprintf(" %s (%s like %s)", $opts[0], $s1a[$opts[1][1]], "'%{$opts[1][2]}%'");
 							}
+						} elseif($opts[1][0] == "in") {
+							if(check_array_length($opts[1][2], 0) > 0) {
+								$s3 .= sprintf(" %s (%s in ('%s'))", $opts[0], $s1a[$opts[1][1]], implode("', '", $opts[1][2]));
+							}
 						} else {
-							$opcode = $opts[1][0];
-							switch($opts[1][0]) {
-								case "eq": $opcode = "="; break;
-								case "lt": $opcode = "<"; break;
-								case "lte": $opcode = "<="; break;
-								case "gt": $opcode = ">"; break;
-								case "gte": $opcode = ">="; break;
-								default: break;
-							}
-							if(!empty($opcode)) {
-								$s3 .= sprintf(" %s (%s %s '%s')", $opts[0], $opts[1][1], $opcode, $opts[1][2]);
-							}
+							$ssts = array("eq" => "=", "lt" => "<", "lte" => "<=", "gt" => ">", "gte" => ">=");
+							$opcode = get_value_in_array($opts[1][0], $ssts, $ssts['eq']);
+							$s3 .= sprintf(" %s (%s %s '%s')", $opts[0], $opts[1][1], $opcode, $opts[1][2]);
 						}
 					} elseif(check_array_length($opts, 2) == 0) {
 						$s3 .= sprintf(" %s (%s)", $opts[0], $opts[1]);
