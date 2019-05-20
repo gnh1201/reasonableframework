@@ -449,9 +449,18 @@ if(!check_function_exists("get_bind_to_sql_select")) {
 								$s3 .= sprintf(" %s (%s in ('%s'))", $opts[0], $s1a[$opts[1][1]], implode("', '", $opts[1][2]));
 							}
 						} else {
-							$ssts = array("eq" => "=", "lt" => "<", "lte" => "<=", "gt" => ">", "gte" => ">=");
-							$opcode = get_value_in_array($opts[1][0], $ssts, $ssts['eq']);
-							$s3 .= sprintf(" %s (%s %s '%s')", $opts[0], $opts[1][1], $opcode, $opts[1][2]);
+							$ssts = array(
+								"eq" => "=",
+								"lt" => "<",
+								"lte" => "<=",
+								"gt" => ">",
+								"gte" => ">=",
+								"not" => "<>"
+							);
+							$opcode = get_value_in_array($opts[1][0], $ssts, $opts[1][0]);
+							if(!empty($opcode)) {
+								$s3 .= sprintf(" %s (%s %s '%s')", $opts[0], $opts[1][1], $opcode, $opts[1][2]);
+							}
 						}
 					} elseif(check_array_length($opts, 2) == 0) {
 						$s3 .= sprintf(" %s (%s)", $opts[0], $opts[1]);
