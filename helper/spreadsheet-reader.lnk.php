@@ -19,7 +19,7 @@ if(!check_function_exists("parse_excel_file")) {
             //"spreadsheet-reader/SpreadsheetReader_ODS"
         );
         foreach($required_files as $file) {
-            include("./vendor/_default/" . $file . ".php"); 
+            include("./vendor/_dist/" . $file . ".php");
         }
 
         $spreadsheet = false;
@@ -52,7 +52,7 @@ if(!check_function_exists("parse_excel_file")) {
                         if((count($columnNames) - 1) > $i) {
                             $cols[$columnNames[$i]] = $col;
                         } else {
-                            $cols[] = $col;    
+                            $cols[] = $col;
                         }
                         $i++;
                     }

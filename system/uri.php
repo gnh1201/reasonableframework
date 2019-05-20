@@ -52,13 +52,14 @@ if(!check_function_exists("read_route")) {
 
 if(!check_function_exists("read_requests")) {
     function read_requests($options=array()) {
-        // process http encryption
         $config = get_config();
-        $httpencrypt = strtolower(get_value_in_array("httpencrypt", $config, ""));
-        if($httpencrypt == "jcryption") {
-            if(loadHelper("jcryption.lnk")) {
-                jcryption_load();
-                eval(jcryption_get_code());
+
+        // alternative to HTTPS
+        $https = strtolower(get_value_in_array("https", $config, ""));
+        if(strtoupper($https) == "JCRYPTION") {
+            if(loadHelper("jCryption.lnk")) {
+                jCryption_load();
+                eval(jCryption_get(0));
             }
         }
 
