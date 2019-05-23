@@ -9,13 +9,36 @@
 
 define("_DEF_VSPF_", true); // compatible to VSPF
 define("_DEF_RSF_", true); // compatible to RSF
-define("APP_DEVELOPMENT", false); // set the status of development
+define("APP_DEVELOPMENT", true); // set the status of development
 define("DOC_EOL", "\r\n"); // set the 'end of line' commonly
+define("CORS_DOMAINS", false); // allow origin domains
 
 // check if current status is development
 if(APP_DEVELOPMENT == true) {
     error_reporting(E_ALL);
     ini_set("display_errors", 1);
+}
+
+// CORS Security (https or http)
+if(CORS_DOMAINS !== false) {
+    $domains = explode(",", CORS_DOMAINS);
+    $_origin = $_SERVER['HTTP_ORIGIN'];
+    $origins = array();
+    if(!in_array("*", $domains)) {
+        foreach($domains as $domain) {
+            $origins[] = sprintf("https://%s", $domain);
+            $origins[] = sprintf("http://%s", $domain);
+        }
+        if(count($origins) > 0) {
+            if(in_array($_origin, $origins)) {
+                header(sprintf("Access-Control-Allow-Origin: %s", $_origin));
+            } else {
+                header(sprintf("Access-Control-Allow-Origin: https://%s", $origins[0])); 
+            }
+        }
+    } else {
+        header("Access-Control-Allow-Origin: *");
+    }
 }
 
 // set empty scope
