@@ -89,7 +89,7 @@ if(!function_exists("compare_db_key_length")) {
 
 if(!function_exists("get_db_binded_sql")) {
     function get_db_binded_sql($sql, $bind) {
-        if(check_array_length($bind, 0) > 0) {
+        if(is_array($bind) && check_array_length($bind, 0) > 0) {
             $bind_keys = array_keys($bind);
 
             // 2018-08-19: support lower php version (not supported anonymous function)
@@ -103,38 +103,6 @@ if(!function_exists("get_db_binded_sql")) {
         return $sql;
     }
 }
-
-/*
-// todo: the new parameter binding method
-if(!check_function_exists("get_db_binded_param")) {
-    function get_db_binded_param($exp, $bind) {
-        foreach($bind as $k=>$v) {
-            if($exp == sprintf(":%s", $k)) {
-                $exp = make_safe_argument($v);
-                break;
-            }
-        }
-        
-        return $exp;
-    }
-}
-
-if(!check_function_exists("get_db_binded_sql")) {
-    function get_db_binded_sql($sql, $bind) {
-        $binded_sql = false;
-
-        if(loadHelper("string.utils")) {
-            $exps = multi_str_split($sql, array(" ", "=", ">", "<", "(", ")", "\r", "\n", "\t"));
-            foreach($exps as $k=>$v) {
-                $exps[$k] = get_db_binded_param($v, $bind);
-            }
-            $binded_sql = implode("", $exps);
-        }
-
-        return $binded_sql;
-    }
-}
-*/
 
 if(!check_function_exists("get_db_stmt")) {
     function get_db_stmt($sql, $bind=array(), $bind_pdo=false, $show_sql=false) {
