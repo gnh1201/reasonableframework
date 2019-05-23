@@ -26,8 +26,10 @@ if(CORS_DOMAINS !== false) {
     $origins = array();
     if(!in_array("*", $domains)) {
         foreach($domains as $domain) {
-            $origins[] = sprintf("https://%s", $domain);
-            $origins[] = sprintf("http://%s", $domain);
+            if(!empty($domain)) {
+                $origins[] = sprintf("https://%s", $domain);
+                $origins[] = sprintf("http://%s", $domain);
+            }
         }
         if(count($origins) > 0) {
             if(in_array($_origin, $origins)) {
