@@ -33,7 +33,7 @@ if(CORS_DOMAINS !== false) {
             if(in_array($_origin, $origins)) {
                 header(sprintf("Access-Control-Allow-Origin: %s", $_origin));
             } else {
-                header(sprintf("Access-Control-Allow-Origin: https://%s", $origins[0])); 
+                header(sprintf("Access-Control-Allow-Origin: %s", $origins[0])); 
             }
         }
     } else {
