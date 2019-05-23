@@ -91,12 +91,14 @@ if(!function_exists("get_db_binded_sql")) {
     function get_db_binded_sql($sql, $bind) {
         if(is_array($bind) && check_array_length($bind, 0) > 0) {
             $bind_keys = array_keys($bind);
+            if(is_array($bind_key) && check_array_length($bind_key, 0) > 0) {
+                // 2018-08-19: support lower php version (not supported anonymous function)
+                usort($bind_keys, "compare_db_key_length");
 
-            // 2018-08-19: support lower php version (not supported anonymous function)
-            usort($bind_keys, "compare_db_key_length");
-
-            foreach($bind_keys as $k) {
-                $sql = str_replace(":" . $k, "'" . addslashes($bind[$k]) . "'", $sql);
+                // bind values
+                foreach($bind_keys as $k) {
+                    $sql = str_replace(":" . $k, "'" . addslashes($bind[$k]) . "'", $sql);
+                }
             }
         }
 
