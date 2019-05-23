@@ -27,8 +27,16 @@ if(CORS_DOMAINS !== false) {
     if(!in_array("*", $domains)) {
         foreach($domains as $domain) {
             if(!empty($domain)) {
-                $origins[] = sprintf("https://%s", $domain);
-                $origins[] = sprintf("http://%s", $domain);
+                if(substr($domain, 0, 2) == "*.") { // support wildcard
+                    $needle = substr($domain, 1);
+                    $length = strlen($needle);
+                    if(substr($_origin, -$length) === $needle) {
+                        $origins[] = $_origin;
+                    }
+                } else {
+                    $origins[] = sprintf("https://%s", $domain);
+                    $origins[] = sprintf("http://%s", $domain);
+                }
             }
         }
         if(count($origins) > 0) {
