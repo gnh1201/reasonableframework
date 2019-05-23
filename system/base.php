@@ -284,6 +284,12 @@ if(!check_function_exists("check_array_length")) {
     }
 }
 
+if(!check_function_exists("check_is_empty")) {
+    function check_is_empty($v, $d=true) {
+        return (empty($v) ? $d : false);
+    }
+}
+
 // error handler
 if(!check_function_exists("set_error")) {
     function set_error($msg, $code="ERROR") {
