@@ -416,7 +416,7 @@ if(!check_function_exists("get_bind_to_sql_select")) {
                             }
                         } elseif($opts[1][0] == "in") {
                             if(check_array_length($opts[1][2], 0) > 0) {
-                                $s3 .= sprintf(" %s (%s in ('%s'))", $opts[0], $s1a[$opts[1][1]], implode("', '", $opts[1][2]));
+                                $s3 .= sprintf(" %s (%s in ('%s'))", $opts[0], $opts[1][1], implode("', '", $opts[1][2]));
                             }
                         } else {
                             $ssts = array(
