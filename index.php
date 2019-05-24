@@ -9,7 +9,7 @@
 
 define("_DEF_VSPF_", true); // compatible to VSPF
 define("_DEF_RSF_", true); // compatible to RSF
-define("APP_DEVELOPMENT", true); // set the status of development
+define("APP_DEVELOPMENT", false); // set the status of development
 define("DOC_EOL", "\r\n"); // set the 'end of line' commonly
 define("CORS_DOMAINS", false); // allow origin domains
 
@@ -22,7 +22,7 @@ if(APP_DEVELOPMENT == true) {
 // CORS Security (https or http)
 if(CORS_DOMAINS !== false) {
     $domains = explode(",", CORS_DOMAINS);
-    $_origin = $_SERVER['HTTP_ORIGIN'];
+    $_origin = array_key_exists("HTTP_ORIGIN", $_SERVER) ? $_SERVER['HTTP_ORIGIN'] : "";
     $origins = array();
     if(!in_array("*", $domains)) {
         foreach($domains as $domain) {
