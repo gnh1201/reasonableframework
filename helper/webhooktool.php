@@ -38,7 +38,6 @@ if(!check_function_exists("send_web_hook")) {
                     ));
                 }
 
-
                 break;
 
             case "discord":
