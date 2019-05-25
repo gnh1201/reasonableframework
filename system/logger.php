@@ -9,9 +9,15 @@
 if(!check_function_exists("write_visit_log")) {
     function write_visit_log() {
         $fw = false;
-
+        
+        $event = get_network_event();
         if(loadHelper("networktool")) {
-            $data = DOC_EOL . json_encode(get_network_event());
+            if(loadHelper("rsf.format")) {
+                $data = DOC_EOL . get_rsf_encoded($event);
+            } else {
+                $data = DOC_EOL . json_encode(get_network_event());
+            }
+
             $fw = append_storage_file($data, array(
                 "storage_type" => "logs",
                 "filename" => "network.log",
@@ -24,25 +30,12 @@ if(!check_function_exists("write_visit_log")) {
 }
     
 if(!check_function_exists("write_common_log")) {
-    function write_common_log($message, $type="None", $forward_to = "") {
-        $fw = false;
-     
-        $forwards = explode(",", $forward_to);
-        $datetime = get_current_datetime();
-        $data = implode("\t", array($datetime, $type, $msg));
-        $fw = append_storage_file($data, array(
+    function write_common_log($msg) {
+        $msg = DOC_EOL . $msg;
+        return append_storage_file($msg, array(
             "storage_type" => "logs",
             "filename" => "common.log",
             "chmod" => 0644,
         ));
-
-        // forwarding to messenger networks
-        if(count($forwards) > 0 && loadHelper("webhooktool")) {
-           foreach($forwards as $nw) {
-               @send_web_hook($message, $nw);
-           }
-        }
-
-        return $fw;
     }
 }
