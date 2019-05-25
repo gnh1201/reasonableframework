@@ -303,9 +303,15 @@ if(!check_function_exists("write_storage_file")) {
 if(!check_function_exists("append_storage_file")) {
     function append_storage_file($data, $options=array()) {
         $options['mode'] = "a";
-        if(array_key_equals("newline", $options, true)) {
-            $data .= DOC_EOL;
+
+        if(!array_key_empty("nl", $options)) {
+            switch($options['nl']) {
+                case "<": $data = DOC_EOL . $data; break;
+                case ">": $data = $data . DOC_EOL; break;
+                case "<>": $data = DOC_EOL . $data . DOC_EOL; break;
+            }
         }
+
         return write_storage_file($data, $options);
     }
 }
