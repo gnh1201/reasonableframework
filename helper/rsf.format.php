@@ -14,6 +14,6 @@ if(!check_function_exists("get_rsf_encoded")) {
             $_ks[] = $k;
             $_vs[] = make_safe_argument($v);
         }
-        return sprintf("(%s)=>('%s')", implode(",", $_ks), implode("','", $_vs));
+        return sprintf("('%s')=>(%s)", implode("','", $_vs), implode(",", $_ks));
     }
 }
