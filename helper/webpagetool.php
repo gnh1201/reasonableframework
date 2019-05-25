@@ -136,8 +136,6 @@ if(!check_function_exists("get_web_cmd")) {
 
         // complete and run command
         $cmd = trim(implode(" ", $args));
-        
-        var_dump($cmd);
 
         // run command
         if(!empty($cmd)) {
