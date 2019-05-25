@@ -16,7 +16,7 @@ if(!check_function_exists("send_web_hook")) {
 
         $id = get_value_in_array("id", $options, "");
         $username = get_value_in_array("username", $options, "ReasonableBot");
-        $message = str_replace("http", "hxxp", $message);
+        $message = str_replace("http:", "hxxp:", $message);
 
         switch($networkid) {
             case "nateon":
