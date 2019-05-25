@@ -21,4 +21,4 @@ if(!empty($url)) {
     print_r($response['content']);
 }
 
-write_common_log(sprintf("%s\t%s\t%s", get_current_datetime(), "webproxy", $url));
+write_common_log($url, "webproxy");
