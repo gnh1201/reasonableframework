@@ -13,17 +13,11 @@
 if(!check_function_exists("send_web_hook")) {
     function send_web_hook($message, $networkid, $options=array()) {
         $response = false;
-	    
-        $config = get_config();
+
         $id = get_value_in_array("id", $options, "");
-	$username = get_value_in_array("username", $options, "ReasonableBot");
+        $username = get_value_in_array("username", $options, "ReasonableBot");
+        $message = str_replace("http", "hxxp", $message);
 
-	// get default webhook client id
-        if(empty($id)) {
-            $id = get_value_in_array(sprintf("webhook_%s_id", $network_id), $config, "");
-	}
-
-	// send message to each networks
         switch($networkid) {
             case "nateon":
                 $request_url = sprintf("https://teamroom.nate.com/api/webhook/%s", $id);
@@ -37,6 +31,7 @@ if(!check_function_exists("send_web_hook")) {
                         ),
                     ));
                 }
+
 
                 break;
 
