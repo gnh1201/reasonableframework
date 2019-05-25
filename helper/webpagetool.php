@@ -114,7 +114,8 @@ if(!check_function_exists("get_web_cmd")) {
             $args[] = "-X POST"; // set post request (the same as -X)
             $args[] = sprintf("-A '%s'", get_web_user_agent($ua)); // set agent
             $args[] = "-k"; // allow self-signed certificate (the same as --insecure)
-            $headers['Content-Type'] = "application/json";
+            $headers['Content-Type'] = "application/json;charset=utf-8";
+            $headers['Accept'] = "application/json, text/plain, */*";
             $headers['Content-Length'] = strlen($_data);
             foreach($headers as $k=>$v) {
                 // the same as --header
@@ -130,7 +131,7 @@ if(!check_function_exists("get_web_cmd")) {
                     $args[] = sprintf("-H '%s: %s'", make_safe_argument($k), make_safe_argument($v));
                 }
             }
-            $args[] = sprintf("--data '%s'", make_safe_argument($_data));
+            $args[] = sprintf("--data '%s'", $_data);
             $args[] = $url;
         }
 
@@ -312,7 +313,8 @@ if(!check_function_exists("get_web_curl")) {
                 $options[CURLOPT_CUSTOMREQUEST] = "POST";
                 $options[CURLOPT_POST] = 1;
                 $options[CURLOPT_POSTFIELDS] = $_data;
-                $headers['Content-Type'] = "application/json";
+                $headers['Content-Type'] = "application/json;charset=utf-8";
+                $headers['Accept'] = "application/json, text/plain, */*";
                 $headers['Content-Length'] = strlen($_data);
             }
         }
