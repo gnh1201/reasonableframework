@@ -29,7 +29,7 @@ if(!check_function_exists("write_common_log")) {
      
         $forwards = explode(",", $forward_to);
         $datetime = get_current_datetime();
-        $data = implode("\t", $datetime, $type, $msg);
+        $data = implode("\t", array($datetime, $type, $msg));
         $fw = append_storage_file($data, array(
             "storage_type" => "logs",
             "filename" => "common.log",
