@@ -3,7 +3,7 @@
  * @file api.whois.kr.php
  * @date 2019-05-26
  * @author Go Namhyeon <gnh1201@gmail.com>
- * @brief KISA Whois/IP/AS Query Helper (https://whois.kr)
+ * @brief KISA Whois/Domain/IP/AS Query Helper (https://whois.kr)
  */
  
 if(!check_function_exists("get_whois_kr")) {
