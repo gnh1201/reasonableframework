@@ -15,12 +15,14 @@ if(!check_function_exists("get_whois_kr")) {
                 $response = get_web_json("http://whois.kisa.or.kr/openapi/whois.jsp", "get.cache", array(
                     "query" => $name,
                     "key" => $key,
+                    "answer" => "json",
                 ));
                 break;
             case "ipascc":
                 $response = get_web_json("http://whois.kisa.or.kr/openapi/ipascc.jsp", "get.cache", array(
                     "query" => $name,
                     "key" => $key,
+                    "answer" => "json",
                 ));
                 break;
         }
