@@ -110,22 +110,36 @@ if(!check_function_exists("get_web_cmd")) {
         }
 
         if($method == "jsondata") {
-            $data_string = json_encode($data);
+            $_data = json_encode($data);
             $args[] = "-X POST"; // set post request (the same as -X)
             $args[] = sprintf("-A '%s'", get_web_user_agent($ua)); // set agent
             $args[] = "-k"; // allow self-signed certificate (the same as --insecure)
             $headers['Content-Type'] = "application/json";
-            $headers['Content-Length'] = strlen($data_string);
+            $headers['Content-Length'] = strlen($_data);
             foreach($headers as $k=>$v) {
-                $args[] = sprintf("--header '%s: %s'", make_safe_argument($k), make_safe_argument($v));
+                // the same as --header
+                if(is_array($v)) {
+                    if($k == "Authentication") {
+                        if($v[0] == "Basic" && check_array_length($v, 3) == 0) {
+                            $args[] = sprintf("-u '%s:%s'", make_safe_argument($v[1]), make_safe_argument($v[2]));
+                        } else {
+                            $args[] = sprintf("-H '%s: %s'", make_safe_argument($k), make_safe_argument(implode(" ", $v)));
+                        }
+                    }
+                } else {
+                    $args[] = sprintf("-H '%s: %s'", make_safe_argument($k), make_safe_argument($v));
+                }
             }
-            $args[] = sprintf("--data '%s'", $data_string);
+            $args[] = sprintf("--data '%s'", make_safe_argument($_data));
             $args[] = $url;
         }
 
         // complete and run command
         $cmd = trim(implode(" ", $args));
+        
+        var_dump($cmd);
 
+        // run command
         if(!empty($cmd)) {
             $output = exec_command($cmd);
         }
@@ -245,7 +259,7 @@ if(!check_function_exists("get_web_wget")) {
 if(!check_function_exists("get_web_curl")) {
     function get_web_curl($url, $method="get", $data=array(), $proxy="", $ua="", $ct_out=45, $t_out=45, $headers=array()) {
         $content = false;
-        $req_headers = array();
+        $_headers = array();
 
         if(!in_array("curl", get_loaded_extensions())) {
             $error_msg = "cURL extension needs to be installed.";
@@ -296,12 +310,12 @@ if(!check_function_exists("get_web_curl")) {
             }
 
             if($method == "jsondata") {
-                $data_string = json_encode($data);
+                $_data = json_encode($data);
                 $options[CURLOPT_CUSTOMREQUEST] = "POST";
                 $options[CURLOPT_POST] = 1;
-                $options[CURLOPT_POSTFIELDS] = $data_string;
+                $options[CURLOPT_POSTFIELDS] = $_data;
                 $headers['Content-Type'] = "application/json";
-                $headers['Content-Length'] = strlen($data_string);
+                $headers['Content-Length'] = strlen($_data);
             }
         }
 
@@ -312,14 +326,14 @@ if(!check_function_exists("get_web_curl")) {
                         if($v[0] == "Basic" && check_array_length($v, 3) == 0) {
                             $options[CURLOPT_USERPWD] = sprintf("%s:%s", make_safe_argument($v[1]), make_safe_argument($v[2]));
                         } else {
-                            $req_headers[] = sprintf("%s: %s", make_safe_argument($k), make_safe_argument(implode(" ", $v)));
+                            $_headers[] = sprintf("%s: %s", make_safe_argument($k), make_safe_argument(implode(" ", $v)));
                         }
                     }
                 } else {
-                    $req_headers[] = sprintf("%s: %s", make_safe_argument($k), make_safe_argument($v));
+                    $_headers[] = sprintf("%s: %s", make_safe_argument($k), make_safe_argument($v));
                 }
             }
-            $options[CURLOPT_HTTPHEADER] = $req_headers;
+            $options[CURLOPT_HTTPHEADER] = $_headers;
         }
 
         $ch = curl_init();
@@ -345,7 +359,7 @@ if(!check_function_exists("get_web_page")) {
         $resno = false;
         $errno = false;
         $content = false;
-        $req_method = $method;
+        $_method = $method;
 
         // set user agent
         $ua = get_web_user_agent($ua);
@@ -372,30 +386,26 @@ if(!check_function_exists("get_web_page")) {
         } elseif(in_array("wget", $res_methods)) {
             $content = get_web_wget($url, $res_methods[0], $data, $proxy, $ua, $ct_out, $t_out);
         } elseif(in_array("jsondata", $res_methods)) {
-            $curl_result = get_web_curl($url, "jsondata", $data, $proxy, $ua, $ct_out, $t_out, $headers);
-            $content = $curl_result['content'];
-            $status = $curl_result['status'];
-            $resno = $curl_result['resno'];
-            $errno = $curl_result['errno'];
+            $_result = get_web_curl($url, "jsondata", $data, $proxy, $ua, $ct_out, $t_out, $headers);
+            $content = $_result['content'];
+            $status = $_result['status'];
+            $resno = $_result['resno'];
+            $errno = $_result['errno'];
 
-            if($content !== false) {
-                // nothing
-            } else {
+            if(!($content !== false)) {
                 $content = get_web_cmd($url, "jsondata", $data, $proxy, $ua, $ct_out, $t_out, $headers);
             }
         } else {
-            $curl_result = get_web_curl($url, $method, $data, $proxy, $ua, $ct_out, $t_out, $headers);
-            $content = $curl_result['content'];
-            $status = $curl_result['status'];
-            $resno = $curl_result['resno'];
-            $errno = $curl_result['errno'];
+            $_result = get_web_curl($url, $method, $data, $proxy, $ua, $ct_out, $t_out, $headers);
+            $content = $_result['content'];
+            $status = $_result['status'];
+            $resno = $_result['resno'];
+            $errno = $_result['errno'];
 
-            if($content !== false) {
-                // nothing
-            } else {
+            if(!($content !== false)) {
                 $res = get_web_page($url, $method . ".cmd", $data, $proxy, $ua, $ct_out, $t_out);
                 $content = $res['content'];
-                $req_method = $res['method'];
+                $_method = $res['method'];
             }
         }
 
@@ -418,7 +428,7 @@ if(!check_function_exists("get_web_page")) {
             "gz_md5"     => get_hashed_text($gz_content, "md5"),
             "gz_sha1"    => get_hashed_text($gz_content, "sha1"),
             "gz_ratio"   => $gz_ratio,
-            "method"     => $req_method,
+            "method"     => $_method,
             "params"     => $data,
         );
 
