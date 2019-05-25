@@ -303,6 +303,9 @@ if(!check_function_exists("write_storage_file")) {
 if(!check_function_exists("append_storage_file")) {
     function append_storage_file($data, $options=array()) {
         $options['mode'] = "a";
+        if(array_key_equals("newline", $options, true)) {
+            $data .= DOC_EOL;
+        }
         return write_storage_file($data, $options);
     }
 }
