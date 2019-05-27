@@ -14,10 +14,10 @@ if(!check_function_exists("write_visit_log")) {
         if(loadHelper("networktool")) {
             $event = get_network_event();
 
-            if(loadHelper("rsf.format")) {
-                $data = get_rsf_encoded($event);
+            if(loadHelper("catsplit.format")) {
+                $data = catsplit_encode($event);
             } else {
-                $data = json_encode(get_network_event());
+                $data = json_encode($event);
             }
 
             $fw = append_storage_file($data, array(
