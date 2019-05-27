@@ -1,13 +1,14 @@
 <?php
 /**
- * @file rsf.format.php
+ * @file catsplit.format.php
  * @date 2019-05-28
  * @author Go Namhyeon <gnh1201@gmail.com>
- * @brief the another data format for ReasonableFramework
+ * @brief Catsplit format encoder
+ * @documentation https://github.com/gnh1201/catsplit-format
  */
 
-if(!check_function_exists("get_rsf_encoded")) {
-    function get_rsf_encoded($data) {
+if(!check_function_exists("catsplit_encode")) {
+    function catsplit_encode($data) {
         $_ks = array();
         $_vs = array();
         foreach($data as $k=>$v) {
