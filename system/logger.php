@@ -11,8 +11,9 @@ if(!check_function_exists("write_visit_log")) {
         $fw = false;
         $data = "";
         
-        $event = get_network_event();
         if(loadHelper("networktool")) {
+            $event = get_network_event();
+
             if(loadHelper("rsf.format")) {
                 $data = get_rsf_encoded($event);
             } else {
