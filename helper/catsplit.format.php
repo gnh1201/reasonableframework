@@ -20,7 +20,7 @@ if(!check_function_exists("catsplit_encode")) {
 }
 
 if(!check_function_exists("catsplit_decode")) {
-	function catsplit_encode($data) {
+	function catsplit_decode($data) {
 		$s_final = array();
 
 		// step 1
