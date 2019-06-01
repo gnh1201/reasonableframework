@@ -74,7 +74,7 @@ if(!check_function_exists("get_storage_url")) {
 }
 
 if(!check_function_exists("move_uploaded_file_to_storage")) {
-    function move_uploaded_file_to_stroage($options=array()) {
+    function move_uploaded_file_to_storage($options=array()) {
         $response = array(
             "files" => array()
         );
