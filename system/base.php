@@ -280,7 +280,7 @@ if(!check_function_exists("get_value_in_object")) {
 
 if(!check_function_exists("check_array_length")) {
     function check_array_length($arr, $len) {
-        return (count($arr) - $len);
+        return ((!is_array($arr) ? -1 : count($arr)) - $len);
     }
 }
 
