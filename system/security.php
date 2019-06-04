@@ -5,7 +5,7 @@
  * @updated [last commit date]
  * @author Go Namhyeon <gnh1201@gmail.com>
  * @brief Security module for ReasonableFramework
- * @sponsor https://patreon.com/catswords (If you want use advanced security, check this link)
+ * @sponsor https://patreon.com/catswords (Check this link if you want use the advanced security)
  */
 
 if(!check_function_exists("check_token_abuse")) {
