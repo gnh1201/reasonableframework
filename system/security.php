@@ -636,7 +636,7 @@ if(PHP_DDOS_PROTECTION !== false) {
     loadHelper("php-ddos-shield.lnk")
 }
 
-// set Web shell detection (only for sponsors)
+// set Webshell(type of malware) detection (only for sponsors)
 if(PHP_WEBSHELL_DETECTION !== false) {
     loadHelper("php-webshell-detect.lnk");
 }
