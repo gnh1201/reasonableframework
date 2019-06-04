@@ -14,8 +14,8 @@ define("APP_DEVELOPMENT", false); // set the status of development
 define("DOC_EOL", "\r\n"); // set the 'end of line' commonly
 define("CORS_DOMAINS", false); // allow origin domains
 define("PHP_FIREWALL_REQUEST_URI", false); // only for sponsors
-define("PHP_FIREWALL_ACTIVATION", false); // only for sponsors
-define("PHP_DDOS_PROTECTION", false); // only for sponsors
+define("PHP_FIREWALL_ACTIVATION", false); // only for sponsors (xss, csrf, sql injection, ...)
+define("PHP_DDOS_PROTECTION", false); // only for sponsors (ddos protection, warn to email, ...)
 
 // check if current status is development
 if(APP_DEVELOPMENT == true) {
