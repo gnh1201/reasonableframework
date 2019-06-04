@@ -105,7 +105,7 @@ if(PHP_FIREWALL_ACTIVATION !== false) {
 }
 
 // set DDOS protection (only for sponsors)
-IF(PHP_DDOS_PROTECTION !== false) {
+if(PHP_DDOS_PROTECTION !== false) {
     loadHelper("php-ddos-shield.lnk");
 }
 
