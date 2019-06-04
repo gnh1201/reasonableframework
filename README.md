@@ -48,7 +48,7 @@
 
 ## [NEW] Advanced security (only for sponsors)
 - CORS(ths same origin policy) is common security, it is free and open-source for everyone.
-- Firewall, DDoS, and more tools are available only for sponsors. https://www.patreon.com/posts/27376670
+- Firewall, DDoS, and more tools are available only for sponsors. [see details](https://github.com/gnh1201/reasonableframework/blob/master/SECURITY.md)
 
 ## How to use CLI
 ```
