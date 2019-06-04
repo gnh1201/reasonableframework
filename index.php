@@ -6,7 +6,7 @@
  * @author Go Namhyeon <gnh1201@gmail.com>
  * @brief ReasonableFramework
  * @cvs https://github.com/gnh1201/reasonableframework
- * @sponsor https://patreon.com/catswords (If you want use advanced security, check this link)
+ * @sponsor https://patreon.com/catswords (Check this link if you want use the advanced security)
  */
 
 define("_DEF_VSPF_", true); // compatible to VSPF
