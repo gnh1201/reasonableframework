@@ -12,6 +12,9 @@ define("_DEF_RSF_", true); // compatible to RSF
 define("APP_DEVELOPMENT", false); // set the status of development
 define("DOC_EOL", "\r\n"); // set the 'end of line' commonly
 define("CORS_DOMAINS", false); // allow origin domains
+define("PHP_FIREWALL_REQUEST_URI", false); // only for sponsors
+define("PHP_FIREWALL_ACTIVATION", false); // only for sponsors
+define("PHP_DDOS_PROTECTION", true); // only for sponsors
 
 // check if current status is development
 if(APP_DEVELOPMENT == true) {
@@ -94,6 +97,16 @@ write_visit_log();
 
 // get requested route
 $route = read_route();
+
+// set PHP firewall (only for sponsors)
+if(PHP_FIREWALL_ACTIVATION !== false) {
+    loadHelper("php-firewall.lnk");
+}
+
+// set DDOS protection (only for sponsors)
+IF(PHP_DDOS_PROTECTION !== false) {
+    loadHelper("php-ddos-shield.lnk");
+}
 
 // load route file
 if(!loadRoute($route, $scope)) {
