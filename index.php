@@ -17,7 +17,7 @@ define("CORS_DOMAINS", false); // allow origin domains
 define("PHP_FIREWALL_REQUEST_URI", false); // only for sponsors
 define("PHP_FIREWALL_ACTIVATION", false); // only for sponsors (xss, csrf, sql injection, ...)
 define("PHP_DDOS_PROTECTION", false); // only for sponsors (ddos protection, warn to email, ...)
-define("PHP_WEBSHELL_DETECTION", false); //only for sponsors (detect webshell malware)
+define("PHP_WEBSHELL_DETECTION", false); // only for sponsors (detect webshell malware)
 
 // check if current status is development
 if(APP_DEVELOPMENT == true) {
@@ -100,16 +100,6 @@ write_visit_log();
 
 // get requested route
 $route = read_route();
-
-// set PHP firewall (only for sponsors)
-if(PHP_FIREWALL_ACTIVATION !== false) {
-    loadHelper("php-firewall.lnk");
-}
-
-// set DDOS protection (only for sponsors)
-if(PHP_DDOS_PROTECTION !== false) {
-    loadHelper("php-ddos-shield.lnk");
-}
 
 // load route file
 if(!loadRoute($route, $scope)) {
