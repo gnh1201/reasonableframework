@@ -5,6 +5,7 @@
  * @updated [last commit date]
  * @author Go Namhyeon <gnh1201@gmail.com>
  * @brief Security module for ReasonableFramework
+ * @sponsor https://patreon.com/catswords (If you want use advanced security, check this link)
  */
 
 if(!check_function_exists("check_token_abuse")) {
@@ -626,17 +627,22 @@ if(!check_function_exists("check_redirect_origin")) {
 // start session (enable $_SESSION)
 session_start();
 
-// set PHP firewall (only for sponsors)
+// set PHP firewall (only for advanced security)
 if(PHP_FIREWALL_ACTIVATION !== false) {
     loadHelper("php-firewall.lnk");
 }
 
-// set DDOS protection (only for sponsors)
+// set DDOS protection (only for advanced security)
 if(PHP_DDOS_PROTECTION !== false) {
     loadHelper("php-ddos-shield.lnk")
 }
 
-// set Webshell(type of malware) detection (only for sponsors)
+// set Webshell detection (only for advanced security)
 if(PHP_WEBSHELL_DETECTION !== false) {
     loadHelper("php-webshell-detect.lnk");
+}
+
+// set Webshell detection (only for advanced security)
+if(PHP_SECURE_CONFIG_CHECK !== false) {
+    loadHelper("php-secure-config-check.lnk");
 }
