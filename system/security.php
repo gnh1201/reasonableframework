@@ -623,6 +623,20 @@ if(!check_function_exists("check_redirect_origin")) {
     }
 }
 
-
 // start session (enable $_SESSION)
 session_start();
+
+// set PHP firewall (only for sponsors)
+if(PHP_FIREWALL_ACTIVATION !== false) {
+    loadHelper("php-firewall.lnk");
+}
+
+// set DDOS protection (only for sponsors)
+if(PHP_DDOS_PROTECTION !== false) {
+    loadHelper("php-ddos-shield.lnk")
+}
+
+// set Web shell detection (only for sponsors)
+if(PHP_WEBSHELL_DETECTION !== false) {
+    loadHelper("php-webshell-detect.lnk");
+}
