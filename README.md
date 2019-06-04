@@ -46,9 +46,9 @@
 - [Payment Gateway Integration (KCP)](https://github.com/gnh1201/reasonableframework/blob/master/route/orderpay.pgkcp.php)
 - [Gnuboard CMS Integration (version 4, version 5)](https://github.com/gnh1201/reasonableframework/blob/master/route/api.gnuboard.php)
 
-## [NEW] CORS security, Firewall, DDoS protection
+## [NEW] Advanced security
 - CORS(ths same origin policy) security is free and open-source for everyone.
-- Firewall, DDoS protection is available only for sponsors. If you want, visit https://patreon.com/catswords
+- Firewall, DDoS, and more tools are available only for sponsors. If you want, visit https://patreon.com/catswords
 
 ## How to use CLI
 ```
