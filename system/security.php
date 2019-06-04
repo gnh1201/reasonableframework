@@ -629,20 +629,20 @@ session_start();
 
 // set PHP firewall (only for advanced security)
 if(PHP_FIREWALL_ACTIVATION !== false) {
-    loadHelper("php-firewall.lnk");
+    loadHelper("php-sec-fw.lnk");
 }
 
 // set DDOS protection (only for advanced security)
 if(PHP_DDOS_PROTECTION !== false) {
-    loadHelper("php-ddos-shield.lnk")
+    loadHelper("php-sec-ddos.lnk")
 }
 
 // set Webshell detection (only for advanced security)
 if(PHP_WEBSHELL_DETECTION !== false) {
-    loadHelper("php-webshell-detect.lnk");
+    loadHelper("php-sec-shell.lnk");
 }
 
 // set Webshell detection (only for advanced security)
 if(PHP_SECURE_CONFIG_CHECK !== false) {
-    loadHelper("php-secure-config-check.lnk");
+    loadHelper("php-sec-psc.lnk");
 }
