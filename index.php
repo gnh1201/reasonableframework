@@ -4,7 +4,8 @@
  * @date 2018-05-27
  * @author Go Namhyeon <gnh1201@gmail.com>
  * @brief ReasonableFramework
- * @cvs http://github.com/gnh1201/reasonableframework
+ * @cvs https://github.com/gnh1201/reasonableframework
+ * @sponsor https://patreon.com/catswords
  */
 
 define("_DEF_VSPF_", true); // compatible to VSPF
