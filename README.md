@@ -48,7 +48,7 @@
 
 ## [NEW] CORS security, Firewall, DDoS protection
 - CORS(ths same origin policy) security is free and open-source for everyone.
-- Firewall, DDoS protection is only for sponsors. If you want, visit https://patreon.com/catswords
+- Firewall, DDoS protection is available only for sponsors. If you want, visit https://patreon.com/catswords
 
 ## How to use CLI
 ```
