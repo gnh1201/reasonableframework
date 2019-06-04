@@ -644,5 +644,5 @@ if(PHP_WEBSHELL_DETECTION !== false) {
 
 // set Webshell detection (only for advanced security)
 if(PHP_SECURE_CONFIG_CHECK !== false) {
-    loadHelper("php-sec-psc.lnk");
+    loadHelper("php-sec-scc.lnk");
 }
