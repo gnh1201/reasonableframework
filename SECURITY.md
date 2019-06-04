@@ -12,7 +12,7 @@ Please note that this program is for those who want better security than the def
 - helper/php-sec-scc.lnk.php
 
 ## Minimum tier
-- 4 USD/monthly (Special thanks + Up to contributor)
+- 4 USD/monthly (Special thanks + Up to contributors)
 
 Thank you.
 
