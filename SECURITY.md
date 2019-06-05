@@ -1,5 +1,5 @@
 # Advanced security for ReasonableFramework
-Web hacking firewall(XSS, CSRF, SQL injection, ...), DDoS protection, Webshell (malicious code) detection, secure configuration check. these extensions are only available for sponsors.
+Web hacking firewall(advanced protection such sa XSS, CSRF, SQL-injection), DDoS protection, Webshell (malicious code) detection, secure configuration check. these extensions are only available for sponsors.
 
 Even if you do not use a sponsor-only security module, the default security in our framework is usually sufficient.
 
