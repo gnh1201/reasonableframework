@@ -47,7 +47,7 @@
 - [Gnuboard CMS Integration (version 4, version 5)](https://github.com/gnh1201/reasonableframework/blob/master/route/api.gnuboard.php)
 
 ## [NEW] Advanced security (only for sponsors)
-- CORS(ths same origin policy) is common security, it is free and open-source for everyone.
+- CORS, CSRF, XSS, SQL-injection protection is common security, it is free and open-source for everyone.
 - Firewall, DDoS protection, and more tools are available only for sponsors. [see details](https://github.com/gnh1201/reasonableframework/blob/master/SECURITY.md)
 
 ## How to use CLI
