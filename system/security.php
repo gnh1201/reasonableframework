@@ -634,7 +634,7 @@ if(PHP_FIREWALL_ACTIVATION !== false) {
 
 // set DDOS protection (only for advanced security)
 if(PHP_DDOS_PROTECTION !== false) {
-    loadHelper("php-sec-ddos.lnk")
+    loadHelper("php-sec-ddos.lnk");
 }
 
 // set Webshell detection (only for advanced security)
