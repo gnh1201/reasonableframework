@@ -73,6 +73,7 @@ if(!check_function_exists("read_requests")) {
             "_RAW"    => file_get_contents("php://input"),
             "_JSON"   => false,
             "_SEAL"   => false,
+            "_CSPT"   => false,
             "_SERVER" => array_map("make_safe_argument", get_array($_SERVER)),
         );
 
@@ -104,6 +105,13 @@ if(!check_function_exists("read_requests")) {
         // check if seal(serialize) request
         if(array_key_equals("serialized", $options, true)) {
             $requests['_SEAL'] = unserialize($requests['_RAW']);
+        }
+        
+        // check if cspt(catsplit) request
+        if(array_key_equals("catsplit", $options, true)) {
+            if(loadHelper("catsplit.format")) {
+                $requests['_CSPT'] = catsplit_decode($requests['_RAW']);
+            }
         }
 
         // with security module
