@@ -138,6 +138,7 @@ if(!check_function_exists("read_requests")) {
             "raw" => "_RAW",
             "json" => "_JSON",
             "seal" => "_SEAL",
+            "cspt" => "_CSPT",
         );
         foreach($aliases as $k=>$v) {
             $requests[$k] = $requests[$v];
