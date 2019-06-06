@@ -338,9 +338,10 @@ if(!check_function_exists("set_header_content_type")) {
         $rules = array(
             "json" => "application/json",
             "xml" => "text/xml",
-            "text" => "text/plain",
+            "txt" => "text/plain",
             "html" => "text/html",
             "xhtml" => "application/xhtml+xml"
+            "cspt" => "application/catsplit",
         );
 
         if(array_key_exists($type, $rules)) {
