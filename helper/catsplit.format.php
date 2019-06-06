@@ -27,8 +27,8 @@ if(!check_function_exists("catsplit_decode")) {
 		$s1 = explode(")<=(", substr($data, 1, -1));
 
 		// step 2
-		$s2a = explode(",", $s1[0]);
-		$s2b = explode(",", $s1[1]);
+		$s2a = array_map("trim", explode(",", $s1[0]));
+		$s2b = array_map("trim", explode(",", $s1[1]));
 
 		// step 3
 		$s3 = array_combine($s2b, $s2a);
