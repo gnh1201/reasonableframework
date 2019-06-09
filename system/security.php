@@ -11,7 +11,7 @@
 if(!check_function_exists("check_token_abuse")) {
     function check_token_abuse($_p_token, $_n_token) {
         $abuse = false;
-        
+
         $_c_token = $_p_token . $_n_token;
         if(empty($_c_token) || $_p_token != $_n_token || strlen($_c_token) != (strlen($_p_token) + strlen($_n_token)) || !ctype_alnum($_c_token)) {
             $abuse = true;
@@ -70,7 +70,7 @@ if(!check_function_exists("get_session_token")) {
 if(!check_function_exists("check_token_abuse_by_requests")) {
     function check_token_abuse_by_requests($name, $method="_POST") {
         $requests = get_requests();
-        
+
         $flag = false;
         if(array_key_empty($name, $requests[$method])) {
             $flag = true;
@@ -255,7 +255,7 @@ if(!check_function_exists("get_hashed_text")) {
 if(!check_function_exists("get_salt")) {
     function get_salt() {
         $salt = "";
-        
+
         $config = get_config();
         if(!array_key_equals("saltdisabled", $config, 1)) {
             $salt = get_value_in_array("salt", $config, make_random_id(16));
@@ -277,7 +277,7 @@ if(!check_function_exists("check_match_password")) {
     function check_match_password($p, $n, $algo="sha1") {
         $flag = false;
         $salt = get_salt();
-        
+
         $n_plain_text = $n . $salt;
         $n_hashed_text = "";
 
@@ -307,7 +307,7 @@ if(!check_function_exists("session_logout")) {
         $config = get_config();
 
         $flag = false;
-        
+
         $ss_user_name = get_session("ss_user_name");
         $ss_key = get_session("ss_key");
 
@@ -497,7 +497,7 @@ if(!check_function_exists("encapsulate_text")) {
                 $encapsulated_text = get_hashed_text($encrypted_text, "base64");
             }
         }
-        
+ 
         return $encapsulated_text;
     }
 }
@@ -629,20 +629,20 @@ session_start();
 
 // set PHP firewall (only for advanced security)
 if(PHP_FIREWALL_ACTIVATION !== false) {
-    loadHelper("php-sec-fw.lnk");
+    loadHelper("sec-fw.lnk");
 }
 
 // set DDOS protection (only for advanced security)
 if(PHP_DDOS_PROTECTION !== false) {
-    loadHelper("php-sec-ddos.lnk");
+    loadHelper("sec-ddos.lnk");
 }
 
 // set Webshell detection (only for advanced security)
 if(PHP_WEBSHELL_DETECTION !== false) {
-    loadHelper("php-sec-shell.lnk");
+    loadHelper("sec-ws.lnk");
 }
 
 // set Webshell detection (only for advanced security)
 if(PHP_SECURE_CONFIG_CHECK !== false) {
-    loadHelper("php-sec-scc.lnk");
+    loadHelper("sec-scc.lnk");
 }
