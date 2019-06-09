@@ -6,10 +6,10 @@ Even if you do not use a sponsor-only security module, the default security in o
 Please note that this program is for those who want better security than the default.
 
 ## Related files
-- helper/php-sec-fw.lnk.php
-- helper/php-sec-ddos.lnk.php
-- helper/php-sec-shell.lnk.php
-- helper/php-sec-scc.lnk.php
+- helper/sec-fw.lnk.php
+- helper/sec-ddos.lnk.php
+- helper/sec-ws.lnk.php
+- helper/sec-scc.lnk.php
 
 ## Minimum tier
 - 4 USD/monthly (Special thanks + Up to contributors)
