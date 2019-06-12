@@ -322,13 +322,12 @@ if(!check_function_exists("show_errors")) {
     }
 }
 
-if(!check_function_exists("set_error_exit")) {
-    function set_error_exit($msg, $code="ERROR") {
+if(!check_function_exists("do_error")) {
+    function do_error($msg, $code="ERROR") {
         set_error($msg, $code);
         show_errors();
     }
-}
-
+}do_error
 
 if(!check_function_exists("get_property_value")) {
     function get_property_value($prop, $obj, $ac=false) {
@@ -354,10 +353,17 @@ if(!check_function_exists("get_routes")) {
     }
 }
 
-// Deprecated: array_multikey_empty is changed to array_keys_empty, since version 1.2
+// Deprecated: array_multikey_empty() is changed to array_keys_empty(), since version 1.2
 if(!check_function_exists("array_multikey_empty")) {
     function array_multikey_empty($keys, $array) {
         return array_keys_empty($keys, $array);
+    }
+}
+
+// Deprecated: set_error_exit() is changed to do_error()
+if(!check_function_exists("set_error_exit")) {
+    function set_error_exit($msg, $code="ERROR") {
+        do_error($msg, $code);
     }
 }
 
