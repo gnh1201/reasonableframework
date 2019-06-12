@@ -362,9 +362,9 @@ if(!check_function_exists("get_bind_to_sql_select")) {
         // s1a: s1 additonal (set new fields)
         $s1a = array();
         if(array_key_is_array("setfields", $options)) {
-            $addfields = $options['setfields'];
+            $setfields = $options['setfields'];
 
-            foreach($addfields as $k=>$v) {
+            foreach($setfields as $k=>$v) {
                 // concat and delimiter
                 if(!array_keys_empty(array("concat", "delimiter"), $v)) {
                     // add to s1a
