@@ -340,7 +340,7 @@ if(!check_function_exists("set_header_content_type")) {
             "xml" => "text/xml",
             "txt" => "text/plain",
             "html" => "text/html",
-            "xhtml" => "application/xhtml+xml"
+            "xhtml" => "application/xhtml+xml",
             "cspt" => "application/catsplit",
         );
 
