@@ -313,9 +313,11 @@ if(!check_function_exists("get_bind_to_sql_where")) {
     function get_bind_to_sql_where($bind, $excludes=array()) {
         $sql_where = "";
 
-        foreach($bind as $k=>$v) {
-            if(!in_array($k, $excludes)) {
-                $sql_where .= sprintf(" and %s = :%s", $k, $k);
+        if(is_array($bind)) {
+            foreach($bind as $k=>$v) {
+                if(!in_array($k, $excludes)) {
+                    $sql_where .= sprintf(" and %s = :%s", $k, $k);
+                }
             }
         }
 
