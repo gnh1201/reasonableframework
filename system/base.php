@@ -327,7 +327,7 @@ if(!check_function_exists("do_error")) {
         set_error($msg, $code);
         show_errors();
     }
-}do_error
+}
 
 if(!check_function_exists("get_property_value")) {
     function get_property_value($prop, $obj, $ac=false) {
