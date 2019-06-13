@@ -190,6 +190,12 @@ if(!check_function_exists("get_highlighted_html_by_words")) {
     }
 }
 
+if(!check_function_exists("get_floating_percentage")) {
+    function get_floating_percentage($x, $a=2) {
+        return round($x / 100, $a);
+    }
+}
+
 if(!check_function_exists("eregi_compatible")) {
     function eregi_compatible($pattern, $subject, &$matches=NULL) {
         return preg_match(sprintf("/%s/i", $pattern), $subject, $matches);
