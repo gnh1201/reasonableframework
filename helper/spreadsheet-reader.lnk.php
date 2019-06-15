@@ -24,9 +24,9 @@ if(!check_function_exists("parse_excel_file")) {
 
         $spreadsheet = false;
         $columnNames = array();
-        $fileFormat = strtolower($format);
-
+        
         /*
+        $fileFormat = strtolower($format);
         if($fileFormat == "xlsx") {
             $spreadsheet = new SpreadsheetReader_XLSX($filepath);
         } elseif($fileFormat == "xls") {
