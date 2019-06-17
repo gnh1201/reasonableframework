@@ -14,7 +14,7 @@ define("_DEF_RSF_", true); // compatible to RSF
 define("APP_DEVELOPMENT", false); // set the status of development
 define("DOC_EOL", "\r\n"); // set the 'end of line' commonly
 define("CORS_DOMAINS", false); // common security: allow origin domains
-define("SECURITY_VENDOR", false); // advanced security: set third-party security vendor code
+define("SECURITY_VENDOR", false); // advanced security: set security vendor(company) code
 
 // check if current status is development
 if(APP_DEVELOPMENT == true) {
