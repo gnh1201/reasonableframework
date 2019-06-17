@@ -627,22 +627,7 @@ if(!check_function_exists("check_redirect_origin")) {
 // start session (enable $_SESSION)
 session_start();
 
-// set PHP firewall (only for advanced security)
-if(PHP_FIREWALL_ACTIVATION !== false) {
-    loadHelper("sec-fw.lnk");
-}
-
-// set DDOS protection (only for advanced security)
-if(PHP_DDOS_PROTECTION !== false) {
-    loadHelper("sec-ddos.lnk");
-}
-
-// set Webshell detection (only for advanced security)
-if(PHP_WEBSHELL_DETECTION !== false) {
-    loadHelper("sec-ws.lnk");
-}
-
-// set Webshell detection (only for advanced security)
-if(PHP_SECURE_CONFIG_CHECK !== false) {
-    loadHelper("sec-scc.lnk");
+// load extensions of user-configured security vendor (advanced security)
+if(SECURITY_VENDOR !== false) {
+    loadHelper("securitytool.lnk");
 }
