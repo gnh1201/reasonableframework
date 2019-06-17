@@ -14,11 +14,7 @@ define("_DEF_RSF_", true); // compatible to RSF
 define("APP_DEVELOPMENT", false); // set the status of development
 define("DOC_EOL", "\r\n"); // set the 'end of line' commonly
 define("CORS_DOMAINS", false); // common security: allow origin domains
-define("PHP_FIREWALL_REQUEST_URI", false); // advanced security
-define("PHP_FIREWALL_ACTIVATION", false); // advanced security
-define("PHP_DDOS_PROTECTION", false); // advanced security
-define("PHP_WEBSHELL_DETECTION", false); // advanced security
-define("PHP_SECURE_CONFIG_CHECK", false); // advanced security
+define("SECURITY_VENDOR", false); // advanced security: set third-party security vendor code
 
 // check if current status is development
 if(APP_DEVELOPMENT == true) {
