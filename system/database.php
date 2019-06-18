@@ -458,7 +458,7 @@ if(!check_function_exists("get_bind_to_sql_select")) {
                         $s4a[] = $opts;
                     } elseif(check_array_length($opts, 2) == 0) {
                         // example: array("desc", "datetime")
-                        $s4a[] = sprintf("%s %s", $opts[1], $opts[0]);
+                        $s4a[] = sprintf("%s %s", get_value_in_array($opts[1], $s1a, $opts[1]), $opts[0]);
                     }
                 }
                 $s4 .= implode(", ", $s4a);
