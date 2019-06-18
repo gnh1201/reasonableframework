@@ -366,9 +366,9 @@ if(!check_function_exists("get_bind_to_sql_select")) {
 
             foreach($setfields as $k=>$v) {
                 // concat and delimiter
-                if(!array_keys_empty(array("concat", "delimiter"), $v)) {
-                    // add to s1a
-                    $s1a[$k] = sprintf("concat(%s)", implode(sprintf(", '%s', ", $v['delimiter']), $v['concat']));
+                if(!array_keys_empty("concat", $v)) {
+                    $delimiter = get_value_in_array("delimiter", $v, " ");
+                    $s1a[$k] = sprintf("concat(%s)", implode(sprintf(", '%s', ", $delimiter), $v['concat']));
                 }
 
                 // use mysql function
