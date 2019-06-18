@@ -371,12 +371,19 @@ if(!check_function_exists("get_bind_to_sql_select")) {
                     $s1a[$k] = sprintf("concat(%s)", implode(sprintf(", '%s', ", $v['delimiter']), $v['concat']));
                 }
 
-                // use function
-                if(!array_key_empty("call_func", $v)) {
-                    if(check_array_length($v['call_func'], 1) > 0) {
+                // use mysql function
+                if(!array_key_empty("sql_function", $v)) {
+                    if(check_array_length($v['sql_function'], 1) > 0) {
                         // add to s1a
-                        $s1a[$k] = sprintf("%s(%s)", $v['call_func'][0], implode(", ", array_slice($v['call_func'], 1)));
+                        $s1a[$k] = sprintf("%s(%s)", $v['sql_function'][0], implode(", ", array_slice($v['sql_function'], 1)));
                     }
+                }
+
+                // use simple distance
+                if(!array_key_empty("simple_distance", $v)) {
+                    $a = $v['simple_distance'][0];
+                    $b = $v['simple_distance'][1];
+                    $s1a[$k] = sprintf("abs(1.0 - (abs(%s - %s) / %s))", $b, $a, $a);
                 }
             }
         }
