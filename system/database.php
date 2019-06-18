@@ -381,9 +381,11 @@ if(!check_function_exists("get_bind_to_sql_select")) {
 
                 // use simple distance
                 if(!array_key_empty("simple_distance", $v)) {
-                    $a = $v['simple_distance'][0];
-                    $b = $v['simple_distance'][1];
-                    $s1a[$k] = sprintf("abs(1.0 - (abs(%s - %s) / %s))", $b, $a, $a);
+                    if(check_array_length($v['simple_distance'], 2) == 0) {
+                        $a = $v['simple_distance'][1]; // percentage (range 0 to 1)
+                        $b = $v['simple_distance'][0]; // field or number
+                        $s1a[$k] = sprintf("abs(1.0 - (abs(%s - %s) / %s))", $b, $a, $a);
+                    }
                 }
             }
         }
