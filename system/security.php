@@ -548,7 +548,7 @@ if(!check_function_exists("decapsulate_text")) {
 
 if(!check_function_exists("make_safe_argument")) {
     function make_safe_argument($str) {
-        return addslashes($str);
+        return is_string($str) ? addslashes($str) : $str;
     }
 }
 
