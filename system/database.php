@@ -431,6 +431,14 @@ if(!check_function_exists("get_bind_to_sql_select")) {
                             if(check_array_length($opts[1][2], 0) > 0) {
                                 $s3 .= sprintf(" %s (%s in ('%s'))", $opts[0], $opts[1][1], implode("', '", $opts[1][2]));
                             }
+                        } elseif($opts[1][0] == "set") {
+                            if(check_array_length($opts[1][2], 0) > 0) {
+                                $s3a = array();
+                                foreach($opts[1][2] as $word) {
+                                    $s3a[] = sprintf("find_in_set('%s', %s)", $word, $opts[1][1]);
+                                }
+                                $s3 .= sprintf(" %s (" . implode(" and ", $s3a) . ")", $opts[0]);
+                            }
                         } else {
                             $ssts = array(
                                 "eq" => "=",
