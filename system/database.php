@@ -89,16 +89,18 @@ if(!function_exists("compare_db_key_length")) {
 
 if(!function_exists("get_db_binded_sql")) {
     function get_db_binded_sql($sql, $bind=array()) {
-            $bind_keys = get_array(array_keys($bind));
-            if(check_array_length($bind_keys, 0) > 0) {
-                // 2018-08-19: support lower php version (not supported anonymous function)
-                usort($bind_keys, "compare_db_key_length");
+        $sql = "";
+        
+        $bind_keys = get_array(array_keys($bind));
+        if(check_array_length($bind_keys, 0) > 0) {
+            // 2018-08-19: support lower php version (not supported anonymous function)
+            usort($bind_keys, "compare_db_key_length");
 
-                // bind values
-                foreach($bind_keys as $k) {
-                    $sql = str_replace(":" . $k, "'" . addslashes($bind[$k]) . "'", $sql);
-                }
+            // bind values
+            foreach($bind_keys as $k) {
+                $sql = str_replace(":" . $k, "'" . addslashes($bind[$k]) . "'", $sql);
             }
+        }
         return $sql;
     }
 }
