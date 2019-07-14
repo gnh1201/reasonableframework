@@ -214,13 +214,13 @@ if(!check_function_exists("exec_db_query")) {
         return $flag;
     }
 }
-
 if(!check_function_exists("exec_db_fetch_all")) {
     function exec_db_fetch_all($sql, $bind=array(), $options=array()) {
         $response = array();
-        $length = 0;
+
+        $size = 0;
         $is_not_countable = false;
-        
+
         $rows = array();
         $stmt = get_db_stmt($sql, $bind);
 
@@ -229,11 +229,13 @@ if(!check_function_exists("exec_db_fetch_all")) {
         }
 
         if(array_key_equals("do_count", $options, true)) {
-            $count_sql = sprintf("select count(*) as cnt from (%s) a", get_db_binded_sql($sql, $bind));
-            $count_data = exec_db_fetch($count_sql);
-            $length = get_value_in_array("cnt", $count_data, $length);
-        } elseif(array_key_equals("do_count", $options, "fn_count")) {
-            $length = count($rows);
+            $_sql = sprintf("select count(*) as cnt from (%s) a", get_db_binded_sql($sql, $bind));
+            $_data = exec_db_fetch($_sql);
+            $size = get_value_in_array("cnt", $_data, $size);
+        } elseif(array_key_equals("do_count", $options, "count")) {
+            $size = count($rows);
+        } elseif(array_key_equals("do_count", $options, "PDOStatement::rowCount")) {
+            $size = $stmt->rowCount();
         } else {
             $response = $rows;
             $is_not_countable = true;
@@ -241,7 +243,10 @@ if(!check_function_exists("exec_db_fetch_all")) {
 
         if(!$is_not_countable) {
             $response = array(
-                "length" => $length,
+                "length" => $size, // compatible with RSF 1.4 or lower
+                "size" => $size,   // use RSF 1.5 or above (recommended: size)
+                "cnt" => $size,
+                "count" => $size,
                 "data" => $rows,
             );
         }
