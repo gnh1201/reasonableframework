@@ -232,7 +232,7 @@ if(!check_function_exists("exec_db_fetch_all")) {
         if(array_key_equals("do_count", $options, true)) {
             $_sql = sprintf("select count(*) as cnt from (%s) a", get_db_binded_sql($sql, $bind));
             $_data = exec_db_fetch($_sql);
-            $_cnt = get_value_in_array("cnt", $_data, $size);
+            $_cnt = get_value_in_array("cnt", $_data, $_cnt);
         } elseif(array_key_equals("do_count", $options, "count")) {
             $_cnt = count($rows);
         } elseif(array_key_equals("do_count", $options, "PDOStatement::rowCount")) {
