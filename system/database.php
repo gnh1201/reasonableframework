@@ -437,7 +437,7 @@ if(!check_function_exists("get_bind_to_sql_select")) {
                                 foreach($opts[1][2] as $word) {
                                     $s3a[] = sprintf("find_in_set('%s', %s)", $word, $opts[1][1]);
                                 }
-                                $s3 .= sprintf(" %s (" . implode(" and ", $s3a) . ")", $opts[0]);
+                                $s3 .= sprintf(" %s (%s)", $opts[0], implode(" and ", $s3a));
                             }
                         } else {
                             $ssts = array(
