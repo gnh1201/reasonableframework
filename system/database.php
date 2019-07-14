@@ -89,10 +89,9 @@ if(!function_exists("compare_db_key_length")) {
 
 if(!function_exists("get_db_binded_sql")) {
     function get_db_binded_sql($sql, $bind=array()) {
-        $sql = "";
-        
-        $bind_keys = get_array(array_keys($bind));
-        if(check_array_length($bind_keys, 0) > 0) {
+        if(is_array($bind) && check_array_length($bind, 0) > 0) {
+            $bind_keys = array_keys($bind);
+
             // 2018-08-19: support lower php version (not supported anonymous function)
             usort($bind_keys, "compare_db_key_length");
 
