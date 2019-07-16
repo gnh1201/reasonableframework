@@ -19,8 +19,10 @@ define("SECURITY_VENDOR", false); // advanced security: set security vendor(comp
 // check if current status is development
 if(APP_DEVELOPMENT == true) {
     error_reporting(E_ALL);
-    ini_set("display_errors", 1);
+} else {
+    error_reporting(E_ERROR | E_PARSE);
 }
+ini_set("display_errors", 1);
 
 // CORS Security (https or http)
 if(CORS_DOMAIN !== false) {
