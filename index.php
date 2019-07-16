@@ -15,7 +15,7 @@ define("APP_DEVELOPMENT", false); // set the status of development
 define("DOC_EOL", "\r\n"); // set the 'end of line' commonly
 define("CORS_DOMAINS", false); // common security: allow origin domains (e.g. example.org,*.example.org)
 define("PHP_FIREWALL_REQUEST_URI", strip_tags($_SERVER['REQUEST_URI'])); // advanced security
-define("PHP_FIREWALL_ACTIVATION", true); // advanced security
+define("PHP_FIREWALL_ACTIVATION", false); // advanced security
 define("PHP_DDOS_PROTECTION", false); // advanced security
 
 // check if current status is development
