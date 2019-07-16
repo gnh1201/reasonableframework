@@ -626,8 +626,3 @@ if(!check_function_exists("check_redirect_origin")) {
 
 // start session (enable $_SESSION)
 session_start();
-
-// load extensions of user-configured security vendor (advanced security)
-if(SECURITY_VENDOR !== false) {
-    loadHelper("securitytool.lnk");
-}
