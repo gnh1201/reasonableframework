@@ -12,4 +12,4 @@ the advanced security against XSS, CSRF, SQL injection, DDoS, Webshell (maliciou
 
 Thank you.
 
-https://www.patreon.com/posts/27376670
+https://www.patreon.com/posts/advanced-security-27376670
