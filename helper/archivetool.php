@@ -1,3 +1,0 @@
-<?php
-// archivetool.php
-// todo
