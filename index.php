@@ -13,7 +13,7 @@ define("_DEF_VSPF_", true); // compatible to VSPF
 define("_DEF_RSF_", true); // compatible to RSF
 define("APP_DEVELOPMENT", false); // set the status of development
 define("DOC_EOL", "\r\n"); // set the 'end of line' commonly
-define("CORS_DOMAIN", false); // common security: allow origin domains
+define("CORS_DOMAINS", false); // common security: allow origin domains (e.g. example.org,*.example.org)
 define("SECURITY_VENDOR", false); // advanced security: set security vendor(company) code
 
 // check if current status is development
@@ -25,8 +25,8 @@ if(APP_DEVELOPMENT == true) {
 ini_set("display_errors", 1);
 
 // CORS Security (https or http)
-if(CORS_DOMAIN !== false) {
-    $domains = explode(",", CORS_DOMAIN);
+if(CORS_DOMAINS !== false) {
+    $domains = explode(",", CORS_DOMAINS);
     $_origin = array_key_exists("HTTP_ORIGIN", $_SERVER) ? $_SERVER['HTTP_ORIGIN'] : "";
     $origins = array();
     if(!in_array("*", $domains)) {
