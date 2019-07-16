@@ -14,7 +14,9 @@ define("_DEF_RSF_", true); // compatible to RSF
 define("APP_DEVELOPMENT", false); // set the status of development
 define("DOC_EOL", "\r\n"); // set the 'end of line' commonly
 define("CORS_DOMAINS", false); // common security: allow origin domains (e.g. example.org,*.example.org)
-define("SECURITY_VENDOR", false); // advanced security: set security vendor(company) code
+define("PHP_FIREWALL_REQUEST_URI", strip_tags($_SERVER['REQUEST_URI'])); // advanced security
+define("PHP_FIREWALL_ACTIVATION", true); // advanced security
+define("PHP_DDOS_PROTECTION", false); // advanced security
 
 // check if current status is development
 if(APP_DEVELOPMENT == true) {
@@ -99,6 +101,16 @@ write_visit_log();
 
 // get requested route
 $route = read_route();
+
+// advanced security: set PHP firewall
+if(PHP_FIREWALL_ACTIVATION !== false) {
+    loadHelper("php-firewall.lnk");
+}
+
+// advanced security: set DDOS protection
+IF(PHP_DDOS_PROTECTION !== false) {
+    loadHelper("php-ddos.lnk");
+}
 
 // load route file
 if(!loadRoute($route, $scope)) {
