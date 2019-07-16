@@ -1,15 +1,14 @@
 # Advanced security for ReasonableFramework
-Web hacking firewall(the advanced security against XSS, CSRF, and SQL-injection), DDoS protection, Webshell (malicious code) detection, secure configuration check. these extensions are only available for sponsors.
-
-Even if you do not use a sponsor-only security module, the default security in our framework is usually sufficient.
-
-Please note that this program is for those who want better security than the default.
+the advanced security against XSS, CSRF, SQL injection, DDoS, Webshell (malicious code), weak configurations. there are extensions only available for sponsors. Generally, the default security in our framework is sufficient to you. so, you have to use it after did understand what is this.
 
 ## Related files
-- helper/securitytool.lnk.php
+- index.php
+- helper/php-firewall.php
+- helper/php-ddos.php
+- and more
 
 ## Minimum tier
-- 4 USD/monthly (Special thanks + Up to contributors)
+- 16 USD/monthly (Buy me a coffee)
 
 Thank you.
 
