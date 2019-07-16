@@ -1,5 +1,0 @@
-<?php
-
-loadVender("pChart2/");
-
-
