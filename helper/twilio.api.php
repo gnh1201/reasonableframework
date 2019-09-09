@@ -15,6 +15,7 @@ if(!check_function_exists("twilio_get_config")) {
             "sid" => get_value_in_array("twilio_sid", $config, ""),
             "token" => get_value_in_array("twilio_token", $config, ""),
             "from" => get_value_in_array("twilio_from", $config, ""),
+            "block_size" => get_value_in_array("twilio_block_size", $config, 160)
         );
     }
 }
@@ -26,8 +27,8 @@ if(!check_function_exists("twilio_send_message")) {
         $cnf = twilio_get_config();
 
         if(loadHelper("webpagetool")) {
-            $request_url = sprintf("https://api.twilio.com/2010-04-01/Accounts/%s/Messages.json", $sid);
-            $response = get_web_json($request_url, "post", array(
+            $request_url = sprintf("https://api.twilio.com/2010-04-01/Accounts/%s/Messages.json", $cnf['sid']);
+            $response = get_web_json($request_url, "post.cmd", array(
                 "headers" => array(
                     "Content-Type" => "application/x-www-form-urlencoded",
                     "Authentication" => array("Basic", $cnf['sid'], $cnf['token']),
@@ -49,10 +50,7 @@ if(!check_function_exists("twilio_send_voice")) {
         $response = false;
 
         $cnf = twilio_get_config();
-        $url = "http://demo.twilio.com/docs/voice.xml";
-
-        var_dump($cnf);
-
+        $url = "http://catswords.re.kr/ep/storage/data/voice.xml";
 
         if(loadHelper("webpagetool")) {
             $request_url = sprintf("https://api.twilio.com/2010-04-01/Accounts/%s/Calls.json", $cnf['sid']);
@@ -67,8 +65,6 @@ if(!check_function_exists("twilio_send_voice")) {
                     "To" => $to,
                 ),
             ));
-            var_dump($response);
-
         }
 
         return $response;
