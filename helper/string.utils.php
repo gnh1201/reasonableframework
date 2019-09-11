@@ -96,12 +96,17 @@ if(!check_function_exists("get_splitted_strings")) {
 
         $_len = get_string_length($str);
         $_pos = 0;
-        while($_len > $_pos) {
-            $strings[] = get_cutted_string($str, $_pos, $len, $charset);
-            $_pos += $len;
-            
-            if($_pos >= $_len) {
-                $strings[] = get_cutted_string($str, $_pos);
+        if($len >= $_len) {
+            $strings[] = $str;
+        } else {
+            $__len = ceil($_len / $len);
+            for($i = 0; $i < $__len; $i++) {
+                $_pos = $len * $i;
+                $strings[] = get_cutted_string($str, $_pos, $len, $charset);
+            }
+
+            if($_len - $_pos > 0) {
+                $strings[] = $strings[] = get_cutted_string($str, $_pos);
             }
         }
 
