@@ -74,7 +74,7 @@ if(!check_function_exists("get_cutted_string")) {
     }
 }
 
-if(check_function_exists("get_string_length")) {
+if(!check_function_exists("get_string_length")) {
     function get_string_length($str, $charset="utf-8") {
         $len = 0;
 
