@@ -59,7 +59,7 @@ if(!check_function_exists("get_formatted_number")) {
 }
 
 if(!check_function_exists("get_cutted_string")) {
-    function get_cutted_string($str, $start, $len=0, $charset="utf-8") {
+    function get_cutted_string($str, $start, $len=null, $charset="utf-8") {
         $result = "";
 
         if(check_function_exists("iconv_substr")) {
@@ -71,6 +71,41 @@ if(!check_function_exists("get_cutted_string")) {
         }
 
         return $result;
+    }
+}
+
+if(check_function_exists("get_string_length")) {
+    function get_string_length($str, $charset="utf-8") {
+        $len = 0;
+
+        if(check_function_exists("iconv_strlen")) {
+            $len = iconv_strlen($str, $charset);
+        } elseif(check_function_exists("mb_strlen")) {
+            $len = mb_strlen($str, $charset);
+        } else {
+            $len = strlen($str);
+        }
+
+        return $len;
+    }
+}
+
+if(!check_function_exists("get_splitted_strings")) {
+    function get_splitted_strings($str, $len=32, $chsarset="utf-8") {
+        $strings = array();
+
+        $_len = get_string_length($str);
+        $_pos = 0;
+        while($_len > $_pos) {
+            $strings[] = get_cutted_string($str, $_pos, $len, $charset);
+            $_pos += $len;
+            
+            if($_pos >= $_len) {
+                $strings[] = get_cutted_string($str, $_pos);
+            }
+        }
+
+        return $strings;
     }
 }
 
