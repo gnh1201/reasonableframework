@@ -6,7 +6,7 @@
  * @brief MySQL(MariaDB) command line driver
  */
 
-if(check_function_exists("exec_db_mysql_cmd_query")) {
+if(!check_function_exists("exec_db_mysql_cmd_query")) {
     function exec_db_mysql_cmd_query($sql, $bind) {
         $result = false;
         $config = get_config();
@@ -30,7 +30,7 @@ if(check_function_exists("exec_db_mysql_cmd_query")) {
     }
 }
 
-if(check_function_exists("exec_db_mysql_cmd_fetch_all")) {
+if(!check_function_exists("exec_db_mysql_cmd_fetch_all")) {
     function exec_db_mysql_cmd_fetch_all($sql, $bind) {
         $result = false;
 
