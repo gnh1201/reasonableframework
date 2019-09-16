@@ -37,8 +37,15 @@ if(!check_function_exists("exec_db_mysql_cmd_fetch_all")) {
         $tsvData = exec_db_mysql_cmd_query($sql, $bind);
         $lines = explode(DOC_EOL, $tsvData);
         $rows = array();
-        foreach ($lines as $line) {
-            $rows[] = str_getcsv($line, "\t");
+
+        if(check_function_exists("str_getcsv")) {
+            foreach($lines as $line) {
+                $rows[] = str_getcsv($line, "\t");
+            }
+        } else {
+            foreach($lines as $line) {
+                $rows[] = explode("\t", $line);
+            }
         }
 
         if(count($rows) > 0) {
