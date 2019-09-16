@@ -33,7 +33,7 @@ if(check_function_exists("exec_db_mysql_cmd_query")) {
 if(check_function_exists("exec_db_mysql_cmd_fetch_all")) {
     function exec_db_mysql_cmd_fetch_all($sql, $bind) {
         $result = false;
-        
+
         $tsvData = exec_db_mysql_cmd_query($sql, $bind);
         $lines = explode(DOC_EOL, $tsvData);
         $rows = array();
@@ -44,7 +44,7 @@ if(check_function_exists("exec_db_mysql_cmd_fetch_all")) {
         if(count($rows) > 0) {
             $result = $rows;
         }
-        
+
         return $result;
     }
 }
