@@ -6,15 +6,36 @@
  * @brief MySQL(MariaDB) command line driver
  */
 
+if(!check_function_exists("get_db_mysql_cmd_connect")) {
+    function get_db_mysql_cmd_connect() {
+        $result = false;
+        $config = get_config();
+        
+        if(loadHelper("exectool")) {
+            $args = array("mysql");
+            $args[] = sprintf("-u'%s'", $config['db_username']);
+            $args[] = sprintf("-p'%s'", $config['db_password']);
+            $args[] = sprintf("-h'%s'", $config['db_host']);
+            $args[] = "-s"; // --slient
+            $args[] = "-N"; // --skip-column-names
+            $args[] = "-e'select 1'";
+            
+            $cmd = implode(" ", $args);
+            $result = exec_command($cmd);
+        }
+        
+        return $result;
+    }
+}
+
 if(!check_function_exists("exec_db_mysql_cmd_query")) {
     function exec_db_mysql_cmd_query($sql, $bind) {
         $result = false;
         $config = get_config();
-
-        $args = array("mysql");
         $sql = get_db_binded_sql($sql, $bind);
 
         if(loadHelper("exectool")) {
+            $args = array("mysql");
             $args[] = sprintf("-u'%s'", $config['db_username']);
             $args[] = sprintf("-p'%s'", $config['db_password']);
             $args[] = sprintf("-h'%s'", $config['db_host']);
