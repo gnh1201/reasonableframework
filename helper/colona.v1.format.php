@@ -15,7 +15,14 @@ if(!check_function_exists("decode_colona_format") {
         foreach($lines as $line) {
             $pos = strpos($line, $delimiter);
 
-            if($pos !== false) {
+            if($eof) {
+                if($line == "EOF;") {
+                    $jobargs[$jobkey] = $jobvalue;
+                    $eof = false; 
+                } else {
+                    $jobvalue .= $line;
+                }
+            } elseif($pos !== false) {
                 $jobkey = rtrim(substr($line, 0, $pos));
                 $jobvalue = ltrim(substr($line, $pos + strlen($delimiter)));
                 if($jobvalue == "<<<EOF") {
@@ -23,13 +30,6 @@ if(!check_function_exists("decode_colona_format") {
                     $eof = true;
                 } else {
                     $jobargs[$jobkey] = $jobvalue;
-                }
-            } elseif($eof) {
-                if($line == "EOF;") {
-                    $jobargs[$jobkey] = $jobvalue;
-                    $eof = false; 
-                } else {
-                    $jobvalue .= $line;
                 }
             }
         }
