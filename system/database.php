@@ -302,11 +302,12 @@ if(!check_function_exists("get_bind_to_sql_insert")) {
     function get_bind_to_sql_insert($tablename, $bind, $options=array()) {
         // check ignore
         if(!array_key_empty("ignore", $options)) {
-            $row = exec_db_fetch(get_bind_to_sql_select($tablename, false, array(
-                "getcnt" => true,
-                "setwheres" => $options['ignore']
-            )), false);
-            $cnt = $row['cnt'];
+            $cnt = intval(
+                get_value_in_array("cnt", exec_db_fetch(get_bind_to_sql_select($tablename, false, array(
+                    "getcnt" => true,
+                    "setwheres" => $options['ignore']
+                )), false), 0)
+            );
             if($cnt > 0) {
                 return "select " . $cnt;
             }
