@@ -299,7 +299,20 @@ if(!check_function_exists("get_page_range")) {
 }
 
 if(!check_function_exists("get_bind_to_sql_insert")) {
-    function get_bind_to_sql_insert($tablename, $bind) {
+    function get_bind_to_sql_insert($tablename, $bind, $options=array()) {
+        // check ignore
+        if(!array_key_empty("ignore", $options)) {
+            $row = exec_db_fetch(get_bind_to_sql_select($tablename, false, array(
+                "getcnt" => true,
+                "setwheres" => $options['ignore']
+            )), false);
+            $cnt = $row['cnt'];
+            if($cnt > 0) {
+                return "select " . $cnt;
+            }
+        }
+
+        // make SQL statement
         $bind_keys = array_keys($bind);
         $sql = "insert into %s (%s) values (:%s)";
 
@@ -308,7 +321,7 @@ if(!check_function_exists("get_bind_to_sql_insert")) {
         $s3 = implode(", :", $bind_keys);
 
         $sql = sprintf($sql, $s1, $s2, $s3);
-
+        
         return $sql;
     }
 }
