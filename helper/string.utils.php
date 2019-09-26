@@ -211,6 +211,15 @@ if(!check_function_exists("parse_pipelined_data")) {
     }
 }
 
+// https://stackoverflow.com/questions/10290849/how-to-remove-multiple-utf-8-bom-sequences
+if(!check_function_exists("remove_utf8_bom")) {
+    function remove_utf8_bom($text) {
+        $bom = pack('H*','EFBBBF');
+        $text = preg_replace("/^$bom/", '', $text);
+        return $text;
+    }
+}
+
 if(!check_function_exists("get_tokenized_text")) {
     function get_tokenized_text($text, $delimiters=array(",", " ", "|", "-", "+")) {
         return array_filter(multi_explode($delimiters, $text));
