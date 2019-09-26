@@ -4,12 +4,7 @@
 
 if(!check_function_exists("decode_colona_format") {
     function decode_colona_format($data) {
-        if(loadHelper("string.utils")) {
-            $lines = split_by_line(remove_utf8_bom($data));
-        } else {
-            return false;
-        }
-
+        $lines = split_by_line(remove_utf8_bom($data));
         $jobargs = array();
         $eof = false;
         $delimiter = ":";
