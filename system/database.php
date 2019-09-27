@@ -391,10 +391,10 @@ if(!check_function_exists("get_bind_to_sql_select")) {
                 }
 
                 // use mysql function
-                if(!array_key_empty("sql_function", $v)) {
-                    if(check_array_length($v['sql_function'], 1) > 0) {
+                if(!array_key_empty("call", $v)) {
+                    if(check_array_length($v['call'], 1) > 0) {
                         // add to s1a
-                        $s1a[$k] = sprintf("%s(%s)", $v['sql_function'][0], implode(", ", array_slice($v['sql_function'], 1)));
+                        $s1a[$k] = sprintf("%s(%s)", $v['call'][0], implode(", ", array_slice($v['call'], 1)));
                     }
                 }
 
