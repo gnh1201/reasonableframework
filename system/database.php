@@ -384,6 +384,26 @@ if(!check_function_exists("get_bind_to_sql_select")) {
             $setfields = $options['setfields'];
 
             foreach($setfields as $k=>$v) {
+                // add
+                if(!array_keys_empty("add", $v)) {
+                    $s1a[$k] = sprintf("(%s + %s)", $k, $v['add']);
+                }
+                
+                // sub
+                if(!array_keys_empty("sub", $v)) {
+                    $s1a[$k] = sprintf("(%s - %s)", $k, $v['sub']);
+                }
+                
+                // mul
+                if(!array_key_empty("mul", $v)) {
+                    $s1a[$k] = sprintf("(%s * %s)", $k, $v['mul']);
+                }
+                
+                // div
+                if(!array_key_empty("div", $v)) {
+                    $s1a[$k] = sprintf("(%s / %s)", $k, $v['div']);
+                }
+
                 // concat and delimiter
                 if(!array_keys_empty("concat", $v)) {
                     $delimiter = get_value_in_array("delimiter", $v, " ");
