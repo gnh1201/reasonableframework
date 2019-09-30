@@ -191,7 +191,7 @@ if(!check_function_exists("check_hash_algo")) {
 
 if(!check_function_exists("get_hashed_text")) {
     function get_hashed_text($text, $algo="sha1", $options=array()) {
-        $hashed_text = false;
+        $_text = false;
 
         // with salt
         if(!array_key_empty("salt", $options)) {
@@ -213,42 +213,57 @@ if(!check_function_exists("get_hashed_text")) {
         // choose algorithm
         switch($algo) {
             case "sha1":
-                $hashed_text = sha1($text);
+                $_text = sha1($text);
                 break;
             case "md5":
-                $hashed_text = md5($text);
+                $_text = md5($text);
                 break;
             case "crypt":
-                $hashed_text = crypt($text);
+                $_text = crypt($text);
                 break;
             case "crc32":
                 if(!array_key_equals("decimal", $options, true)) {
-                    $hashed_text = str_pad(dechex(crc32($text)), 8, '0', STR_PAD_LEFT);
+                    $_text = str_pad(dechex(crc32($text)), 8, '0', STR_PAD_LEFT);
                 } else {
-                    $hashed_text = crc32($text);
+                    $_text = crc32($text);
                 }
                 break;
             case "base64":
                 if(!array_key_equals("decode", $options, true)) {
-                    $hashed_text = base64_encode($text);
+                    $_text = base64_encode($text);
                 } else {
-                    $hashed_text = base64_decode($text);
+                    $_text = base64_decode($text);
                 }
                 break;
             case "sql_password":
                 $row = exec_db_fetch("select password(:text) as pw", array(
                     "text" => $text,
                 ));
-                $hashed_text = get_value_in_array("pw", $row, $hashed_text);
+                $_text = get_value_in_array("pw", $row, $_text);
                 break;
             default:
                 if(check_hash_algo($algo)) {
-                    $hashed_text = hash($algo, $text, false);
+                    $_text = hash($algo, $text, false);
                 }
                 break;
         }
 
-        return $hashed_text;
+        return $_text;
+    }
+}
+
+if(!check_function_exists("get_compressed_text")) {
+    function get_compressed_text($text, $algo="deflate", $options=array()) {
+        $_text = "";
+
+        switch($algo) {
+            case "deflate":
+                $_text = get_hashed_text(gzdeflate($text), "base64");
+            default:
+                $_text = $text;
+        }
+
+        return $_text;
     }
 }
 
