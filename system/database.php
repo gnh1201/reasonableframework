@@ -525,18 +525,21 @@ if(!check_function_exists("get_bind_to_sql_select")) {
     }
 }
 
+// removed: get_bind_to_sql_update($tablename, $bind, $filters, $options) (lower than 1.6)
+// current: get_bind_to_sql_update($tablename, $bind, $options) (1.6 or above)
+
 if(!check_function_exists("get_bind_to_sql_update")) {
-    function get_bind_to_sql_update($tablename, $bind, $filters=array(), $options=array()) {
-        // process filters
+    function get_bind_to_sql_update($tablename, $bind, $options=array()) {
         $excludes = array();
         $bind_wheres = array();
-        foreach($bind as $k=>$v) {
-            if(!array_key_empty($k, $filters)) {
-                if($filters[$k] === true) {
+
+        // set keys
+        if(!array_key_empty("setkeys", $options)) {
+            $setkeys = $options['setkeys'];
+            foreach($bind as $k=>$v) {
+                if(in_array($k, $setkeys)) {
                     $bind_wheres[$k] = $v;
                     $excludes[] = $k;
-                } else {
-                    $bind_wheres[$k] = $filters[$k];
                 }
             }
         }
