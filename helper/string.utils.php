@@ -221,13 +221,13 @@ if(!check_function_exists("remove_utf8_bom")) {
 }
 
 if(!check_function_exists("get_tokenized_text")) {
-    function get_tokenized_text($text, $delimiters=array(",", " ", "|", "-", "+")) {
+    function get_tokenized_text($text, $delimiters=array(",", " ", "|", "-", "+","\t","\r\n","\n")) {
         return array_filter(multi_explode($delimiters, $text));
     }
 }
 
 if(!check_function_exists("get_highlighted_html_by_words")) {
-    function get_highlighted_html_by_word($word, $text, $delimiters=array(",", " ", "|", "-", "+")) {
+    function get_highlighted_html_by_word($word, $text, $delimiters=array(",", " ", "|", "-", "+","\t","\r\n","\n")) {
         $html = $text;
 
         $words = get_tokenized_text($word, $delimiters);
