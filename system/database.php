@@ -403,6 +403,11 @@ if(!check_function_exists("get_bind_to_sql_select")) {
                 if(!array_key_empty("div", $v)) {
                     $s1a[$k] = sprintf("(%s / %s)", $k, $v['div']);
                 }
+                
+                // eval (warning: do not use if you did not understand enough)
+                if(!array_key_empty("eval", $v)) {
+                    $s1a[$k] = sprintf("(%s)", $k, $v['eval']);
+                }
 
                 // concat and delimiter
                 if(!array_keys_empty("concat", $v)) {
