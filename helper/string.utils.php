@@ -221,13 +221,17 @@ if(!check_function_exists("remove_utf8_bom")) {
 }
 
 if(!check_function_exists("get_tokenized_text")) {
-    function get_tokenized_text($text, $delimiters=array(",", " ", "|", "-", "+","\t","\r\n","\n")) {
-        return array_filter(multi_explode($delimiters, $text));
+    function get_tokenized_text($text, $delimiters=array()) {
+        if(count($delimiters) > 0) {
+            return array_filter(multi_explode($delimiters, $text));
+        } else {
+            return preg_split('/\s+/', $text, -1, PREG_SPLIT_NO_EMPTY);
+        }
     }
 }
 
 if(!check_function_exists("get_highlighted_html_by_words")) {
-    function get_highlighted_html_by_word($word, $text, $delimiters=array(",", " ", "|", "-", "+","\t","\r\n","\n")) {
+    function get_highlighted_html_by_word($word, $text, $delimiters=array()) {
         $html = $text;
 
         $words = get_tokenized_text($word, $delimiters);
