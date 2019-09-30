@@ -241,7 +241,7 @@ if(!check_function_exists("get_highlighted_html_by_words")) {
 
 if(!check_function_exists("get_floating_percentage")) {
     function get_floating_percentage($x, $a=2) {
-        return round($x / 100, $a);
+        return round(floatval($x) / 100, floatval($a));
     }
 }
 
