@@ -531,14 +531,14 @@ if(!check_function_exists("get_bind_to_sql_select")) {
 }
 
 // removed: get_bind_to_sql_update($tablename, $bind, $filters, $options) (lower than 1.6)
-// current: get_bind_to_sql_update($tablename, $bind, $options) (1.6 or above)
+// current: get_bind_to_sql_update($tablename, $bind, $options, $_options) (1.6 or above)
 
 if(!check_function_exists("get_bind_to_sql_update")) {
-    function get_bind_to_sql_update($tablename, $bind, $options=array()) {
+    function get_bind_to_sql_update($tablename, $bind, $options=array(), $_options=array()) {
         $excludes = array();
         $bind_wheres = array();
 
-        // set keys
+        // setkeys
         if(!array_key_empty("setkeys", $options)) {
             $setkeys = $options['setkeys'];
             foreach($bind as $k=>$v) {
@@ -547,6 +547,11 @@ if(!check_function_exists("get_bind_to_sql_update")) {
                     $excludes[] = $k;
                 }
             }
+        }
+        
+        // compatible version 1.5
+        if(!array_key_equals("compatible", $options, "1.5")) {
+            // todo
         }
 
         // make sql 'where' clause
@@ -564,6 +569,8 @@ if(!check_function_exists("get_bind_to_sql_update")) {
         return $sql;
     }
 }
+
+function 
 
 if(!check_function_exists("get_bind_to_sql_delete")) {
     function get_bind_to_sql_delete($tablename, $bind, $options=array()) {
