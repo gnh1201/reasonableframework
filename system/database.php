@@ -328,17 +328,17 @@ if(!check_function_exists("get_bind_to_sql_insert")) {
 }
 
 // Deprecated: get_bind_to_sql_where($bind, $excludes) - lower than 1.6
-// Now: get_bind_to_sql_where($bind, $options) - 1.6 or above
+// Now: get_bind_to_sql_where($bind, $options, $_options) - 1.6 or above
 
 if(!check_function_exists("get_bind_to_sql_where")) {
     // warning: variable k is not protected. do not use variable k and external variable without filter
-    function get_bind_to_sql_where($bind, $options=array()) {
+    function get_bind_to_sql_where($bind, $options=array(), $_options=array()) {
         $s3 = "";
         $excludes = get_value_on_array("excludes", $options, array());
         
         // compatible version 1.5
-        if(!array_key_equals("compatible", $options, "1.5")) {
-            // todo
+        if(array_key_equals("compatible", $_options, "1.5")) {
+            $excludes = $options;
         }
 
         if(is_array($bind)) {    
@@ -564,8 +564,9 @@ if(!check_function_exists("get_bind_to_sql_update")) {
         }
         
         // compatible version 1.5
-        if(!array_key_equals("compatible", $options, "1.5")) {
-            // todo
+        if(array_key_equals("compatible", $_options, "1.5")) {
+            $filter = $options;
+            $options = $_options;
         }
 
         // make sql 'where' clause
