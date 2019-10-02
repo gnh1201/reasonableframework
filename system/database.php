@@ -329,18 +329,77 @@ if(!check_function_exists("get_bind_to_sql_insert")) {
 
 if(!check_function_exists("get_bind_to_sql_where")) {
     // warning: variable k is not protected. do not use variable k and external variable without filter
-    function get_bind_to_sql_where($bind, $excludes=array()) {
-        $sql_where = "";
-
-        if(is_array($bind)) {
+    function get_bind_to_sql_where($bind, $options=array()) {
+        $s3 = "";
+        $excludes = get_value_on_array("excludes", $options, array());
+        
+        if(is_array($bind)) {    
             foreach($bind as $k=>$v) {
                 if(!in_array($k, $excludes)) {
-                    $sql_where .= sprintf(" and %s = :%s", $k, $k);
+                    $s3 .= sprintf(" and %s = :%s", $k, $k);
+                }
+            }
+        }
+        
+        if(!array_keys_empty(array("settimefield", "setminutes"), $options)) {
+            $s3 .= get_bind_to_sql_past_minutes($options['settimefield'], $options['setminutes']);
+        }
+        if(!array_key_empty("setwheres", $options)) {
+            if(is_array($options['setwheres'])) {
+                foreach($options['setwheres'] as $opts) {
+                    if(check_is_string_not_array($opts)) {
+                        $s3 .= sprintf(" and (%s)", $opts);
+                    } elseif(check_array_length($opts, 3) == 0 && is_array($opts[2])) {
+                        $s3 .= sprintf(" %s (%s)", $opts[0], get_db_binded_sql($opts[1], $opts[2]));
+                    } elseif(check_array_length($opts, 2) == 0 && is_array($opts[1])) {
+                        if($opts[1][0] == "like") {
+                            if(check_array_length($opts[1][2], 0) > 0) {
+                                $s3a = array();
+                                foreach($opts[1][2] as $word) {
+                                    $s3a[] = sprintf("%s like '%s'", get_value_in_array($opts[1][1], $s1a, $opts[1][1]), "%{$word}%");
+                                }
+                                $s3 .= sprintf(" %s (%s)", $opts[0], implode(" and ", $s3a));
+                            } else {
+                                $s3 .= sprintf(" %s (%s like %s)", $opts[0], get_value_in_array($opts[1][1], $s1a, $opts[1][1]), "'%{$opts[1][2]}%'");
+                            }
+                        } elseif($opts[1][0] == "in") {
+                            if(check_array_length($opts[1][2], 0) > 0) {
+                                $s3 .= sprintf(" %s (%s in ('%s'))", $opts[0], $opts[1][1], implode("', '", $opts[1][2]));
+                            }
+                        } elseif($opts[1][0] == "set") {
+                            if(check_array_length($opts[1][2], 0) > 0) {
+                                $s3a = array();
+                                foreach($opts[1][2] as $word) {
+                                    $s3a[] = sprintf("find_in_set('%s', %s)", $word, $opts[1][1]);
+                                }
+                                $s3 .= sprintf(" %s (%s)", $opts[0], implode(" and ", $s3a));
+                            }
+                        } else {
+                            $ssts = array(
+                                "eq" => "=",
+                                "lt" => "<",
+                                "lte" => "<=",
+                                "gt" => ">",
+                                "gte" => ">=",
+                                "not" => "<>"
+                            );
+                            $opcode = get_value_in_array($opts[1][0], $ssts, $opts[1][0]);
+                            if(!empty($opcode)) {
+                                $s3 .= sprintf(" %s (%s %s '%s')", $opts[0], $opts[1][1], $opcode, $opts[1][2]);
+                            }
+                        }
+                    } elseif(check_array_length($opts, 2) == 0) {
+                        $s3 .= sprintf(" %s (%s)", $opts[0], $opts[1]);
+                    }
                 }
             }
         }
 
-        return $sql_where;
+        if(!array_key_empty("sql_where", $options)) {
+            $s3 .= sprintf(" %s", $options['sql_where']);
+        }
+        
+        return $s3;
     }
 }
 
@@ -444,60 +503,7 @@ if(!check_function_exists("get_bind_to_sql_select")) {
         }
 
         // s3: fields of where clause
-        $s3 = get_bind_to_sql_where($bind);
-        if(!array_keys_empty(array("settimefield", "setminutes"), $options)) {
-            $s3 .= get_bind_to_sql_past_minutes($options['settimefield'], $options['setminutes']);
-        }
-        if(!array_key_empty("setwheres", $options)) {
-            if(is_array($options['setwheres'])) {
-                foreach($options['setwheres'] as $opts) {
-                    if(check_is_string_not_array($opts)) {
-                        $s3 .= sprintf(" and (%s)", $opts);
-                    } elseif(check_array_length($opts, 3) == 0 && is_array($opts[2])) {
-                        $s3 .= sprintf(" %s (%s)", $opts[0], get_db_binded_sql($opts[1], $opts[2]));
-                    } elseif(check_array_length($opts, 2) == 0 && is_array($opts[1])) {
-                        if($opts[1][0] == "like") {
-                            if(check_array_length($opts[1][2], 0) > 0) {
-                                $s3a = array();
-                                foreach($opts[1][2] as $word) {
-                                    $s3a[] = sprintf("%s like '%s'", get_value_in_array($opts[1][1], $s1a, $opts[1][1]), "%{$word}%");
-                                }
-                                $s3 .= sprintf(" %s (%s)", $opts[0], implode(" and ", $s3a));
-                            } else {
-                                $s3 .= sprintf(" %s (%s like %s)", $opts[0], get_value_in_array($opts[1][1], $s1a, $opts[1][1]), "'%{$opts[1][2]}%'");
-                            }
-                        } elseif($opts[1][0] == "in") {
-                            if(check_array_length($opts[1][2], 0) > 0) {
-                                $s3 .= sprintf(" %s (%s in ('%s'))", $opts[0], $opts[1][1], implode("', '", $opts[1][2]));
-                            }
-                        } elseif($opts[1][0] == "set") {
-                            if(check_array_length($opts[1][2], 0) > 0) {
-                                $s3a = array();
-                                foreach($opts[1][2] as $word) {
-                                    $s3a[] = sprintf("find_in_set('%s', %s)", $word, $opts[1][1]);
-                                }
-                                $s3 .= sprintf(" %s (%s)", $opts[0], implode(" and ", $s3a));
-                            }
-                        } else {
-                            $ssts = array(
-                                "eq" => "=",
-                                "lt" => "<",
-                                "lte" => "<=",
-                                "gt" => ">",
-                                "gte" => ">=",
-                                "not" => "<>"
-                            );
-                            $opcode = get_value_in_array($opts[1][0], $ssts, $opts[1][0]);
-                            if(!empty($opcode)) {
-                                $s3 .= sprintf(" %s (%s %s '%s')", $opts[0], $opts[1][1], $opcode, $opts[1][2]);
-                            }
-                        }
-                    } elseif(check_array_length($opts, 2) == 0) {
-                        $s3 .= sprintf(" %s (%s)", $opts[0], $opts[1]);
-                    }
-                }
-            }
-        }
+        $s3 = get_bind_to_sql_where($bind, $options);
 
         // s4: set orders
         $s4 = "";
@@ -555,11 +561,8 @@ if(!check_function_exists("get_bind_to_sql_update")) {
         }
 
         // make sql 'where' clause
-        $sql_where = get_db_binded_sql(get_bind_to_sql_where($bind_wheres), $bind_wheres);
-        if(!array_key_empty("sql_where", $options)) {
-            $sql_where .= $options['sql_where'];
-        }
-
+        $sql_where = get_db_binded_sql(get_bind_to_sql_where($bind_wheres, $options), $bind_wheres);
+        
         // make sql 'update set' clause
         $sql_update_set = get_bind_to_sql_update_set($bind, $excludes);
 
@@ -574,7 +577,7 @@ function
 
 if(!check_function_exists("get_bind_to_sql_delete")) {
     function get_bind_to_sql_delete($tablename, $bind, $options=array()) {
-        $sql = "delete from %s where 1" . get_bind_to_sql_where($bind);
+        $sql = "delete from %s where 1" . get_bind_to_sql_where($bind, $options);
         return $sql;
     }
 }
