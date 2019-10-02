@@ -363,7 +363,7 @@ if(!check_function_exists("get_bind_to_sql_where")) {
                     } elseif(check_array_length($opts, 2) == 0 && is_array($opts[1])) {
                         if(is_array($opts[1][0])) {
                             // recursive
-                            $s3 .= sprintf(" %s (%s)", $opts[0], get_bind_to_sql_where(false, array(
+                            $s3 .= sprintf(" %s (1 %s)", $opts[0], get_bind_to_sql_where(false, array(
                                 "setwheres" => $opts[1][0]
                             ));
                         } elseif($opts[1][0] == "like") {
