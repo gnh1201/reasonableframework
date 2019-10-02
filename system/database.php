@@ -551,6 +551,16 @@ if(!check_function_exists("get_bind_to_sql_update")) {
     function get_bind_to_sql_update($tablename, $bind, $options=array(), $_options=array()) {
         $excludes = array();
         $bind_wheres = array();
+        
+        // compatible version 1.5
+        if(array_key_equals("compatible", $_options, "1.5")) {
+            foreach($options as $k=>$v) {
+                if($v == true) {
+                    $excludes[] = $k;
+                }
+            }
+            $options = $_options;
+        }
 
         // setkeys
         if(!array_key_empty("setkeys", $options)) {
@@ -561,12 +571,6 @@ if(!check_function_exists("get_bind_to_sql_update")) {
                     $excludes[] = $k;
                 }
             }
-        }
-        
-        // compatible version 1.5
-        if(array_key_equals("compatible", $_options, "1.5")) {
-            $filter = $options;
-            $options = $_options;
         }
 
         // make sql 'where' clause
