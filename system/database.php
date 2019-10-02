@@ -132,8 +132,8 @@ if(!check_function_exists("get_db_last_id")) {
         $last_id = false;
 
         $dbc = get_dbc_object();
-                $config = get_config();
-                $db_driver = get_db_driver();
+        $config = get_config();
+        $db_driver = get_db_driver();
 
         if(in_array($db_driver, array("mysql", "mysql.pdo"))) {
             $last_id = $dbc->lastInsertId();
@@ -352,6 +352,7 @@ if(!check_function_exists("get_bind_to_sql_where")) {
         if(!array_keys_empty(array("settimefield", "setminutes"), $options)) {
             $s3 .= get_bind_to_sql_past_minutes($options['settimefield'], $options['setminutes']);
         }
+
         if(!array_key_empty("setwheres", $options)) {
             if(is_array($options['setwheres'])) {
                 foreach($options['setwheres'] as $opts) {
@@ -360,7 +361,12 @@ if(!check_function_exists("get_bind_to_sql_where")) {
                     } elseif(check_array_length($opts, 3) == 0 && is_array($opts[2])) {
                         $s3 .= sprintf(" %s (%s)", $opts[0], get_db_binded_sql($opts[1], $opts[2]));
                     } elseif(check_array_length($opts, 2) == 0 && is_array($opts[1])) {
-                        if($opts[1][0] == "like") {
+                        if(is_array($opts[1][0])) {
+                            // recursive
+                            $s3 .= sprintf(" %s (%s)", $opts[0], get_bind_to_sql_where(false, array(
+                                "setwheres" => $opts[1][0]
+                            ));
+                        } elseif($opts[1][0] == "like") {
                             if(check_array_length($opts[1][2], 0) > 0) {
                                 $s3a = array();
                                 foreach($opts[1][2] as $word) {
