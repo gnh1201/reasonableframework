@@ -667,7 +667,7 @@ if(!check_function_exists("get_timediff_on_query")) {
         $row = exec_db_fetch($sql, $bind);
         $dt = get_value_in_array("dt", $row, $dt);
 
-        return $dt;tio
+        return $dt;
     }
 }
 
