@@ -334,7 +334,9 @@ if(!check_function_exists("get_bind_to_sql_where")) {
     // warning: variable k is not protected. do not use variable k and external variable without filter
     function get_bind_to_sql_where($bind, $options=array(), $_options=array()) {
         $s3 = "";
-        $excludes = get_value_on_array("excludes", $options, array());
+        $sp = "";
+
+        $excludes = get_value_in_array("excludes", $options, array());
         
         // compatible version 1.5
         if(array_key_equals("compatible", $_options, "1.5")) {
@@ -363,9 +365,9 @@ if(!check_function_exists("get_bind_to_sql_where")) {
                     } elseif(check_array_length($opts, 2) == 0 && is_array($opts[1])) {
                         if(is_array($opts[1][0])) {
                             // recursive
-                            $s3 .= sprintf(" %s (1 %s)", $opts[0], get_bind_to_sql_where(false, array(
-                                "setwheres" => $opts[1][0]
-                            ));
+                            $s3 .= sprintf(" %s (%s)", $opts[0], get_bind_to_sql_where(false, array(
+                                "setwheres" => $opts[1]
+                            )));
                         } elseif($opts[1][0] == "like") {
                             if(check_array_length($opts[1][2], 0) > 0) {
                                 $s3a = array();
@@ -413,7 +415,20 @@ if(!check_function_exists("get_bind_to_sql_where")) {
             $s3 .= sprintf(" %s", $options['sql_where']);
         }
 
-        return $s3;
+        // set start prefix
+        $s3 = trim($s3);
+        $s3a = strpos($s3, " ");
+        $s3b = "";
+        if($s3a !== false) {
+            $s3b = substr($s3, 0, $s3a);
+        }
+        if($s3b == "and") {
+            $sp = "1";
+        } elseif($s3b == "or") {
+            $sp = "0";
+        }
+
+        return sprintf("%s %s", $sp, $s3);
     }
 }
 
@@ -437,7 +452,7 @@ if(!check_function_exists("get_bind_to_sql_update_set")) {
 if(!check_function_exists("get_bind_to_sql_select")) {
     // warning: variable k is not protected. do not use variable k and external variable without filter
     function get_bind_to_sql_select($tablename, $bind=array(), $options=array()) {
-        $sql = "select %s from %s where 1 %s %s %s";
+        $sql = "select %s from %s where %s %s %s";
 
         // s1: select fields
         $s1 = "";
@@ -556,8 +571,8 @@ if(!check_function_exists("get_bind_to_sql_select")) {
 if(!check_function_exists("get_bind_to_sql_update")) {
     function get_bind_to_sql_update($tablename, $bind, $options=array(), $_options=array()) {
         $excludes = array();
-        $bind_wheres = array();
-        
+        $_bind = array();
+
         // compatible version 1.5
         if(array_key_equals("compatible", $_options, "1.5")) {
             foreach($options as $k=>$v) {
@@ -573,30 +588,36 @@ if(!check_function_exists("get_bind_to_sql_update")) {
             $setkeys = $options['setkeys'];
             foreach($bind as $k=>$v) {
                 if(in_array($k, $setkeys)) {
-                    $bind_wheres[$k] = $v;
+                    $_bind[$k] = $v;
                     $excludes[] = $k;
                 }
             }
         }
 
+        // add excludes to options
+        if(!array_key_exists("excludes", $options)) {
+            $options['excludes'] = array();
+        }
+        foreach($excludes as $k=>$v) {
+            $options['excludes'][$k] = $v;
+        }
+
         // make sql 'where' clause
-        $sql_where = get_db_binded_sql(get_bind_to_sql_where($bind_wheres, $options), $bind_wheres);
+        $sql_where = get_db_binded_sql(get_bind_to_sql_where($_bind, $options), $_bind);
         
         // make sql 'update set' clause
         $sql_update_set = get_bind_to_sql_update_set($bind, $excludes);
 
         // make completed sql statement
-        $sql = sprintf("update %s set %s where 1 %s", $tablename, $sql_update_set, $sql_where);
+        $sql = sprintf("update %s set %s where %s", $tablename, $sql_update_set, $sql_where);
 
         return $sql;
     }
 }
 
-function 
-
 if(!check_function_exists("get_bind_to_sql_delete")) {
     function get_bind_to_sql_delete($tablename, $bind, $options=array()) {
-        $sql = "delete from %s where 1" . get_bind_to_sql_where($bind, $options);
+        $sql = "delete from %s where" . get_db_binded_sql(get_bind_to_sql_where($bind, $options), $bind);
         return $sql;
     }
 }
