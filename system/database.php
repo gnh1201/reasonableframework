@@ -702,7 +702,7 @@ if(!check_function_exists("exec_db_temp_start")) {
 
 // temporary table
 if(!check_function_exists("exec_db_temp_end")) {
-    function exec_db_temp_end($tablename) {
+    function exec_db_temp_end($tablename, $options=array()) {
         $_sql = sprintf("drop temporary table %s", $tablename);
         return exec_db_query($_sql);
     }
