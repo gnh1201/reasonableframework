@@ -667,7 +667,7 @@ if(!check_function_exists("get_timediff_on_query")) {
         $row = exec_db_fetch($sql, $bind);
         $dt = get_value_in_array("dt", $row, $dt);
 
-        return $dt;
+        return $dt;tio
     }
 }
 
@@ -688,6 +688,23 @@ if(!check_function_exists("json_decode_to_assoc")) {
         }
 
         return $result;
+    }
+}
+
+// temporary table
+if(!check_function_exists("exec_db_temp_start")) {
+    function exec_db_temp_start($sql, $bind, $options=array()) { 
+        $_tablename = make_random_id();
+        $_sql = sprintf("create temporary table if not exists %s as (%s)", $_tablename, get_db_binded_sql($sql, $bind));
+        return (exec_db_query($_sql) ? $_tablename : false);
+    }
+}
+
+// temporary table
+if(!check_function_exists("exec_db_temp_end")) {
+    function exec_db_temp_end($tablename) {
+        $_sql = sprintf("drop temporary table %s", $tablename);
+        return exec_db_query($_sql);
     }
 }
 
