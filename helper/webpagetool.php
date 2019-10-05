@@ -528,6 +528,21 @@ if(!check_function_exists("get_web_xml")) {
     }
 }
 
+if(!check_function_exists("get_web_cspt")) {
+    function get_web_cspt($url, $method="get", $data=array(), $proxy="", $ua="", $ct_out=45, $t_out=45) {
+        $result = false;
+
+        $response = get_web_page($url, $method, $data, $proxy, $ua, $ct_out, $t_out);
+        if($response['size'] > 0) {
+            if(loadHelper("casplit.format")) {
+                $result = catsplit_decode($response['content']);
+            }
+        }
+
+        return $result;
+    }
+}
+
 if(!check_function_exists("get_parsed_json")) {
     function get_parsed_json($raw, $options=array()) {
         $result = false;
@@ -596,7 +611,7 @@ if(!check_function_exists("get_webproxy_url")) {
 if(!check_function_exists("get_web_user_agent")) {
     function get_web_user_agent($ua="") {
         if(empty($ua)) {
-            $ua = "ReasonableFramework/1.4-dev (https://github.com/gnh1201/reasonableframework)";
+            $ua = "ReasonableFramework/1.6-dev (https://github.com/gnh1201/reasonableframework)";
         } else {
             $ua = make_safe_argument($ua);
         }
