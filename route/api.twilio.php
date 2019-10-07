@@ -18,6 +18,8 @@ $country = get_requested_value("country", array("_JSON", "_ALL"));
 $is_domestic = array_key_equals("lguplus_country", $config, $country);
 if(!$is_domestic) {
     $to = sprintf("+%s%s", $country, $to);
+} else {
+    $to = sprintf("%s%s", (substr($to, 0, 1) == "0" ? "" : "0"), $to);
 }
 
 $response = false;
