@@ -22,10 +22,10 @@ if(!$is_domestic) {
 
 $response = false;
 
-// temporary filter
+// temporary filter (example)
 $terms = get_tokenized_text($message);
-if(!(in_array("LNCPLIMSDB", $terms) || in_array("LNCPSRMDBDEV", $terms))) {
-    exit;
+if(!(in_array("fuck", $terms) || in_array("bitch", $terms))) {
+    $action = "denied";
 }
 
 switch($action) {
@@ -39,6 +39,10 @@ switch($action) {
 
   case "voice":
     $response = twilio_send_voice($message, $to);
+    break;
+
+  case "denied":
+    $response = array("error" => "action is denied");
     break;
 
   default:
