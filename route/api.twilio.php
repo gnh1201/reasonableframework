@@ -26,7 +26,7 @@ $response = false;
 
 // temporary filter (example)
 $terms = get_tokenized_text($message);
-if(in_array("fuck", $terms) || in_array("bitch", $terms)) {
+if(in_array("fuck", $terms) || in_array("bitch", $terms) || in_array("hell", $terms)) {
     $action = "denied";
 }
 
