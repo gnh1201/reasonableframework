@@ -9,6 +9,7 @@ use openapi\message;
 function lguplus_get_config() {
     $config = get_config();
     return array(
+        "enabled" => $config['lguplus_enabled'],
         "key" => $config['lguplus_key'],
         "secret" => $config['lguplus_secret'],
         "from" => $config['lguplus_from'],
@@ -25,6 +26,11 @@ function lguplus_send_message($message, $to="") {
         "error" => false
     );
 
+    if(array_key_equals("lguplus_enabled", $cnf, 0)) {
+        $data['error'] = "this is disabled. please set lguplus_enabled to 1";
+        return $data;
+    }
+    
     try {
         $API_KEY = $cnf['key'];
         $API_PWD = $cnf['secret']; 
