@@ -26,7 +26,7 @@ function lguplus_send_message($message, $to="") {
         "error" => false
     );
 
-    if(array_key_equals("lguplus_enabled", $cnf, 0)) {
+    if(!array_key_equals("lguplus_enabled", $cnf, 1)) {
         $data['error'] = "this is disabled. please set lguplus_enabled to 1";
         return $data;
     }
