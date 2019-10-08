@@ -1,5 +1,6 @@
 <?php
 return <<<EOF
+lguplus_enabled = 0
 lguplus_key = ""
 lguplus_secret = ""
 lguplus_id = ""
