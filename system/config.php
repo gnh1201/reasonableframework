@@ -56,7 +56,7 @@ if(!check_function_exists("get_config_value")) {
 }
 
 if(!check_function_exists("get_current_datetime")) {
-    function get_current_datetime() {
+    function get_current_datetime($options=array()) {
         $datetime = false;
 
         $config = get_config();
@@ -67,6 +67,10 @@ if(!check_function_exists("get_current_datetime")) {
             if(loadHelper("timetool")) {
                 $timestamp = get_server_time($config['timeserver']);
             }
+        }
+
+        if(!array_key_empty("adjust", $options)) {
+            $timestamp = strtotime($options['adjust'], $timestamp);
         }
 
         $datetime = date($timeformat, $timestamp);
