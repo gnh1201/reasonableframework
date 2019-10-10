@@ -69,6 +69,15 @@ if(!check_function_exists("get_current_datetime")) {
             }
         }
 
+        if(!array_key_empty("now", $options)) {
+            try {
+                $dateTimeObject = \DateTime::createFromFormat($timeformat, $options['now']);
+                $timestamp = $dateTimeObject->getTimestamp();
+            } catch(Exception $e) {
+                $timestamp = strtotime($options['now']);
+            }
+        }
+
         if(!array_key_empty("adjust", $options)) {
             $timestamp = strtotime($options['adjust'], $timestamp);
         }
