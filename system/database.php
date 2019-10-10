@@ -693,7 +693,7 @@ if(!check_function_exists("json_decode_to_assoc")) {
 
 // temporary table
 if(!check_function_exists("exec_db_temp_start")) {
-    function exec_db_temp_start($sql, $bind, $options=array()) { 
+    function exec_db_temp_start($sql, $bind=array(), $options=array()) { 
         $_tablename = make_random_id();
         $_sql = sprintf("create temporary table if not exists %s as (%s)", $_tablename, get_db_binded_sql($sql, $bind));
         return (exec_db_query($_sql) ? $_tablename : false);
