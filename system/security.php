@@ -645,7 +645,7 @@ if(!check_function_exists("start_isolated_session")) {
         $cwd = get_current_working_dir();
         session_save_path($cwd . "/storage/sandbox/sessions");
         @ini_set("session.save_path", $cwd . "/storage/sandbox/sessions");
-        @ini_set("session.gc_probability", 1); // enable gc(gabage collection)
+        @ini_set("session.gc_probability", 1); // enable GC(garbage collection)
         session_start(); // enable $_SESSION
     }
 }
