@@ -305,6 +305,10 @@ if(!check_function_exists("write_storage_file")) {
             $result = basename($result);
         }
 
+        if(array_key_equals("url", $options, true)) {
+            $result = sprintf("%s/%s", $upload_base_url, get_safe_path($filename));
+        }
+
         return $result;
     }
 }
