@@ -639,5 +639,21 @@ if(!check_function_exists("check_redirect_origin")) {
     }
 }
 
-// start session (enable $_SESSION)
-session_start();
+// since 1.6 or above
+if(!check_function_exists("start_isolated_session")) {
+    function start_isolated_session() {
+        $cwd = get_current_working_dir();
+        session_save_path($cwd . "/storage/sandbox/sessions");
+        @ini_set("session.save_path", $cwd . "/storage/sandbox/sessions");
+        @ini_set("session.gc_probability", 1); // enable gc(gabage collection)
+        session_start(); // enable $_SESSION
+    }
+}
+
+// since 1.6 or above
+if(!check_function_exists("end_isolated_session")) {
+    function end_isolated_session() {
+        $_SESSION = array();
+        session_destroy();
+    }
+}
