@@ -2,7 +2,7 @@
 /**
  * @file index.php
  * @date 2018-05-27
- * @updated 2019-06-04
+ * @updated 2019-10-11
  * @author Go Namhyeon <gnh1201@gmail.com>
  * @brief ReasonableFramework
  * @cvs https://github.com/gnh1201/reasonableframework
@@ -87,6 +87,9 @@ $config = get_config();
 $max_execution_time = get_value_in_array("max_execution_time", $config, 0);
 @ini_set("max_execution_time", $max_execution_time);
 
+// start session
+start_isolated_session();
+
 // set autoloader
 if(!array_key_empty("enable_autoload", $config)) {
     set_autoloader();
@@ -116,3 +119,6 @@ IF(PHP_DDOS_PROTECTION !== false) {
 if(!loadRoute($route, $scope)) {
     loadRoute("errors/404", $scope);
 }
+
+// end sesson
+end_isolated_session();
