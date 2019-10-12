@@ -262,6 +262,10 @@ if(!check_function_exists("write_storage_file")) {
         $result = false;
 
         $filename = get_value_in_array("filename", $options, make_random_id(32));
+	if(!array_key_empty("extension", $options)) {
+            $filename = sprintf("%s.%s", $filename, $options['extension']);
+	}
+
         $storage_type = get_value_in_array("storage_type", $options, "data");
         $mode = get_value_in_array("mode", $options, "w");
         $upload_base_path = get_storage_path($storage_type);
