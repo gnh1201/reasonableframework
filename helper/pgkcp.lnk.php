@@ -11,6 +11,7 @@ if(!defined("_DEF_RSF_")) set_error_exit("do not allow access");
 
 loadHelper("json.format");
 loadHelper("webpagetool");
+loadHelper("compress.zip");
 
 if(!check_function_exists("get_pgkcp_config")) {
     function get_pgkcp_dir() {
@@ -92,7 +93,7 @@ if(!check_function_exists("get_pgkcp_platform")) {
 
 if(!check_function_exists("load_pgkcp_library")) {
     function load_pgkcp_library() {
-        $inc_file = get_pgkcp_dir() . "/res/pp_cli_hub_lib.php";
+        $inc_file = get_pgkcp_dir() . "/sample/pp_cli_hub_lib.php";
         if(file_exists($inc_file)) {
             include($inc_file);
         } else {
@@ -103,13 +104,20 @@ if(!check_function_exists("load_pgkcp_library")) {
 }
 
 if(!check_function_exists("install_pgkcp")) {
-    function install_pgkcp() {
+    function install_pgkcp($platform="LINUX") {
         $response = get_web_page("https://admin8.kcp.co.kr/assist/download/sampleDownload", "get", array(
             "type1" => "FM01",
             "type2" => "FS04"
         ));
-	$fw = write_storage_file($response['content'], array(
-	    "extension" => "zip"
+        $fw = write_storage_file($response['content'], array(
+            "extension" => "zip"
+        ));
+	@unzip($fw, get_storage_path());
+        $fw = write_storage_file("", array(
+	    "mode" => "fake",
+	    "filename" => sprintf("NHNKCP_PAYMENT_STANDARD_PHP/NHNKCP_PAYMENT_STANDARD_%s_PHP.zip", $platform),
 	));
+        @mkdir(get_pgkcp_dir(), 0707);
+	return @unzip($fw, get_pgkcp_dir());
     }
 }
