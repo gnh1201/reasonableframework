@@ -10,6 +10,7 @@
 if(!defined("_DEF_RSF_")) set_error_exit("do not allow access");
 
 loadHelper("json.format");
+loadHelper("webpagetool");
 
 if(!check_function_exists("get_pgkcp_config")) {
 	function get_pgkcp_dir() {
@@ -98,5 +99,14 @@ if(!check_function_exists("load_pgkcp_library")) {
             set_error("PGKCP payment library file does not exists.");
             show_errors();
         }
+    }
+}
+
+if(!check_function_exists("install_pgkcp")) {
+    function install_pgkcp() {
+        $response = get_web_page("https://admin8.kcp.co.kr/assist/download/sampleDownload", "get", array(
+	    "type1" => "FM01",
+            "type2" => "FS04"
+        ));
     }
 }
