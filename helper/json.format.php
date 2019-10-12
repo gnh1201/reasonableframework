@@ -11,16 +11,10 @@ if(!check_function_exists("json_decode_ex")) {
             "NO_FUNCTION_JSON_LAST_ERROR" => "json_last_error",
         );
         $error = check_invaild_function($invalid_fn);
+
         if($error < 0) {
-            $_result = false;
-            if(array_key_equals("assoc", $options, true)) {
-                $_result = @json_decode($data, true);
-            } else {
-                $_result = @json_decode($data);
-            }
-            if(@json_last_error() === 0) {
-                $result = $_result;
-            }
+            $_result = array_key_equals("assoc", $options, true) ? @json_decode($data, true) : @json_decode($data);
+            $result = (@json_last_error() === 0) ? $_result : $result;
         }
 
         return $result;
