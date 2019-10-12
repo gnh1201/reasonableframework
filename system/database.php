@@ -671,26 +671,6 @@ if(!check_function_exists("get_timediff_on_query")) {
     }
 }
 
-// get assoc from json raw data
-if(!check_function_exists("json_decode_to_assoc")) {
-    function json_decode_to_assoc($data) {
-        $result = array();
-
-        $invalid_fn = array(
-            "NO_FUNCTION_JSON_DECODE" => "json_decode",
-            "NO_FUNCTION_JSON_LAST_ERROR" => "json_last_error",
-        );
-
-        $error = check_invaild_function($invalid_fn);
-        if($error < 0) {
-            $obj = @json_decode($data, true);
-            $result = (@json_last_error() === 0) ? $obj : $result;
-        }
-
-        return $result;
-    }
-}
-
 // temporary table
 if(!check_function_exists("exec_db_temp_start")) {
     function exec_db_temp_start($sql, $bind=array(), $options=array()) { 
@@ -714,6 +694,15 @@ if(!check_function_exists("close_db_connect")) {
         $dbc = get_scope("dbc");
         $dbc->close();
         set_scope("dbc", null);
+    }
+}
+
+// get assoc from json raw data
+if(!check_function_exists("json_decode_to_assoc")) {
+    function json_decode_to_assoc($data) {
+        if(loadHelper("json.format")) {
+            return json_decode_ex($data, array("assoc" => true));
+        }
     }
 }
 
