@@ -2,18 +2,27 @@
 /**
  * @file pgkcp.lnk.php
  * @date 2018-08-25
+ * @updated 2019-10-13
  * @author Go Namhyeon <gnh1201@gmail.com>
  * @brief KCP PG(Payment Gateway) Helper
  */
 
 if(!defined("_DEF_RSF_")) set_error_exit("do not allow access");
 
+loadHelper("json.format");
+
+if(!check_function_exists("get_pgkcp_config")) {
+	function get_pgkcp_dir() {
+		return get_current_working_dir() . "/vendor/_dist/pgkcp";
+	}
+}
+
 if(!check_function_exists("get_pgkcp_config")) {
     function get_pgkcp_config() {
         $pgkcp_config = array();
 
         // include configuration file
-        $inc_file = get_current_working_dir() . "/vendor/pgkcp/cfg/site_conf_inc.php";
+        $inc_file = get_pgkcp_dir() . "/cfg/site_conf_inc.php";
         if(file_exists($inc_file)) {
             include($inc_file);
 
@@ -36,7 +45,7 @@ if(!check_function_exists("get_pgkcp_config")) {
                 "storage_type" => "payman"
             ));
             if(!empty($fr)) {
-                $api_config = json_decode($fr, true);
+                $api_config = json_decode_ex($fr, array("assoc" => true));
                 $api_config_fields = array("g_conf_gw_url", "g_conf_js_url", "g_conf_site_cd", "g_conf_site_key", "g_conf_site_name");
                 foreach($api_config_fields as $name) {
                     $pgkcp_config[$name] = get_value_in_array($name, $api_config, $pgkcp_config[$name]);
@@ -82,7 +91,7 @@ if(!check_function_exists("get_pgkcp_platform")) {
 
 if(!check_function_exists("load_pgkcp_library")) {
     function load_pgkcp_library() {
-        $inc_file = get_current_working_dir() . "/vendor/pgkcp/res/pp_cli_hub_lib.php";
+        $inc_file = get_pgkcp_dir() . "/res/pp_cli_hub_lib.php";
         if(file_exists($inc_file)) {
             include($inc_file);
         } else {
