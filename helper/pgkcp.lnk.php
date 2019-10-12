@@ -109,7 +109,7 @@ if(!check_function_exists("install_pgkcp")) {
             "type2" => "FS04"
         ));
 	$fw = write_storage_file($response['content'], array(
-	    "filename" => "kcp-sdk.zip"
+	    "extension" => "zip"
 	));
     }
 }
