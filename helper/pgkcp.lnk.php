@@ -13,9 +13,9 @@ loadHelper("json.format");
 loadHelper("webpagetool");
 
 if(!check_function_exists("get_pgkcp_config")) {
-	function get_pgkcp_dir() {
-		return get_current_working_dir() . "/vendor/_dist/pgkcp";
-	}
+    function get_pgkcp_dir() {
+        return get_current_working_dir() . "/vendor/_dist/pgkcp";
+    }
 }
 
 if(!check_function_exists("get_pgkcp_config")) {
@@ -105,8 +105,11 @@ if(!check_function_exists("load_pgkcp_library")) {
 if(!check_function_exists("install_pgkcp")) {
     function install_pgkcp() {
         $response = get_web_page("https://admin8.kcp.co.kr/assist/download/sampleDownload", "get", array(
-	    "type1" => "FM01",
+            "type1" => "FM01",
             "type2" => "FS04"
         ));
+	$fw = write_storage_file($response['content'], array(
+	    "filename" => "kcp-sdk.zip"
+	));
     }
 }
