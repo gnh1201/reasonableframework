@@ -584,18 +584,9 @@ if(!check_function_exists("get_parsed_dom")) {
 // 2018-06-01: Adaptive JSON is always quotes without escape non-ascii characters
 if(!check_function_exists("get_adaptive_json")) {
     function get_adaptive_json($data) {
-        $result = "";
-        $lines = array();
-        foreach($data as $k=>$v) {
-            if(is_array($v)) {
-                $lines[] = sprintf("\"%s\":%s", make_safe_argument($k), get_adaptive_json($v));
-            } else {
-                $lines[] = sprintf("\"%s\":\"%s\"", make_safe_argument($k), make_safe_argument($v));
-            }
+        if(loadHelper("json.format")) {
+            return json_encode_ex($data, array("adaptive" => true));
         }
-        $result = "{" . implode(",", $lines) . "}";
-
-        return $result;
     }
 }
 
