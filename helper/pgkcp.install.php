@@ -3,7 +3,7 @@
  * @file pgkcp.install.php
  * @date 2019-10-13
  * @author Go Namhyeon <gnh1201@gmail.com>
- * @brief KCP PG(Payment Gateway) Installer
+ * @brief KCP PG(Payment Gateway) Auto-Install Tool
  */
 
 if(!defined("_DEF_RSF_")) set_error_exit("do not allow access");
