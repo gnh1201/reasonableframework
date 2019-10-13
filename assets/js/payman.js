@@ -1,85 +1,107 @@
 function payman_get_check_msgs() {
-	return {
-		"good_name": "상품명을 기재하여야 합니다.",
-		"good_mny": "가격을 기재하여야 합니다.",
-		"buyr_name": "구매자 이름이 없습니다.\n\n로그인하시거나 회원 정보에서 반드시 등록하여 주세요.",
-		"buyr_mail": "구매자 이메일이 없습니다.\n\n로그인하시거나 회원 정보에서 반드시 등록하여 주세요.",
-		"buyr_tel1": "구매자 전화번호가 없습니다.\n\n로그인하시거나 회원 정보에서 반드시 등록하여 주세요."
-	};
+    return {
+        "good_name": "상품명을 기재하여야 합니다.",
+        "good_mny": "가격을 기재하여야 합니다.",
+        "buyr_name": "구매자 이름이 없습니다.\n\n로그인하시거나 회원 정보에서 반드시 등록하여 주세요.",
+        "buyr_mail": "구매자 이메일이 없습니다.\n\n로그인하시거나 회원 정보에서 반드시 등록하여 주세요.",
+        "buyr_tel1": "구매자 전화번호가 없습니다.\n\n로그인하시거나 회원 정보에서 반드시 등록하여 주세요."
+    };
 }
 
 function payman_load_widget(data) {
-	var is_available = true;
+    var is_available = true;
 
-	var req_data = {
-		"route": "orderform.widget",
-		"redirect_url": window.location.href
-	};
+    var req_data = {
+        "route": "orderform.widget",
+        "redirect_url": window.location.href
+    };
 
-	var check_msgs = payman_get_check_msgs();
+    var check_msgs = payman_get_check_msgs();
 
-	var allows_zero = ["good_mny"];
+    var allows_zero = ["good_mny", "redirect_url"];
 
-	for(var k in check_msgs) {
-		if( !(k in data) || (allows_zero.indexOf(k) < 0 && data[k] == "") ) {
-			alert(check_msgs[k]);
-			is_available = false;
-			break;
-		} else {
-			req_data[k] = data[k];
-		}
+    for(var k in check_msgs) {
+        if( !(k in data) || (allows_zero.indexOf(k) < 0 && data[k] == "") ) {
+            alert(check_msgs[k]);
+            is_available = false;
+            break;
+        } else {
+            req_data[k] = data[k];
+        }
+    }
+
+	if("redirect_url" in data) {
+		req_data['redirect_url'] = data['redirect_url'];
 	}
 
-	if(is_available == true) {
-		$.ajax({
-			type: "post",
-			dataType: "text",
-			url: "/payman/",
-			data: req_data,
-			success: function(req) {
-				$("#area_payman").html(req);
-			}
-		});
-	}
-	
-	return is_available;
+    if(is_available == true) {
+        $.ajax({
+            type: "post",
+            dataType: "text",
+            url: "/payman/",
+            data: req_data,
+            success: function(req) {
+                $("#area_payman").html(req);
+            }
+        });
+    }
+    
+    return is_available;
 }
 
 function payman_set_data(name, data) {
-	$("#payman_" + name).val(data);
+    $("#payman_" + name).val(data);
 }
 
 function payman_get_data(name) {
-	return $("#payman_" + name).val();
+    return $("#payman_" + name).val();
 }
 
 function payman_set_base64(name, data) {
-	var req_data = {
-		"route": "base64",
-		"action": "encode",
-		"data": data
-	};
+    var req_data = {
+        "route": "base64",
+        "action": "encode",
+        "data": data
+    };
 
-	$.ajax({
-		type: "post",
-		dataType: "json",
-		url: "/payman/",
-		data: req_data,
-		success: function(req) {
-			payman_set_data(name, req.result);
-		}
-	});
+    $.ajax({
+        type: "post",
+        dataType: "json",
+        url: "/payman/",
+        data: req_data,
+        success: function(req) {
+            payman_set_data(name, req.result);
+        }
+    });
 }
 
 function payman_submit() {
-	var check_msgs = payman_get_check_msgs();
-	for(var k in check_msgs) {
-		if(payman_get_data(k) == "") {
-			alert(check_msgs[k]);
-			return false;
-		}
-	}
+    var check_msgs = payman_get_check_msgs();
+    for(var k in check_msgs) {
+        if(payman_get_data(k) == "") {
+            alert(check_msgs[k]);
+            return false;
+        }
+    }
 
-	$("#payman_orderform").submit();
-	return true;
+    $("#payman_orderform").submit();
+    return true;
+}
+
+function payman_submit_nw() {
+    var check_msgs = payman_get_check_msgs();
+    for(var k in check_msgs) {
+        if(payman_get_data(k) == "") {
+            alert(check_msgs[k]);
+            return false;
+        }
+    }
+
+    var $obj = $("#payman_orderform");
+    var nw = window.open("", "payman_window", "height=600,width=786,modal=yes,alwaysRaised=yes");
+    $obj.attr("target", "payman_window");
+    $obj.submit();
+    nw.focus();
+
+    return true;
 }
