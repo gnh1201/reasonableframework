@@ -2,6 +2,7 @@
 /**
  * @file orderpay.pgkcp.php
  * @date 2018-08-25
+ * @updated 2019-10-14
  * @author Go Namhyeon <gnh1201@gmail.com>
  * @brief KCP PG(Payment Gateway) Controller
  */
@@ -9,6 +10,7 @@
 if(!defined("_DEF_RSF_")) set_error_exit("do not allow access");
 
 $debug = get_requested_value("debug");
+$mode = get_requested_value("mode");
 
 if($debug != "true") {
     // 필수 항목 체크
@@ -20,7 +22,7 @@ if($debug != "true") {
     }
 
     // detect CSRF attack
-    if(check_token_abuse_by_requests("_token")) {
+    if($mode != "widget" && check_token_abuse_by_requests("_token")) {
         set_error("Security violation: Access denied. May be your session is expired or abused.");
         show_errors();
     }
