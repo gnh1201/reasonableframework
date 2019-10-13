@@ -80,8 +80,11 @@ foreach($load_systems as $system_name) {
     }
 }
 
+// set scope: config
+set_scope("config", read_config());
+
 // get config
-$config = get_config();
+$config = get_scope("config");
 
 // set max_execution_time
 $max_execution_time = get_value_in_array("max_execution_time", $config, 0);
