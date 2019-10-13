@@ -16,7 +16,7 @@ if(!check_function_exists("read_config")) {
 
             if(check_file_extension($file, "ini.php", array("multiple" => true))) {
                 $str = include($file);
-                if(version_compare(phpversion(), "5.3.0", "<")) {
+                if(version_compare(phpversion(), "5.3.0", "<")) { // below 5.3.0
                     $ini = parse_ini_file(write_storage_file($str, array(
                         "extension" => "ini"
                     )));
