@@ -103,31 +103,3 @@ if(!check_function_exists("load_pgkcp_library")) {
         }
     }
 }
-
-if(!check_function_exists("install_pgkcp")) {
-    function install_pgkcp() {
-        $response = get_web_page("https://admin8.kcp.co.kr/assist/download/sampleDownload", "get", array(
-            "type1" => "FM01",
-            "type2" => "FS04"
-        ));
-
-	// step 1
-        $fw = write_storage_file($response['content'], array(
-            "extension" => "zip"
-        ));
-	@unzip($fw, get_storage_path());
-
-        // step 2
-        $fw = write_storage_file("", array(
-	    "mode" => "fake",
-	    "filename" => sprintf("NHNKCP_PAYMENT_STANDARD_PHP/NHNKCP_PAYMENT_STANDARD_LINUX_PHP.zip"),
-	));
-        @unzip($fw, get_storage_path());
-
-        // step 3
-        exec_command("cp -r %s/NHNKCP_PAYMENT_STANDARD_LINUX_PHP/* %s/", get_storage_path(), get_pgkcp_dir());
-
-        // if success, directory exists
-	return is_dir(get_pgkcp_dir());
-    }
-}
