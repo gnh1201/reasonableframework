@@ -706,5 +706,3 @@ if(!check_function_exists("json_decode_to_assoc")) {
     }
 }
 
-// set scope dbc
-set_scope("dbc", get_db_connect());
