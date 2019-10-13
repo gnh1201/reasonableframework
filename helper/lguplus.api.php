@@ -1,9 +1,12 @@
 <?php
-// @date 2019-10-07
-// @author Go Namhyeon <gnh1201@gmail.com>
-// @brief `LGU+` is trandmark of LGUPlus Co. Ltd.
+/**
+ * @file lguplus.api.php
+ * @date 2019-10-07
+ * @author Go Namhyeon <gnh1201@gmail.com>
+ * @brief `LGU+`or `LGUPlus` is trandmark of LGUPlus Co. Ltd.
+ */
 
-require_once("vendor/_dist/lguplus/openapi/message.php");
+require_once("./vendor/_dist/lguplus/openapi/message.php");
 use openapi\message;
 
 function lguplus_get_config() {
