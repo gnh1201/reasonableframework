@@ -64,14 +64,14 @@ if(empty($redirect_url)) {
         <script type="text/javascript">//<!--<![CDATA[
         if(window.opener && !window.opener.closed) {
             window.opener.payman_callback({
-				"token": "$_token",
+                "token": "$_token",
                 "ordr_idxx": "$ordr_idxx",
                 "res_cd": "$res_cd",
                 "pay_method_alias": "$pay_method_alias"
             });
             window.close();
-			self.close();
-			this.close();
+            self.close();
+            this.close();
         }
         //]]>--></script>
     </body>
