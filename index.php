@@ -83,6 +83,10 @@ foreach($load_systems as $system_name) {
 // get config
 $config = get_config();
 
+// set scopes
+set_scope("dbc", get_db_connect());
+set_scope("requests", read_requests());
+
 // set max_execution_time
 $max_execution_time = get_value_in_array("max_execution_time", $config, 0);
 @ini_set("max_execution_time", $max_execution_time);
