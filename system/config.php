@@ -93,5 +93,3 @@ if(!check_function_exists("get_current_datetime")) {
         return $datetime;
     }
 }
-
-set_scope("config", read_config());
