@@ -2,7 +2,7 @@
 /**
  * @file index.php
  * @date 2018-05-27
- * @updated 2019-10-11
+ * @updated 2019-10-13
  * @author Go Namhyeon <gnh1201@gmail.com>
  * @brief ReasonableFramework
  * @cvs https://github.com/gnh1201/reasonableframework
@@ -18,9 +18,11 @@ define("PHP_FIREWALL_REQUEST_URI", strip_tags($_SERVER['REQUEST_URI'])); // adva
 define("PHP_FIREWALL_ACTIVATION", false); // advanced security
 define("PHP_DDOS_PROTECTION", false); // advanced security
 
-// check if current status is development
+// development mode
 if(APP_DEVELOPMENT == true) {
     error_reporting(E_ALL);
+	ini_set("log_errors", 1);
+	ini_set("error_log", sprintf("%s/storage/sandbox/logs/error.log", getcwd()));
 } else {
     error_reporting(E_ERROR | E_PARSE);
 }
