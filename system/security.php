@@ -652,8 +652,8 @@ if(!check_function_exists("start_isolated_session")) {
 }
 
 // since 1.6 or above
-if(!check_function_exists("end_isolated_session")) {
-    function end_isolated_session() {
+if(!check_function_exists("expire_isolated_session")) {
+    function expire_isolated_session() {
         $_SESSION = array();
         session_destroy();
     }
