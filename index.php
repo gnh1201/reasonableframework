@@ -126,5 +126,3 @@ if(!loadRoute($route, $scope)) {
     loadRoute("errors/404", $scope);
 }
 
-// end sesson
-end_isolated_session();
