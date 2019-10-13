@@ -10,6 +10,7 @@
 if(!check_function_exists("read_config")) {
     function read_config() {
         $config = array();
+        $is_legacy_version = version_compare(phpversion(), "5.3.0", "<"); // below 5.3.0
 
         $files = retrieve_storage_dir("config");
         foreach($files as $file) {
@@ -17,7 +18,7 @@ if(!check_function_exists("read_config")) {
 
             if(check_file_extension($file, "ini.php", array("multiple" => true))) {
                 $str = include($file);
-                if(version_compare(phpversion(), "5.3.0", "<")) { // below 5.3.0
+                if($is_legacy_version) {
                     $ini = parse_ini_file(write_storage_file($str, array(
                         "extension" => "ini"
                     )));
