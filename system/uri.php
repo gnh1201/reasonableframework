@@ -357,8 +357,3 @@ if(!check_function_exists("get_requested_jsondata")) {
         return get_requested_jsondata($name, "_JSON", $escape_quotes, $escape_tags);
     }
 }
-
-// set scope
-set_scope("requests", read_requests());
-
-//EOF
