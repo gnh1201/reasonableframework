@@ -21,8 +21,9 @@ if(!defined("_DEF_RSF_")) set_error_exit("do not allow access");
 
 <body>
     <h1>NHN KCP [AX-HUB Version]</h1>
+    <p>Please wait...</p>
 
-    <form id="order_info" name="order_info" method="post" action="<?php echo $pgkcp_action_url; ?>">
+    <form id="order_info" name="order_info" method="post" action="<?php echo $pgkcp_action_url; ?>" style="display: none;">
         <fieldset>
             <legend>결제 정보</legend>
 
