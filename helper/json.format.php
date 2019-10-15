@@ -37,7 +37,7 @@ if(!check_function_exists("json_encode_ex")) {
             }
             $result = "{" . implode(",", $lines) . "}";
         } else {
-            $result = json_decode($data);
+            $result = json_encode($data);
         }
         
         return $result;
