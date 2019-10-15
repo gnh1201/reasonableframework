@@ -9,4 +9,5 @@ adjectives=warty,hoary,breezy,dapper,edgy,feisty,gutsy,hardy,intrepid,jaunty,kar
 animals=warthog,hedgehog,badger,drake,eft,fawn,gibbon,heron,ibex,jackalope,koala,lynx,meerkat,narwhal,ocelot,pangolin,quetzal,ringtail,salamander,tahr,unicorn,vervet,werewolf,xerus,yak,zapus
 https=auto
 hashalgos=md5,sha1,crypt,crc32,base64,sql_password
+sandboxdisabled=0
 EOF;
