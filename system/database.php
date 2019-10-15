@@ -672,23 +672,25 @@ if(!check_function_exists("get_timediff_on_query")) {
 }
 
 // temporary table
-function exec_db_temp_create($schemes=array(), $options=array()) {
-    $_tablename = make_random_id();
-    $_schemes = array();
-    foreach($schemes as $k=>$v) {
-        if(is_array($v)) {
-            $_argc = count($v);
-            if($_argc == 1) {
-                $_schemes[] = sprintf("%s %s", $k, $v[0]);
-            } elseif($_argc == 2) {
-                $_schemes[] = sprintf("%s %s(%s)", $k, $v[0], $v[1]);
-            } elseif($_argc == 3) {
-                $_schemes[] = sprintf("%s %s(%s) %s", $k, $v[0], $v[1], ($v[2] === true) ? "not null" : ""));
+if(!check_function_exists("exec_db_temp_create")) {
+    function exec_db_temp_create($schemes=array(), $options=array()) {
+        $_tablename = make_random_id();
+        $_schemes = array();
+        foreach($schemes as $k=>$v) {
+            if(is_array($v)) {
+                $_argc = count($v);
+                if($_argc == 1) {
+                    $_schemes[] = sprintf("%s %s", $k, $v[0]);
+                } elseif($_argc == 2) {
+                    $_schemes[] = sprintf("%s %s(%s)", $k, $v[0], $v[1]);
+                } elseif($_argc == 3) {
+                    $_schemes[] = sprintf("%s %s(%s) %s", $k, $v[0], $v[1], ($v[2] === true) ? "not null" : ""));
+                }
             }
         }
+        $sql = sprintf("create temporary table if not exists %s (%s)", $_tablename, implode(",", $_schemes));
+        return (exec_db_query($_sql) ? $_tablename : false);
     }
-    $sql = sprintf("create temporary table %s (%s)", $_tablename, implode(",", $_schemes));
-    return return (exec_db_query($_sql) ? $_tablename : false);
 }
 
 if(!check_function_exists("exec_db_temp_start")) {
