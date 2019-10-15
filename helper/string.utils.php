@@ -223,7 +223,7 @@ if(!check_function_exists("remove_utf8_bom")) {
 if(!check_function_exists("get_tokenized_text")) {
     function get_tokenized_text($text, $delimiters=array()) {
         if(count($delimiters) > 0) {
-            return array_filter(multi_explode($delimiters, $text));
+            return array_values(array_filter(multi_explode($delimiters, $text)));
         } else {
             return preg_split('/\s+/', $text, -1, PREG_SPLIT_NO_EMPTY);
         }
