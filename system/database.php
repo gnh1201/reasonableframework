@@ -684,11 +684,11 @@ if(!check_function_exists("exec_db_temp_create")) {
                 } elseif($_argc == 2) {
                     $_schemes[] = sprintf("%s %s(%s)", $k, $v[0], $v[1]);
                 } elseif($_argc == 3) {
-                    $_schemes[] = sprintf("%s %s(%s) %s", $k, $v[0], $v[1], ($v[2] === true) ? "not null" : ""));
+                    $_schemes[] = sprintf("%s %s(%s) %s", $k, $v[0], $v[1], ($v[2] === true ? "not null" : ""));
                 }
             }
         }
-        $sql = sprintf("create temporary table if not exists %s (%s)", $_tablename, implode(",", $_schemes));
+        $_sql = sprintf("create temporary table if not exists %s (%s)", $_tablename, implode(",", $_schemes));
         return (exec_db_query($_sql) ? $_tablename : false);
     }
 }
