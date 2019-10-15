@@ -677,7 +677,14 @@ function exec_db_temp_create($schemes=array(), $options=array()) {
     $_schemes = array();
     foreach($schemes as $k=>$v) {
         if(is_array($v)) {
-            $_schemes[] = sprintf("%s %s(%s)", $k, $v[0], $v[1]);
+            $_argc = count($v);
+            if($_argc == 1) {
+                $_schemes[] = sprintf("%s %s", $k, $v[0]);
+            } elseif($_argc == 2) {
+                $_schemes[] = sprintf("%s %s(%s)", $k, $v[0], $v[1]);
+            } elseif($_argc == 3) {
+                $_schemes[] = sprintf("%s %s(%s) %s", $k, $v[0], $v[1], ($v[2] === true) ? "not null" : ""));
+            }
         }
     }
     $sql = sprintf("create temporary table %s (%s)", $_tablename, implode(",", $_schemes));
