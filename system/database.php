@@ -378,6 +378,26 @@ if(!check_function_exists("get_bind_to_sql_where")) {
                             } else {
                                 $s3 .= sprintf(" %s (%s like %s)", $opts[0], get_value_in_array($opts[1][1], $s1a, $opts[1][1]), "'%{$opts[1][2]}%'");
                             }
+                        } elseif($opts[1][0] == "left") {
+                            if(check_array_length($opts[1][2], 0) > 0) {
+                                $s3a = array();
+                                foreach($opts[1][2] as $word) {
+                                    $s3a[] = sprintf("%s like '%s'", get_value_in_array($opts[1][1], $s1a, $opts[1][1]), "{$word}%");
+                                }
+                                $s3 .= sprintf(" %s (%s)", $opts[0], implode(" and ", $s3a));
+                            } else {
+                                $s3 .= sprintf(" %s (%s like %s)", $opts[0], get_value_in_array($opts[1][1], $s1a, $opts[1][1]), "'{$opts[1][2]}%'");
+                            }
+                        } elseif($opts[1][0] == "right") {
+                            if(check_array_length($opts[1][2], 0) > 0) {
+                                $s3a = array();
+                                foreach($opts[1][2] as $word) {
+                                    $s3a[] = sprintf("%s like '%s'", get_value_in_array($opts[1][1], $s1a, $opts[1][1]), "%{$word}");
+                                }
+                                $s3 .= sprintf(" %s (%s)", $opts[0], implode(" and ", $s3a));
+                            } else {
+                                $s3 .= sprintf(" %s (%s like %s)", $opts[0], get_value_in_array($opts[1][1], $s1a, $opts[1][1]), "'%{$opts[1][2]}'");
+                            }
                         } elseif($opts[1][0] == "in") {
                             if(check_array_length($opts[1][2], 0) > 0) {
                                 $s3 .= sprintf(" %s (%s in ('%s'))", $opts[0], $opts[1][1], implode("', '", $opts[1][2]));
