@@ -10,13 +10,13 @@
 if(!check_function_exists("read_config")) {
     function read_config() {
         $config = array();
-		$is_legacy_version = version_compare(phpversion(), "5.3.0", "<");
+        $is_legacy_version = version_compare(phpversion(), "5.3.0", "<");
 
         $files = retrieve_storage_dir("config");
         foreach($files as $file) {
             $ini = array();
 
-			// `parse_ini_string` function is not supported under 5.3.0. if you use legacy, please use `.ini` file only.
+            // `parse_ini_string` function is not supported under 5.3.0. if you use legacy, please use `.ini` file only.
             if(!$is_legacy_version && check_file_extension($file, "ini.php", array("multiple" => true))) {
                 $ini = parse_ini_string($str);
             } elseif(check_file_extension($file, "ini")) {
@@ -57,34 +57,58 @@ if(!check_function_exists("get_config_value")) {
     }
 }
 
-if(!check_function_exists("get_current_datetime")) {
-    function get_current_datetime($options=array()) {
-        $datetime = false;
+if(!check_function_exists("get_current_timestamp")) {
+    function get_current_timestamp($options=array())     
+        $timestamp = time();
 
         $config = get_config();
-        $timestamp = time();
-        $timeformat = get_value_in_array("timeformat", $config, "Y-m-d H:i:s");
 
+        // get timeformat
+        $timeformat = get_value_in_array("timeformat", $config, "Y-m-d H:i:s");
+        if(!array_key_empty("timeformat", $options)) {
+            $timeformat = $options['timeformat'];
+        }
+
+        // get time from NTP server
         if(!array_key_empty("timeserver", $config)) {
             if(loadHelper("timetool")) {
                 $timestamp = get_server_time($config['timeserver']);
             }
         }
 
+        // set now time
         if(!array_key_empty("now", $options)) {
             try {
-                $dateTimeObject = \DateTime::createFromFormat($timeformat, $options['now']);
+                $dateTimeObject = DateTime::createFromFormat($timeformat, $options['now']);
                 $timestamp = $dateTimeObject->getTimestamp();
             } catch(Exception $e) {
                 $timestamp = strtotime($options['now']);
             }
         }
 
+        // adjust time
         if(!array_key_empty("adjust", $options)) {
             $timestamp = strtotime($options['adjust'], $timestamp);
         }
 
+        return $timestamp;
+    }
+}
+
+if(!check_function_exists("get_current_datetime")) {
+    function get_current_datetime($options=array()) {
+        // get timeformat
+        $timeformat = get_value_in_array("timeformat", $config, "Y-m-d H:i:s");
+        if(!array_key_empty("timeformat", $options)) {
+            $timeformat = $options['timeformat'];
+        }
+
+        // get timestamp
+        $timestamp = get_current_timestamp($options);'
+
+        // set datetime
         $datetime = date($timeformat, $timestamp);
+
         return $datetime;
     }
 }
