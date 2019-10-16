@@ -41,7 +41,21 @@ if(!check_function_exists("read_route")) {
         // get requested route
         $route = get_requested_value("route");
 
-        // if empty route
+        // if empty route: URI Route
+        if(empty($route)) {
+            if(loadHelper("networktool")) {
+                $nevt = get_network_event();
+                $d0 = explode(str_replace("index.php", "", $nevt['self']), $requests['_URI']);
+                $s0 = end($d0);
+                $d1 = explode("/", $s0);
+                $s1 = current($d1);
+                if(!empty($s1)) {
+                    $route = $s1;
+                }
+            }
+        }
+
+        // if empty route: default route
         if(empty($route)) {
             $route = get_value_in_array("default_route", $config, "welcome");
         }
