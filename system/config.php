@@ -16,7 +16,7 @@ if(!check_function_exists("read_config")) {
         foreach($files as $file) {
             $ini = array();
 
-            // `parse_ini_string` function is not supported under 5.3.0. if you use legacy, please use `.ini` file only.
+            // `parse_ini_string` function is not supported under 5.3.0. Use only 'ini' file
             if(!$is_legacy_version && check_file_extension($file, "ini.php", array("multiple" => true))) {
                 $ini = parse_ini_string($str);
             } elseif(check_file_extension($file, "ini")) {
@@ -104,7 +104,7 @@ if(!check_function_exists("get_current_datetime")) {
         }
 
         // get timestamp
-        $timestamp = get_current_timestamp($options);'
+        $timestamp = get_current_timestamp($options);
 
         // set datetime
         $datetime = date($timeformat, $timestamp);
