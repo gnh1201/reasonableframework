@@ -94,9 +94,10 @@ if(!check_function_exists("read_requests")) {
         // check if json or serialized request
         foreach(getallheaders() as $name=>$value) {
             if($name == "Content-Type") {
-                if($value == "application/json") {
+                $values = explode(";", $value);
+                if(in_array("application/json", $values)) {
                     $options['json'] = true;
-                } elseif($value == "application/vnd.php.serialized") {
+                } elseif(in_array("application/vnd.php.serialized", $values)) {
                     $options['serialized'] = true;
                 }
                 break;
