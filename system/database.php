@@ -242,6 +242,15 @@ if(!check_function_exists("exec_db_fetch_all")) {
             $response = $rows;
             $is_not_countable = true;
         }
+        
+        // 1.6 or above
+        $_rows = array();
+        if(array_key_equals("getvalues", $options, true)) {
+            foreach($rows as $row) {
+                $_rows[] = array_values($row);
+            }
+            $rows = $_rows;
+        }
 
         if(!$is_not_countable) {
             $response = array(
