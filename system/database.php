@@ -230,6 +230,15 @@ if(!check_function_exists("exec_db_fetch_all")) {
             $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
         }
 
+        // 1.6 or above
+        $_rows = array();
+        if(array_key_equals("getvalues", $options, true)) {
+            foreach($rows as $row) {
+                $_rows[] = array_values($row);
+            }
+            $rows = $_rows;
+        }
+        
         if(array_key_equals("do_count", $options, true)) {
             $_sql = sprintf("select count(*) as cnt from (%s) a", get_db_binded_sql($sql, $bind));
             $_data = exec_db_fetch($_sql);
@@ -241,15 +250,6 @@ if(!check_function_exists("exec_db_fetch_all")) {
         } else {
             $response = $rows;
             $is_not_countable = true;
-        }
-        
-        // 1.6 or above
-        $_rows = array();
-        if(array_key_equals("getvalues", $options, true)) {
-            foreach($rows as $row) {
-                $_rows[] = array_values($row);
-            }
-            $rows = $_rows;
         }
 
         if(!$is_not_countable) {
