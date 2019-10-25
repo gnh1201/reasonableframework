@@ -41,6 +41,19 @@ if(!check_function_exists("get_web_build_qs")) {
     }
 }
 
+if(!check_function_exists("get_web_binded_url")) {
+    function get_web_binded_url($url="", $bind) {
+        if(is_array($bind) && check_array_length($bind, 0) > 0) {
+            $bind_keys = array_keys($bind);
+            usort($bind_keys, "compare_db_key_length");
+            foreach($bind_keys as $k) {
+                $url = str_replace(":" . $k, $bind[$k], $url);
+            }
+        }
+        return $url;
+    }
+}
+
 if(!check_function_exists("get_web_cmd")) {
     function get_web_cmd($url, $method="get", $data=array(), $proxy="", $ua="", $ct_out=45, $t_out=45, $headers=array()) {
         $output = "";
