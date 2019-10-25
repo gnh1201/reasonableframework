@@ -44,8 +44,10 @@ if(!check_function_exists("twilio_send_message")) {
         $messages = twilio_parse_messages($message);
 
         if(loadHelper("webpagetool")) {
-            $request_url = sprintf("https://api.twilio.com/2010-04-01/Accounts/%s/Messages.json", $cnf['sid']);
-
+            $bind = array(
+                "sid" => $cnf['sid']
+            );
+            $request_url = get_web_binded_url("https://api.twilio.com/2010-04-01/Accounts/:sid/Messages.json", $bind);
             foreach($messages as $_message) {
                 $response = get_web_json($request_url, "post.cmd", array(
                     "headers" => array(
@@ -73,7 +75,10 @@ if(!check_function_exists("twilio_send_voice")) {
         $url = "http://catswords.re.kr/ep/storage/data/voice.xml";
 
         if(loadHelper("webpagetool")) {
-            $request_url = sprintf("https://api.twilio.com/2010-04-01/Accounts/%s/Calls.json", $cnf['sid']);
+            $bind = array(
+                "sid" => $cnf['sid']
+            );
+            $request_url = sprintf("https://api.twilio.com/2010-04-01/Accounts/:sid/Calls.json", $bind);
             $response = get_web_page($request_url, "post.cmd", array(
                 "headers" => array(
                     "Content-Type" => "application/x-www-form-urlencoded",
