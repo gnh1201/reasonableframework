@@ -327,7 +327,7 @@ if(!check_function_exists("get_bind_to_sql_insert")) {
         $sql = "insert into %s (%s) values (:%s)";
 
         $s1 = $tablename;
-        $s2 = implode(", ", $bind_keys);
+        $s2 = sprintf("`%s`", implode("`, `", $bind_keys));
         $s3 = implode(", :", $bind_keys);
 
         $sql = sprintf($sql, $s1, $s2, $s3);
