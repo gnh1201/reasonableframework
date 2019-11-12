@@ -377,6 +377,10 @@ if(!check_function_exists("get_web_page")) {
         // set user agent
         $ua = get_web_user_agent($ua);
 
+        // set method
+        $method = strtolower($method);
+        $req_methods = explode(".", $method);
+
         // redefine data
         $headers = array();
         if(array_key_is_array("headers", $data)) {
@@ -384,40 +388,45 @@ if(!check_function_exists("get_web_page")) {
             $data = $data['data'];
         }
 
-        // set method
-        $method = strtolower($method);
-        $res_methods = explode(".", $method);
+        // redefine data (JSON-RPC 1.1)
+        if(in_array("jsonrpc", $req_methods)) {
+            $req_methods[] = "jsondata";
+            $headers['Content-Type'] = "application/json-rpc";
+            $data = array_merge(array(
+                "jsonrpc" => "1.1"
+            ), $data);
+        }
 
-        if(in_array("cache", $res_methods)) {
+        // redefine data (JSON-RPC 2.0)
+        if(in_array("jsonrpc2", $req_methods)) {
+            $req_methods[] = "jsondata";
+            $headers['Content-Type'] = "application/json-rpc";
+            $data = array_merge(array(
+                "jsonrpc" => "2.0"
+            ), $data);
+        }
+
+        // do request
+        if(in_array("cache", $req_methods)) {
             $content = get_web_cache($url, $method, $data, $proxy, $ua, $ct_out, $t_out);
-        } elseif(in_array("cmd", $res_methods)) {
-            $content = get_web_cmd($url, $res_methods[0], $data, $proxy, $ua, $ct_out, $t_out, $headers);
-        } elseif(in_array("fgc", $res_methods)) {
+        } elseif(in_array("cmd", $req_methods)) {
+            $content = get_web_cmd($url, $req_methods[0], $data, $proxy, $ua, $ct_out, $t_out, $headers);
+        } elseif(in_array("fgc", $req_methods)) {
             $content = get_web_fgc($url);
-        } elseif(in_array("sock", $res_methods)) {
-            $content = get_web_sock($url, $res_methods[0], $data, $proxy, $ua, $ct_out, $t_out);
-        } elseif(in_array("wget", $res_methods)) {
-            $content = get_web_wget($url, $res_methods[0], $data, $proxy, $ua, $ct_out, $t_out);
-        } elseif(in_array("jsondata", $res_methods)) {
-            $_result = get_web_curl($url, "jsondata", $data, $proxy, $ua, $ct_out, $t_out, $headers);
-            $content = $_result['content'];
-            $status = $_result['status'];
-            $resno = $_result['resno'];
-            $errno = $_result['errno'];
-            
+        } elseif(in_array("sock", $req_methods)) {
+            $content = get_web_sock($url, $req_methods[0], $data, $proxy, $ua, $ct_out, $t_out);
+        } elseif(in_array("wget", $req_methods)) {
+            $content = get_web_wget($url, $req_methods[0], $data, $proxy, $ua, $ct_out, $t_out);
+        } elseif(in_array("jsondata", $req_methods)) {
+            $response = get_web_curl($url, "jsondata", $data, $proxy, $ua, $ct_out, $t_out, $headers);
+            $content = $response['content'];
+            $status = $response['status'];
+            $resno = $response['resno'];
+            $errno = $response['errno'];
+
             if(!($content !== false)) {
                 $content = get_web_cmd($url, "jsondata", $data, $proxy, $ua, $ct_out, $t_out, $headers);
             }
-        } elseif(in_array("jsonrpc", $res_method) || in_array("jsonrpc2", $res_method)) {
-            $_data = array(
-                "headers" => array(
-                    "Content-Type" => "application/json-rpc"
-                ),
-                "data" => array_merge(array(
-                    "jsonrpc" => "2.0"
-                ), $data)
-            );
-            $content = get_web_page($url, "jsondata", $_data, $proxy, $ua, $ct_out, $t_out);
         } else {
             $_result = get_web_curl($url, $method, $data, $proxy, $ua, $ct_out, $t_out, $headers);
             $content = $_result['content'];
