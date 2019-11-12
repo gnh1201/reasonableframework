@@ -45,20 +45,14 @@ if(!check_function_exists("zabbix_authenticate")) {
 
         // connect to zabbix server
         if(loadHelper("webpagetool")) {
-            $response = get_web_json($zabbix_api_url, "jsondata", array(
-                "headers" => array(
-                    "Content-Type" => "application/json-rpc",
+            $response = get_web_json($zabbix_api_url, "jsonrpc2", array(
+                "method" => "user.login",
+                "params" => array(
+                    "user" => $cnf['username'],
+                    "password" => $cnf['password'],
                 ),
-                "data" => array(
-                    "jsonrpc" => "2.0",
-                    "method" => "user.login",
-                    "params" => array(
-                        "user" => $cnf['username'],
-                        "password" => $cnf['password'],
-                    ),
-                    "id" => zabbix_get_id(),
-                    "auth" => null,
-                ),
+                "id" => zabbix_get_id(),
+                "auth" => null
             ));
         }
 
@@ -81,20 +75,14 @@ if(!check_function_exists("zabbix_retrieve_hosts")) {
 
         // connect to zabbix server
         if(loadHelper("webpagetool")) {
-            $response = get_web_json($zabbix_api_url, "jsondata", array(
-                "headers" => array(
-                    "Content-Type" => "application/json-rpc",
+            $response = get_web_json($zabbix_api_url, "jsonrpc2", array(
+                "method" => "host.get",
+                "params" => array(
+                    "output" => array("hostid", "host"),
+                    "selectInterfaces" => array("interfaceid", "ip"),
                 ),
-                "data" => array(
-                    "jsonrpc" => "2.0",
-                    "method" => "host.get",
-                    "params" => array(
-                        "output" => array("hostid", "host"),
-                        "selectInterfaces" => array("interfaceid", "ip"),
-                    ),
-                    "id" => zabbix_get_id(),
-                    "auth" => $zabbix_auth,
-                ),
+                "id" => zabbix_get_id(),
+                "auth" => $zabbix_auth
             ));
 
             $hosts = get_property_value("result", $response);
@@ -116,24 +104,18 @@ if(!check_function_exists("zabbix_get_items")) {
 
         // connect to zabbix server
         if(loadHelper("webpagetool")) {
-            $response = get_web_json($zabbix_api_url, "jsondata", array(
-                "headers" => array(
-                    "Content-Type" => "application/json-rpc",
+            $response = get_web_json($zabbix_api_url, "jsonrpc2", array(
+                "method" => "host.get",
+                "params" => array(
+                    "selectInventory" => true,
+                    "selectItems" => array("name", "lastvalue", "units", "itemid", "lastclock", "value_type", "itemid"),
+                    "output" => "extend",
+                    "hostids" => $hostids,
+                    "expandDescription" => 1,
+                    "expandData" => 1,
                 ),
-                "data" => array(
-                    "jsonrpc" => "2.0",
-                    "method" => "host.get",
-                    "params" => array(
-                        "selectInventory" => true,
-                        "selectItems" => array("name", "lastvalue", "units", "itemid", "lastclock", "value_type", "itemid"),
-                        "output" => "extend",
-                        "hostids" => $hostids,
-                        "expandDescription" => 1,
-                        "expandData" => 1,
-                    ),
-                    "id" => zabbix_get_id(),
-                    "auth" => $zabbix_auth,
-                ),
+                "id" => zabbix_get_id(),
+                "auth" => $zabbix_auth
             ));
             $results = get_property_value("result", $response);
             foreach($results as $result) {
@@ -157,34 +139,34 @@ if(!check_function_exists("zabbix_get_problems")) {
 
         // connect to zabbix server
         if(loadHelper("webpagetool")) {
-            $response = get_web_json($zabbix_api_url, "jsondata", array(
-                "headers" => array(
-                    "Content-Type" => "application/json-rpc",
+            $response = get_web_json($zabbix_api_url, "jsonrpc2", array(
+                "method" => "problem.get",
+                "params" => array(
+                    "output" => "extend",
+                    "selectAcknowledges" => "extend",
+                    "selectTags" => "extend",
+                    "selectSuppressionData" => "extend",
+                    "hostids" => $hostids,
+                    "recent" => "false",
+                    //"suppressed" => "false",
+                    //"acknowledged" => "false",
+                    //"sortfield" => ["eventid"],
+                    //"sortorder" => "DESC",
+                    //"time_from" => get_current_datetime(array("adjust" => "1 hour"))
                 ),
-                "data" => array(
-                    "jsonrpc" => "2.0",
-                    "method" => "problem.get",
-                    "params" => array(
-                        "output" => "extend",
-                        "selectAcknowledges" => "extend",
-                        "selectTags" => "extend",
-                        "selectSuppressionData" => "extend",
-                        "hostids" => $hostids,
-                        "recent" => "false",
-                        //"suppressed" => "false",
-                        //"acknowledged" => "false",
-                        //"sortfield" => ["eventid"],
-                        //"sortorder" => "DESC",
-                        //"time_from" => get_current_datetime(array("adjust" => "1 hour"))
-                    ),
-                    "id" => zabbix_get_id(),
-                    "auth" => $zabbix_auth,
-                ),
+                "id" => zabbix_get_id(),
+                "auth" => $zabbix_auth
             ));
         }
 
         $problems = get_property_value("result", $response);
 
         return $problems;
+    }
+}
+
+if(!check_function_exists("zabbix_get_triggers")) {
+    function zabbix_get_triggers($hostids=array()) {
+
     }
 }
