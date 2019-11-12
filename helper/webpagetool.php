@@ -404,10 +404,32 @@ if(!check_function_exists("get_web_page")) {
             $status = $_result['status'];
             $resno = $_result['resno'];
             $errno = $_result['errno'];
-
+            
             if(!($content !== false)) {
                 $content = get_web_cmd($url, "jsondata", $data, $proxy, $ua, $ct_out, $t_out, $headers);
             }
+        } elseif(in_array("jsonrpc", $res_method)) {
+            $_data = array(
+                "headers" => array(
+                    "Content-Type" => "application/json-rpc"
+                ),
+                "data" => array_merge(array(
+                    "jsonrpc" => "1.1"
+                ), $data)
+            );
+            $content = get_web_page($url, $method, $_data, $proxy, $ua, $ct_out, $t_out);
+        } elseif(in_array("jsonrpc2", $res_method)) {
+            $_data = array(
+                "headers" => array(
+                    "Content-Type" => "application/json-rpc"
+                ),
+                "data" => array(
+                    "jsonrpc" => 2.0,
+                    "method" => get_value_in_array("method", $data),
+                    "params" => get_value_in_array("params", $data)
+                )
+            );
+            $content = get_web_page($url, $method, $_data, $proxy, $ua, $ct_out, $t_out);
         } else {
             $_result = get_web_curl($url, $method, $data, $proxy, $ua, $ct_out, $t_out, $headers);
             $content = $_result['content'];
