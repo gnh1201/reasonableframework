@@ -72,6 +72,7 @@ if(!check_function_exists("zabbix_authenticate")) {
 
 if(!check_function_exists("zabbix_retrieve_hosts")) {
     function zabbix_retrieve_hosts() {
+        $hosts = false;
         $response = false;
 
         // get zabbix authentication
@@ -95,14 +96,18 @@ if(!check_function_exists("zabbix_retrieve_hosts")) {
                     "auth" => $zabbix_auth,
                 ),
             ));
+
+            $hosts = get_property_value("result", $response);
         }
 
-        return $response;
+        return $hosts;
     }
 }
 
 if(!check_function_exists("zabbix_get_items")) {
-    function zabbix_get_items($hostids="") {
+    function zabbix_get_items($hostids=null) {
+        $items = false;
+        $results = false;
         $response = false;
 
         // get zabbix authentication
@@ -130,8 +135,56 @@ if(!check_function_exists("zabbix_get_items")) {
                     "auth" => $zabbix_auth,
                 ),
             ));
+            $results = get_property_value("result", $response);
+            foreach($results as $result) {
+                $items = get_property_value("items", $result);
+                break;
+            }
         }
 
-        return $response;
+        return $items;
+    }
+}
+
+if(!check_function_exists("zabbix_get_problems")) {
+    function zabbix_get_problems($hostids=null) {
+        $problems = false;
+        $response = false;
+
+        // get zabbix authentication
+        $zabbix_api_url = get_scope("zabbix_api_url");
+        $zabbix_auth = get_scope("zabbix_auth");
+
+        // connect to zabbix server
+        if(loadHelper("webpagetool")) {
+            $response = get_web_json($zabbix_api_url, "jsondata", array(
+                "headers" => array(
+                    "Content-Type" => "application/json-rpc",
+                ),
+                "data" => array(
+                    "jsonrpc" => "2.0",
+                    "method" => "problem.get",
+                    "params" => array(
+                        "output" => "extend",
+                        "selectAcknowledges" => "extend",
+                        "selectTags" => "extend",
+                        "selectSuppressionData" => "extend",
+                        "hostids" => $hostids,
+                        "recent" => "false",
+                        //"suppressed" => "false",
+                        //"acknowledged" => "false",
+                        //"sortfield" => ["eventid"],
+                        //"sortorder" => "DESC",
+                        //"time_from" => get_current_datetime(array("adjust" => "1 hour"))
+                    ),
+                    "id" => zabbix_get_id(),
+                    "auth" => $zabbix_auth,
+                ),
+            ));
+        }
+
+        $problems = get_property_value("result", $response);
+
+        return $problems;
     }
 }
