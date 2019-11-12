@@ -423,11 +423,9 @@ if(!check_function_exists("get_web_page")) {
                 "headers" => array(
                     "Content-Type" => "application/json-rpc"
                 ),
-                "data" => array(
-                    "jsonrpc" => "2.0",
-                    "method" => get_value_in_array("method", $data),
-                    "params" => get_value_in_array("params", $data)
-                )
+                "data" => array_merge(array(
+                    "jsonrpc" => "2.0"
+                ), $data)
             );
             $content = get_web_page($url, "jsondata", $_data, $proxy, $ua, $ct_out, $t_out);
         } else {
