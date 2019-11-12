@@ -417,7 +417,7 @@ if(!check_function_exists("get_web_page")) {
                     "jsonrpc" => "1.1"
                 ), $data)
             );
-            $content = get_web_page($url, $method, $_data, $proxy, $ua, $ct_out, $t_out);
+            $content = get_web_page($url, "jsondata", $_data, $proxy, $ua, $ct_out, $t_out);
         } elseif(in_array("jsonrpc2", $res_method)) {
             $_data = array(
                 "headers" => array(
@@ -429,7 +429,7 @@ if(!check_function_exists("get_web_page")) {
                     "params" => get_value_in_array("params", $data)
                 )
             );
-            $content = get_web_page($url, $method, $_data, $proxy, $ua, $ct_out, $t_out);
+            $content = get_web_page($url, "jsondata", $_data, $proxy, $ua, $ct_out, $t_out);
         } else {
             $_result = get_web_curl($url, $method, $data, $proxy, $ua, $ct_out, $t_out, $headers);
             $content = $_result['content'];
