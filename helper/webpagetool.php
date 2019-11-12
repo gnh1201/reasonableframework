@@ -424,7 +424,7 @@ if(!check_function_exists("get_web_page")) {
                     "Content-Type" => "application/json-rpc"
                 ),
                 "data" => array(
-                    "jsonrpc" => 2.0,
+                    "jsonrpc" => "2.0",
                     "method" => get_value_in_array("method", $data),
                     "params" => get_value_in_array("params", $data)
                 )
