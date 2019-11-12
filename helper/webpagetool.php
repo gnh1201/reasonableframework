@@ -408,17 +408,7 @@ if(!check_function_exists("get_web_page")) {
             if(!($content !== false)) {
                 $content = get_web_cmd($url, "jsondata", $data, $proxy, $ua, $ct_out, $t_out, $headers);
             }
-        } elseif(in_array("jsonrpc", $res_method)) {
-            $_data = array(
-                "headers" => array(
-                    "Content-Type" => "application/json-rpc"
-                ),
-                "data" => array_merge(array(
-                    "jsonrpc" => "1.1"
-                ), $data)
-            );
-            $content = get_web_page($url, "jsondata", $_data, $proxy, $ua, $ct_out, $t_out);
-        } elseif(in_array("jsonrpc2", $res_method)) {
+        } elseif(in_array("jsonrpc", $res_method) || in_array("jsonrpc2", $res_method)) {
             $_data = array(
                 "headers" => array(
                     "Content-Type" => "application/json-rpc"
