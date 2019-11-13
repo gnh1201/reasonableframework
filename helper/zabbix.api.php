@@ -166,7 +166,32 @@ if(!check_function_exists("zabbix_get_problems")) {
 }
 
 if(!check_function_exists("zabbix_get_triggers")) {
-    function zabbix_get_triggers($hostids=array()) {
+    function zabbix_get_triggers($hostids=null) {
+        $triggers = false;
+        $response = false;
 
+        // get zabbix authentication
+        $zabbix_api_url = get_scope("zabbix_api_url");
+        $zabbix_auth = get_scope("zabbix_auth");
+
+        if(loadHelper("webpagetool")) {
+            $response = get_web_json($zabbix_api_url, "jsonrpc2", array(
+                "method" => "trigger.get",
+                "params" => array(
+                    "hostids" => $hostids,
+                    "output" => "extend",
+                    "selectFunctions" => "extend",
+                    "filter" => array(
+                        "value" => 1,
+                        "status" => 0
+                    )
+                ),
+                "id" => zabbix_get_id(),
+                "auth" => $zabbix_auth
+            ));
+        }
+        $triggers = get_property_value("result", $response);
+
+        return $triggers;
     }
 }
