@@ -408,7 +408,7 @@ if(!check_function_exists("get_web_page")) {
 
         // do request
         if(in_array("cache", $req_methods)) {
-            $content = get_web_cache($url, $method, $data, $proxy, $ua, $ct_out, $t_out);
+            $content = get_web_cache($url, $method, $data, $proxy, $ua, $ct_out, $t_out, $headers);
         } elseif(in_array("cmd", $req_methods)) {
             $content = get_web_cmd($url, $req_methods[0], $data, $proxy, $ua, $ct_out, $t_out, $headers);
         } elseif(in_array("fgc", $req_methods)) {
@@ -469,14 +469,23 @@ if(!check_function_exists("get_web_page")) {
 }
 
 if(!check_function_exists("get_web_identifier")) {
-    function get_web_identifier($url, $method="get", $data=array()) {
-        $hash_data = (count($data) > 0) ? get_hashed_text(serialize($data)) : "*";
-        return get_hashed_text(sprintf("%s.%s.%s", get_hashed_text($method), get_hashed_text($url), $hash_data));
+    function get_web_identifier($url, $method="get", $data=array(), $headers=array()) {
+        $checksum_data = (count($data) > 0) ? get_hashed_text(serialize($data)) : "*";
+        $checksum_header = (count($headers) > 0) ? get_hashed_text(serialize($data)) : "*";
+        $checksum_method = get_hashed_text($method);
+        $checksum_url = get_hashed_text($url);
+
+        $checksums = array($checksum_method, $checksum_url, $checksum_data);
+        if($checksum_header != "*") { // compatible below 1.6
+            $checksums[] = $checksum_header;
+        }
+
+        return get_hashed_text(implode(".", $checksums));
     }
 }
 
 if(!check_function_exists("get_web_cache")) {
-    function get_web_cache($url, $method="get", $data=array(), $proxy="", $ua="", $ct_out=45, $t_out=45) {
+    function get_web_cache($url, $method="get", $data=array(), $proxy="", $ua="", $ct_out=45, $t_out=45, $headers=array()) {
         $content = false;
 
         $identifier = get_web_identifier($url, $method, $data);
