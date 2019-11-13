@@ -452,7 +452,7 @@ if(!check_function_exists("get_web_page")) {
             "status"     => $status,
             "resno"      => $resno,
             "errno"      => $errno,
-            "id"         => get_web_identifier($url, $method, $data),
+            "id"         => get_web_identifier($url, $method, $data, $headers),
             "md5"        => get_hashed_text($content, "md5"),
             "sha1"       => get_hashed_text($content, "sha1"),
             "gz_content" => get_hashed_text($gz_content, "base64"),
