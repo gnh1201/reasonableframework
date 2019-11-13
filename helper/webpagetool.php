@@ -487,10 +487,12 @@ if(!check_function_exists("get_web_identifier")) {
 if(!check_function_exists("get_web_cache")) {
     function get_web_cache($url, $method="get", $data=array(), $proxy="", $ua="", $ct_out=45, $t_out=45, $headers=array()) {
         $content = false;
+        $config = get_config();
 
         $identifier = get_web_identifier($url, $method, $data);
         $gz_content = read_storage_file($identifier, array(
-            "storage_type" => "cache"
+            "storage_type" => "cache",
+            "max_age" => get_value_in_array("cache_max_age", $options, 0)
         ));
 
         if($gz_content === false) {
