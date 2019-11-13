@@ -45,7 +45,7 @@ if(!check_function_exists("zabbix_authenticate")) {
 
         // connect to zabbix server
         if(loadHelper("webpagetool")) {
-            $response = get_web_json($zabbix_api_url, "jsonrpc2", array(
+            $response = get_web_json($zabbix_api_url, "jsonrpc2.cache", array(
                 "method" => "user.login",
                 "params" => array(
                     "user" => $cnf['username'],
@@ -75,7 +75,7 @@ if(!check_function_exists("zabbix_retrieve_hosts")) {
 
         // connect to zabbix server
         if(loadHelper("webpagetool")) {
-            $response = get_web_json($zabbix_api_url, "jsonrpc2", array(
+            $response = get_web_json($zabbix_api_url, "jsonrpc2.cache", array(
                 "method" => "host.get",
                 "params" => array(
                     "output" => array("hostid", "host"),
@@ -104,7 +104,7 @@ if(!check_function_exists("zabbix_get_items")) {
 
         // connect to zabbix server
         if(loadHelper("webpagetool")) {
-            $response = get_web_json($zabbix_api_url, "jsonrpc2", array(
+            $response = get_web_json($zabbix_api_url, "jsonrpc2.cache", array(
                 "method" => "host.get",
                 "params" => array(
                     "selectInventory" => true,
@@ -139,7 +139,7 @@ if(!check_function_exists("zabbix_get_problems")) {
 
         // connect to zabbix server
         if(loadHelper("webpagetool")) {
-            $response = get_web_json($zabbix_api_url, "jsonrpc2", array(
+            $response = get_web_json($zabbix_api_url, "jsonrpc2.cache", array(
                 "method" => "problem.get",
                 "params" => array(
                     "output" => "extend",
@@ -175,7 +175,7 @@ if(!check_function_exists("zabbix_get_triggers")) {
         $zabbix_auth = get_scope("zabbix_auth");
 
         if(loadHelper("webpagetool")) {
-            $response = get_web_json($zabbix_api_url, "jsonrpc2", array(
+            $response = get_web_json($zabbix_api_url, "jsonrpc2.cache", array(
                 "method" => "trigger.get",
                 "params" => array(
                     "hostids" => $hostids,
