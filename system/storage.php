@@ -152,14 +152,23 @@ if(!check_function_exists("read_storage_file")) {
         $result = false;
 
         $storage_type = get_value_in_array("storage_type", $options, "data");
+        $max_age = get_value_in_array("max_age", $options, 0); // max_age (seconds)
         $upload_base_path = get_storage_path($storage_type);
         $upload_base_url = get_storage_url($storage_type);
         $upload_filename = sprintf("%s/%s", $upload_base_path, get_safe_path($filename));
 
         if(file_exists($upload_filename)) {
+            $is_valid = false;
             $upload_filesize = filesize($upload_filename);
-
+            $upload_ctime = filectime($upload_filename);
+            
             if($upload_filesize > 0) {
+                $is_valid = true;
+            } elseif($max_age > 0 && (get_current_timestamp() - $upload_ctime) <= $max_age) {
+                $is_valid = true;
+            }
+
+            if($is_valid) {
                 if($fp = fopen($upload_filename, "r")) {
                     if(array_key_equals("safemode", $options, true)) {
                         while(!feof($fp)) {
@@ -187,8 +196,6 @@ if(!check_function_exists("read_storage_file")) {
                         }
                     }
                 }
-            } else {
-                $result = "";
             }
         }
 
