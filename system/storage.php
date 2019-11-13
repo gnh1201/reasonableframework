@@ -152,7 +152,7 @@ if(!check_function_exists("read_storage_file")) {
         $result = false;
 
         $storage_type = get_value_in_array("storage_type", $options, "data");
-        $max_age = get_value_in_array("max_age", $options, 0); // max_age (seconds)
+        $max_age = get_value_in_array("max_age", $options, 0); // max_age (seconds), the value 0 is forever
         $upload_base_path = get_storage_path($storage_type);
         $upload_base_url = get_storage_url($storage_type);
         $upload_filename = sprintf("%s/%s", $upload_base_path, get_safe_path($filename));
