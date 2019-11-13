@@ -173,10 +173,10 @@ if(!check_function_exists("read_storage_file")) {
                     if(array_key_equals("safemode", $options, true)) {
                         while(!feof($fp)) {
                             $blocksize = get_value_in_array("blocksize", $options, 8192);
-                            $result = fread($fp, $blocksize);
+                            $result .= fread($fp, $blocksize);
                         }
                     } else {
-                        $result = fread($fp, filesize($upload_filename));
+                        $result = fread($fp, $upload_filesize);
                     }
                     fclose($fp);
                 }
