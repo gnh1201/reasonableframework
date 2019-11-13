@@ -492,7 +492,7 @@ if(!check_function_exists("get_web_cache")) {
         $identifier = get_web_identifier($url, $method, $data);
         $gz_content = read_storage_file($identifier, array(
             "storage_type" => "cache",
-            "max_age" => get_value_in_array("cache_max_age", $options, 0)
+            "max_age" => get_value_in_array("cache_max_age", $options, 0) // max_age(seconds), the value 0 is forever
         ));
 
         if($gz_content === false) {
