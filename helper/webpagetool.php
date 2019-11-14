@@ -501,15 +501,16 @@ if(!check_function_exists("get_web_cache")) {
             $identifier = get_web_identifier($url, $method, $data);
             $gz_content = read_storage_file($identifier, array(
                 "storage_type" => "cache",
-                //"max_age" => $cache_max_age
+                "max_age" => $cache_max_age
             ));
-            
+
+            write_common_log("cache_max_age: " . $cache_max_age, "helper/webpagetool"); 
             if($gz_content !== false) {
                 $content = gzinflate($gz_content);
                 $cache_hits++;
                 write_common_log(sprintf("Cache hit. %s, %s, %s", $identifier, strlen($content), strlen($gz_content)), "helper/webpagetool");
             } else {
-                write_common_log(sprintf("Cache no hit. %s", $identifer), "helper/webpagetool");
+                write_common_log(sprintf("Cache no hit. %s", $identifier), "helper/webpagetool");
             }
         }
 
