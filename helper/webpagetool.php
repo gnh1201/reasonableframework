@@ -487,8 +487,8 @@ if(!check_function_exists("get_web_identifier")) {
 if(!check_function_exists("get_web_cache")) {
     function get_web_cache($url, $method="get", $data=array(), $proxy="", $ua="", $ct_out=45, $t_out=45, $headers=array()) {
         $content = false;
-        $config = get_config()
-        
+        $config = get_config();
+
         $cache_enabled = array_key_equals("cache_enabled", $config, 1);
         // max_age(seconds), the value 0 is forever
         $cache_max_age = intval(get_value_in_array("cache_max_age", $config, 0));
