@@ -487,29 +487,51 @@ if(!check_function_exists("get_web_identifier")) {
 if(!check_function_exists("get_web_cache")) {
     function get_web_cache($url, $method="get", $data=array(), $proxy="", $ua="", $ct_out=45, $t_out=45, $headers=array()) {
         $content = false;
-        $config = get_config();
+        $config = get_config()
+        
+        $cache_enabled = array_key_equals("cache_enabled", $config, 1);
+        // max_age(seconds), the value 0 is forever
+        $cache_max_age = intval(get_value_in_array("cache_max_age", $config, 0));
+        $cache_hits = 0;
 
-        $identifier = get_web_identifier($url, $method, $data);
-        $gz_content = read_storage_file($identifier, array(
-            "storage_type" => "cache",
-            "max_age" => get_value_in_array("cache_max_age", $config, 0) // max_age(seconds), the value 0 is forever
-        ));
-
-        if($gz_content === false) {
-            $no_cache_method = str_replace(".cache", "", $method);
-            $response = get_web_page($url, $no_cache_method, $data, $proxy, $ua, $ct_out, $t_out);
-            $content = $response['content'];
-            $gz_content = gzdeflate($content);
-
-            // save web page cache
-            write_storage_file($gz_content, array(
+        $gz_content = false;
+        if($cache_enabled) {
+            $identifier = get_web_identifier($url, $method, $data);
+            $gz_content = read_storage_file($identifier, array(
                 "storage_type" => "cache",
-                "filename" => $identifier
+                "max_age" => $cache_max_age
             ));
-        } else {
-            $content = gzinflate($gz_content);
+            
+            if($gz_content !== false) {
+                $content = gzinflate($gz_content);
+                $cache_hits++;
+            }
         }
 
+        if($cache_hits == 0) {
+            $_old_methods = explode(".", $method);
+            $_new_methods = array();
+            foreach($_old_methods as $v) {
+                if($v != "cache") {
+                    $_new_methods[] = $v;
+                }
+            }
+            $_method = implode(".", $_new_methods);
+            
+            $response = get_web_page($url, $_method, $data, $proxy, $ua, $ct_out, $t_out);
+            $content = $response['content'];
+            if($cache_enabled) {
+                $gz_content = gzdeflate($content);
+                $fw = write_storage_file($gz_content, array(
+                    "storage_type" => "cache",
+                    "filename" => $identifier
+                ));
+                if(!$fw) {
+                    write_common_log("Failed to write cache file", "helper/webpagetool");
+                }
+            }
+        }
+        
         return $content;
     }
 }
