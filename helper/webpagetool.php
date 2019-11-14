@@ -480,6 +480,8 @@ if(!check_function_exists("get_web_identifier")) {
             $checksums[] = $checksum_header;
         }
 
+        //write_common_log(json_encode($checksums), "get_web_identifier");
+
         return get_hashed_text(implode(".", $checksums));
     }
 }
@@ -488,7 +490,7 @@ if(!check_function_exists("get_web_cache")) {
     function get_web_cache($url, $method="get", $data=array(), $proxy="", $ua="", $ct_out=45, $t_out=45, $headers=array()) {
         $content = false;
         $config = get_config();
-
+ 
         $cache_enabled = array_key_equals("cache_enabled", $config, 1);
         // max_age(seconds), the value 0 is forever
         $cache_max_age = intval(get_value_in_array("cache_max_age", $config, 0));
@@ -499,12 +501,15 @@ if(!check_function_exists("get_web_cache")) {
             $identifier = get_web_identifier($url, $method, $data);
             $gz_content = read_storage_file($identifier, array(
                 "storage_type" => "cache",
-                "max_age" => $cache_max_age
+                //"max_age" => $cache_max_age
             ));
             
             if($gz_content !== false) {
                 $content = gzinflate($gz_content);
                 $cache_hits++;
+                write_common_log(sprintf("Cache hit. %s, %s, %s", $identifier, strlen($content), strlen($gz_content)), "helper/webpagetool");
+            } else {
+                write_common_log(sprintf("Cache no hit. %s", $identifer), "helper/webpagetool");
             }
         }
 
@@ -517,7 +522,7 @@ if(!check_function_exists("get_web_cache")) {
                 }
             }
             $_method = implode(".", $_new_methods);
-            
+ 
             $response = get_web_page($url, $_method, $data, $proxy, $ua, $ct_out, $t_out);
             $content = $response['content'];
             if($cache_enabled) {
