@@ -286,7 +286,7 @@ if(!check_function_exists("write_storage_file")) {
             }
         }
 
-        if(file_exists($upload_filename) && in_array($mode, array("fake", "w"))) {
+        if(file_exists($upload_filename) && in_array($mode, array("fake"))) {
             if(!array_key_empty("filename", $options)) {
                 $result = $upload_filename;
             } else {
