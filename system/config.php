@@ -18,6 +18,7 @@ if(!check_function_exists("read_config")) {
 
             // `parse_ini_string` function is not supported under 5.3.0. Use only 'ini' file
             if(!$is_legacy_version && check_file_extension($file, "ini.php", array("multiple" => true))) {
+                $str = include($file);
                 $ini = parse_ini_string($str);
             } elseif(check_file_extension($file, "ini")) {
                 $ini = parse_ini_file($file);
@@ -58,7 +59,7 @@ if(!check_function_exists("get_config_value")) {
 }
 
 if(!check_function_exists("get_current_timestamp")) {
-    function get_current_timestamp($options=array())     
+    function get_current_timestamp($options=array()) { 
         $timestamp = time();
 
         $config = get_config();
@@ -97,6 +98,8 @@ if(!check_function_exists("get_current_timestamp")) {
 
 if(!check_function_exists("get_current_datetime")) {
     function get_current_datetime($options=array()) {
+        $config = get_config();
+
         // get timeformat
         $timeformat = get_value_in_array("timeformat", $config, "Y-m-d H:i:s");
         if(!array_key_empty("timeformat", $options)) {
