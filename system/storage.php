@@ -280,7 +280,7 @@ if(!check_function_exists("remove_storage_file")) {
     }
 }
 
-if(check_function_exists("remove_storage_files")) {
+if(!check_function_exists("remove_storage_files")) {
     function remove_storage_files($storage_type, $options=array()) {
         $failed = 0;
         
