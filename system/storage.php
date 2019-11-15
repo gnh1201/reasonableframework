@@ -310,7 +310,7 @@ if(!check_function_exists("remove_volatile_files")) {
         return remove_storage_files("cache", array(
             "max_age" => $max_age,
             "excludes" => array("index.php", "index.html")
-        ));
+        ), $options);
     }
 }
 
