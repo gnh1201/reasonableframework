@@ -306,8 +306,7 @@ if(!check_function_exists("remove_storage_files")) {
 
 if(!check_function_exists("remove_volatile_files")) {
     function remove_volatile_files($storage_type, $max_age=0, $options=array()) {
-        $config = get_config();
-        return remove_storage_files("cache", array(
+        return remove_storage_files($storage_type, array(
             "max_age" => $max_age,
             "excludes" => array("index.php", "index.html")
         ), $options);
