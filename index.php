@@ -125,3 +125,15 @@ IF(PHP_DDOS_PROTECTION !== false) {
 if(!loadRoute($route, $scope)) {
     loadRoute("errors/404", $scope);
 }
+
+// flush cache
+if(array_key_equals("cache_enabled", $config, 1)) {
+    $caches = iterate_storage_files("cache");
+    foreach($caches as $filename) {
+        remove_storage_file($filename, array(
+            "storage_type" => "cache"
+        ));
+    }
+}
+
+// EOF
