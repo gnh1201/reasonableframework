@@ -128,7 +128,8 @@ if(!loadRoute($route, $scope)) {
 
 // flush cache
 $cache_max_age = intval(get_value_in_array("cache_max_age", $config, 0));
-if(array_key_equals("cache_enabled", $config, 1)) {
+$cache_enabled = array_key_equals("cache_enabled", $config, 1);
+if($cache_max_age > 0 && $cache_enabled) {
     remove_volatile_files("cache", $cache_max_age);
 }
 
