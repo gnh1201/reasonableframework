@@ -133,4 +133,12 @@ if(array_key_equals("cache_enabled", $config, 1)) {
     ));
 }
 
+// flush temp
+$temp_max_age = intval(get_value_in_array("temp_max_age", $config, 0));
+if($temp_max_age > 0) {
+    remove_storage_files("temp", array(
+        "max_age" => $temp_max_age
+    ));
+}
+
 // EOF
