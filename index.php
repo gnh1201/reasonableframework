@@ -21,8 +21,8 @@ define("PHP_DDOS_PROTECTION", false); // advanced security
 // development mode
 if(APP_DEVELOPMENT == true) {
     error_reporting(E_ALL);
-	ini_set("log_errors", 1);
-	ini_set("error_log", sprintf("%s/storage/sandbox/logs/error.log", getcwd()));
+    ini_set("log_errors", 1);
+    ini_set("error_log", sprintf("%s/storage/sandbox/logs/error.log", getcwd()));
 } else {
     error_reporting(E_ERROR | E_PARSE);
 }
@@ -128,12 +128,9 @@ if(!loadRoute($route, $scope)) {
 
 // flush cache
 if(array_key_equals("cache_enabled", $config, 1)) {
-    $caches = iterate_storage_files("cache");
-    foreach($caches as $filename) {
-        remove_storage_file($filename, array(
-            "storage_type" => "cache"
-        ));
-    }
+    remove_storage_files("cache", array(
+        "max_age" => get_value_in_array("cache_max_age", $config, 0)
+    ));
 }
 
 // EOF
