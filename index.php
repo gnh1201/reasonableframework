@@ -111,13 +111,13 @@ write_visit_log();
 // get requested route
 $route = read_route();
 
-// advanced security: set PHP firewall
+// with advanced security: enable PHP firewall
 if(PHP_FIREWALL_ACTIVATION !== false) {
     loadHelper("php-firewall.lnk");
 }
 
-// advanced security: set DDOS protection
-IF(PHP_DDOS_PROTECTION !== false) {
+// with advanced security: enable DDOS protection
+if(PHP_DDOS_PROTECTION !== false) {
     loadHelper("php-ddos.lnk");
 }
 
