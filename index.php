@@ -127,20 +127,15 @@ if(!loadRoute($route, $scope)) {
 }
 
 // flush cache
+$cache_max_age = intval(get_value_in_array("cache_max_age", $config, 0));
 if(array_key_equals("cache_enabled", $config, 1)) {
-    remove_storage_files("cache", array(
-        "max_age" => get_value_in_array("cache_max_age", $config, 0),
-        "excludes" => array("index.php", "index.html")
-    ));
+    remove_volatile_files("cache", $cache_max_age);
 }
 
 // flush temp
 $temp_max_age = intval(get_value_in_array("temp_max_age", $config, 0));
 if($temp_max_age > 0) {
-    remove_storage_files("temp", array(
-        "max_age" => $temp_max_age,
-        "excludes" => array("index.php", "index.html")
-    ));
+    remove_volatile_files("temp", $temp_max_age);
 }
 
 // EOF
