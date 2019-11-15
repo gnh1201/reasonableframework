@@ -170,6 +170,7 @@ if(!check_function_exists("read_storage_file")) {
             if($is_valid) {
                 if($fp = fopen($upload_filename, "r")) {
                     if(array_key_equals("safemode", $options, true)) {
+                        $result = "";
                         while(!feof($fp)) {
                             $blocksize = get_value_in_array("blocksize", $options, 8192);
                             $result .= fread($fp, $blocksize);
