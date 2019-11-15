@@ -283,16 +283,20 @@ if(!check_function_exists("remove_storage_file")) {
 if(!check_function_exists("remove_storage_files")) {
     function remove_storage_files($storage_type, $options=array()) {
         $failed = 0;
-        
+
         $max_age = intval(get_value_in_array("max_age", $options, 0));
+        $excludes = get_array(get_value_in_array("excludes", $options, array()));
+
         $filenames = iterate_storage_files($storage_type);
         foreach($filenames as $filename) {
-            $rm = remove_storage_file($filename, array(
-                "storage_type" => $storage_type,
-                "max_age" => $max_age
-            ));
-            if(!$rm) {
-                $failed++;
+            if(!in_array($filename, $excludes)) {
+                $rm = remove_storage_file($filename, array(
+                    "storage_type" => $storage_type,
+                    "max_age" => $max_age
+                ));
+                if(!$rm) {
+                    $failed++;
+                }
             }
         }
 
