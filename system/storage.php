@@ -227,6 +227,7 @@ if(!check_function_exists("remove_storage_file")) {
         $result = false;
 
         $storage_type = get_value_in_array("storage_type", $options, "data");
+        $max_age = intval(get_value_in_array("max_age", $options, 0)); // max_age (seconds), the value 0 is forever
         $upload_base_path = get_storage_path($storage_type);
         $upload_base_url = get_storage_url($storage_type);
         $upload_filename = sprintf("%s/%s", $upload_base_path, get_safe_path($filename));
@@ -240,27 +241,61 @@ if(!check_function_exists("remove_storage_file")) {
         }
 
         if(file_exists($upload_filename)) {
-            if(!array_key_empty("chmod", $options)) {
-                @chmod($upload_filename, $options['chmod']);
-            }
+            $is_valid = false;
+            $upload_mtime = filemtime($upload_filename);
+            $upload_age = get_current_timestamp() - $upload_mtime;
 
-            if(!array_key_empty("chown", $options)) {
-                @chown($upload_filename, $options['chown']);
-            }
-
-            if(!array_key_equals("shell", $options, true)) {
-                if(loadHelper("exectool")) {
-                    $exec_cmd = ($options['shell'] == "windows") ? "del '%s'" : "rm -f '%s'";
-                    exec_command(sprintf($exec_cmd, make_safe_argument($upload_filename)));
+            if(file_exists($upload_filename)) {
+                if($max_age > 0) {
+                    $is_valid = ($upload_age > $max_age);
+                } else {
+                    $is_valid = true;
                 }
-            } else {
-                @unlink($upload_filename);
             }
 
-            $result = !file_exists($upload_filename);
+            if($is_valid) {
+                if(!array_key_empty("chmod", $options)) {
+                    @chmod($upload_filename, $options['chmod']);
+                }
+
+                if(!array_key_empty("chown", $options)) {
+                    @chown($upload_filename, $options['chown']);
+                }
+
+                if(!array_key_equals("shell", $options, true)) {
+                    if(loadHelper("exectool")) {
+                        $exec_cmd = ($options['shell'] == "windows") ? "del '%s'" : "rm -f '%s'";
+                        exec_command(sprintf($exec_cmd, make_safe_argument($upload_filename)));
+                    }
+                } else {
+                    @unlink($upload_filename);
+                }
+
+                $result = !file_exists($upload_filename);
+            }
         }
 
         return $result;
+    }
+}
+
+if(check_function_exists("remove_storage_files")) {
+    function remove_storage_files($storage_type, $options=array()) {
+        $failed = 0;
+        
+        $max_age = intval(get_value_in_array("max_age", $options, 0));
+        $filenames = iterate_storage_files($storage_type);
+        foreach($filenames as $filename) {
+            $rm = remove_storage_file($filename, array(
+                "storage_type" => $storage_type,
+                "max_age" => $max_age
+            ));
+            if(!$rm) {
+                $failed++;
+            }
+        }
+
+        return $failed;
     }
 }
 
