@@ -344,11 +344,9 @@ if(!check_function_exists("get_bind_to_sql_where")) {
     function get_bind_to_sql_where($bind, $options=array(), $_options=array()) {
         $s3 = "";
         $sp = "";
-
-        $excludes = get_value_in_array("excludes", $options, array());
         
-        // compatible version 1.5
-        if(array_key_equals("compatible", $_options, "1.5")) {
+        $excludes = get_value_in_array("excludes", $options, array());
+        if(get_old_version() == "1.5") {
             $excludes = $options;
         }
 
@@ -603,7 +601,7 @@ if(!check_function_exists("get_bind_to_sql_update")) {
         $_bind = array();
 
         // compatible version 1.5
-        if(array_key_equals("compatible", $_options, "1.5")) {
+        if(get_old_version() == "1.5") {
             foreach($options as $k=>$v) {
                 if($v == true) {
                     $excludes[] = $k;
@@ -611,7 +609,7 @@ if(!check_function_exists("get_bind_to_sql_update")) {
             }
             $options = $_options;
         }
-
+        
         // setkeys
         if(!array_key_empty("setkeys", $options)) {
             $setkeys = $options['setkeys'];
