@@ -115,3 +115,8 @@ if(!check_function_exists("get_current_datetime")) {
         return $datetime;
     }
 }
+
+if(!check_function_exists("get_old_version")) {
+    $config = get_config();
+    return get_value_in_array("old_version", $config, 0);
+}
