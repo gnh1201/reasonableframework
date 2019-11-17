@@ -8,5 +8,5 @@ default_route=welcome
 cache_enabled=1
 cache_max_age=180
 temp_max_age=60
-compatible_version=0
+old_version=0
 EOF;
