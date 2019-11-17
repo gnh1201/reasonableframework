@@ -253,11 +253,12 @@ if(!check_function_exists("exec_db_fetch_all")) {
         }
 
         if(!$is_not_countable) {
-            $response = array(
-                "length" => $_cnt, // compatible with 1.4 or lower
-                "cnt" => $_cnt,
-                "data" => $rows,
-            );
+            $response = array();
+            if(get_old_version() == "1.4") { // compatible 1.4 or below
+                $response['length'] = $_cnt;
+            }
+            $response['cnt'] = $_cnt;
+            $response['data'] = $rows;
         }
         
         return $response;
@@ -346,7 +347,7 @@ if(!check_function_exists("get_bind_to_sql_where")) {
         $sp = "";
         
         $excludes = get_value_in_array("excludes", $options, array());
-        if(get_old_version() == "1.5") {
+        if(get_old_version() == "1.5") { // compatible 1.5 or below
             $excludes = $options;
         }
 
@@ -753,4 +754,3 @@ if(!check_function_exists("json_decode_to_assoc")) {
         }
     }
 }
-
