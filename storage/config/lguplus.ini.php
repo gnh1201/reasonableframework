@@ -1,4 +1,4 @@
-<?php1
+<?php
 return <<<EOF
 lguplus_enabled = 1
 lguplus_key = ""
