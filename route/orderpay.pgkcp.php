@@ -50,6 +50,7 @@ $data = array(
 
 // 1. 주문 정보 입력: 결제에 필요한 주문 정보를 입력 및 설정합니다.
 $fieldnames = array(
+    "redirect_url",       // Redirect URL
     "pay_method",         // 지불 방법
     "pay_method_alias",   // 지불 방법 별칭
     "ordr_idxx",          // 주문 번호
