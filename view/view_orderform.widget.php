@@ -53,6 +53,14 @@
             <input id="payman_pay_data" name="pay_data" type="text" value="<?php echo $pay_data; ?>" placeholder="요청 전문">
         </div>
         <div>
+            <label for="payman_eng_flag">For english</label>
+            <select id="payman_eng_flag" name="eng_flag">
+                <option value="">Choose...</option>
+                <option value="N"<?php echo ($eng_flag == "N" ? " selected=\"selected\"" : ""); ?>>N</option>
+                <option value="Y"<?php echo ($eng_flag == "Y" ? " selected=\"selected\"" : ""); ?>>Y</option>
+            </select>
+        </div>
+        <div>
             <label for="payman_chk_agree">
                 <input id="payman_chk_agree" name="chk_agree" type="checkbox" value="1" checked="checked"> 전자상거래 약관에 동의합니다.
             </label>
