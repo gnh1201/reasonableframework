@@ -36,7 +36,7 @@ function m_Completepayment( FormOrJson, closeEvent )
                 self.close();
                 this.close();
             } else {
-                window.location.href = "/";
+                window.location.href = document.getElementById("redirect_url").value;
             }
         }
     }
