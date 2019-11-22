@@ -16,6 +16,7 @@ $data = array(
     "buyr_mail" => get_requested_value("buyr_mail"),
     "buyr_tel1" => get_requested_value("buyr_tel1"),
     "pay_data" => get_requested_value("pay_data"),
+    "eng_flag" => get_requested_value("eng_flag")
 );
 
 renderView("view_orderform.widget", $data);
