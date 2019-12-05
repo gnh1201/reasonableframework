@@ -418,6 +418,9 @@ if(!check_function_exists("get_bind_to_sql_where")) {
                                 }
                                 $s3 .= sprintf(" %s (%s)", $opts[0], implode(" and ", $s3a));
                             }
+                        } elseif($opts[1][0] == "interval") {
+                            $s3u = array("s" => 1, "m" => 60, "h" => 120, "d" => 86400);
+                            // todo
                         } else {
                             $ssts = array(
                                 "eq" => "=",
