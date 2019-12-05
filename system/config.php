@@ -89,15 +89,15 @@ if(!check_function_exists("get_current_timestamp")) {
 
         // adjust time
         if(!array_key_empty("adjust", $options)) {
-            $units = array(
-                "s" => array(    1, "second", "seconds"),
-                "m" => array(   60, "minute", "minutes"),
-                "h" => array(  120, "hour",   "hours"  ),
-                "d" => array(86400, "day",    "days"   )
-            );
             $adjust = trim($options['adjust']);
             $_adjust = "";
             if(strlen($adjust) > 0) {
+                $units = array(
+                    "s" => array(    1, "second", "seconds"),
+                    "m" => array(   60, "minute", "minutes"),
+                    "h" => array(  120, "hour",   "hours"  ),
+                    "d" => array(86400, "day",    "days"   )
+                );
                 $_L = intval(substr($adjust, 0, -1));
                 $_R = substr($adjust, -1);
                 if(array_key_exists($_R, $units)) {
@@ -106,10 +106,11 @@ if(!check_function_exists("get_current_timestamp")) {
                     } else {
                         $_adjust = sprintf("%s %s", $_L, $units[$_R][1]);
                     }
+                } else {
+                    $_adjust = $adjust;
                 }
+                $timestamp = strtotime($_adjust, $timestamp);
             }
-
-            $timestamp = strtotime($_adjust, $timestamp);
         }
 
         return $timestamp;
