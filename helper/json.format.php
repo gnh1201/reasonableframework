@@ -10,7 +10,7 @@ if(!check_function_exists("json_decode_ex")) {
             "NO_FUNCTION_JSON_DECODE" => "json_decode",
             "NO_FUNCTION_JSON_LAST_ERROR" => "json_last_error",
         );
-        $error = check_invaild_function($invalid_fn);
+        $error = check_invalid_function($invalid_fn);
 
         if($error < 0) {
             $_result = array_key_equals("assoc", $options, true) ? @json_decode($data, true) : @json_decode($data);
