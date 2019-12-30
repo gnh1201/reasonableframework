@@ -774,26 +774,26 @@ if(!check_function_exists("exec_db_table_create")) {
             return false;
         } else {
             if($_suffix != ".tables") {
-				// create meta table
-				$schemes_t = array(
-					"table_name" => array("varchar", 255),
-					"datetime" => array("datetime")
-				);
-				$_tablename_t = exec_db_table_create($schemes_t, $tablename, array(
-					"prefix" => $_prefix,
-					"suffix" => ".tables",
-					"setindex" => array(
-						"index_1" => array("datetime")
-					)
-				));
+                // create meta table
+                $schemes_t = array(
+                    "table_name" => array("varchar", 255),
+                    "datetime" => array("datetime")
+                );
+                $_tablename_t = exec_db_table_create($schemes_t, $tablename, array(
+                    "prefix" => $_prefix,
+                    "suffix" => ".tables",
+                    "setindex" => array(
+                        "index_1" => array("datetime")
+                    )
+                ));
 
-				// add table name to meta table
-				$bind = array(
-					"table_name" => $_tablename,
-					"datetime" => get_current_datetime()
-				);
-				$sql = get_bind_to_sql_insert($_tablename_t, $bind);
-				exec_db_query($sql, $bind);
+                // add table name to meta table
+                $bind = array(
+                    "table_name" => $_tablename,
+                    "datetime" => get_current_datetime()
+                );
+                $sql = get_bind_to_sql_insert($_tablename_t, $bind);
+                exec_db_query($sql, $bind);
             }
 
             // create index
