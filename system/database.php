@@ -744,22 +744,30 @@ if(!check_function_exists("get_bind_to_sql_create")) {
 // table creation
 if(!check_function_exists("exec_db_table_create")) {
     function exec_db_table_create($schemes, $tablename, $options=array()) {
-        $_tablename = false;
-
         $_prefix = get_value_in_array("prefix", $options, "");
         $_suffix = get_value_in_array("suffix", $options, "");
+        $_tablename = sprintf("%s%s%s", $_prefix, $tablename, $_suffix);
 
         $setindex = get_value_in_array("setindex", $options, false);
+        
+        // check if exists table
+        $sql = sprintf("describe %s", $_tablename);
+        if(!exec_db_query($sql)) {
+            return false;
+        }
+
+        // create table
         $sql = get_bind_to_sql_create($schemes, array(
-            "tablename" => $tablename
+            "tablename" => $_tablename
         ));
-        $result = exec_db_query($sql);
-        if(!!$result) {
+        if(!exec_db_query($sql)) {
+            return false;
+        } else {
+            // create index
             foreach($setindex as $k=>$v) {
                 $sql = sprintf("create index %s on %s (%s)", $k, $tablename, implode(", ", $v));
                 exec_db_query($sql);
             }
-            $_tablename = sprintf("%s%s%s", $_prefix, $tablename, $_suffix);
         }
 
         return $_tablename;
