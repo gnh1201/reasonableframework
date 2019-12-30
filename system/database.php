@@ -325,7 +325,7 @@ if(!check_function_exists("get_bind_to_sql_insert")) {
 
         // make SQL statement
         $bind_keys = array_keys($bind);
-        $sql = "insert into %s (%s) values (:%s)";
+        $sql = "insert into `%s` (%s) values (:%s)";
 
         $s1 = $tablename;
         $s2 = sprintf("`%s`", implode("`, `", $bind_keys));
@@ -685,6 +685,7 @@ if(!check_function_exists("sql_query")) {
     }
 }
 
+
 // get timediff
 if(!check_function_exists("get_timediff_on_query")) {
     function get_timediff_on_query($a, $b) {
@@ -702,25 +703,121 @@ if(!check_function_exists("get_timediff_on_query")) {
     }
 }
 
-// temporary table
-if(!check_function_exists("exec_db_temp_create")) {
-    function exec_db_temp_create($schemes=array(), $options=array()) {
-        $_tablename = make_random_id();
+// make sql statement to create table
+if(!check_function_exists("get_bind_to_sql_create")) {
+    function get_bind_to_sql_create($schemes, $options=array()) {
+        $sql = false;
+        
+        $_prefix = get_value_in_array("prefix", $options, "");
+        $_suffix = get_value_in_array("suffix", $options, "");
+        $_tablename = get_value_in_array("tablename", $options, "");
+        $_temporary = get_value_in_array("temporary", $options, false);
         $_schemes = array();
-        foreach($schemes as $k=>$v) {
-            if(is_array($v)) {
-                $_argc = count($v);
-                if($_argc == 1) {
-                    $_schemes[] = sprintf("%s %s", $k, $v[0]);
-                } elseif($_argc == 2) {
-                    $_schemes[] = sprintf("%s %s(%s)", $k, $v[0], $v[1]);
-                } elseif($_argc == 3) {
-                    $_schemes[] = sprintf("%s %s(%s) %s", $k, $v[0], $v[1], ($v[2] === true ? "not null" : ""));
+
+        if(!empty($_tablename)) {
+            $tablename = sprintf("%s%s%s", $_prefix, $_tablename, $_suffix);
+            
+            foreach($schemes as $k=>$v) {
+                if(is_array($v)) {
+                    $_argc = count($v);
+                    if($_argc == 1) {
+                        $_schemes[] = sprintf("%s %s", $k, $v[0]);
+                    } elseif($_argc == 2) {
+                        $_schemes[] = sprintf("%s %s(%s)", $k, $v[0], $v[1]);
+                    } elseif($_argc == 3) {
+                        $_schemes[] = sprintf("%s %s(%s) %s", $k, $v[0], $v[1], ($v[2] === true ? "not null" : ""));
+                    }
                 }
             }
+
+            if($_temporary !== false) {
+                $sql = sprintf("create temporary table if not exists `%s` (%s)", $tablename, implode(",", $_schemes));
+            } else {
+                $sql = sprintf("create table if not exists `%s` (%s)", $tablename, implode(",", $_schemes));
+            }
         }
-        $_sql = sprintf("create temporary table if not exists %s (%s)", $_tablename, implode(",", $_schemes));
-        return (exec_db_query($_sql) ? $_tablename : false);
+
+        return $sql;
+    }
+}
+
+// table creation
+if(!check_function_exists("exec_db_table_create")) {
+    function exec_db_table_create($schemes, $tablename, $options=array()) {
+        $_prefix = get_value_in_array("prefix", $options, "");
+        $_suffix = get_value_in_array("suffix", $options, "");
+        $_tablename = sprintf("%s%s%s", $_prefix, $tablename, $_suffix);
+        $_tablename_p = sprintf("%s%s", $_prefix, $tablename);
+        $_tablename_s = sprintf("%s%s", $tablename, $_suffix);
+        $_tablename_t = sprintf("%s.tables", $_tablename_p);
+
+        // get index options
+        $config = get_config();
+        $setindex = get_value_in_array("setindex", $options, false);
+
+        // check if exists table
+        $bind = array(
+            "table_schema" => $config['db_name'],
+            "table_name" => $_tablename
+        );
+        $sql = get_bind_to_sql_select("information_schema.tables", $bind);
+        $rows = exec_db_fetch_all($sql, $bind);
+        foreach($rows as $row) {
+            return $row['TABLE_NAME'];
+        }
+
+        // create table
+        $sql = get_bind_to_sql_create($schemes, array(
+            "tablename" => $_tablename
+        ));
+        if(!exec_db_query($sql)) {
+            return false;
+        } else {
+            if($_suffix != ".tables") {
+				// create meta table
+				$schemes_t = array(
+					"table_name" => array("varchar", 255),
+					"datetime" => array("datetime")
+				);
+				$_tablename_t = exec_db_table_create($schemes_t, $tablename, array(
+					"prefix" => $_prefix,
+					"suffix" => ".tables",
+					"setindex" => array(
+						"index_1" => array("datetime")
+					)
+				));
+
+				// add table name to meta table
+				$bind = array(
+					"table_name" => $_tablename,
+					"datetime" => get_current_datetime()
+				);
+				$sql = get_bind_to_sql_insert($_tablename_t, $bind);
+				exec_db_query($sql, $bind);
+            }
+
+            // create index
+            foreach($setindex as $k=>$v) {
+                $sql = sprintf("create index `%s` on `%s` (%s)", $k, $_tablename, implode(", ", $v));
+                exec_db_query($sql);
+            }
+        }
+
+        return $_tablename;
+    }
+}
+
+// temporary table creation
+if(!check_function_exists("exec_db_temp_create")) {
+    function exec_db_temp_create($schemes, $options=array()) {
+        $tablename = make_random_id();
+
+        $sql = get_bind_to_sql_create($schemes, array(
+            "tablename" => $tablename,
+            "temporary" => true
+        ));
+
+        return (exec_db_query($sql) ? $tablename : false);
     }
 }
 
