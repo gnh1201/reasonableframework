@@ -747,14 +747,23 @@ if(!check_function_exists("exec_db_table_create")) {
         $_prefix = get_value_in_array("prefix", $options, "");
         $_suffix = get_value_in_array("suffix", $options, "");
         $_tablename = sprintf("%s%s%s", $_prefix, $tablename, $_suffix);
+        $_tablename_p = sprintf("%s%s", $_prefix, $tablename);
+        $_tablename_s = sprintf("%s%s", $tablename, $_suffix);
+        $_tablename_t = sprintf("%s.tables", $_tablename_p);
 
         // get index options
+        $config = get_config();
         $setindex = get_value_in_array("setindex", $options, false);
 
         // check if exists table
-        $sql = sprintf("describe %s", $_tablename);
-        if(exec_db_query($sql)) {
-            return $_tablename;
+        $bind = array(
+            "table_schema" => $config['db_name'],
+            "table_name" => $_tablename
+        );
+        $sql = get_bind_to_sql_select("information_schema.tables", $bind);
+        $rows = exec_db_fetch_all($sql, $bind);
+        foreach($rows as $row) {
+            return $row['TABLE_NAME'];
         }
 
         // create table
@@ -764,9 +773,32 @@ if(!check_function_exists("exec_db_table_create")) {
         if(!exec_db_query($sql)) {
             return false;
         } else {
+            if($_suffix != ".tables") {
+				// create meta table
+				$schemes_t = array(
+					"table_name" => array("varchar", 255),
+					"datetime" => array("datetime")
+				);
+				$_tablename_t = exec_db_table_create($schemes_t, $tablename, array(
+					"prefix" => $_prefix,
+					"suffix" => ".tables",
+					"setindex" => array(
+						"index_1" => array("datetime")
+					)
+				));
+
+				// add table name to meta table
+				$bind = array(
+					"table_name" => $_tablename,
+					"datetime" => get_current_datetime()
+				);
+				$sql = get_bind_to_sql_insert($_tablename_t, $bind);
+				exec_db_query($sql, $bind);
+            }
+
             // create index
             foreach($setindex as $k=>$v) {
-                $sql = sprintf("create index `%s` on `%s` (%s)", $k, $tablename, implode(", ", $v));
+                $sql = sprintf("create index `%s` on `%s` (%s)", $k, $_tablename, implode(", ", $v));
                 exec_db_query($sql);
             }
         }
