@@ -744,8 +744,9 @@ if(!check_function_exists("get_bind_to_sql_create")) {
 // table creation
 if(!check_function_exists("exec_db_table_create")) {
     function exec_db_table_create($schemes, $tablename, $options=array()) {
+        $_tablename = false;
+
         $setindex = get_value_in_array("setindex", $options, false);
-        
         $sql = get_bind_to_sql_create($schemes, array(
             "tablename" => $tablename
         ));
@@ -755,10 +756,10 @@ if(!check_function_exists("exec_db_table_create")) {
                 $sql = sprintf("create index %s on %s (%s)", $k, $tablename, implode(", ", $v));
                 exec_db_query($sql);
             }
-            return $tablename;
+            $_tablename = $tablename;
         }
 
-        return false;
+        return $_tablename;
     }
 }
 
