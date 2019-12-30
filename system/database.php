@@ -325,7 +325,7 @@ if(!check_function_exists("get_bind_to_sql_insert")) {
 
         // make SQL statement
         $bind_keys = array_keys($bind);
-        $sql = "insert into %s (%s) values (:%s)";
+        $sql = "insert into `%s` (%s) values (:%s)";
 
         $s1 = $tablename;
         $s2 = sprintf("`%s`", implode("`, `", $bind_keys));
@@ -731,9 +731,9 @@ if(!check_function_exists("get_bind_to_sql_create")) {
             }
 
             if($_temporary !== false) {
-                $sql = sprintf("create temporary table if not exists %s (%s)", $tablename, implode(",", $_schemes));
+                $sql = sprintf("create temporary table if not exists `%s` (%s)", $tablename, implode(",", $_schemes));
             } else {
-                $sql = sprintf("create table if not exists %s (%s)", $tablename, implode(",", $_schemes));
+                $sql = sprintf("create table if not exists `%s` (%s)", $tablename, implode(",", $_schemes));
             }
         }
 
@@ -766,7 +766,7 @@ if(!check_function_exists("exec_db_table_create")) {
         } else {
             // create index
             foreach($setindex as $k=>$v) {
-                $sql = sprintf("create index %s on %s (%s)", $k, $tablename, implode(", ", $v));
+                $sql = sprintf("create index `%s` on `%s` (%s)", $k, $tablename, implode(", ", $v));
                 exec_db_query($sql);
             }
         }
