@@ -748,8 +748,9 @@ if(!check_function_exists("exec_db_table_create")) {
         $_suffix = get_value_in_array("suffix", $options, "");
         $_tablename = sprintf("%s%s%s", $_prefix, $tablename, $_suffix);
 
+        // get index options
         $setindex = get_value_in_array("setindex", $options, false);
-        
+
         // check if exists table
         $sql = sprintf("describe %s", $_tablename);
         if(!exec_db_query($sql)) {
