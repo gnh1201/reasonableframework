@@ -703,7 +703,7 @@ if(!check_function_exists("get_timediff_on_query")) {
     }
 }
 
-// table creation
+// make sql statement to create table
 if(!check_function_exists("get_bind_to_sql_create")) {
     function get_bind_to_sql_create($schemes, $options=array()) {
         $sql = false;
@@ -711,10 +711,8 @@ if(!check_function_exists("get_bind_to_sql_create")) {
         $_prefix = get_value_in_array("prefix", $options, "");
         $_suffix = get_value_in_array("suffix", $options, "");
         $_tablename = get_value_in_array("tablename", $options, "");
+        $_temporary = get_value_in_array("temporary", $options, false);
         $_schemes = array();
-
-        $setindex = get_value_in_array("setindex", $options, false);
-        $temporary = get_value_in_array("temporary", $options, false);
 
         if(!empty($_tablename)) {
             $tablename = sprintf("%s%s%s", $_prefix, $_tablename, $_suffix);
@@ -732,7 +730,7 @@ if(!check_function_exists("get_bind_to_sql_create")) {
                 }
             }
 
-            if($temporary !== false) {
+            if($_temporary !== false) {
                 $sql = sprintf("create temporary table if not exists %s (%s)", $tablename, implode(",", $_schemes));
             } else {
                 $sql = sprintf("create table if not exists %s (%s)", $tablename, implode(",", $_schemes));
@@ -740,6 +738,27 @@ if(!check_function_exists("get_bind_to_sql_create")) {
         }
 
         return $sql;
+    }
+}
+
+// table creation
+if(!check_function_exists("exec_db_table_create")) {
+    function exec_db_table_create($schemes, $tablename, $options=array()) {
+        $setindex = get_value_in_array("setindex", $options, false);
+        
+        $sql = get_bind_to_sql_create($schemes, array(
+            "tablename" => $tablename
+        ));
+        $result = exec_db_query($sql);
+        if(!!$result) {
+            foreach($setindex as $k=>$v) {
+                $sql = sprintf("create index %s on %s (%s)", $k, $tablename, implode(", ", $v));
+                exec_db_query($sql);
+            }
+            return $tablename;
+        }
+
+        return false;
     }
 }
 
