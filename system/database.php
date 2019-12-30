@@ -753,8 +753,8 @@ if(!check_function_exists("exec_db_table_create")) {
 
         // check if exists table
         $sql = sprintf("describe %s", $_tablename);
-        if(!exec_db_query($sql)) {
-            return false;
+        if(exec_db_query($sql)) {
+            return $_tablename;
         }
 
         // create table
