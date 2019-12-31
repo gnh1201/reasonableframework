@@ -801,6 +801,9 @@ if(!check_function_exists("exec_db_table_create")) {
                     "suffix" => ".tables",
                     "setindex" => array(
                         "index_1" => array("datetime")
+                    ),
+                    "setunique" => array(
+                        "unique_1" => array("table_name")
                     )
                 ));
 
