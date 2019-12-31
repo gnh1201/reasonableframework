@@ -484,7 +484,7 @@ if(!check_function_exists("get_bind_to_sql_update_set")) {
 if(!check_function_exists("get_bind_to_sql_select")) {
     // warning: variable k is not protected. do not use variable k and external variable without filter
     function get_bind_to_sql_select($tablename, $bind=array(), $options=array()) {
-        $sql = "select %s from %s where %s %s %s";
+        $sql = "select %s from `%s` where %s %s %s";
 
         // db_separated_tables: check it is seperated table
         $config = get_config();
@@ -773,10 +773,10 @@ if(!check_function_exists("exec_db_table_create")) {
 
         // check if exists table
         $bind = array(
-            "table_schema" => $config['db_name'],
-            "table_name" => $_tablename
+            "TABLE_SCHEMA" => $config['db_name'],
+            "TABLE_NAME" => $_tablename
         );
-        $sql = get_bind_to_sql_select("information_schema.tables", $bind);
+        $sql = "select TABLE_NAME from information_schema.tables where TABLE_SCHEMA = :TABLE_SCHEMA and TABLE_NAME = :TABLE_NAME";
         $rows = exec_db_fetch_all($sql, $bind);
         foreach($rows as $row) {
             return $row['TABLE_NAME'];
