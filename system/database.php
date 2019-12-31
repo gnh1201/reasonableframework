@@ -485,6 +485,11 @@ if(!check_function_exists("get_bind_to_sql_select")) {
     function get_bind_to_sql_select($tablename, $bind=array(), $options=array()) {
         $sql = "select %s from %s where %s %s %s";
 
+        // db_separated_tables: check it is seperated table
+        $config = get_config();
+        $db_separated_tables = explode(",", $config['db_separated_tables']);
+        $is_separated = in_array($tablename, $db_seperated_tables);
+
         // s1: select fields
         $s1 = "";
         if(!array_key_empty("fieldnames", $options)) {
@@ -588,9 +593,19 @@ if(!check_function_exists("get_bind_to_sql_select")) {
         if(!array_keys_empty(array("setpage", "setlimit"), $options)) {
             $s5 .= get_page_range($options['setpage'], $options['setlimit']);
         }
-
-        // sql: make completed sql
-        $sql = sprintf($sql, $s1, $s2, $s3, $s4, $s5);
+        
+        // sql: make completed SQL
+        if(!$is_separated) {
+            $sql = sprintf($sql, $s1, $s2, $s3, $s4, $s5);
+        } else {
+            $separated_sqls = array();
+            $sql = sprintf("select table_name from `%s.tables`", $tablename);
+            $rows = exec_db_fetch_all($sql);
+            foreach($rows as $row) {
+                $separated_sqls[] = sprintf($sql, $s1, $row['table_name'], $s3, $s4, $s5);
+            }
+            $sql = sprintf("(%s)", implode(") union (", $separated_sqls);
+        }
 
         return $sql;
     }
