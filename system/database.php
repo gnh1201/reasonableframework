@@ -599,10 +599,10 @@ if(!check_function_exists("get_bind_to_sql_select")) {
             $sql = sprintf($sql, $s1, $s2, $s3, $s4, $s5);
         } else {
             $separated_sqls = array();
-            $sql = sprintf("select table_name from `%s.tables`", $tablename);
-            $rows = exec_db_fetch_all($sql);
-            foreach($rows as $row) {
-                $separated_sqls[] = sprintf($sql, $s1, $row['table_name'], $s3, $s4, $s5);
+            $_sql = sprintf("select table_name from `%s.tables`", $tablename);
+            $_rows = exec_db_fetch_all($_sql);
+            foreach($_rows as $_row) {
+                $separated_sqls[] = sprintf($sql, $s1, $_row['table_name'], $s3, $s4, $s5);
             }
             $sql = sprintf("(%s)", implode(") union (", $separated_sqls);
         }
