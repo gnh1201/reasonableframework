@@ -489,7 +489,7 @@ if(!check_function_exists("get_bind_to_sql_select")) {
         // db_separated_tables: check it is seperated table
         $config = get_config();
         $db_separated_tables = explode(",", $config['db_separated_tables']);
-        $is_separated = in_array($tablename, $db_seperated_tables);
+        $is_separated = in_array($tablename, $db_separated_tables);
 
         // s1: select fields
         $s1 = "";
@@ -597,8 +597,10 @@ if(!check_function_exists("get_bind_to_sql_select")) {
         
         // sql: make completed SQL
         if(!$is_separated) {
+            //write_common_log("no hit");
             $sql = sprintf($sql, $s1, $s2, $s3, $s4, $s5);
         } else {
+            write_common_log("hit");
             $separated_sqls = array();
             $_sql = sprintf("select table_name from `%s.tables`", $tablename);
             $_rows = exec_db_fetch_all($_sql);
