@@ -770,6 +770,7 @@ if(!check_function_exists("exec_db_table_create")) {
         // get index options
         $config = get_config();
         $setindex = get_value_in_array("setindex", $options, false);
+        $setunique = get_value_in_array("setunique", $options, false);
 
         // check if exists table
         $bind = array(
@@ -817,6 +818,12 @@ if(!check_function_exists("exec_db_table_create")) {
                 $sql = sprintf("create index `%s` on `%s` (%s)", $k, $_tablename, implode(", ", $v));
                 exec_db_query($sql);
             }
+
+            // create unique (type of index)
+            foreach($setunique as $k=>$v) {
+                $sql = sprintf("create unique index `%s` on `%s` (%s)", $k, $_tablename, implode(", ", $v));
+                exec_db_query($sql);
+            } 
         }
 
         return $_tablename;
