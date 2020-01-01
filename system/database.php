@@ -2,7 +2,7 @@
 /**
  * @file database.php
  * @created_on 2018-04-13
- * @updated_on 2019-12-31
+ * @updated_on 2020-01-01
  * @author Go Namhyeon <gnh1201@gmail.com>
  * @brief Database module
  */
@@ -605,7 +605,7 @@ if(!check_function_exists("get_bind_to_sql_select")) {
             foreach($_rows as $_row) {
                 $separated_sqls[] = sprintf($sql, $s1, $_row['table_name'], $s3, $s4, $s5);
             }
-            $sql = sprintf("(%s)", implode(") union (", $separated_sqls));
+            $sql = sprintf("%s", implode(" union ", $separated_sqls));
         }
 
         return $sql;
@@ -850,7 +850,8 @@ if(!check_function_exists("exec_db_temp_create")) {
 if(!check_function_exists("exec_db_temp_start")) {
     function exec_db_temp_start($sql, $bind=array(), $options=array()) { 
         $_tablename = make_random_id();
-        $_sql = sprintf("create temporary table if not exists %s as (%s)", $_tablename, get_db_binded_sql($sql, $bind));
+        $_sql = sprintf("create temporary table if not exists `%s` %s", $_tablename, get_db_binded_sql($sql, $bind));
+        write_common_log($_sql);
         return (exec_db_query($_sql) ? $_tablename : false);
     }
 }
