@@ -2,7 +2,7 @@
 /**
  * @file database.php
  * @created_on 2018-04-13
- * @updated_on 2020-01-01
+ * @updated_on 2020-01-02
  * @author Go Namhyeon <gnh1201@gmail.com>
  * @brief Database module
  */
@@ -344,7 +344,7 @@ if(!check_function_exists("get_bind_to_sql_insert")) {
 if(!check_function_exists("get_bind_to_sql_where")) {
     // warning: variable k is not protected. do not use variable k and external variable without filter
     function get_bind_to_sql_where($bind, $options=array(), $_options=array()) {
-        $s3 = "";
+        $s3 = "1";
         $sp = "";
         
         $excludes = get_value_in_array("excludes", $options, array());
@@ -664,7 +664,7 @@ if(!check_function_exists("get_bind_to_sql_update")) {
 
 if(!check_function_exists("get_bind_to_sql_delete")) {
     function get_bind_to_sql_delete($tablename, $bind, $options=array()) {
-        $sql = sprintf("delete from %s where %s", $tablename, get_db_binded_sql(get_bind_to_sql_where($bind, $options), $bind));
+        $sql = sprintf("delete from `%s` where %s", $tablename, get_db_binded_sql(get_bind_to_sql_where($bind, $options), $bind));
         return $sql;
     }
 }
@@ -737,11 +737,11 @@ if(!check_function_exists("get_bind_to_sql_create")) {
                 if(is_array($v)) {
                     $_argc = count($v);
                     if($_argc == 1) {
-                        $_schemes[] = sprintf("%s %s", $k, $v[0]);
+                        $_schemes[] = sprintf("`%s` %s", $k, $v[0]);
                     } elseif($_argc == 2) {
-                        $_schemes[] = sprintf("%s %s(%s)", $k, $v[0], $v[1]);
+                        $_schemes[] = sprintf("`%s` %s(%s)", $k, $v[0], $v[1]);
                     } elseif($_argc == 3) {
-                        $_schemes[] = sprintf("%s %s(%s) %s", $k, $v[0], $v[1], ($v[2] === true ? "not null" : ""));
+                        $_schemes[] = sprintf("`%s` %s(%s) %s", $k, $v[0], $v[1], ($v[2] === true ? "not null" : ""));
                     }
                 }
             }
@@ -787,6 +787,7 @@ if(!check_function_exists("exec_db_table_create")) {
         $sql = get_bind_to_sql_create($schemes, array(
             "tablename" => $_tablename
         ));
+
         if(!exec_db_query($sql)) {
             return false;
         } else {
@@ -851,7 +852,6 @@ if(!check_function_exists("exec_db_temp_start")) {
     function exec_db_temp_start($sql, $bind=array(), $options=array()) { 
         $_tablename = make_random_id();
         $_sql = sprintf("create temporary table if not exists `%s` %s", $_tablename, get_db_binded_sql($sql, $bind));
-        write_common_log($_sql);
         return (exec_db_query($_sql) ? $_tablename : false);
     }
 }
