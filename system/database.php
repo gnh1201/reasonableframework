@@ -481,15 +481,21 @@ if(!check_function_exists("get_bind_to_sql_update_set")) {
     }
 }
 
+if(!check_function_exists("check_table_is_separated")) {
+    function check_table_is_separated($tablename) {
+        $config = get_config();
+        $db_separated_tables = explode(",", $config['db_separated_tables']);
+        return in_array($tablename, $db_separated_tables);
+    }
+}
+
 if(!check_function_exists("get_bind_to_sql_select")) {
     // warning: variable k is not protected. do not use variable k and external variable without filter
     function get_bind_to_sql_select($tablename, $bind=array(), $options=array()) {
         $sql = "select %s from `%s` where %s %s %s";
 
-        // db_separated_tables: check it is seperated table
-        $config = get_config();
-        $db_separated_tables = explode(",", $config['db_separated_tables']);
-        $is_separated = in_array($tablename, $db_separated_tables);
+        // is_separated: check it is seperated table
+        $is_separated = check_table_is_separated($tablename);
 
         // s1: select fields
         $s1 = "";
@@ -831,6 +837,29 @@ if(!check_function_exists("exec_db_table_create")) {
         }
 
         return $_tablename;
+    }
+}
+
+if(!check_function_exists("exec_db_table_drop")) {
+    function exec_db_table_drop($tablename) {
+        $flag = true;
+
+        // is_separated: check it is seperated table
+        $is_separated = check_table_is_separated($tablename);
+        
+        // do drop
+        if(!$is_separated) {
+            $sql = sprintf("drop table `%s`", $tablename);
+            exec_db_query($sql);
+        } else {
+            $sql = get_bind_to_sql_select(sprintf("%s.tables", $tablename));
+            $rows = exec_db_fetch_all($sql);
+            foreach($rows as $row) {
+                $flag &= exec_db_table_drop($row['table_name']);
+            }
+        }
+
+        return $flag;
     }
 }
 
