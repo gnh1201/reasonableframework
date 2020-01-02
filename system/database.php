@@ -2,7 +2,7 @@
 /**
  * @file database.php
  * @created_on 2018-04-13
- * @updated_on 2020-01-02
+ * @updated_on 2020-01-03
  * @author Go Namhyeon <gnh1201@gmail.com>
  * @brief Database module
  */
@@ -489,6 +489,25 @@ if(!check_function_exists("check_table_is_separated")) {
     }
 }
 
+if(!check_function_exists("get_db_tablenames")) {
+    function get_db_tablenames($tablename) {
+        $tablenames = array();
+        
+        $is_separated = check_table_is_separated($tablename);
+        if(!$is_separated) {
+            $tablenames[] = $tablename;
+        } else {
+            $sql = sprintf("select table_name from `%s.tables`", $tablename);
+            $rows = exec_db_fetch_all($sql);
+            foreach($rows as $row) {
+                $tablenames[] = $row['table_name']
+            }
+        }
+
+        return $tablenames;
+    }
+}
+
 if(!check_function_exists("get_bind_to_sql_select")) {
     // warning: variable k is not protected. do not use variable k and external variable without filter
     function get_bind_to_sql_select($tablename, $bind=array(), $options=array()) {
@@ -606,10 +625,9 @@ if(!check_function_exists("get_bind_to_sql_select")) {
             $sql = sprintf($sql, $s1, $s2, $s3, $s4, $s5);
         } else {
             $separated_sqls = array();
-            $_sql = sprintf("select table_name from `%s.tables`", $tablename);
-            $_rows = exec_db_fetch_all($_sql);
-            foreach($_rows as $_row) {
-                $separated_sqls[] = sprintf($sql, $s1, $_row['table_name'], $s3, $s4, $s5);
+            $tablenames = get_db_tablenames($tablename);
+            foreach($tablenames as $_tablename) {
+                $separated_sqls[] = sprintf($sql, $s1, $_tablename, $s3, $s4, $s5);
             }
             $sql = sprintf("%s", implode(" union ", $separated_sqls));
         }
@@ -843,22 +861,27 @@ if(!check_function_exists("exec_db_table_create")) {
 if(!check_function_exists("exec_db_table_drop")) {
     function exec_db_table_drop($tablename) {
         $flag = true;
-
-        // is_separated: check it is seperated table
-        $is_separated = check_table_is_separated($tablename);
         
-        // do drop
-        if(!$is_separated) {
-            $sql = sprintf("drop table `%s`", $tablename);
-            exec_db_query($sql);
-        } else {
-            $sql = get_bind_to_sql_select(sprintf("%s.tables", $tablename));
-            $rows = exec_db_fetch_all($sql);
-            foreach($rows as $row) {
-                $flag &= exec_db_table_drop($row['table_name']);
-            }
+        $tablenames = get_db_tablenames($tablename);
+        foreach($tablenames as $_tablename) {
+            $sql = sprintf("drop table `%s`", $_tablename);
+            $flag &= exec_db_query($sql);
         }
 
+        return $flag;
+    }
+}
+
+if(!check_function_exists("exec_db_table_update")) {
+    function exec_db_table_update($tablename, $bind=array(), $options=array()) {
+        $flag = true;
+
+        $tablenames = get_db_tablenames($tablename);
+        foreach($tablenames as $_tablename) {
+            $sql = get_bind_to_sql_update($tablename, $bind, $options);
+            $flag &= exec_db_query($sql);
+        }
+        
         return $flag;
     }
 }
