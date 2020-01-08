@@ -625,7 +625,7 @@ if(!check_function_exists("get_bind_to_sql_select")) {
             foreach($tablenames as $_tablename) {
                 $separated_sqls[] = sprintf($sql, $s1, $_tablename, $s3, $s4, $s5);
             }
-            $sql = sprintf("%s", implode(" union ", $separated_sqls));
+            $sql = sprintf("(%s)", implode(") union all (", $separated_sqls));
         }
 
         return $sql;
