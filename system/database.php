@@ -450,7 +450,11 @@ if(!check_function_exists("get_bind_to_sql_where")) {
         // set start prefix
         $s3 = trim($s3);
         $s3a = explode(" ", $s3);
-        $sp = ($s3a[0] == "and" ? "1" : "0");
+        if(in_array($s3a[0], array("and", "or"))) {
+            $sp = ($s3a[0] == "and" ? "1" : "0");
+        } else {
+            $sp = "1";
+        }
 
         return sprintf("%s %s", $sp, $s3);
     }
