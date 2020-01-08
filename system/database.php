@@ -23,7 +23,7 @@ if(!check_function_exists("check_db_driver")) {
 if(!check_function_exists("get_db_connect")) {
     function get_db_connect($a=3, $b=0) {
         $conn = false;
-        $config = get_config();
+        $config = get_config();f
         $db_driver = get_db_driver();
 
         if(in_array($db_driver, array("mysql", "mysql.pdo"))) {
@@ -625,7 +625,7 @@ if(!check_function_exists("get_bind_to_sql_select")) {
             foreach($tablenames as $_tablename) {
                 $separated_sqls[] = sprintf($sql, $s1, $_tablename, $s3, $s4, $s5);
             }
-            $sql = sprintf("(%s)", implode(") union all (", $separated_sqls));
+            $sql = sprintf("%s", implode(" union all ", $separated_sqls));
         }
 
         return $sql;
