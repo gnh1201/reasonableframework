@@ -2,7 +2,7 @@
 /**
  * @file database.php
  * @created_on 2018-04-13
- * @updated_on 2020-01-03
+ * @updated_on 2020-01-08
  * @author Go Namhyeon <gnh1201@gmail.com>
  * @brief Database module
  */
@@ -344,9 +344,9 @@ if(!check_function_exists("get_bind_to_sql_insert")) {
 if(!check_function_exists("get_bind_to_sql_where")) {
     // warning: variable k is not protected. do not use variable k and external variable without filter
     function get_bind_to_sql_where($bind, $options=array(), $_options=array()) {
-        $s3 = "1";
+        $s3 = "";
         $sp = "";
-        
+
         $excludes = get_value_in_array("excludes", $options, array());
         if(get_old_version() == "1.5") { // compatible 1.5 or below
             $excludes = $options;
@@ -449,16 +449,8 @@ if(!check_function_exists("get_bind_to_sql_where")) {
 
         // set start prefix
         $s3 = trim($s3);
-        $s3a = strpos($s3, " ");
-        $s3b = "";
-        if($s3a !== false) {
-            $s3b = substr($s3, 0, $s3a);
-        }
-        if($s3b == "and") {
-            $sp = "1";
-        } elseif($s3b == "or") {
-            $sp = "0";
-        }
+        $s3a = explode(" ", $s3);
+        $sp = ($s3a[0] == "and" ? "1" : "0");
 
         return sprintf("%s %s", $sp, $s3);
     }
