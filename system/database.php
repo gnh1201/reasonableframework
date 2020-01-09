@@ -461,16 +461,24 @@ if(!check_function_exists("get_bind_to_sql_where")) {
 
 if(!check_function_exists("get_bind_to_sql_update_set")) {
     // warning: variable k is not protected. do not use variable k and external variable without filter
-    function get_bind_to_sql_update_set($bind, $excludes=array(), $options=array()) {
+    function get_bind_to_sql_update_set($bind, $options=array()) {
         $sql = "";
-        $sps = array();
+        
+        // set variables
+        $sa = array();
+        
+        // setkeys
+        $setkeys = get_array(get_value_in_array("setkeys", $options, false));
 
+        // do process
         foreach($bind as $k=>$v) {
-            if(!in_array($k, $excludes)) {
-                $sps[] = sprintf("%s = :%s", $k, $k);
+            if(!in_array($k, $setkeys)) {
+                $sa[] = sprintf("%s = :%s", $k, $k);
             }
         }
-        $sql = implode(", ", $sps);
+
+        // set SQL statements
+        $sql = implode(", ", $sa);
 
         return $sql;
     }
@@ -647,11 +655,8 @@ if(!check_function_exists("get_bind_to_sql_select")) {
     }
 }
 
-// Deprecated: get_bind_to_sql_update($tablename, $bind, $filters, $options) - lower than 1.6
-// Now: get_bind_to_sql_update($tablename, $bind, $options, $_options) - 1.6 or above
-
 if(!check_function_exists("get_bind_to_sql_update")) {
-    function get_bind_to_sql_update($tablename, $bind, $options=array(), $_options=array()) {
+    function get_bind_to_sql_update($tablename, $bind, $options=array()) {
         $sql = "update %s set %s where %s";
         
         // bind `where` clause 
@@ -672,7 +677,7 @@ if(!check_function_exists("get_bind_to_sql_update")) {
         $s1 = $tablename;
 
         // s2: make 'update set' clause
-        $s2 = get_bind_to_sql_update_set($bind, array_keys($_bind_V), $options);
+        $s2 = get_bind_to_sql_update_set($bind, $options);
 
         // s3: make 'where' clause
         $s3 = get_bind_to_sql_where($_bind_K, $options);
