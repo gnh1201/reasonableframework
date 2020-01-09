@@ -270,7 +270,7 @@ if(!check_function_exists("exec_db_fetch_all")) {
 
 if(!check_function_exists("get_db_zero")) {
     function get_db_zero($value) {
-        return ($value > 0 : $value : '0');
+        return ($value > 0 ? $value : '0');
     }
 }
 
