@@ -23,7 +23,7 @@ if(!check_function_exists("check_db_driver")) {
 if(!check_function_exists("get_db_connect")) {
     function get_db_connect($a=3, $b=0) {
         $conn = false;
-        $config = get_config();f
+        $config = get_config();
         $db_driver = get_db_driver();
 
         if(in_array($db_driver, array("mysql", "mysql.pdo"))) {
@@ -335,12 +335,12 @@ if(!check_function_exists("get_bind_to_sql_insert")) {
             }
         }
         $_sql = get_bind_to_sql_select($tablename, $_bind_K, array(
-            "getcnt" => true,
+            "getcount" => true,
             "setwheres" => $setnotwhere
         ));
         $_rows = exec_db_fetch_all($sql, $_bind_K);
         foreach($_rows as $_row) {
-            $num_duplicates += intval($_row['cnt']);
+            $num_duplicates += intval($_row['value']);
         }
 
         // make statements
@@ -539,10 +539,10 @@ if(!check_function_exists("get_bind_to_sql_select")) {
         $s1 = "";
         if(!array_key_empty("fieldnames", $options)) {
             $s1 .= (check_array_length($options['fieldnames'], 0) > 0) ? implode(", ", $options['fieldnames']) : "*";
-        } elseif(array_key_equals("getcnt", $options, true)) {
-            $s1 .= sprintf("count(%s) as cnt", ($options['getcnt'] === true ? "*" : $options['getcnt']));
+        } elseif(array_key_equals("getcount", $options, true)) {
+            $s1 .= sprintf("count(%s) as value", ($options['getcount'] === true ? "*" : $options['getcount']));
         } elseif(!array_key_empty("getsum", $options)) {
-            $s1 .= sprintf("sum(%s) as sum", $options['getsum']);
+            $s1 .= sprintf("sum(%s) as value", $options['getsum']);
         } else {
             $s1 .= "*";
         }
