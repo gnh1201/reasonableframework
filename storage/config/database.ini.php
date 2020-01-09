@@ -7,6 +7,7 @@ db_name = dbname
 db_username = dbusername
 db_password = dbpassword
 db_retry_limit = 3
+db_fetch_mode = sql
 db_separated_tables = 
 storage_dir = storage
 EOF;
