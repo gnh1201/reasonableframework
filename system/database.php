@@ -311,29 +311,42 @@ if(!check_function_exists("get_page_range")) {
 
 if(!check_function_exists("get_bind_to_sql_insert")) {
     function get_bind_to_sql_insert($tablename, $bind, $options=array()) {
-        // check ignore
-        if(!array_key_empty("ignore", $options)) {
-            $cnt = intval(
-                get_value_in_array("cnt", exec_db_fetch(get_bind_to_sql_select($tablename, false, array(
-                    "getcnt" => true,
-                    "setwheres" => $options['ignore']
-                )), false), 0)
-            );
-            if($cnt > 0) {
-                return "select " . $cnt;
-            }
-        }
-
-        // make SQL statement
-        $bind_keys = array_keys($bind);
         $sql = "insert into `%s` (%s) values (:%s)";
 
-        $s1 = $tablename;
-        $s2 = sprintf("`%s`", implode("`, `", $bind_keys));
-        $s3 = implode(", :", $bind_keys);
-
-        $sql = sprintf($sql, $s1, $s2, $s3);
+        $setduplicate = get_array(get_value_in_array("setduplicate", $options, false));
         
+        // get number of duplicated rows
+        $num_duplicates = 0;
+        $_bind_T = array();
+        $_bind_F = array();
+        foreach($bind as $k=>$v) {
+            if(in_array($k, $setduplicate)) {
+                $_bind_T[$k] = $v;
+            } else {
+                $_bind_F[$k] = $v;
+            }
+        }    
+        $sql = get_bind_to_sql_select($tablename, $_bind_T, array(
+            "getcnt" => true
+        ));
+        $rows = exec_db_fetch_all($sql, $du_bind);
+        foreach($rows as $row) {
+            $num_duplicates = intval($row['cnt']);
+        }
+        
+        // make SQL statement
+        if($num_duplicates > 0) {
+            $sql = get_bind_to_sql_update($tablename, $bind, array(
+                "setkeys" => array_keys($_bind_F)
+            ), $options);
+        } else {
+            $bind_keys = array_keys($bind);
+            $s1 = $tablename;
+            $s2 = sprintf("`%s`", implode("`, `", $bind_keys));
+            $s3 = implode(", :", $bind_keys);
+            $sql = sprintf($sql, $s1, $s2, $s3);
+        }
+
         return $sql;
     }
 }
@@ -462,18 +475,18 @@ if(!check_function_exists("get_bind_to_sql_where")) {
 
 if(!check_function_exists("get_bind_to_sql_update_set")) {
     // warning: variable k is not protected. do not use variable k and external variable without filter
-    function get_bind_to_sql_update_set($bind, $excludes=array()) {
-        $sql_update_set = "";
-        $set_items = "";
+    function get_bind_to_sql_update_set($bind, $excludes=array(), $options=array()) {
+        $sql = "";
+        $sps = array();
 
         foreach($bind as $k=>$v) {
             if(!in_array($k, $excludes)) {
-                $set_items[] = sprintf("%s = :%s", $k, $k);
+                $sps[] = sprintf("%s = :%s", $k, $k);
             }
         }
-        $sql_update_set = implode(", ", $set_items);
+        $sql = implode(", ", $sps);
 
-        return $sql_update_set;
+        return $sql;
     }
 }
 
@@ -653,46 +666,33 @@ if(!check_function_exists("get_bind_to_sql_select")) {
 
 if(!check_function_exists("get_bind_to_sql_update")) {
     function get_bind_to_sql_update($tablename, $bind, $options=array(), $_options=array()) {
-        $excludes = array();
-        $_bind = array();
-
-        // compatible version 1.5
-        if(get_old_version() == "1.5") {
-            foreach($options as $k=>$v) {
-                if($v == true) {
-                    $excludes[] = $k;
-                }
-            }
-            $options = $_options;
-        }
+        $sql = "update %s set %s where %s";
+        
+        // bind `where` clause 
+        $_bind_T = array();
+        $_bind_F = array();
         
         // setkeys
-        if(!array_key_empty("setkeys", $options)) {
-            $setkeys = $options['setkeys'];
-            foreach($bind as $k=>$v) {
-                if(in_array($k, $setkeys)) {
-                    $_bind[$k] = $v;
-                    $excludes[] = $k;
-                }
+        $setkeys = get_array(get_value_in_array("setkeys", $options, false));
+        foreach($bind as $k=>$v) {
+            if(in_array($k, $setkeys)) {
+                $_bind_T[$k] => $v;
+            } else {
+                $_bind_F[$k] => $v;
             }
         }
-
-        // add excludes to options
-        if(!array_key_exists("excludes", $options)) {
-            $options['excludes'] = array();
-        }
-        foreach($excludes as $k=>$v) {
-            $options['excludes'][$k] = $v;
-        }
-
-        // make sql 'where' clause
-        $sql_where = get_db_binded_sql(get_bind_to_sql_where($_bind, $options), $_bind);
         
-        // make sql 'update set' clause
-        $sql_update_set = get_bind_to_sql_update_set($bind, $excludes);
+        // s1: make `tablename` clause
+        $s1 = $tablename;
+        
+        // s2: make 'update set' clause
+        $s2 = get_bind_to_sql_update_set($bind, array_keys($_bind_F), $options);
 
+        // s3: make 'where' clause
+        $s3 = get_bind_to_sql_where($_bind_T, $options);
+        
         // make completed sql statement
-        $sql = sprintf("update %s set %s where %s", $tablename, $sql_update_set, $sql_where);
+        $sql = get_db_binded_sql(sprintf("update %s set %s where %s", $s1, $s2, $s3), $bind);
 
         return $sql;
     }
