@@ -301,23 +301,25 @@ if(!check_function_exists("get_bind_to_sql_insert")) {
         $num_duplicates = 0;
 
         // do process
-        $_bind_K = array();
-        $_bind_V = array();
-        foreach($bind as $k=>$v) {
-            if(in_array($k, $setduplicate)) {
-                $_bind_K[$k] = $v;
-            } else {
-                $_bind_V[$k] = $v;
+        if(count($setduplicate) > 0) {
+            $_bind_K = array();
+            $_bind_V = array();
+            foreach($bind as $k=>$v) {
+                if(in_array($k, $setduplicate)) {
+                    $_bind_K[$k] = $v;
+                } else {
+                    $_bind_V[$k] = $v;
+                }
             }
-        }
-        $_sql = get_bind_to_sql_select($tablename, $_bind_K, array(
-            "getcount" => true,
-            "setwheres" => $setnotwhere
-        ));
-        write_common_log($_sql, "AAAAAAAA");
-        $_rows = exec_db_fetch_all($_sql, $_bind_K);
-        foreach($_rows as $_row) {
-            $num_duplicates += intval($_row['value']);
+            $_sql = get_bind_to_sql_select($tablename, $_bind_K, array(
+                "getcount" => true,
+                "setwheres" => $setnotwhere
+            ));
+            write_common_log($_sql, "BBBBBB");
+            $_rows = exec_db_fetch_all($_sql, $_bind_K);
+            foreach($_rows as $_row) {
+                $num_duplicates += intval($_row['value']);
+            }
         }
 
         // make statements
