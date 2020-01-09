@@ -311,7 +311,7 @@ if(!check_function_exists("get_page_range")) {
 
 if(!check_function_exists("get_bind_to_sql_insert")) {
     function get_bind_to_sql_insert($tablename, $bind, $options=array()) {
-        $sql = "insert into `%s` (%s) values (:%s)";
+        $sql = false;
 
         // get not duplicatable fieldnames
         $setduplicate = get_array(get_value_in_array("setduplicate", $options, false));
@@ -349,6 +349,7 @@ if(!check_function_exists("get_bind_to_sql_insert")) {
                 "setkeys" => array_keys($_bind_K)
             ), $options);
         } else {
+            $sql = "insert into `%s` (%s) values (:%s)";
             $bind_keys = array_keys($bind);
             $s1 = $tablename;
             $s2 = sprintf("`%s`", implode("`, `", $bind_keys));
