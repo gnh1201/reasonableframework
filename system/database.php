@@ -291,11 +291,7 @@ if(!check_function_exists("get_bind_to_sql_insert")) {
 
         // get not duplicatable fieldnames
         $setduplicate = get_array(get_value_in_array("setduplicate", $options, false));
-        $setnotwhere = get_array(get_value_in_array("setnotwhere", $options, false));
-
-        // `ignore` is alias of `setnotwhere`
-        $ignore = get_array(get_value_in_array("ignore", $options, false));
-        $setnotwhere = array_merge($setnotwhere, $ignore);
+        $setignore = get_array(get_value_in_array("setignore", $options, false));
 
         // get number of duplicated rows
         $num_duplicates = 0;
@@ -313,7 +309,7 @@ if(!check_function_exists("get_bind_to_sql_insert")) {
             }
             $_sql = get_bind_to_sql_select($tablename, $_bind_K, array(
                 "getcount" => true,
-                "setwheres" => $setnotwhere
+                "setwheres" => $setignore
             ));
             $_rows = exec_db_fetch_all($_sql, $_bind_K);
             foreach($_rows as $_row) {
