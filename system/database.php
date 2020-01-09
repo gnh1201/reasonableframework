@@ -268,6 +268,12 @@ if(!check_function_exists("exec_db_fetch_all")) {
     }
 }
 
+if(!check_function_exists("get_db_zero")) {
+    function get_db_zero($value) {
+        return ($value > 0 : $value : '0');
+    }
+}
+
 if(!check_function_exists("exec_db_fetch")) {
     function exec_db_fetch($sql, $bind=array(), $start=0) {
         $row = NULL;
@@ -276,7 +282,7 @@ if(!check_function_exists("exec_db_fetch")) {
         $fetch_mode = get_value_in_array("db_fetch_mode", $config, "sql");
         
         if($fetch_mode == "sql") {
-            $_sql = sprintf("select * from (%s) a limit %s, 1", $sql, ($start > 0 ? $start : "0"));
+            $_sql = sprintf("select * from (%s) a limit %s, 1", $sql, get_db_zero($start));
             $_rows = exec_db_fetch_all($sql, $bind);
         } elseif($fetch_mode == "php") {
             $_sql = $sql;
@@ -293,20 +299,17 @@ if(!check_function_exists("exec_db_fetch")) {
 }
 
 if(!check_function_exists("get_page_range")) {
-    function get_page_range($page=1, $limit=16) {
-        $append_sql = "";
-
-        if($page < 1) {
-            $page = 1;
-        }
-
+    function get_page_range($page=1, $limit=15) {
+        $sql = false;
+        
+        $page = ($page > 1 ? $page : 1);
         if($limit > 0) {
-            $record_start = ($page - 1) * $limit;
-            $number_of_records = $limit;
-            $append_sql .= sprintf(" limit %s, %s", $record_start, $number_of_records);
+            $_START = ($page - 1) * $limit;
+            $_LIMIT = $limit;
+            $sql = sprintf(" limit %s, %s", get_db_zero($_START), $_LIMIT);
         }
 
-        return $append_sql;
+        return $sql;
     }
 }
 
