@@ -166,11 +166,15 @@ if(!check_function_exists("exec_db_query")) {
 
         // commit transaction
         $dbc->commit();
+        
+        // get errors
+        $errors = $stmt->errorInfo();
 
         // if failed
         if(!$flag) {
             write_common_log(get_hashed_text($sql), "DATABASE-FAILED-EXECUTE");
             write_common_log($sql, "DATABASE-FAILED-QUERY");
+            write_common_log(implode(",", $errors), "DATABASE-FAILED-ERROR");
         }
 
         return $flag;
