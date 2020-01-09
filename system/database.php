@@ -791,6 +791,8 @@ if(!check_function_exists("exec_db_table_create")) {
         $config = get_config();
         $setindex = get_value_in_array("setindex", $options, false);
         $setunique = get_value_in_array("setunique", $options, false);
+        $setfulltext = get_value_in_array("setfulltext", $options, false);
+        $setspatial = get_value_in_array("setspatial", $options, false);
 
         // check if exists table
         $bind = array(
@@ -847,7 +849,19 @@ if(!check_function_exists("exec_db_table_create")) {
             foreach($setunique as $k=>$v) {
                 $sql = sprintf("create unique index `%s` on `%s` (%s)", $k, $_tablename, implode(", ", $v));
                 exec_db_query($sql);
-            } 
+            }
+            
+            // create fulltext (type of index)
+            foreach($setfulltext as $k=>$v) {
+                $sql = sprintf("create fulltext index `%s` on `%s` (%s)", $k, $_tablename, implode(", ", $v));
+                exec_db_query($sql);
+            }
+            
+            // create spatial(geometry) (type of index)
+            foreach($setspatial as $k=>$v) {
+                $sql = sprintf("create spatial index `%s` on `%s` (%s)", $k, $_tablename, implode(", ", $v));
+                exec_db_query($sql);
+            }
         }
 
         return $_tablename;
