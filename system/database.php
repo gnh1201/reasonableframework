@@ -28,7 +28,7 @@ if(!check_function_exists("get_db_connect")) {
         $db_driver = get_db_driver();
         $dsn = "mysql:host=%s;dbname=%s;charset=utf8";
 
-        $_LIMIT_RETRY = get_value_in_array("db_retry_limit", $config, 3);
+        $_RETRY_LIMIT = get_value_in_array("db_retry_limit", $config, 3);
 
         if(in_array($db_driver, array("mysql", "mysql.pdo"))) {
             try {
@@ -42,7 +42,7 @@ if(!check_function_exists("get_db_connect")) {
                 );
                 //$conn->query("SET NAMES utf8");
             } catch(Exception $e) {
-                if($_RETRY > $_LIMIT_RETRY) {
+                if($_RETRY > $_RETRY_LIMIT) {
                     set_error($e->getMessage());
                     show_errors();
                 } else {
@@ -69,12 +69,9 @@ if(!check_function_exists("exec_stmt_query")) {
 
 if(!check_function_exists("get_dbc_object")) {
     function get_dbc_object($renew=false) {
-        $dbc = get_scope("dbc");
-
         if($renew) {
             set_scope("dbc", get_db_connect());
         }
-
         return get_scope("dbc");
     }
 }
@@ -218,19 +215,20 @@ if(!check_function_exists("exec_db_query")) {
 
 if(!check_function_exists("exec_db_fetch_all")) {
     function exec_db_fetch_all($sql, $bind=array(), $options=array()) {
-        $response = array();
+        $result = array();
 
-        $is_not_countable = false;
-        $_cnt = 0;
+        // set is counted
+        $is_counted = false;
 
         $rows = array();
         $stmt = get_db_stmt($sql, $bind);
 
+        // get rows
         if($stmt->execute() && $stmt->rowCount() > 0) {
             $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
         }
 
-        // 1.6 or above
+        // get rows with removed keys (1.6 or above)
         $_rows = array();
         if(array_key_equals("getvalues", $options, true)) {
             foreach($rows as $row) {
@@ -239,54 +237,58 @@ if(!check_function_exists("exec_db_fetch_all")) {
             $rows = $_rows;
         }
         
-        if(array_key_equals("do_count", $options, true)) {
-            $_sql = sprintf("select count(*) as cnt from (%s) a", get_db_binded_sql($sql, $bind));
-            $_data = exec_db_fetch($_sql);
-            $_cnt = get_value_in_array("cnt", $_data, $_cnt);
-        } elseif(array_key_equals("do_count", $options, "count")) {
-            $_cnt = count($rows);
-        } elseif(array_key_equals("do_count", $options, "PDOStatement::rowCount")) {
-            $_cnt = $stmt->rowCount();
-        } else {
-            $response = $rows;
-            $is_not_countable = true;
+        // get number of rows
+        $num_rows = 0;
+        if(array_key_equals("getcount", $options, true)) {
+            $sql = sprintf("select count(*) as value from (%s) a", get_db_binded_sql($sql, $bind));
+            $rows = exec_db_fetch_all($sql, $bind);
+            foreach($rows as $row) {
+                $num_rows += intval($row['value']);
+            }
+            $is_counted = true;
+        } elseif(array_key_equals("getcount", $options, "php")) {
+            $num_rows = count($rows);
+            $is_counted = true;
+        } elseif(array_key_equals("getcount", $options, "pdo")) {
+            $num_rows = $stmt->rowCount();
+            $is_counted = true;
         }
 
-        if(!$is_not_countable) {
-            $response = array();
-            if(get_old_version() == "1.4") { // compatible 1.4 or below
-                $response['length'] = $_cnt;
-            }
-            $response['cnt'] = $_cnt;
-            $response['data'] = $rows;
+        // make a result
+        if($is_counted) {
+            $result = array(
+                "count" => $num_rows,
+                "data" => $rows
+            );
+        } else {
+            $result = $rows;
         }
         
-        return $response;
+        return $result;
     }
 }
 
 if(!check_function_exists("exec_db_fetch")) {
-    function exec_db_fetch($sql, $bind=array(), $start=0, $bind_limit=false) {
-        $fetched = NULL;
-        $rows = array();
+    function exec_db_fetch($sql, $bind=array(), $start=0) {
+        $row = NULL;
 
-        if($bind_limit == true) {
-            $sql = $sql . " limit 1";
-        }
-        $rows = exec_db_fetch_all($sql, $bind);
-
-        if(check_array_length($rows, $start) > 0) {
-            $idx = 0;
-            foreach($rows as $row) {
-                if($idx >= $start) {
-                    $fetched = $row;
-                    break;
-                }
-                $idx++;
-            }
+        $config = get_config();
+        $fetch_mode = get_value_in_array("db_fetch_mode", $config, "sql");
+        
+        if($fetch_mode == "sql") {
+            $_sql = sprintf("select * from (%s) a limit %s, 1", $sql, ($start > 0 ? $start : "0"));
+            $_rows = exec_db_fetch_all($sql, $bind);
+        } elseif($fetch_mode == "php") {
+            $_sql = $sql;
+            $_rows = exec_db_fetch_all($sql, $bind);
+            $_rows = array_slice($_rows, $start, 1);
         }
 
-        return $fetched;
+        // get first of rows
+        $row = current($rows);
+ 
+        // return row
+        return $row;
     }
 }
 
