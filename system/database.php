@@ -144,69 +144,31 @@ if(!check_function_exists("get_db_last_id")) {
 
 if(!check_function_exists("exec_db_query")) {
     function exec_db_query($sql, $bind=array(), $options=array()) {
-        $dbc = get_dbc_object();
-
-        $validOptions = array();
-        $optionAvailables = array("is_check_count", "is_commit", "display_error", "show_debug", "show_sql");
-        foreach($optionAvailables as $opt) {
-            if(!array_key_empty($opt, $options)) {
-                $validOptions[$opt] = $options[$opt];
-            } else {
-                $validOptions[$opt] = false;
-            }
-        }
-        extract($validOptions);
-
         $flag = false;
-        $is_insert_with_bind = false;
 
-        $sql_terms = explode(" ", $sql);
-        if($sql_terms[0] == "insert") {
+        // set variable
+        $dbc = get_dbc_object();
+        $terms = explode(" ", trim($sql));
+
+        // before transaction
+        $dbc->beginTransaction();
+        
+        // check sql insert or not
+        if($terms[0] == "insert") {
             $stmt = get_db_stmt($sql);
-            if(check_array_length($bind, 0) > 0) {
-                $is_insert_with_bind = true;
-            }
+            $flag = $stmt->execute($bind)
         } else {
-            if($show_sql) {
-                $stmt = get_db_stmt($sql, $bind, false, true);
-            } else {
-                $stmt = get_db_stmt($sql, $bind);
-            }
+            $stmt = get_db_stmt($sql, $bind);
+            $flag = $stmt->execute();
         }
 
-        if($is_commit) {
-            $dbc->beginTransaction();
-        }
+        // commit transaction
+        $dbc->commit();
 
-        // execute statement (insert->execute(bind) or if not, sql->bind->execute)
-        $stmt_executed = $is_insert_with_bind ? $stmt->execute($bind) : $stmt->execute();
-
-        if($show_debug) {
-            $stmt->debugDumpParams();
-        }
-
-        if($display_error) {
-            $error_info = $stmt->errorInfo();
-            if(check_array_length($error_info, 0) > 0) {
-                set_error(implode(" ", $error_info), "DATABASE-ERROR");
-            }
-            show_errors(false);
-        }
-
-        if($is_check_count == true) {
-            if($stmt_executed && $stmt->rowCount() > 0) {
-                $flag = true;
-            }
-        } else {
-            $flag = $stmt_executed;
-        }
-
-        if($is_commit) {
-            $dbc->commit();
-        }
-
-        if($flag === false) {
-            set_error(get_hashed_text($sql) . " " . $sql, "DATABASE-QUERY-FAILURE");
+        // if failed
+        if(!$flag) {
+            write_common_log(get_hashed_text($sql), "DATABASE-FAILED-EXECUTE");
+            write_common_log($sql, "DATABASE-FAILED-QUERY");
         }
 
         return $flag;
