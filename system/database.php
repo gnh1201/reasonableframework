@@ -565,10 +565,11 @@ if(!check_function_exists("get_bind_to_sql_select")) {
                 if(!array_keys_empty("group_concat", $v)) {
                     $arguments = $v['group_concat'];
                     $delimiter = get_value_in_array("delimiter", $v, ",");
+                    // group_concat(a, b, c); a=fieldname or value(if true), b=condition, c=fieldname or value(if false)
                     if(check_array_length($arguments, 3) == 0) {
-                        $s1a[$k] = sprintf("group_concat(if(%s, '%s', '%s'))", $arguments[0], make_safe_argument($arguments[1]), make_safe_argument($arguments[2]));
+                        $s1a[$k] = sprintf("group_concat(if(%s, '%s', '%s'))", $arguments[1], make_safe_argument($arguments[0]), make_safe_argument($arguments[2]));
                     } elseif(check_array_length($arguments, 2) == 0) {
-                        $s1a[$k] = sprintf("group_concat(if(%s, '%s', null))", $arguments[0], make_safe_argument($arguments[1]));
+                        $s1a[$k] = sprintf("group_concat(if(%s, '%s', null))", $arguments[1], make_safe_argument($arguments[0]));
                     } elseif(check_array_length($arguments, 1) == 0) {
                         $s1a[$k] = sprintf("group_concat(%s)", $arguments[0]);
                     } else {
