@@ -334,13 +334,13 @@ if(!check_function_exists("get_bind_to_sql_insert")) {
                 $_bind_V[$k] = $v;
             }
         }
-        $sql = get_bind_to_sql_select($tablename, $_bind_K, array(
+        $_sql = get_bind_to_sql_select($tablename, $_bind_K, array(
             "getcnt" => true,
             "setwheres" => $setnotwhere
         ));
-        $rows = exec_db_fetch_all($sql, $du_bind);
-        foreach($rows as $row) {
-            $num_duplicates += intval($row['cnt']);
+        $_rows = exec_db_fetch_all($sql, $_bind_K);
+        foreach($_rows as $_row) {
+            $num_duplicates += intval($_row['cnt']);
         }
 
         // make statements
