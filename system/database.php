@@ -344,7 +344,7 @@ if(!check_function_exists("get_bind_to_sql_insert")) {
         // make statements
         if($num_duplicates > 0) {
             $sql = get_bind_to_sql_update($tablename, $bind, array(
-                "setkeys" => array_keys($_bind_F)
+                "setkeys" => array_keys($_bind_T)
             ), $options);
         } else {
             $bind_keys = array_keys($bind);
@@ -678,7 +678,7 @@ if(!check_function_exists("get_bind_to_sql_update")) {
         // bind `where` clause 
         $_bind_T = array();
         $_bind_F = array();
-        
+
         // setkeys
         $setkeys = get_array(get_value_in_array("setkeys", $options, false));
         foreach($bind as $k=>$v) {
@@ -697,9 +697,9 @@ if(!check_function_exists("get_bind_to_sql_update")) {
 
         // s3: make 'where' clause
         $s3 = get_bind_to_sql_where($_bind_T, $options);
-        
+
         // make completed statements
-        $sql = get_db_binded_sql(sprintf("update %s set %s where %s", $s1, $s2, $s3), $bind);
+        $sql = get_db_binded_sql(sprintf($sql, $s1, $s2, $s3), $bind);
 
         return $sql;
     }
