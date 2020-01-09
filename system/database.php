@@ -313,8 +313,9 @@ if(!check_function_exists("get_bind_to_sql_insert")) {
     function get_bind_to_sql_insert($tablename, $bind, $options=array()) {
         $sql = "insert into `%s` (%s) values (:%s)";
 
+        // get not duplicatable fieldnames
         $setduplicate = get_array(get_value_in_array("setduplicate", $options, false));
-        
+
         // get number of duplicated rows
         $num_duplicates = 0;
         $_bind_T = array();
@@ -333,8 +334,8 @@ if(!check_function_exists("get_bind_to_sql_insert")) {
         foreach($rows as $row) {
             $num_duplicates = intval($row['cnt']);
         }
-        
-        // make SQL statement
+
+        // make statements
         if($num_duplicates > 0) {
             $sql = get_bind_to_sql_update($tablename, $bind, array(
                 "setkeys" => array_keys($_bind_F)
@@ -684,14 +685,14 @@ if(!check_function_exists("get_bind_to_sql_update")) {
         
         // s1: make `tablename` clause
         $s1 = $tablename;
-        
+
         // s2: make 'update set' clause
         $s2 = get_bind_to_sql_update_set($bind, array_keys($_bind_F), $options);
 
         // s3: make 'where' clause
         $s3 = get_bind_to_sql_where($_bind_T, $options);
         
-        // make completed sql statement
+        // make completed statements
         $sql = get_db_binded_sql(sprintf("update %s set %s where %s", $s1, $s2, $s3), $bind);
 
         return $sql;
@@ -736,7 +737,6 @@ if(!check_function_exists("sql_query")) {
         return exec_db_query($sql, $bind, $options);
     }
 }
-
 
 // get timediff
 if(!check_function_exists("get_timediff_on_query")) {
