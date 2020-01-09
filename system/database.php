@@ -287,7 +287,7 @@ if(!check_function_exists("exec_db_fetch")) {
         } elseif($fetch_mode == "php") {
             $_sql = $sql;
             $_rows = exec_db_fetch_all($sql, $bind);
-            $_rows = array_slice($_rows, $start, 1);
+            $_rows = array_slice($_rows, get_db_zero($start), 1);
         }
 
         // get first of rows
@@ -304,9 +304,9 @@ if(!check_function_exists("get_page_range")) {
         
         $page = ($page > 1 ? $page : 1);
         if($limit > 0) {
-            $_START = ($page - 1) * $limit;
-            $_LIMIT = $limit;
-            $sql = sprintf(" limit %s, %s", get_db_zero($_START), $_LIMIT);
+            $_START = get_db_zero(($page - 1) * $limit);
+            $_LIMIT = get_db_zero($limit);
+            $sql = sprintf(" limit %s, %s", $_START, $_LIMIT);
         }
 
         return $sql;
