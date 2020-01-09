@@ -314,7 +314,7 @@ if(!check_function_exists("get_bind_to_sql_insert")) {
             "getcount" => true,
             "setwheres" => $setnotwhere
         ));
-        write_common_log($_sql);
+        write_common_log($_sql, "AAAAAAAA");
         $_rows = exec_db_fetch_all($_sql, $_bind_K);
         foreach($_rows as $_row) {
             $num_duplicates += intval($_row['value']);
