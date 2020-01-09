@@ -933,7 +933,7 @@ if(!check_function_exists("exec_db_table_insert")) {
             $_num_tables = count($tablenames);
             $_replica = min($replica, $_num_tables);
             if($replica < $_num_tables) {
-                $tablenames = array_slice(get_db_tablenames($tablename), 0, $replica);
+                $tablenames = array_slice(get_db_tablenames($tablename), 0, $_replica);
             }
         }
 
