@@ -2,7 +2,7 @@
 /**
  * @file database.php
  * @created_on 2018-04-13
- * @updated_on 2020-01-08
+ * @updated_on 2020-01-09
  * @author Go Namhyeon <gnh1201@gmail.com>
  * @brief Database module
  */
@@ -21,34 +21,33 @@ if(!check_function_exists("check_db_driver")) {
 }
 
 if(!check_function_exists("get_db_connect")) {
-    function get_db_connect($a=3, $b=0) {
+    function get_db_connect($_RETRY=0) {
         $conn = false;
+
         $config = get_config();
         $db_driver = get_db_driver();
+        $dsn = "mysql:host=%s;dbname=%s;charset=utf8";
+
+        $_LIMIT_RETRY = get_value_in_array("db_retry_limit", $config, 3);
 
         if(in_array($db_driver, array("mysql", "mysql.pdo"))) {
             try {
                 $conn = new PDO(
-                    sprintf(
-                        "mysql:host=%s;dbname=%s;charset=utf8",
-                        $config['db_host'],
-                        $config['db_name']
-                    ),
+                    sprintf($dsn, $config['db_host'], $config['db_name']),
                     $config['db_username'],
                     $config['db_password'],
                     array(
                         PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8"
                     )
                 );
-                //$conn->query("SET NAMES 'utf8'");
+                //$conn->query("SET NAMES utf8");
             } catch(Exception $e) {
-                if($b > $a) {
+                if($_RETRY > $_LIMIT_RETRY) {
                     set_error($e->getMessage());
                     show_errors();
                 } else {
-                    $b++;
-                    sleep(0.03);
-                    $conn = get_db_connect($a, $b);
+                    $_RETRY++;
+                    $conn = get_db_connect($_RETRY);
                 }
             }
         } elseif(loadHelper("database.alt")) {
