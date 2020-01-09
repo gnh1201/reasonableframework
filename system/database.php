@@ -317,6 +317,10 @@ if(!check_function_exists("get_bind_to_sql_insert")) {
         $setduplicate = get_array(get_value_in_array("setduplicate", $options, false));
         $setnotwhere = get_array(get_value_in_array("setnotwhere", $options, false));
 
+        // `ignore` is alias of `setnotwhere`
+        $ignore = get_array(get_value_in_array("ignore", $options, false));
+        $setnotwhere = array_merge($setnotwhere, $ignore);
+
         // get number of duplicated rows
         $num_duplicates = 0;
         $_bind_T = array();
