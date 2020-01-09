@@ -323,6 +323,8 @@ if(!check_function_exists("get_bind_to_sql_insert")) {
 
         // get number of duplicated rows
         $num_duplicates = 0;
+
+        // do process
         $_bind_T = array();
         $_bind_F = array();
         foreach($bind as $k=>$v) {
@@ -331,14 +333,14 @@ if(!check_function_exists("get_bind_to_sql_insert")) {
             } else {
                 $_bind_F[$k] = $v;
             }
-        }    
+        }
         $sql = get_bind_to_sql_select($tablename, $_bind_T, array(
             "getcnt" => true,
             "setwheres" => $setnotwhere
         ));
         $rows = exec_db_fetch_all($sql, $du_bind);
         foreach($rows as $row) {
-            $num_duplicates = intval($row['cnt']);
+            $num_duplicates += intval($row['cnt']);
         }
 
         // make statements
@@ -508,12 +510,12 @@ if(!check_function_exists("check_table_is_separated")) {
 if(!check_function_exists("get_db_tablenames")) {
     function get_db_tablenames($tablename) {
         $tablenames = array();
-        
+
         $is_separated = check_table_is_separated($tablename);
         if(!$is_separated) {
             $tablenames[] = $tablename;
         } else {
-            $sql = sprintf("select table_name from `%s.tables`", $tablename);
+            $sql = sprintf("select table_name from `%s.tables` order by datetime desc", $tablename);
             $rows = exec_db_fetch_all($sql);
             foreach($rows as $row) {
                 $tablenames[] = $row['table_name']
@@ -914,6 +916,33 @@ if(!check_function_exists("exec_db_table_update")) {
             $flag &= exec_db_query($sql);
         }
         
+        return $flag;
+    }
+}
+
+if(!check_function_exists("exec_db_table_insert")) {
+    function exec_db_table_insert($tablename, $bind=array(), $options=array()) {
+        $flag = true;
+
+        // set replica
+        $replica = get_value_in_array("setreplica", $options, 1);
+
+        // get tablenames
+        $tablenames = get_db_tablenames($tablename);
+        if($replica > 0) {
+            $_num_tables = count($tablenames);
+            $_replica = min($replica, $_num_tables);
+            if($replica < $_num_tables) {
+                $tablenames = array_slice(get_db_tablenames($tablename), 0, $replica);
+            }
+        }
+
+        // do process
+        foreach($tablenames as $_tablename) {
+            $sql = get_bind_to_sql_insert($tablename, $bind, $options);
+            $flag &= exec_db_query($sql);
+        }
+
         return $flag;
     }
 }
