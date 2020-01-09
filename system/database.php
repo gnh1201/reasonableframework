@@ -567,6 +567,10 @@ if(!check_function_exists("get_bind_to_sql_select")) {
                     $delimiter = get_value_in_array("delimiter", $v, ",");
                     if(check_array_length($arguments, 3) == 0) {
                         $s1a[$k] = sprintf("group_concat(if(%s, '%s', '%s'))", $arguments[0], make_safe_argument($arguments[1]), make_safe_argument($arguments[2]));
+                    } elseif(check_array_length($arguments, 2) == 0) {
+                        $s1a[$k] = sprintf("group_concat(if(%s, '%s', null))", $arguments[0], make_safe_argument($arguments[1]));
+                    } elseif(check_array_length($arguments, 1) == 0) {
+                        $s1a[$k] = sprintf("group_concat(%s)", $arguments[0]);
                     } else {
                         $s1a[$k] = sprintf("group_concat(%s)", $arguments);
                     }
