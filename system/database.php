@@ -325,16 +325,16 @@ if(!check_function_exists("get_bind_to_sql_insert")) {
         $num_duplicates = 0;
 
         // do process
-        $_bind_T = array();
-        $_bind_F = array();
+        $_bind_K = array();
+        $_bind_V = array();
         foreach($bind as $k=>$v) {
             if(in_array($k, $setduplicate)) {
-                $_bind_T[$k] = $v;
+                $_bind_K[$k] = $v;
             } else {
-                $_bind_F[$k] = $v;
+                $_bind_V[$k] = $v;
             }
         }
-        $sql = get_bind_to_sql_select($tablename, $_bind_T, array(
+        $sql = get_bind_to_sql_select($tablename, $_bind_K, array(
             "getcnt" => true,
             "setwheres" => $setnotwhere
         ));
@@ -346,7 +346,7 @@ if(!check_function_exists("get_bind_to_sql_insert")) {
         // make statements
         if($num_duplicates > 0) {
             $sql = get_bind_to_sql_update($tablename, $bind, array(
-                "setkeys" => array_keys($_bind_T)
+                "setkeys" => array_keys($_bind_K)
             ), $options);
         } else {
             $bind_keys = array_keys($bind);
@@ -678,16 +678,16 @@ if(!check_function_exists("get_bind_to_sql_update")) {
         $sql = "update %s set %s where %s";
         
         // bind `where` clause 
-        $_bind_T = array();
-        $_bind_F = array();
+        $_bind_K = array();
+        $_bind_V = array();
 
         // setkeys
         $setkeys = get_array(get_value_in_array("setkeys", $options, false));
         foreach($bind as $k=>$v) {
             if(in_array($k, $setkeys)) {
-                $_bind_T[$k] => $v;
+                $_bind_K[$k] => $v;
             } else {
-                $_bind_F[$k] => $v;
+                $_bind_V[$k] => $v;
             }
         }
         
@@ -695,10 +695,10 @@ if(!check_function_exists("get_bind_to_sql_update")) {
         $s1 = $tablename;
 
         // s2: make 'update set' clause
-        $s2 = get_bind_to_sql_update_set($bind, array_keys($_bind_F), $options);
+        $s2 = get_bind_to_sql_update_set($bind, array_keys($_bind_V), $options);
 
         // s3: make 'where' clause
-        $s3 = get_bind_to_sql_where($_bind_T, $options);
+        $s3 = get_bind_to_sql_where($_bind_K, $options);
 
         // make completed statements
         $sql = get_db_binded_sql(sprintf($sql, $s1, $s2, $s3), $bind);
