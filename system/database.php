@@ -206,7 +206,7 @@ if(!check_function_exists("exec_db_query")) {
         }
 
         if($flag === false) {
-            set_error(get_hashed_text($sql), "DATABASE-QUERY-FAILURE");
+            set_error(get_hashed_text($sql) . " " . $sql, "DATABASE-QUERY-FAILURE");
         }
 
         return $flag;
@@ -277,17 +277,20 @@ if(!check_function_exists("get_db_zero")) {
 if(!check_function_exists("exec_db_fetch")) {
     function exec_db_fetch($sql, $bind=array(), $start=0) {
         $row = NULL;
+        $rows = NULL;
 
         $config = get_config();
         $fetch_mode = get_value_in_array("db_fetch_mode", $config, "sql");
         
         if($fetch_mode == "sql") {
-            $_sql = sprintf("select * from (%s) a limit %s, 1", $sql, get_db_zero($start));
-            $_rows = exec_db_fetch_all($sql, $bind);
+            $_bind = $bind;
+            $_sql = sprintf("%s limit %s, 1", $sql, get_db_zero($start));
+            $rows = exec_db_fetch_all($_sql, $_bind);
         } elseif($fetch_mode == "php") {
+            $_bind = $bind;
             $_sql = $sql;
-            $_rows = exec_db_fetch_all($sql, $bind);
-            $_rows = array_slice($_rows, get_db_zero($start), 1);
+            $rows = exec_db_fetch_all($_sql, $_bind);
+            $rows = array_slice($rows, get_db_zero($start), 1);
         }
 
         // get first of rows
