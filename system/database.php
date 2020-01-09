@@ -174,6 +174,7 @@ if(!check_function_exists("exec_db_query")) {
         if(!$flag) {
             write_common_log(get_hashed_text($sql), "DATABASE-FAILED-EXECUTE");
             write_common_log($sql, "DATABASE-FAILED-QUERY");
+            write_common_log(get_db_binded_sql($sql, $bind), "DATABASE-FAILED-BINDED-QUERY");
             write_common_log(implode(",", $errors), "DATABASE-FAILED-ERROR");
         }
 
