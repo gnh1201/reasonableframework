@@ -102,22 +102,20 @@ if(!function_exists("get_db_binded_sql")) {
 }
 
 if(!check_function_exists("get_db_stmt")) {
-    function get_db_stmt($sql, $bind=array(), $bind_pdo=false, $show_sql=false) {
-        $sql = !$bind_pdo ? get_db_binded_sql($sql, $bind) : $sql;
-        $stmt = get_dbc_object()->prepare($sql);
+    function get_db_stmt($sql, $bind=array(), $options=array()) {
+        $stmt = NULL;
+        
+        $dbc = get_dbc_object();
+        $binder = get_value_in_array("binder", $options, "php");
 
-        if($show_sql) {
-            set_error($sql, "DATABASE-SQL");
-            show_errors(false);
-        }
-
-        // bind parameter by PDO statement
-        if($bind_pdo) {
-            if(check_array_length($bind, 0) > 0) {
-                foreach($bind as $k=>$v) {
-                    $stmt->bindParam(':' . $k, $v);
-                }
+        if($binder == "pdo") {
+            $stmt = $dbc->prepare($sql);
+            foreach($bind as $k=>$v) {
+                $stmt->bindParam(sprintf(":%s", $k), $v);
             }
+        } else {
+            $sql = get_db_binded_sql($sql, $bind);
+            $stmt = $dbc->prepare($sql);
         }
 
         return $stmt;
@@ -155,10 +153,14 @@ if(!check_function_exists("exec_db_query")) {
         
         // check sql insert or not
         if($terms[0] == "insert") {
-            $stmt = get_db_stmt($sql);
-            $flag = $stmt->execute($bind)
+            $stmt = get_db_stmt($sql, $bind, array(
+                "binder" => "pdo"
+            ));
+            $flag = $stmt->execute($bind);
         } else {
-            $stmt = get_db_stmt($sql, $bind);
+            $stmt = get_db_stmt($sql, $bind, array(
+                "binder" => "php"
+            ));
             $flag = $stmt->execute();
         }
 
