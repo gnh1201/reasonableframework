@@ -523,7 +523,7 @@ if(!check_function_exists("get_db_tablenames")) {
             $sql = sprintf("select table_name from `%s.tables` order by datetime desc", $tablename);
             $rows = exec_db_fetch_all($sql);
             foreach($rows as $row) {
-                $tablenames[] = $row['table_name']
+                $tablenames[] = $row['table_name'];
             }
         }
 
@@ -690,9 +690,9 @@ if(!check_function_exists("get_bind_to_sql_update")) {
         $setkeys = get_array(get_value_in_array("setkeys", $options, false));
         foreach($bind as $k=>$v) {
             if(in_array($k, $setkeys)) {
-                $_bind_K[$k] => $v;
+                $_bind_K[$k] = $v;
             } else {
-                $_bind_V[$k] => $v;
+                $_bind_V[$k] = $v;
             }
         }
         
