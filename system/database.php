@@ -557,8 +557,19 @@ if(!check_function_exists("get_bind_to_sql_select")) {
 
                 // concat and delimiter
                 if(!array_keys_empty("concat", $v)) {
-                    $delimiter = get_value_in_array("delimiter", $v, " ");
+                    $delimiter = get_value_in_array("delimiter", $v, ",");
                     $s1a[$k] = sprintf("concat(%s)", implode(sprintf(", '%s', ", $delimiter), $v['concat']));
+                }
+
+                // group_concat and delimiter, condition
+                if(!array_keys_empty("group_concat", $v)) {
+                    $arguments = $v['group_concat'];
+                    $delimiter = get_value_in_array("delimiter", $v, ",");
+                    if(check_array_length($arguments, 3) == 0) {
+                        $s1a[$k] = sprintf("group_concat(if(%s, '%s', '%s'))", $arguments[0], make_safe_argument($arguments[1]), make_safe_argument($arguments[2]));
+                    } else {
+                        $s1a[$k] = sprintf("group_concat(%s)", $arguments);
+                    }
                 }
 
                 // use mysql function
