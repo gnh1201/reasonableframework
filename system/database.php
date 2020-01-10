@@ -337,7 +337,7 @@ if(!check_function_exists("get_bind_to_sql_insert")) {
         } elseif($num_duplicates > 0) {
             $sql = get_bind_to_sql_update($tablename, $bind, array(
                 "setkeys" => array_keys($_bind_K)
-            ), $options);
+            ));
         } else {
             $sql = "insert into `%s` (%s) values (:%s)";
             $bind_keys = array_keys($bind);
