@@ -321,7 +321,7 @@ if(!check_function_exists("get_bind_to_sql_insert")) {
         // check ignores
         if(count($setignore) > 0) {
             $_options = array_merge(array(
-                "getcount" => true
+                "getcount" => true,
                 "setwheres" => $setignore
             ), $options);
             $_sql = get_bind_to_sql_select($tablename, $bind, $_options);
