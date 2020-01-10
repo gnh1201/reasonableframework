@@ -308,9 +308,9 @@ if(!check_function_exists("get_bind_to_sql_insert")) {
                     $_bind_V[$k] = $v;
                 }
             }
-            $_options = array_merge(array(
+            $_options = array(
                 "getcount" => true
-            ), $options);
+            );
             $_sql = get_bind_to_sql_select($tablename, $_bind_K, $_options);
             $_rows = exec_db_fetch_all($_sql, $_bind_K);
             foreach($_rows as $_row) {
@@ -320,10 +320,10 @@ if(!check_function_exists("get_bind_to_sql_insert")) {
 
         // check ignores
         if(count($setignore) > 0) {
-            $_options = array_merge(array(
+            $_options = array(
                 "getcount" => true,
                 "setwheres" => $setignore
-            ), $options);
+            );
             $_sql = get_bind_to_sql_select($tablename, $bind, $_options);
             $_rows = exec_db_fetch_all($_sql, $bind);
             foreach($_rows as $_row) {
