@@ -293,10 +293,11 @@ if(!check_function_exists("get_bind_to_sql_insert")) {
         $setduplicate = get_array(get_value_in_array("setduplicate", $options, false));
         $setignore = get_array(get_value_in_array("setignore", $options, false));
 
-        // get number of duplicated rows
+        // set variables
         $num_duplicates = 0;
+        $num_ignores = 0;
 
-        // do process
+        // check duplicates
         if(count($setduplicate) > 0) {
             $_bind_K = array();
             $_bind_V = array();
@@ -307,18 +308,33 @@ if(!check_function_exists("get_bind_to_sql_insert")) {
                     $_bind_V[$k] = $v;
                 }
             }
-            $_sql = get_bind_to_sql_select($tablename, $_bind_K, array(
-                "getcount" => true,
-                "setwheres" => $setignore
-            ));
+            $_options = array_merge(array(
+                "getcount" => true
+            ), $options);
+            $_sql = get_bind_to_sql_select($tablename, $_bind_K, $_options);
             $_rows = exec_db_fetch_all($_sql, $_bind_K);
             foreach($_rows as $_row) {
                 $num_duplicates += intval($_row['value']);
             }
         }
 
+        // check ignores
+        if(count($setignore) > 0) {
+            $_options = array_merge(array(
+                "getcount" => true
+                "setwheres" => $setignore
+            ), $options);
+            $_sql = get_bind_to_sql_select($tablename, $bind, $_options);
+            $_rows = exec_db_fetch_all($_sql, $bind);
+            foreach($_rows as $_row) {
+                $num_ignores += intval($_row['value']);
+            }
+        }
+
         // make statements
-        if($num_duplicates > 0) {
+        if($num_ignores > 0) {
+            $sql = "select 1";
+        } elseif($num_duplicates > 0) {
             $sql = get_bind_to_sql_update($tablename, $bind, array(
                 "setkeys" => array_keys($_bind_K)
             ), $options);
@@ -454,31 +470,6 @@ if(!check_function_exists("get_bind_to_sql_where")) {
         }
 
         return sprintf("%s %s", $sp, $s3);
-    }
-}
-
-if(!check_function_exists("get_bind_to_sql_update_set")) {
-    // warning: variable k is not protected. do not use variable k and external variable without filter
-    function get_bind_to_sql_update_set($bind, $options=array()) {
-        $sql = "";
-        
-        // set variables
-        $sa = array();
-        
-        // setkeys
-        $setkeys = get_array(get_value_in_array("setkeys", $options, false));
-
-        // do process
-        foreach($bind as $k=>$v) {
-            if(!in_array($k, $setkeys)) {
-                $sa[] = sprintf("%s = :%s", $k, $k);
-            }
-        }
-
-        // set SQL statements
-        $sql = implode(", ", $sa);
-
-        return $sql;
     }
 }
 
@@ -648,6 +639,31 @@ if(!check_function_exists("get_bind_to_sql_select")) {
             }
             $sql = sprintf("%s", implode(" union all ", $separated_sqls));
         }
+
+        return $sql;
+    }
+}
+
+if(!check_function_exists("get_bind_to_sql_update_set")) {
+    // warning: variable k is not protected. do not use variable k and external variable without filter
+    function get_bind_to_sql_update_set($bind, $options=array()) {
+        $sql = "";
+        
+        // set variables
+        $sa = array();
+        
+        // setkeys
+        $setkeys = get_array(get_value_in_array("setkeys", $options, false));
+
+        // do process
+        foreach($bind as $k=>$v) {
+            if(!in_array($k, $setkeys)) {
+                $sa[] = sprintf("%s = :%s", $k, $k);
+            }
+        }
+
+        // set SQL statements
+        $sql = implode(", ", $sa);
 
         return $sql;
     }
