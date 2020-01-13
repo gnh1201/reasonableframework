@@ -1,8 +1,8 @@
 <?php
 /**
  * @file pgkcp.lnk.php
- * @date 2018-08-25
- * @updated 2019-10-13
+ * @created_on 2018-08-25
+ * @updated_on 2020-01-13
  * @author Go Namhyeon <gnh1201@gmail.com>
  * @brief KCP PG(Payment Gateway) Helper
  */
@@ -48,11 +48,12 @@ if(!check_function_exists("get_pgkcp_config")) {
                 "storage_type" => "payman"
             ));
             if(!empty($fr)) {
-                $api_config = json_decode_ex($fr, array("assoc" => true));
-                $api_config_fields = array("g_conf_gw_url", "g_conf_js_url", "g_conf_site_cd", "g_conf_site_key", "g_conf_site_name");
-                foreach($api_config_fields as $name) {
-                    $pgkcp_config[$name] = get_value_in_array($name, $api_config, $pgkcp_config[$name]);
-                }
+                $_pgkcp_config = json_decode($fr);
+                $pgkcp_config['g_conf_gw_url'] = get_property_value("g_conf_gw_url", $_pgkcp_config);
+                $pgkcp_config['g_conf_js_url'] = get_property_value("g_conf_js_url", $_pgkcp_config);
+                $pgkcp_config['g_conf_site_cd'] = get_property_value("g_conf_site_cd", $_pgkcp_config);
+                $pgkcp_config['g_conf_site_key'] = get_property_value("g_conf_site_key", $_pgkcp_config);
+                $pgkcp_config['g_conf_site_name'] = get_property_value("g_conf_site_name", $_pgkcp_config);
             }
         } else {
             set_error("PGKCP configuration file does not exists.");
