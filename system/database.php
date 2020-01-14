@@ -324,7 +324,7 @@ if(!check_function_exists("get_bind_to_sql_insert")) {
                 "getcount" => true,
                 "setwheres" => $setignore
             );
-            $_sql = get_bind_to_sql_select($tablename, $bind, $_options);
+            $_sql = get_bind_to_sql_select($tablename, false, $_options);
             $_rows = exec_db_fetch_all($_sql, $bind);
             foreach($_rows as $_row) {
                 $num_ignores += intval($_row['value']);
