@@ -5,6 +5,8 @@
 if(!check_function_exists("json_decode_ex")) {
     function json_decode_ex($data, $options=array()) {
         $result = false;
+        
+        $is_assoc = array_key_equals("assoc", $options, true);
 
         $invalid_fn = array(
             "NO_FUNCTION_JSON_DECODE" => "json_decode",
@@ -13,8 +15,11 @@ if(!check_function_exists("json_decode_ex")) {
         $error = check_invalid_function($invalid_fn);
 
         if($error < 0) {
-            $_result = array_key_equals("assoc", $options, true) ? @json_decode($data, true) : @json_decode($data);
-            $result = (@json_last_error() === 0) ? $_result : $result;
+            if($is_assoc) {
+                $result = json_decode($data, true);
+            } else {
+                $result = json_decode($data);
+            }
         }
 
         return $result;
@@ -26,7 +31,6 @@ if(!check_function_exists("json_encode_ex")) {
         $result = false;
         
         $is_adaptive = array_key_equals("adaptive", $options, true);
-        $is_assoc = array_key_equals("assoc", $options, true);
 
         if($is_adaptive) {
             // 2018-06-01: Adaptive JSON is always quotes without escape non-ascii characters
@@ -39,8 +43,6 @@ if(!check_function_exists("json_encode_ex")) {
                 }
             }
             $result = "{" . implode(",", $lines) . "}";
-        } elseif($is_assoc) {
-            $result = json_encode($data, true);
         } else {
             $result = json_encode($data);
         }
