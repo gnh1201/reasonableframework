@@ -24,8 +24,11 @@ if(!check_function_exists("json_decode_ex")) {
 if(!check_function_exists("json_encode_ex")) {
     function json_encode_ex($data, $options=array()) {
         $result = false;
+        
+        $is_adaptive = array_key_equals("adaptive", $options, true);
+        $is_assoc = array_key_equals("assoc", $options, true);
 
-        if(array_key_equals("adaptive", $options, true)) {
+        if($is_adaptive) {
             // 2018-06-01: Adaptive JSON is always quotes without escape non-ascii characters
             $lines = array();
             foreach($data as $k=>$v) {
@@ -36,10 +39,12 @@ if(!check_function_exists("json_encode_ex")) {
                 }
             }
             $result = "{" . implode(",", $lines) . "}";
+        } elseif($is_assoc) {
+            $result = json_encode($data, true);
         } else {
             $result = json_encode($data);
         }
-        
+
         return $result;
     }
 }
