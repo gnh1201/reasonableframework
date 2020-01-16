@@ -290,19 +290,19 @@ if(!check_function_exists("get_bind_to_sql_insert")) {
         $sql = false;
 
         // get not duplicatable fieldnames
-        $setduplicate = get_array(get_value_in_array("setduplicate", $options, false));
-        $setignore = get_array(get_value_in_array("setignore", $options, false));
+        $setkeys = get_array(get_value_in_array("setkeys", $options, false));
+        $setignores = get_array(get_value_in_array("setignores", $options, false));
 
         // set variables
         $num_duplicates = 0;
         $num_ignores = 0;
 
         // check duplicates
-        if(count($setduplicate) > 0) {
+        if(count($setkeys) > 0) {
             $_bind_K = array();
             $_bind_V = array();
             foreach($bind as $k=>$v) {
-                if(in_array($k, $setduplicate)) {
+                if(in_array($k, $setkeys)) {
                     $_bind_K[$k] = $v;
                 } else {
                     $_bind_V[$k] = $v;
@@ -322,7 +322,7 @@ if(!check_function_exists("get_bind_to_sql_insert")) {
         if(count($setignore) > 0) {
             $_options = array(
                 "getcount" => true,
-                "setwheres" => $setignore
+                "setwheres" => $setignores
             );
             $_sql = get_bind_to_sql_select($tablename, false, $_options);
             $_rows = exec_db_fetch_all($_sql, $bind);
