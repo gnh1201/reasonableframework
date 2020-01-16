@@ -314,7 +314,11 @@ if(!check_function_exists("get_web_curl")) {
                 }
 
                 $options[CURLOPT_POST] = 1;
-                $options[CURLOPT_POSTFIELDS] = $data;
+                if(is_array($data)) {
+                    $options[CURLOPT_POSTFIELDS] = http_build_query($data);
+                } else {
+                    $options[CURLOPT_POSTFIELDS] = $data;
+                }
             }
 
             if($method == "get") {
