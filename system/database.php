@@ -603,6 +603,13 @@ if(!check_function_exists("get_bind_to_sql_select")) {
 
         // s3: fields of where clause
         $s3 = get_bind_to_sql_where($bind, $options);
+        
+        // s3i: set groups
+        $s3i = "";
+        if(!array_key_empty("setgroups", $options)) {
+            $s3i = sprintf(" group by `%s`", implode("`, `", get_array($options['setgroups'])));
+            $s3 .= $s3i;
+        }
 
         // s4: set orders
         $s4 = "";
