@@ -1,8 +1,8 @@
 <?php
 /**
  * @file index.php
- * @date 2018-05-27
- * @updated 2019-11-15
+ * @created_on 2018-05-27
+ * @updated_on 2020-01-17
  * @author Go Namhyeon <gnh1201@gmail.com>
  * @brief ReasonableFramework
  * @cvs https://github.com/gnh1201/reasonableframework
@@ -21,12 +21,12 @@ define("PHP_DDOS_PROTECTION", false); // with advanced security
 // development mode
 if(APP_DEVELOPMENT == true) {
     error_reporting(E_ALL);
-    ini_set("log_errors", 1);
-    ini_set("error_log", sprintf("%s/storage/sandbox/logs/error.log", getcwd()));
+    @ini_set("log_errors", 1);
+    @ini_set("error_log", sprintf("%s/storage/sandbox/logs/error.log", getcwd()));
 } else {
     error_reporting(E_ERROR | E_PARSE);
 }
-ini_set("display_errors", 1);
+@ini_set("display_errors", 1);
 
 // CORS Security (https or http)
 if(CORS_DOMAINS !== false) {
@@ -92,6 +92,13 @@ set_scope("requests", read_requests());
 // set max_execution_time
 $max_execution_time = get_value_in_array("max_execution_time", $config, 0);
 @ini_set("max_execution_time", $max_execution_time);
+
+// set memory limit
+$memory_limit = get_value_in_array("memory_limit", $config, "");
+if(!empty($memory_limit)) {
+    @ini_set("memory_limit", $memory_limit);
+    @ini_set("suhosin.memory_limit", $memory_limit);
+}
 
 // start session
 start_isolated_session();
