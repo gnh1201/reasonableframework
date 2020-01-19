@@ -2,7 +2,7 @@
 /**
  * @file database.php
  * @created_on 2018-04-13
- * @updated_on 2020-01-09
+ * @updated_on 2020-01-19
  * @author Go Namhyeon <gnh1201@gmail.com>
  * @brief Database module
  */
@@ -320,12 +320,13 @@ if(!check_function_exists("get_bind_to_sql_insert")) {
 
         // check ignores
         if(count($setignore) > 0) {
+            $_bind = false;
             $_options = array(
                 "getcount" => true,
                 "setwheres" => $setignores
             );
-            $_sql = get_bind_to_sql_select($tablename, false, $_options);
-            $_rows = exec_db_fetch_all($_sql, $bind);
+            $_sql = get_bind_to_sql_select($tablename, $_bind, $_options);
+            $_rows = exec_db_fetch_all($_sql, $_bind);
             foreach($_rows as $_row) {
                 $num_ignores += intval($_row['value']);
             }
