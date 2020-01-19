@@ -1,7 +1,8 @@
 <?php
 /**
  * @file uri.php
- * @date 2018-04-13
+ * @created_on 2018-04-13
+ * @updated_on 2020-01-19
  * @author Go Namhyeon <gnh1201@gmail.com>
  * @brief URI module
  */
@@ -338,6 +339,13 @@ if(!check_function_exists("get_binded_requests")) {
 if(!check_function_exists("get_array")) {
     function get_array($arr) {
         return is_array($arr) ? $arr : array();
+    }
+}
+
+
+if(!check_function_exists("get_int")) {
+    function get_int($str) {
+        return intval(preg_replace('/[^0-9]/', '', $str));
     }
 }
 
