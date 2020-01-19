@@ -713,7 +713,7 @@ if(!check_function_exists("get_bind_to_sql_update")) {
 
 if(!check_function_exists("get_bind_to_sql_delete")) {
     function get_bind_to_sql_delete($tablename, $bind, $options=array()) {
-        $sql = sprintf("delete from `%s` where %s", $tablename, get_db_binded_sql(get_bind_to_sql_where($bind, $options), $bind));
+        $sql = sprintf("delete from `%s` where %s", $tablename, get_bind_to_sql_where($bind, $options));
         return $sql;
     }
 }
