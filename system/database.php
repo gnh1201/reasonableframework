@@ -292,6 +292,7 @@ if(!check_function_exists("get_bind_to_sql_insert")) {
         // get not duplicatable fieldnames
         $setkeys = get_array(get_value_in_array("setkeys", $options, false));
         $setignores = get_array(get_value_in_array("setignores", $options, false));
+        $setwheres = get_array(get_value_in_array("setwheres", $options, false));
         
         // safemode_off (default: false)
         $safemode_off = array_key_equals("safemode_off", $options, true);
@@ -319,7 +320,11 @@ if(!check_function_exists("get_bind_to_sql_insert")) {
             foreach($_rows as $_row) {
                 $num_duplicates += intval($_row['value']);
             }
-        } elseif($safemode_off !== true) {
+        }
+        
+        // preventing accidentally query
+        $num_conditions = count($setkeys) + count($setwheres);
+        if($num_conditions == 0 && $safemode_off !== true) {
             write_common_log("Blocked this SQL because it is maybe accidentally query. If you want continue, set safemode_off option to true", "system/database");
             return false;
         }
