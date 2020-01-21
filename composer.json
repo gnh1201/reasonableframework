@@ -9,6 +9,6 @@
         }
     ],
     "require": {
-        "phpoffice/phpspreadsheet": "dev-master"
+        "phpoffice/phpspreadsheet": "~1.8"
     }
 }
