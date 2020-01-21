@@ -1,6 +1,6 @@
 {
     "name": "gnh1201/reasonableframework",
-    "description": "ReasonableFramework is RVHM structured PHP Web Framework, Securely, Compatibility.",
+    "description": "ReasonableFramework is RVHM structured PHP Web Framework, securely and compatibility",
     "license": "LGPL-3.0",
     "authors": [
         {
@@ -8,14 +8,7 @@
             "email": "gnh1201@gmail.com"
         }
     ],
-    "repositories": [
-        {
-            "type": "vcs",
-            "url": "https://github.com/bozhinov/pChart2.0-for-PHP7"
-        }
-    ],
     "require": {
-        "bozhinov/pChart2.0-for-PHP7": "dev-master",
-        "phpoffice/phpspreadsheet": "dev-master",
+        "phpoffice/phpspreadsheet": "dev-master"
     }
 }
