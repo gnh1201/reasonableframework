@@ -1,5 +1,6 @@
 <?php
-/* @file rfc3164.proto.php
+/*
+ * @file rfc3164.proto.php
  * @author Go Namhyeon <gnh1201@gmail.com> (Modified)
  * @author Troy Davis (@tory) - https://gist.github.com/troy/2220679 (Original)
  * @brief Helper for RFC3164(The BSD Syslog Protocol) - https://tools.ietf.org/html/rfc3164
