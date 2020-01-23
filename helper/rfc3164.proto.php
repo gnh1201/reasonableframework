@@ -8,12 +8,14 @@
  * @updated_on 2020-01-23
  */
 
-function rfc3164_get_config() {
-    $config = get_config();
-    return array(
-        "hostname" => get_value_in_array("rfc3164_hostname", $config, ""),
-        "port" => get_value_in_array("rfc3164_port", $config, "")
-    );
+if(check_function_exists("rfc3164_get_config")) {
+    function rfc3164_get_config() {
+        $config = get_config();
+        return array(
+            "hostname" => get_value_in_array("rfc3164_hostname", $config, ""),
+            "port" => get_value_in_array("rfc3164_port", $config, "")
+        );
+    }
 }
 
 if(check_function_exists("rfc3164_send_message")) {
