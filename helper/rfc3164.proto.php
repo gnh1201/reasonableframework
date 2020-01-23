@@ -27,7 +27,7 @@ if(!check_function_exists("rfc3164_send_message")) {
         $host = get_value_in_array("host", $_config, "");
         $port = get_value_in_array("port", $_config, "");
 
-        if($enabled) {
+        if($enabled !== false) {
             $sock = socket_create(AF_INET, SOCK_DGRAM, SOL_UDP);
             foreach(explode("\n", $message) as $line) {
                 $syslog_message = "<22>" . date('M d H:i:s ') . $program . ' ' . $component . ': ' . $line;
