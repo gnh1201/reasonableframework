@@ -8,7 +8,7 @@
  * @updated_on 2020-01-23
  */
 
-if(check_function_exists("rfc3164_get_config")) {
+if(!check_function_exists("rfc3164_get_config")) {
     function rfc3164_get_config() {
         $config = get_config();
         return array(
@@ -18,7 +18,7 @@ if(check_function_exists("rfc3164_get_config")) {
     }
 }
 
-if(check_function_exists("rfc3164_send_message")) {
+if(!check_function_exists("rfc3164_send_message")) {
     function rfc3164_send_message($message, $component = "web", $program = "next_big_thing") {
         $rfc3164_config = rfc3164_get_config();
 
