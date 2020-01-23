@@ -1,7 +1,8 @@
 <?php
 /**
  * @file logger.php
- * @date 2018-05-27
+ * @created_on 2018-05-27
+ * @updated_on 2020-01-23
  * @author Go Namhyeon <gnh1201@gmail.com>
  * @brief Logger module for ReasonableFramework
  */
