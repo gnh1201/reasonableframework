@@ -2,6 +2,7 @@
 /* @file rfc3164.proto.php
  * @author Go Namhyeon <gnh1201@gmail.com> (Modified)
  * @author Troy Davis (@tory) - https://gist.github.com/troy/2220679 (Original)
+ * @brief Helper for RFC3164(The BSD Syslog Protocol) - https://tools.ietf.org/html/rfc3164
  * @created_on 2018-03-02
  * @updated_on 2020-01-23
  */
@@ -24,7 +25,7 @@ if(check_function_exists("rfc3164_send_message")) {
         $sock = socket_create(AF_INET, SOCK_DGRAM, SOL_UDP);
         foreach(explode("\n", $message) as $line) {
             $syslog_message = "<22>" . date('M d H:i:s ') . $program . ' ' . $component . ': ' . $line;
-            socket_sendto($sock, $syslog_message, strlen($syslog_message), 0, PAPERTRAIL_HOSTNAME, PAPERTRAIL_PORT);
+            socket_sendto($sock, $syslog_message, strlen($syslog_message), 0, $hostname, $port);
         }
         socket_close($sock);
     }
