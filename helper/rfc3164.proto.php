@@ -12,7 +12,8 @@ if(!check_function_exists("rfc3164_get_config")) {
     function rfc3164_get_config() {
         $config = get_config();
         return array(
-            "hostname" => get_value_in_array("rfc3164_hostname", $config, ""),
+            "enabled" => get_value_in_array("rfc3164_enabled", $config, ""),
+            "host" => get_value_in_array("rfc3164_host", $config, ""),
             "port" => get_value_in_array("rfc3164_port", $config, "")
         );
     }
@@ -20,16 +21,19 @@ if(!check_function_exists("rfc3164_get_config")) {
 
 if(!check_function_exists("rfc3164_send_message")) {
     function rfc3164_send_message($message, $component = "web", $program = "next_big_thing") {
-        $rfc3164_config = rfc3164_get_config();
+        $_config = rfc3164_get_config();
 
-        $hostname = $rfc3164_config['hostname'];
-        $port = $rfc3164_config['port'];
+        $enabled = array_key_equals("enabled", $_config, 1);
+        $host = get_value_in_array("host", $_config, "");
+        $port = get_value_in_array("port", $_config, "");
 
-        $sock = socket_create(AF_INET, SOCK_DGRAM, SOL_UDP);
-        foreach(explode("\n", $message) as $line) {
-            $syslog_message = "<22>" . date('M d H:i:s ') . $program . ' ' . $component . ': ' . $line;
-            socket_sendto($sock, $syslog_message, strlen($syslog_message), 0, $hostname, $port);
+        if($enabled) {
+            $sock = socket_create(AF_INET, SOCK_DGRAM, SOL_UDP);
+            foreach(explode("\n", $message) as $line) {
+                $syslog_message = "<22>" . date('M d H:i:s ') . $program . ' ' . $component . ': ' . $line;
+                socket_sendto($sock, $syslog_message, strlen($syslog_message), 0, $host, $port);
+            }
+            socket_close($sock);
         }
-        socket_close($sock);
     }
 }
