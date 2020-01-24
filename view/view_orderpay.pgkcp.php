@@ -9,7 +9,7 @@
 if(!defined("_DEF_RSF_")) set_error_exit("do not allow access");
 ?>
 
-<!DOCTYPE html>
+<!DOCTYPE HTML>
 <html>
 <head>
     <title>*** NHN KCP [AX-HUB Version] ***</title>
