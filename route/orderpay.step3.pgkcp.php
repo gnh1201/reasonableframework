@@ -10,7 +10,7 @@ if(!defined("_DEF_RSF_")) set_error_exit("do not allow access");
 
 // detect CSRF attack
 if(check_token_abuse_by_requests("_token", "_POST")) {
-    set_error("Security violation: Access denied. May be your session is expired or abused.");
+    set_error("Access denied because of security violation");
     show_errors();
 }
 
