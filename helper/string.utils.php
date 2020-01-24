@@ -22,9 +22,9 @@ if(!check_function_exists("get_converted_string")) {
         // detect charset (output)
         if($to_charset == "detect") {
             if(check_function_exists("mb_internal_encoding")) {
-                $from_charset = mb_internal_encoding();
+                $to_charset = mb_internal_encoding();
             } elseif(check_function_exists("iconv_get_encoding")) {
-                $from_charset = iconv_get_encoding("internal_encoding");
+                $to_charset = iconv_get_encoding("internal_encoding");
             } else {
                 $_candidates = array(
                     ini_get("default_charset"),
@@ -32,9 +32,15 @@ if(!check_function_exists("get_converted_string")) {
                     ini_get("mbstring.internal_encoding"),
                     "UTF-8"
                 );
+                foreach($_candidates as $_candidate) {
+                    if(!empty($_candidate)) {
+                        $to_charset = $_candidate;
+                        break;
+                    }
+                }
             }
         }
-        
+
         // normalize charset (UPPERCASE)
         $from_charset = strtoupper($from_charset);
         $to_charset = strtoupper($from_charset);
