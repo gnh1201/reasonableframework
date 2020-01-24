@@ -23,7 +23,7 @@ if($debug != "true") {
 
     // detect CSRF attack
     if($mode != "widget" && check_token_abuse_by_requests("_token")) {
-        set_error("Access denied becuase of security violation");
+        set_error("Access denied because of security violation");
         show_errors();
     }
 }
