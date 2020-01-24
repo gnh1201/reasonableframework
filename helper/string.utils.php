@@ -7,9 +7,10 @@
  */
 
 if(!check_function_exists("get_converted_string")) {
-    function get_converted_string($str, $to_charset, $from_charset) {
+    function get_converted_string($str, $to_charset="detect", $from_charset="detect") {
         $result = false;
 
+        // detect charset (input)
         if($form_charset == "detect") {
             if(check_function_exists(array("mb_detect_encoding", "mb_detect_order"))) {
                 $from_charset = mb_detect_encoding($str, mb_detect_order(), true);
@@ -17,8 +18,31 @@ if(!check_function_exists("get_converted_string")) {
                 $from_charset = "ISO-8859-1";
             }
         }
+        
+        // detect charset (output)
+        if($to_charset == "detect") {
+            if(check_function_exists("mb_internal_encoding")) {
+                $from_charset = mb_internal_encoding();
+            } elseif(check_function_exists("iconv_get_encoding")) {
+                $from_charset = iconv_get_encoding("internal_encoding");
+            } else {
+                $_candidates = array(
+                    ini_get("default_charset"),
+                    ini_get("iconv.internal_encoding"),
+                    ini_get("mbstring.internal_encoding"),
+                    "UTF-8"
+                );
+            }
+        }
+        
+        // normalize charset (UPPERCASE)
+        $from_charset = strtoupper($from_charset);
+        $to_charset = strtoupper($from_charset);
 
-        if(check_function_exists("iconv")) {
+        // test conditions
+        if($from_charset == $to_charset) {
+            $result = $str;
+        } elseif(check_function_exists("iconv")) {
             $result = iconv($from_charset, $to_charset, $str);
         } elseif(check_function_exists("mb_convert_encoding")) {
             $result = mb_convert_encoding($str, $to_charset, $from_charset);
