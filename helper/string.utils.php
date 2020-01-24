@@ -44,7 +44,7 @@ if(!check_function_exists("get_converted_string")) {
 
         // normalize charset (UPPERCASE)
         $from_charset = strtoupper($from_charset);
-        $to_charset = strtoupper($from_charset);
+        $to_charset = strtoupper($to_charset);
 
         // test conditions
         if($from_charset == $to_charset) {
