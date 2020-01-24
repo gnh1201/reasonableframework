@@ -111,6 +111,8 @@ $payinfo['res_msg'] = "";
 $payinfo['enc_info'] = "";
 $payinfo['enc_data'] = "";
 $payinfo['ret_pay_method'] = "";
+$payinfo['tran_cd'] = ""; // tran_cd가 유효하여야만 이후 tno 반환
+$payinfo['use_pay_method'] = "";
 $payinfo['ordr_chk'] = ""; // 주문정보 검증 관련 정보
 
 // 변경 제한 영역: 현금영수증 관련 정보
