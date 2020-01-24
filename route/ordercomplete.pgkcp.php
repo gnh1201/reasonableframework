@@ -1,9 +1,10 @@
 <?php
 /**
  * @file ordercomplete.pgkcp.php
- * @date 2018-09-03
+ * @created_on 2018-09-03
+ * @updated_on 2020-01-25
  * @author Go Namhyeon <gnh1201@gmail.com>
- * @brief KCP PG(Payment Gateway) contoller when complete
+ * @brief KCP PG(Payment Gateway) contoller when completed
  */
 
 // detect CSRF attack
