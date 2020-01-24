@@ -8,7 +8,7 @@
 
 // detect CSRF attack
 if(check_token_abuse_by_requests("_token", "_POST")) {
-    set_error("Access denied. (Expired session or Website attacker)");
+    set_error("Access denied because of security violation");
     show_errors();
 }
 
@@ -34,8 +34,8 @@ if(in_array($res_cd, array("0000", "A001"))) {
 
 // check ordr_idxx
 if(empty($ordr_idxx)) {
-    set_error("ordr_idxx can not empty");
-    set_errors();
+    set_error("ordr_idxx is required");
+    show_errors();
 }
 
 // write storage file
