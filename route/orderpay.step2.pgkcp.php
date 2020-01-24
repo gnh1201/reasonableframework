@@ -1,7 +1,8 @@
 <?php
 /**
  * @file orderpay.step2.pgkcp.php
- * @date 2018-08-27
+ * @created_on 2018-08-27
+ * @updated_on 2020-01-25
  * @author Go Namhyeon <gnh1201@gmail.com>
  * @brief KCP PG(Payment Gateway) contoller when done
  */
@@ -273,6 +274,11 @@ if($req_tx == "pay") {
         }
     }
 } // End of [res_cd = "0000"]
+
+// set encoding
+foreach($payres as $k=>$v) {
+    $payres[$k] = get_converted_string($v, "utf-8", "cp949");
+}
 
 // set result
 extract($payres);
