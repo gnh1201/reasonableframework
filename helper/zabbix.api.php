@@ -64,8 +64,8 @@ if(!check_function_exists("zabbix_authenticate")) {
     }
 }
 
-if(!check_function_exists("zabbix_retrieve_hosts")) {
-    function zabbix_retrieve_hosts() {
+if(!check_function_exists("zabbix_get_hosts")) {
+    function zabbix_get_hosts() {
         $hosts = false;
         $response = false;
 
@@ -92,6 +92,12 @@ if(!check_function_exists("zabbix_retrieve_hosts")) {
     }
 }
 
+if(!check_function_exists("zabbix_retrieve_hosts")) {
+    function zabbix_retrieve_hosts() {
+        return zabbix_get_hosts();
+    }
+}
+
 if(!check_function_exists("zabbix_get_items")) {
     function zabbix_get_items($hostids=null) {
         $items = false;
@@ -108,7 +114,7 @@ if(!check_function_exists("zabbix_get_items")) {
                 "method" => "host.get",
                 "params" => array(
                     "selectInventory" => true,
-                    "selectItems" => array("name", "key_", "lastvalue", "units", "itemid", "lastclock", "value_type", "itemid"),
+                    "selectItems" => array("name", "key_", "status", "lastvalue", "units", "itemid", "lastclock", "value_type", "itemid"),
                     "output" => "extend",
                     "hostids" => $hostids,
                     "expandDescription" => 1,
