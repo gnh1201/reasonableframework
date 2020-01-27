@@ -494,13 +494,14 @@ if(!check_function_exists("check_table_is_separated")) {
 }
 
 if(!check_function_exists("get_db_tablenames")) {
-    function get_db_tablenames($tablename) {
+    function get_db_tablenames($tablename, $end_dt="", $start_dt="") {
         $tablenames = array();
 
         $is_separated = check_table_is_separated($tablename);
         if(!$is_separated) {
             $tablenames[] = $tablename;
         } else {
+            
             $sql = sprintf("select table_name from `%s.tables` order by datetime desc", $tablename);
             $rows = exec_db_fetch_all($sql);
             foreach($rows as $row) {
@@ -908,10 +909,13 @@ if(!check_function_exists("exec_db_table_create")) {
 }
 
 if(!check_function_exists("exec_db_table_drop")) {
-    function exec_db_table_drop($tablename) {
+    function exec_db_table_drop($tablename, $options=array()) {
         $flag = true;
-        
-        $tablenames = get_db_tablenames($tablename);
+
+        $end_dt = get_value_in_array("end_dt", $options, "");
+        $start_dt = get_value_in_array("start_dt", $options, "");
+
+        $tablenames = get_db_tablenames($tablename, $end_dt, $start_dt);
         foreach($tablenames as $_tablename) {
             $sql = sprintf("drop table `%s`", $_tablename);
             $flag &= exec_db_query($sql);
