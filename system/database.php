@@ -501,34 +501,37 @@ if(!check_function_exists("get_db_tablenames")) {
         if(!$is_separated) {
             $tablenames[] = $tablename;
         } else {
-            $a = !empty($end_dt);
-            $b = !empty($start_dt);
-            $c = array( ($a && $b), ($a && !$b), (!$a && $b), (!$a && !$b) );
-
-            $bind = array(
-                "end_dt" => $end_dt,
-                "start_dt" => $start_dt
-            );
-            $sql = "";
+            $a = empty($end_dt);
+            $b = empty($start_dt);
+            $c = array( (!$a && !$b), ($a && !$b), (!$a && $b) );
+            
+            $setwheres = array();
             foreach($c as $k=>$v) {
                 if($v !== false) {
-                    switch($k) {
+                    switch($v) {
                         case 0:
-                            $sql = sprintf("select table_name from `%s.tables` where datetime <= :end_dt and datetime >= :start_dt order by datetime asc", $tablename);
+                            $setwheres[] = array("and", array("lte", "datetime", $end_dt));
+                            $setwheres[] = array("and", array("gte", "datetime", $start_dt));
                             break;
                         case 1:
-                            $sql = sprintf("select table_name from `%s.tables` where datetime <= :end_dt by datetime asc", $tablename);
+                            $setwheres[] = array("and", array("gte", "datetime", $start_dt));
                             break;
                         case 2:
-                            $sql = sprintf("select table_name from `%s.tables` where datetime >= :start_dt by datetime asc", $tablename);
+                            $setwheres[] = array("and", array("lte", "datetime", $end_dt));
                             break;
-                        case 3:
-                        default:
-                            $sql = sprintf("select table_name from `%s.tables` order by datetime asc", $tablename);
                     }
                 }
             }
-            $rows = exec_db_fetch_all($sql);
+
+            $bind = false;
+            $sql = get_bind_to_sql_select(sprintf("%s.tables", $tablename), $bind, array(
+                "setwheres" => $setwheres,
+                "setorders" => array(
+                    array("asc", "datetime")
+                )
+            ));
+
+            $rows = exec_db_fetch_all($sql, $bind);
             foreach($rows as $row) {
                 $tablenames[] = $row['table_name'];
             }
