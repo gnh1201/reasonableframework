@@ -527,7 +527,7 @@ if(!check_function_exists("get_db_tablenames")) {
             $sql = get_bind_to_sql_select(sprintf("%s.tables", $tablename), $bind, array(
                 "setwheres" => $setwheres,
                 "setorders" => array(
-                    array("asc", "datetime")
+                    array("desc", "datetime")
                 )
             ));
 
@@ -937,11 +937,8 @@ if(!check_function_exists("exec_db_table_create")) {
 }
 
 if(!check_function_exists("exec_db_table_drop")) {
-    function exec_db_table_drop($tablename, $options=array()) {
+    function exec_db_table_drop($tablename, $end_dt="", $start_dt="") {
         $flag = true;
-
-        $end_dt = get_value_in_array("end_dt", $options, "");
-        $start_dt = get_value_in_array("start_dt", $options, "");
 
         $tablenames = get_db_tablenames($tablename, $end_dt, $start_dt);
         foreach($tablenames as $_tablename) {
@@ -971,20 +968,20 @@ if(!check_function_exists("exec_db_table_insert")) {
     function exec_db_table_insert($tablename, $bind=array(), $options=array()) {
         $flag = true;
 
-        // set replica
-        $replica = get_value_in_array("setreplica", $options, 1);
+        // set number of copy
+        $num_copy = get_value_in_array("setcopy", $options, 1);
 
         // get tablenames
         $tablenames = get_db_tablenames($tablename);
-        if($replica > 0) {
-            $_num_tables = count($tablenames);
-            $_replica = min($replica, $_num_tables);
-            if($replica < $_num_tables) {
-                $tablenames = array_slice(get_db_tablenames($tablename), 0, $_replica);
+        if($num_copy > 0) {
+            $num_tables = count($tablenames);
+            $num_copy = min($num_copy, $num_tables);
+            if($num_copy < $num_tables) {
+                $tablenames = array_slice(get_db_tablenames($tablename), 0, $num_copy);
             }
         }
 
-        // do process
+        // do copy
         foreach($tablenames as $_tablename) {
             $sql = get_bind_to_sql_insert($tablename, $bind, $options);
             $flag &= exec_db_query($sql);
@@ -997,30 +994,37 @@ if(!check_function_exists("exec_db_table_insert")) {
 // temporary table creation
 if(!check_function_exists("exec_db_temp_create")) {
     function exec_db_temp_create($schemes, $options=array()) {
+        $flag = false;
+        
         $tablename = make_random_id();
 
         $sql = get_bind_to_sql_create($schemes, array(
             "tablename" => $tablename,
             "temporary" => true
         ));
+        $flag = exec_db_query($sql);
 
-        return (exec_db_query($sql) ? $tablename : false);
+        return ($flag ? $tablename : false);
     }
 }
 
 if(!check_function_exists("exec_db_temp_start")) {
-    function exec_db_temp_start($sql, $bind=array(), $options=array()) { 
-        $_tablename = make_random_id();
-        $_sql = sprintf("create temporary table if not exists `%s` %s", $_tablename, get_db_binded_sql($sql, $bind));
-        return (exec_db_query($_sql) ? $_tablename : false);
+    function exec_db_temp_start($sql, $bind=array(), $options=array()) {
+        $flag = false;
+
+        $tablename = make_random_id();
+        $sql = sprintf("create temporary table if not exists `%s` %s", $tablename, $sql);
+        $flag = exec_db_query($sql, $bind);
+
+        return ($flag ? $_tablename : false);
     }
 }
 
 // temporary table
 if(!check_function_exists("exec_db_temp_end")) {
     function exec_db_temp_end($tablename, $options=array()) {
-        $_sql = sprintf("drop temporary table %s", $tablename);
-        return exec_db_query($_sql);
+        $sql = sprintf("drop temporary table `%s`", $tablename);
+        return exec_db_query($sql);
     }
 }
 
@@ -1033,9 +1037,9 @@ if(!check_function_exists("close_db_connect")) {
     }
 }
 
-// get assoc from json raw data
-if(!check_function_exists("json_decode_to_assoc")) {
-    function json_decode_to_assoc($data) {
+// json decode to assoc
+if(!check_function_exists("json_decode_assoc")) {
+    function json_decode_assoc($data) {
         if(loadHelper("json.format")) {
             return json_decode_ex($data, array("assoc" => true));
         }
