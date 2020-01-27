@@ -810,12 +810,13 @@ if(!check_function_exists("get_timediff_on_query")) {
 // make sql statement to create table
 if(!check_function_exists("get_bind_to_sql_create")) {
     function get_bind_to_sql_create($schemes, $options=array()) {
-        $sql = false;
+        $sql = "";
         
         $_prefix = get_value_in_array("prefix", $options, "");
         $_suffix = get_value_in_array("suffix", $options, "");
         $_tablename = get_value_in_array("tablename", $options, "");
         $_temporary = get_value_in_array("temporary", $options, false);
+        $_engine = get_value_in_array("engine", $options, false);
         $_schemes = array();
 
         if(!empty($_tablename)) {
@@ -835,9 +836,13 @@ if(!check_function_exists("get_bind_to_sql_create")) {
             }
 
             if($_temporary !== false) {
-                $sql = sprintf("create temporary table if not exists `%s` (%s)", $tablename, implode(",", $_schemes));
+                $sql .= sprintf("create temporary table if not exists `%s` (%s)", $tablename, implode(",", $_schemes));
             } else {
-                $sql = sprintf("create table if not exists `%s` (%s)", $tablename, implode(",", $_schemes));
+                $sql .= sprintf("create table if not exists `%s` (%s)", $tablename, implode(",", $_schemes));
+            }
+
+            if($_engine !== false) {
+                $sql .= sprintf(" engine=%s", $_engine);
             }
         }
 
