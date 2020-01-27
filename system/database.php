@@ -1005,7 +1005,8 @@ if(!check_function_exists("exec_db_temp_create")) {
 
         $sql = get_bind_to_sql_create($schemes, array(
             "tablename" => $tablename,
-            "temporary" => true
+            "temporary" => true,
+            "engine" => get_value_in_array("engine", $options, false)
         ));
         $flag = exec_db_query($sql);
 
