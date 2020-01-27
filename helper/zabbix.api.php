@@ -108,7 +108,7 @@ if(!check_function_exists("zabbix_get_items")) {
                 "method" => "host.get",
                 "params" => array(
                     "selectInventory" => true,
-                    "selectItems" => array("name", "lastvalue", "units", "itemid", "lastclock", "value_type", "itemid"),
+                    "selectItems" => array("name", "key_", "lastvalue", "units", "itemid", "lastclock", "value_type", "itemid"),
                     "output" => "extend",
                     "hostids" => $hostids,
                     "expandDescription" => 1,
