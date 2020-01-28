@@ -130,7 +130,7 @@ if(!check_function_exists("exec_db_oracle_query")) {
 
 if(!check_function_exists("close_db_oracle_connect")) {
     function close_db_oracle_connect() {
-        $dbc = get_scope("dbc");
+        $dbc = get_shared_var("dbc");
 
         if(!check_db_oracle_installed()) {
             show_errors();

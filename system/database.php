@@ -70,9 +70,9 @@ if(!check_function_exists("exec_stmt_query")) {
 if(!check_function_exists("get_dbc_object")) {
     function get_dbc_object($renew=false) {
         if($renew) {
-            set_scope("dbc", get_db_connect());
+            set_shared_var("dbc", get_db_connect());
         }
-        return get_scope("dbc");
+        return get_shared_var("dbc");
     }
 }
 
@@ -1061,9 +1061,9 @@ if(!check_function_exists("exec_db_temp_end")) {
 // close db connection
 if(!check_function_exists("close_db_connect")) {
     function close_db_connect() {
-        $dbc = get_scope("dbc");
+        $dbc = get_shared_var("dbc");
         $dbc->close();
-        set_scope("dbc", null);
+        set_shared_var("dbc", null);
     }
 }
 

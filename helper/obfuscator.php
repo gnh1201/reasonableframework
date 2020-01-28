@@ -9,7 +9,7 @@
 if(!check_function_exists("get_obfuscator")) {
   function get_obfuscator() {
     $obfuscator = rand(1, 15);
-    set_scope("obfuscator", $obfuscator);
+    set_shared_var("obfuscator", $obfuscator);
     return $obfuscator;
   }
 }

@@ -166,13 +166,13 @@ if(!check_function_exists("read_requests")) {
 
 if(!check_function_exists("get_requests")) {
     function get_requests() {
-        $requests = get_scope("requests");
+        $requests = get_shared_var("requests");
 
         if(!is_array($requests)) {
-            set_scope("requests", read_requests());
+            set_shared_var("requests", read_requests());
         }
 
-        return get_scope("requests");
+        return get_shared_var("requests");
     }
 }
 

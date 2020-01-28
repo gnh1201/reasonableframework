@@ -1,7 +1,8 @@
 <?php
 /**
  * @file base.php
- * @date 2018-04-13
+ * @created_on 2018-04-13
+ * @updated_on 2020-01-28
  * @author Go Namhyeon <gnh1201@gmail.com>
  * @brief Base module
  */
@@ -35,26 +36,26 @@ if(!(check_invalid_function("check_function_exists") < 0)) {
     }
 }
 
-// set scope
-if(!check_function_exists("set_scope")) {
-    function set_scope($k, $v) {
-        global $scope;
-        $scope[$k] = $v;
+// set shared var
+if(!check_function_exists("set_shared_var")) {
+    function set_shared_var($k, $v) {
+        global $shared_vars;
+        $shared_vars[$k] = $v;
     }
 }
 
-// get scope
-if(!check_function_exists("get_scope")) {
-    function get_scope($k) {
-        global $scope;
-        return array_key_exists($k, $scope) ? $scope[$k] : null;
+// get shared var
+if(!check_function_exists("get_shared_var")) {
+    function get_shared_var($k) {
+        global $shared_vars;
+        return array_key_exists($k, $shared_vars) ? $shared_vars[$k] : null;
     }
 }
 
 // register loaded resources
 if(!check_function_exists("register_loaded")) {
     function register_loaded($k, $v) {
-        $loaded = get_scope("loaded");
+        $loaded = get_shared_var("loaded");
 
         if(array_key_exists($k, $loaded)) {
             if(is_array($loaded[$k])) {
@@ -62,7 +63,7 @@ if(!check_function_exists("register_loaded")) {
             }
         }
         
-        set_scope("loaded", $loaded);
+        set_shared_var("loaded", $loaded);
     }
 }
 
@@ -290,40 +291,39 @@ if(!check_function_exists("check_is_empty")) {
     }
 }
 
-// error handler
+// error handler (set error)
 if(!check_function_exists("set_error")) {
     function set_error($msg, $code="ERROR") {
-        global $scope;
-        $scope['errors'][] = $code . ": " . $msg;
+        global $shared_vars;
+        $shared_vars['errors'][] = $code . ": " . $msg;
     }
 }
 
+// error handler (get errors)
 if(!check_function_exists("get_errors")) {
     function get_errors($d=false, $e=false) { // d: display, e: exit
-        global $scope;
-        $errors = $scope['errors'];
-        if($d === true) {
-            foreach($errors as $err) {
-                echo $err . PHP_EOL;
-            }
-        }
-
-        if($e === true) {
-            exit;
-        }
-
-        return $errors;
+        global $shared_vars;
+        return $shared_vars['errors'];
     }
 }
 
+// error handler (show errors)
 if(!check_function_exists("show_errors")) {
     function show_errors($exit=true) {
-        return get_errors(true, $exit);
+        $errors = get_errors();
+        foreach($errors as $err) {
+            echo $err . DOC_EOL;
+        }
+
+        if($exit !== false) {
+            exit;
+        }
     }
 }
 
-if(!check_function_exists("do_error")) {
-    function do_error($msg, $code="ERROR") {
+// error handler (trigger error)
+if(!check_function_exists("trigger_error")) {
+    function trigger_error($msg, $code="ERROR") {
         set_error($msg, $code);
         show_errors();
     }
@@ -348,7 +348,7 @@ if(!check_function_exists("get_property_value")) {
 
 if(!check_function_exists("get_routes")) {
     function get_routes() {
-        $loaded = get_scope("loaded");
+        $loaded = get_shared_var("loaded");
         return $loaded['route'];
     }
 }
@@ -377,5 +377,5 @@ $loaded = array(
 
 $errors = array();
 
-set_scope("loaded", $loaded);
-set_scope("errors", $errors);
+set_shared_var("loaded", $loaded);
+set_shared_var("errors", $errors);

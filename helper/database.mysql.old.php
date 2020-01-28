@@ -53,7 +53,7 @@ if(!check_function_exists("exec_db_mysql_old_fetch_all")) {
 
 if(!check_function_exists("close_db_mysql_old_connect")) {
     function close_db_mysql_old_connect() {
-        $dbc = get_scope("dbc");
+        $dbc = get_shared_var("dbc");
         return mysql_close($dbc);
     }
 }
