@@ -69,7 +69,7 @@ $ php cli.php --route [route name]
 
 ## English
 - **Reasonable Framework** is a PHP framework designed for highly constrained web development environments.
-- Designed for outdated environments of assets, capabilities, it provide a high level of reliability and security.
+- Delivers a high level of reliability and security based on a design focused on vulnerable environments.
 - It also works smoothly on free web hosting based on PHP.
 - Even if the development staff doesn't know modern web techniques such as object-oriented and modular (MVC) and secure coding, we're support the **higher** technical level.
 - Resonable Framework is designed to proactively respond to fundamental security threats such as CSRF, XSS, and SQL injection.
