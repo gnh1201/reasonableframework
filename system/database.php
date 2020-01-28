@@ -1002,20 +1002,13 @@ if(!check_function_exists("exec_db_temp_create")) {
         $flag = false;
         
         // set tablename
-        $tablename = "temp_" . make_random_id();
+        $tablename = make_random_id();
 
         // set track information
-        $_tablename = exec_db_table_create(array(
-            "table_name" => array("varchar", 255),
-            "datetime" => array("datetime")
-        ), "_temporary");
-        $_bind = array(
-            "table_name" => $tablename,
-            "datetime" => get_current_datetime()
-        );
-        $_sql = get_bind_to_sql_insert($_tablename, $_bind);
-        exec_db_query($_sql, $_bind);
-        
+        $temptables = get_array(get_shared_var("temptables"));
+        $temptables[] = $tablename;
+        set_shared_var("temptables", $temptables);
+
         // set variables
         $_engine = get_value_in_array("engine", $options, false);
 
@@ -1050,11 +1043,21 @@ if(!check_function_exists("exec_db_temp_start")) {
     }
 }
 
-// temporary table
+// clear specific temporary table
 if(!check_function_exists("exec_db_temp_end")) {
-    function exec_db_temp_end($tablename, $options=array()) {
+    function exec_db_temp_end($tablename) {
         $sql = sprintf("drop temporary table `%s`", $tablename);
         return exec_db_query($sql);
+    }
+}
+
+// clear temporery tables
+if(!check_function_exists("exec_db_temp_clear")) {
+    function exec_db_temp_clear() {
+        $temptables = get_shared_var("temptables");
+        foreach($temptables as $tablename) {
+            exec_db_temp_end($tablename);
+        }
     }
 }
 
