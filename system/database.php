@@ -1000,13 +1000,27 @@ if(!check_function_exists("exec_db_table_insert")) {
 if(!check_function_exists("exec_db_temp_create")) {
     function exec_db_temp_create($schemes, $options=array()) {
         $flag = false;
-        
-        $tablename = make_random_id();
 
+        $tablename = "temp_" . make_random_id();
+        $_engine = get_value_in_array("engine", $options, false);
+
+        // set track information
+        $_tablename = exec_db_table_create(array(
+            "table_name" => array("varchar", 255),
+            "datetime" => array("datetime")
+        ), "_temporary");
+        $_bind = array(
+            "table_name" => $tablename,
+            "datetime" => get_current_datetime()
+        );
+        $_sql = get_bind_to_sql_insert($_tablename, $_bind);
+        exec_db_query($_sql, $_bind);
+
+        // create temporary table
         $sql = get_bind_to_sql_create($schemes, array(
             "tablename" => $tablename,
             "temporary" => true,
-            "engine" => get_value_in_array("engine", $options, false)
+            "engine" => $_engine
         ));
         $flag = exec_db_query($sql);
 
@@ -1017,10 +1031,17 @@ if(!check_function_exists("exec_db_temp_create")) {
 if(!check_function_exists("exec_db_temp_start")) {
     function exec_db_temp_start($sql, $bind=array(), $options=array()) {
         $flag = false;
+        
+        $_engine = get_value_in_array("engine", $options, false);
 
         $tablename = make_random_id();
-        $sql = sprintf("create temporary table if not exists `%s` %s", $tablename, $sql);
-        $flag = exec_db_query($sql, $bind);
+        if($_engine !== false) {
+            $sql = sprintf("create temporary table if not exists `%s` %s", $tablename, $sql);
+            $flag = exec_db_query($sql, $bind);
+        } else {
+            $sql = sprintf("create temporary table if not exists `%s` engine=%s %s", $tablename, $_engine, $sql);
+            $flag = exec_db_query($sql, $bind);
+        }
 
         return ($flag ? $_tablename : false);
     }
