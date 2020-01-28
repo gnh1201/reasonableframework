@@ -148,9 +148,6 @@ if(!check_function_exists("exec_db_query")) {
         $dbc = get_dbc_object();
         $terms = explode(" ", trim($sql));
 
-        // before transaction
-        $dbc->beginTransaction();
-        
         // check sql insert or not
         if($terms[0] == "insert") {
             $stmt = get_db_stmt($sql, $bind, array(
@@ -164,9 +161,6 @@ if(!check_function_exists("exec_db_query")) {
             $flag = $stmt->execute();
         }
 
-        // commit transaction
-        $dbc->commit();
-        
         // get errors
         $errors = $stmt->errorInfo();
 
