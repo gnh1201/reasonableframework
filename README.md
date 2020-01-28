@@ -61,7 +61,7 @@ $ php cli.php --route [route name]
 
 ## 한국어(Korean)
 - **리즈너블(이유있는) 프레임워크**는 대한민국 및 동아시아권 웹 개발 환경을 위해 설계된 PHP 프레임워크입니다.
-- **인적 레거시**에 취약한 환경에 집중적으로 유효하도록 설계된 구조로 최고 수준의 안정성과 보안을 유지할 수 있습니다.
+- **인적 기술력 수준**에 취약한 환경에 집중적으로 유효하도록 설계된 구조로 최고 수준의 안정성과 보안을 유지할 수 있습니다.
 - 개발 인력이 객체지향, 모듈러(MVC), 시큐어 코딩 등 현대적인 웹 기술을 모르더라도 그보다 **한단계 더 높은** 기술 수준을 지원합니다.
 - 리즈너블 프레임워크는 CSRF, XSS, SQL 인젝션 등 기초적인 보안 위협에 사전 대응하도록 설계되어 있습니다.
 - 현대적 웹 개발 기술과 환경을 함께 사용하실 수 있습니다.
@@ -69,7 +69,7 @@ $ php cli.php --route [route name]
 
 ## English
 - **Reasonable Framework** is a PHP framework designed for East Asian web development environments.
-- Designed to focus on environments vulnerable to **not trained developers**, it can maintain the highest level of stability and security.
+- Designed to focus on environments vulnerable to the **not trained developers**, it can maintain the highest level of stability and security.
 - Even if the development staff doesn't know modern web technologies such as object-oriented and modular (MVC) and secure coding, we're support the **higher** technical level.
 - Resonable Framework is designed to proactively respond to fundamental security threats such as CSRF, XSS, and SQL injection.
 - Use with modern web development environments and techniques.
