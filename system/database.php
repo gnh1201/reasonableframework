@@ -2,7 +2,7 @@
 /**
  * @file database.php
  * @created_on 2018-04-13
- * @updated_on 2020-01-19
+ * @updated_on 2020-01-28
  * @author Go Namhyeon <gnh1201@gmail.com>
  * @brief Database module
  */
