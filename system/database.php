@@ -1000,9 +1000,9 @@ if(!check_function_exists("exec_db_table_insert")) {
 if(!check_function_exists("exec_db_temp_create")) {
     function exec_db_temp_create($schemes, $options=array()) {
         $flag = false;
-
+        
+        // set tablename
         $tablename = "temp_" . make_random_id();
-        $_engine = get_value_in_array("engine", $options, false);
 
         // set track information
         $_tablename = exec_db_table_create(array(
@@ -1015,6 +1015,9 @@ if(!check_function_exists("exec_db_temp_create")) {
         );
         $_sql = get_bind_to_sql_insert($_tablename, $_bind);
         exec_db_query($_sql, $_bind);
+        
+        // set variables
+        $_engine = get_value_in_array("engine", $options, false);
 
         // create temporary table
         $sql = get_bind_to_sql_create($schemes, array(
