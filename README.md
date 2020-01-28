@@ -7,7 +7,7 @@
 - Prefix code: `RSF` (ReasonableFramework)
 - Old prefix code: `VSPF` (Very Simple PHP Framework)
 
-## Donate us (or if you need technical support)
+## Donate us (technical support)
 - https://www.patreon.com/posts/25380536
  
 ## Specification
@@ -31,8 +31,8 @@
 
 ## Roadmap: Support legacy
 - Support critical legacy web server (old: PHP 4.x ~ modern: 7.x)
-- Support critical old browser (old: IE 6 ~ modern: IE 11)
-- Do Clean & Modern PHP without hard studies.
+- Support critical old browser (old: IE 6 ~ modern: IEs 11)
+- Support experience clean & modern PHP environments without hard study.
 
 ## Contact me
 - Go Namhyeon <gnh1201@gmail.com>
@@ -48,7 +48,6 @@
 ## Examples
 - [REST API Integration (Naver Papago Translation REST API)](https://gist.github.com/gnh1201/081484e6f5e10bd3be819093ba5f49c8)
 - [Payment Gateway Integration (KCP)](https://github.com/gnh1201/reasonableframework/blob/master/route/orderpay.pgkcp.php)
-- [Gnuboard CMS Integration (version 4, version 5)](https://github.com/gnh1201/reasonableframework/blob/master/route/api.gnuboard.php)
 
 ## [NEW] Advanced security (only for sponsors)
 - CORS, CSRF, XSS, SQL-injection protection is common security, it is free and open-source for everyone.
@@ -61,7 +60,7 @@ $ php cli.php --route [route name]
 
 ## 한국어(Korean)
 - **리즈너블(이유있는) 프레임워크**는 제약 사항이 많은 웹 개발 환경을 위해 설계된 PHP 프레임워크입니다.
-- 유효기간 지난 자산 및 낮은 개발 능력으로 취약한 환경에 집중한 설계를 기반으로 높은 수준의 안정성과 보안을 제공합니다.
+- **유효기간 지난 자산 및 낮은 개발 능력**으로 취약한 환경에 집중한 설계를 기반으로 높은 수준의 안정성과 보안을 제공합니다.
 - PHP를 기반으로 하는 무료 웹 호스팅에서도 원활하게 돌아가도록 지원합니다.
 - 개발 인력이 객체지향, 모듈러(MVC), 시큐어 코딩 등 현대적인 웹 기술을 모르더라도, **한단계 더 높은** 기술 수준을 지원합니다.
 - 리즈너블 프레임워크는 CSRF, XSS, SQL 인젝션 등 기초적인 보안 위협에 사전 대응하도록 설계되어 있습니다.
