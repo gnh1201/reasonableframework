@@ -1054,7 +1054,7 @@ if(!check_function_exists("exec_db_temp_end")) {
 // clear temporery tables
 if(!check_function_exists("exec_db_temp_clear")) {
     function exec_db_temp_clear() {
-        $temptables = get_shared_var("temptables");
+        $temptables = get_array(get_shared_var("temptables"));
         foreach($temptables as $tablename) {
             exec_db_temp_end($tablename);
         }
