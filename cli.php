@@ -2,7 +2,8 @@
 <?php
 /**
  * @file cli.php
- * @date 2018-07-22
+ * @created_on 2018-07-22
+ * @created_on 2020-01-28
  * @author Go Namhyeon <gnh1201@gmail.com>
  * @brief ReasonableFramework CLI mode
  * @cvs http://github.com/gnh1201/reasonableframework
@@ -11,20 +12,23 @@
 define("_DEF_VSPF_", true); // compatible to VSPF
 define("_DEF_RSF_", true); // compatible to RSF
 define("APP_DEVELOPMENT", false); // set the status of development
-define("DOC_EOL", "\r\n"); // set the 'end of line' commonly
-define("SECURITY_VENDOR", false); // advanced security: set security vendor(company) code
+define("DOC_EOL", "\r\n"); // set the 'end of line'
 
-// check if current status is development
+// development mode
 if(APP_DEVELOPMENT == true) {
     error_reporting(E_ALL);
-    ini_set("display_errors", 1);
+    @ini_set("log_errors", 1);
+    @ini_set("error_log", sprintf("%s/storage/sandbox/logs/error.log", getcwd()));
+} else {
+    error_reporting(E_ERROR | E_PARSE);
 }
+@ini_set("display_errors", 1);
 
-// set empty scope
-$scope = array();
+// set shared vars
+$shared_vars = array();
 
 // define system modules
-$load_systems = array("base", "storage", "config", "security", "database", "uri");
+$load_systems = array("base", "storage", "config", "security", "database", "uri", "logger");
 
 // load system modules
 foreach($load_systems as $system_name) {
@@ -36,16 +40,27 @@ foreach($load_systems as $system_name) {
         } else {
             loadModule($system_name);
         }
+    } else {
+        echo "ERROR: Dose not exists " . $system_inc_file;
+        exit;
     }
 }
 
-// get configurations
+// get config
 $config = get_config();
 
 // set max_execution_time
 $max_execution_time = get_value_in_array("max_execution_time", $config, 0);
 @ini_set("max_execution_time", $max_execution_time);
 //@set_time_limit($max_execution_time);
+
+// set memory limit
+$memory_limit = get_value_in_array("memory_limit", $config, "");
+if(!empty($memory_limit)) {
+    @ini_set("memory_limit", $memory_limit);
+    @ini_set("suhosin.memory_limit", $memory_limit);
+}
+
 
 // autoload module
 if(!array_key_empty("enable_autoload", $config)) {
@@ -56,37 +71,13 @@ if(!array_key_empty("enable_autoload", $config)) {
 $default_timezone = get_value_in_array("timezone", $config, "UTC");
 date_default_timezone_set($default_timezone);
 
-// default route
+// set default route
 $route = "welcome";
 
-// parse arguments
-$num_of_args = count($argv);
-if($num_of_args > 1) {
-    foreach($argv as $k=>$v) {
-        switch($v) {
-            case "--route":
-                if($k < ($num_of_args - 1)) {
-                    $route = $argv[$k + 1];
-                } else {
-                    set_error("invaild argument");
-                    show_errors();
-                }
-                break;
-            case "--static-ip":
-                if($k < ($num_of_args - 1)) {
-                    $host = $argv[$k + 1];
-                    set_scope("static_ip", $host);
-                } else {
-                    set_error("invaild argument");
-                    show_errors();
-                }
-                break;
-        }
-    }
-} else {
-    set_error("not enough arguments");
-    show_errors();
-}
+// set arguments of command line
+$opts = setopt("r::h::", array("route::", "host::"));
+set_shared_var("route", $opts['route']);
+set_shared_var("host", $opts['host']);
 
 // load route
 if(empty($route)) {
@@ -99,6 +90,6 @@ if(empty($route)) {
 }
 
 // load route file
-if(!loadRoute($route, $scope)) {
-    loadRoute("errors/404", $scope);
+if(!loadRoute($route, $shared_vars)) {
+    loadRoute("errors/404", $shared_vars);
 }

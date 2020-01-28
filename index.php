@@ -12,11 +12,11 @@
 define("_DEF_VSPF_", true); // compatible to VSPF
 define("_DEF_RSF_", true); // compatible to RSF
 define("APP_DEVELOPMENT", false); // set the status of development
-define("DOC_EOL", "\r\n"); // set the 'end of line' commonly
+define("DOC_EOL", "\r\n"); // set the 'end of line'
 define("CORS_DOMAINS", false); // common security: allow origin domains (e.g. example.org,*.example.org)
-define("PHP_FIREWALL_REQUEST_URI", strip_tags($_SERVER['REQUEST_URI'])); // with advanced security
-define("PHP_FIREWALL_ACTIVATION", false); // with advanced security
-define("PHP_DDOS_PROTECTION", false); // with advanced security
+define("PHP_FIREWALL_REQUEST_URI", strip_tags($_SERVER['REQUEST_URI'])); // advanced security
+define("PHP_FIREWALL_ACTIVATION", false); // advanced security
+define("PHP_DDOS_PROTECTION", false); // advanced security
 
 // development mode
 if(APP_DEVELOPMENT == true) {
@@ -60,8 +60,8 @@ if(CORS_DOMAINS !== false) {
     }
 }
 
-// set empty scope
-$scope = array();
+// set shared vars
+$shared_vars = array();
 
 // define system modules
 $load_systems = array("base", "storage", "config", "security", "database", "uri", "logger");
@@ -85,13 +85,14 @@ foreach($load_systems as $system_name) {
 // get config
 $config = get_config();
 
-// set scopes (1.6 - Change calling convention for lagacy PHP)
-set_scope("dbc", get_db_connect());
-set_scope("requests", read_requests());
+// set shared vars (1.6: changed calling convention for lagacy PHP)
+set_shared_var("dbc", get_db_connect());
+set_shared_var("requests", read_requests());
 
 // set max_execution_time
 $max_execution_time = get_value_in_array("max_execution_time", $config, 0);
 @ini_set("max_execution_time", $max_execution_time);
+//@set_time_limit($max_execution_time);
 
 // set memory limit
 $memory_limit = get_value_in_array("memory_limit", $config, "");
@@ -118,19 +119,19 @@ write_visit_log();
 // get requested route
 $route = read_route();
 
-// with advanced security: enable PHP firewall
+// advanced security: PHP firewall
 if(PHP_FIREWALL_ACTIVATION !== false) {
     loadHelper("php-firewall.lnk");
 }
 
-// with advanced security: enable DDOS protection
+// advanced security: DDOS protection
 if(PHP_DDOS_PROTECTION !== false) {
     loadHelper("php-ddos.lnk");
 }
 
-// load route file
-if(!loadRoute($route, $scope)) {
-    loadRoute("errors/404", $scope);
+// load route
+if(!loadRoute($route, $shared_vars)) {
+    loadRoute("errors/404", $shared_vars);
 }
 
 // flush cache
