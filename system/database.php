@@ -321,11 +321,11 @@ if(!check_function_exists("get_bind_to_sql_insert")) {
                 $num_duplicates += intval($_row['value']);
             }
         }
-        
+
         // preventing accidentally query
         $num_conditions = count($setkeys) + count($setwheres);
         if($num_conditions == 0 && $safemode_off !== true) {
-            write_common_log("Blocked this SQL because it is maybe accidentally query. If you want continue, set safemode_off option to true", "system/database");
+            write_common_log("Blocked accidentally query. Set safemode_off to TRUE if you want disable", "system/database");
             return false;
         }
 
