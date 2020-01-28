@@ -60,14 +60,12 @@ $ php cli.php --route [route name]
 ```
 
 ## 한국어(Korean)
-- Resonable PHP Framework(이유있는 PHP 프레임워크)는 한국의 웹 개발 환경에 적합한 PHP 프레임워크입니다.
-- 일부 북미, 유럽권 무료 웹 호스팅에서도 안정적인 운영이 가능합니다.
-- Composer를 포함한 별도의 개발 보조 도구, PHP 플러그인, PHP 프레임워크가 사용 불가능한 환경에 적합합니다.
-- 개발 팀원을 대상으로 객체지향(OOP) 교육이 이루어지지 않아도, 그에 준하는 생존주기(Life cycle)를 보장합니다.
-- Resonable PHP Framework는 CSRF, XSS, SQL Injection 보안 조치를 기본적으로 가지고 있습니다.
-- 한국에서 사용되는 각종 CMS와 API와 연동되어 한국 환경에서 사용 빈도가 높은 구현 유형을 작성하는데 적합합니다.
-- RVHM 구조는 MVC 구조와 함께 사용하실 수 있으며, 기존 개발 스킬로도 사용할 수 있도록 더 유연한 구조를 가집니다.
-- 공식 카카오톡 오픈채팅방: 캐스플릿&리즈너블 사용자 모임 https://open.kakao.com/o/g9spGfrb
+- Resonable Framework(이유있는 프레임워크)는 한국의 웹 개발 환경에 적합한 PHP 프레임워크입니다.
+- **극한의 기술 및 인적 레거시 환경**에서도 유효하도록 설계된 구조를 기반으로 최고 수준의 안정성과 보안을 유지할 수 있습니다.
+- 개발 인력이 모듈러, 객체지향, 시큐어 코딩, 웹 접근성 등 현대적인 웹 개발 트렌드를 모르더라도 **한단계 더 높은** 기술 수준을 지원합니다.
+- Resonable Framework는 CSRF, XSS, SQL 인젝션 등 기초적인 보안 위협에 대응하도록 설계되어 있습니다.
+- 현대적 웹 개발 환경인 컴포저(Composer), MVC(Model-Controller-View) 구조, 객체지향 모듈 등을 함께 사용하실 수 있습니다.
+- 공식 카카오톡 오픈채팅방을 통해 신속한 버그 및 보안이슈 해결이 가능합니다. https://open.kakao.com/o/g9spGfrb
 
 ## English
 - It is stable in free web hosting, or other restrictive shared web hosting.
