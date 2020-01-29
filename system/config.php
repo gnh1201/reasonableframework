@@ -36,11 +36,10 @@ if(!check_function_exists("read_config")) {
 if(!check_function_exists("get_config")) {
     function get_config() {
         $config = get_shared_var("config");
-
         if(!is_array($config)) {
             set_shared_var("config", read_config());
         }
-
+        
         return get_shared_var("config");
     }
 }
