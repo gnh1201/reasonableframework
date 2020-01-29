@@ -85,7 +85,7 @@ foreach($load_systems as $system_name) {
 // get config
 $config = get_config();
 
-// set shared vars (1.6: changed calling convention for lagacy PHP)
+// set shared vars
 set_shared_var("dbc", get_db_connect());
 set_shared_var("requests", read_requests());
 
