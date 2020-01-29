@@ -84,10 +84,10 @@ foreach($load_systems as $system_name) {
 
 // get config
 $config = get_config();
+$requests = get_requests();
 
 // set shared vars
 set_shared_var("dbc", get_db_connect());
-set_shared_var("requests", read_requests());
 
 // set max_execution_time
 $max_execution_time = get_value_in_array("max_execution_time", $config, 0);
