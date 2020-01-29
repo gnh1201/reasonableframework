@@ -88,7 +88,6 @@ $config = get_config();
 // set shared vars (1.6: changed calling convention for lagacy PHP)
 set_shared_var("dbc", get_db_connect());
 set_shared_var("requests", read_requests());
-set_shared_var("config", $config);
 
 // set max_execution_time
 $max_execution_time = get_value_in_array("max_execution_time", $config, 0);
