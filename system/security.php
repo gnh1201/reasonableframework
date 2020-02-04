@@ -289,16 +289,16 @@ if(!check_function_exists("get_uncompressed_text")) {
                 $_text = gzinflate(base64_decode($text));
                 break;
             case "gzip":
-                $_text = get_hashed_text(gzdecode($text), "base64");
+                $_text = gzdecode(base64_decode($text));
                 break;
             case "zlib":
-                $_text = get_hashed_text(gzuncompress($text), "base64");
+                $_text = gzuncompress(base64_decode($text));
                 break;
             case "bzip":
-                $_text = get_hashed_text(bzuncompress($text), "base64");
+                $_text = bzuncompress(base64_decode($text));
                 break;
             case "lzf":
-                $_text = get_hashed_text(lzf_decompress($text), "base64");
+                $_text = lzf_decompress(base64_decode($text));
                 break;
             default:
                 $_text = $text;
