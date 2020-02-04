@@ -253,12 +253,25 @@ if(!check_function_exists("get_hashed_text")) {
 }
 
 if(!check_function_exists("get_compressed_text")) {
-    function get_compressed_text($text, $algo="gzip", $options=array()) {
+    function get_compressed_text($text, $algo="deflate", $options=array()) {
         $_text = "";
 
         switch($algo) {
-            case "gzip":
+            case "deflate":
                 $_text = get_hashed_text(gzdeflate($text), "base64");
+                break;
+            case "gzip":
+                $_text = get_hashed_text(gzencode($text), "base64");
+                break;
+            case "zlib":
+                $_text = get_hashed_text(gzcompress($text), "base64");
+                break;
+            case "bzip":
+                $_text = get_hashed_text(bzcompress($text), "base64");
+                break;
+            case "lzf":
+                $_text = get_hashed_text(lzf_compress($text), "base64");
+                break;
             default:
                 $_text = $text;
         }
@@ -268,12 +281,25 @@ if(!check_function_exists("get_compressed_text")) {
 }
 
 if(!check_function_exists("get_uncompressed_text")) {
-    function get_uncompressed_text($text, $algo="gzip", $options=array()) {
+    function get_uncompressed_text($text, $algo="deflate", $options=array()) {
         $_text = "";
 
         switch($algo) {
-            case "gzip":
+            case "deflate"
                 $_text = gzinflate(base64_decode($text));
+                break;
+            case "gzip":
+                $_text = get_hashed_text(gzdecode($text), "base64");
+                break;
+            case "zlib":
+                $_text = get_hashed_text(gzuncompress($text), "base64");
+                break;
+            case "bzip":
+                $_text = get_hashed_text(bzuncompress($text), "base64");
+                break;
+            case "lzf":
+                $_text = get_hashed_text(lzf_decompress($text), "base64");
+                break;
             default:
                 $_text = $text;
         }
