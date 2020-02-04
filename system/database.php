@@ -1003,7 +1003,7 @@ if(!check_function_exists("exec_db_temp_create")) {
         $temptables[] = $tablename;
         set_shared_var("temptables", $temptables);
 
-        // set variables
+        // set engine (default: memory)
         $_engine = get_value_in_array("engine", $options, "memory");
 
         // create temporary table
@@ -1022,8 +1022,10 @@ if(!check_function_exists("exec_db_temp_start")) {
     function exec_db_temp_start($sql, $bind=array(), $options=array()) {
         $flag = false;
 
+        // set engine (default: memory)
         $_engine = get_value_in_array("engine", $options, "memory");
 
+        // create temporary table
         $tablename = make_random_id();
         if($_engine !== false) {
             $sql = sprintf("create temporary table if not exists `%s` %s", $tablename, $sql);
