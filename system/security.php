@@ -285,7 +285,7 @@ if(!check_function_exists("get_uncompressed_text")) {
         $_text = "";
 
         switch($algo) {
-            case "deflate"
+            case "deflate":
                 $_text = gzinflate(base64_decode($text));
                 break;
             case "gzip":
