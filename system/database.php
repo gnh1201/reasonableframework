@@ -1004,7 +1004,7 @@ if(!check_function_exists("exec_db_temp_create")) {
         set_shared_var("temptables", $temptables);
 
         // set variables
-        $_engine = get_value_in_array("engine", $options, false);
+        $_engine = get_value_in_array("engine", $options, "memory");
 
         // create temporary table
         $sql = get_bind_to_sql_create($schemes, array(
@@ -1021,8 +1021,8 @@ if(!check_function_exists("exec_db_temp_create")) {
 if(!check_function_exists("exec_db_temp_start")) {
     function exec_db_temp_start($sql, $bind=array(), $options=array()) {
         $flag = false;
-        
-        $_engine = get_value_in_array("engine", $options, false);
+
+        $_engine = get_value_in_array("engine", $options, "memory");
 
         $tablename = make_random_id();
         if($_engine !== false) {
