@@ -1,11 +1,11 @@
 <?php
 /**
  * @file security.php
- * @date 2018-05-27
- * @updated [last commit date]
+ * @created_on 2018-05-27
+ * @updated_on 2020-02-04
  * @author Go Namhyeon <gnh1201@gmail.com>
  * @brief Security module for ReasonableFramework
- * @sponsor https://patreon.com/catswords (Check this link if you want use the advanced security)
+ * @sponsor https://patreon.com/catswords (with advanced security)
  */
 
 if(!check_function_exists("check_token_abuse")) {
