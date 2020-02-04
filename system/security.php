@@ -253,12 +253,27 @@ if(!check_function_exists("get_hashed_text")) {
 }
 
 if(!check_function_exists("get_compressed_text")) {
-    function get_compressed_text($text, $algo="deflate", $options=array()) {
+    function get_compressed_text($text, $algo="gzip", $options=array()) {
         $_text = "";
 
         switch($algo) {
-            case "deflate":
+            case "gzip":
                 $_text = get_hashed_text(gzdeflate($text), "base64");
+            default:
+                $_text = $text;
+        }
+
+        return $_text;
+    }
+}
+
+if(!check_function_exists("get_uncompressed_text")) {
+    function get_uncompressed_text($text, $algo="gzip", $options=array()) {
+        $_text = "";
+
+        switch($algo) {
+            case "gzip":
+                $_text = gzinflate(base64_decode($text));
             default:
                 $_text = $text;
         }
