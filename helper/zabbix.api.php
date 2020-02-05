@@ -2,7 +2,7 @@
 /**
  * @file zabbix.api.php
  * @created_on 2019-04-08
- * @updated_on 2020-02-04
+ * @updated_on 2020-02-05
  * @author Go Namhyeon <gnh1201@gmail.com>
  * @brief Zabbix JSON-RPC API (3.0) interface module
  * @documentation https://www.zabbix.com/documentation/current/ (4.4)
@@ -248,7 +248,7 @@ if(!check_function_exists("zabbix_get_alerts")) {
 }
 
 if(!check_function_exists("zabbix_get_records")) {
-    function zabbix_get_records($itemids, $now_dt="", $adjust="-24h") {
+    function zabbix_get_records($itemids, $now_dt="", $adjust="-24h", $value_type=3) {
         $records = false;
         $response = false;
         
@@ -266,10 +266,11 @@ if(!check_function_exists("zabbix_get_records")) {
         $time_till = get_current_timestamp(array("now" => $now_dt));
 
         // get history
+        // 0-numeric float; 1-character; 2-log; 3-numeric unsigned; 4-text
         if(loadHelper("webpagetool")) {
             $params = array(
                 "output" => "extend",
-                "history" => array(0, 1, 2, 3, 4), // 0-numeric float; 1-character; 2-log; 3-numeric unsigned; 4-text
+                "history" => $value_type,
                 "itemids" => $itemids,
                 "sortfield" => "clock",
                 "sortorder" => "DESC",
