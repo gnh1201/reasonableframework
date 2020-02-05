@@ -1070,7 +1070,7 @@ if(!check_function_exists("exec_db_temp_clear")) {
 if(!check_function_exists("close_db_connect")) {
     function close_db_connect() {
         $dbc = get_shared_var("dbc");
-        $dbc->close();
+        $dbc->query("KILL CONNECTION_ID()");
         set_shared_var("dbc", null);
     }
 }
