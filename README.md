@@ -13,7 +13,7 @@
 ## Specification
 - Database connection (via PDO, MySQLi (MySQL Improved), MySQL Tranditional, MySQL CLI, Oracle(OCI))
 - RVHM structure: `R` is Route (like as `controller`), `V` is View, `H` is Helper (like as `import` on Python/Go/NodeJS), `M` is Model and implemented with `KV bind`(like as `Map` data structure), Model is not required.
-- Controllable shared variables: Minimize abuse of global variables (Inspired by the `scope` of AngularJS)
+- Controllable shared variables: Minimize abuse of global variables (Inspired by the `scope` of AngularJS, `SharedPreferences` of Android Framework)
 
 ## Compatible
 - Tested in PHP 5.3.3
