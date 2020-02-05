@@ -134,4 +134,7 @@ if(!loadRoute($route, $shared_vars)) {
     loadRoute("errors/404", $shared_vars);
 }
 
+// disconnect database
+close_db_connect();
+
 // EOF
