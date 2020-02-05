@@ -134,17 +134,4 @@ if(!loadRoute($route, $shared_vars)) {
     loadRoute("errors/404", $shared_vars);
 }
 
-// flush cache
-$cache_max_age = intval(get_value_in_array("cache_max_age", $config, 0));
-$cache_enabled = array_key_equals("cache_enabled", $config, 1);
-if($cache_max_age > 0 && $cache_enabled) {
-    remove_volatile_files("cache", $cache_max_age);
-}
-
-// flush temp
-$temp_max_age = intval(get_value_in_array("temp_max_age", $config, 0));
-if($temp_max_age > 0) {
-    remove_volatile_files("temp", $temp_max_age);
-}
-
 // EOF
