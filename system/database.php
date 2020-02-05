@@ -450,9 +450,18 @@ if(!check_function_exists("get_bind_to_sql_where")) {
                                 "gte" => ">=",
                                 "not" => "<>"
                             );
+                            $opfield = $opts[1][1];
                             $opcode = get_value_in_array($opts[1][0], $ssts, $opts[1][0]);
-                            if(!empty($opcode)) {
-                                $s3 .= sprintf(" %s (%s %s '%s')", $opts[0], $opts[1][1], $opcode, $opts[1][2]);
+                            $opvalue = $opts[1][2];
+                            // Fixed issue: mysql where clause not working if column value is null #91
+                            if($opcode == "<>") {
+                                if(is_null($opvalue)) {
+                                    $s3 .= sprintf(" %s (%s is not null)", $opts[0], $opfield);
+                                } else {
+                                    $s3 .= sprintf(" %s (%s %s '%s' or %s is null)", $opts[0], $opfield, $opcode, $opvalue, $opfield);
+                                }
+                            } else {
+                                $s3 .= sprintf(" %s (%s %s '%s')", $opts[0], $opfield, $opcode, $opvalue);
                             }
                         }
                     } elseif(check_array_length($opts, 2) == 0) {
