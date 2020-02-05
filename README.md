@@ -12,8 +12,8 @@
  
 ## Specification
 - Database connection (via PDO, MySQLi (MySQL Improved), MySQL Tranditional, MySQL CLI, Oracle(OCI))
-- RVHM Structure: `R` is Route (like as `controller`), `V` is View, `H` is Helper (like as `import` on Python/Go/NodeJS), `M` is Model and implemented with `KV bind`(like as `Map` data structure), Model is not required.
-- AppJail(Experimental): Load a legacy PHP applications on the jailed area without modifying the source code.
+- RVHM structure: `R` is Route (like as `controller`), `V` is View, `H` is Helper (like as `import` on Python/Go/NodeJS), `M` is Model and implemented with `KV bind`(like as `Map` data structure), Model is not required.
+- Controllable shared variable: Minimize abuse of global variables (Inspired by the `scope` of AngularJS)
 
 ## Compatible
 - Tested in PHP 5.3.3
