@@ -2,7 +2,7 @@
 /**
  * @file database.php
  * @created_on 2018-04-13
- * @updated_on 2020-02-05
+ * @updated_on 2020-02-06
  * @author Go Namhyeon <gnh1201@gmail.com>
  * @brief Database module
  */
@@ -324,7 +324,7 @@ if(!check_function_exists("get_bind_to_sql_insert")) {
         }
 
         // check ignores
-        if(count($setignore) > 0) {
+        if(count($setignores) > 0) {
             $_bind = false;
             $_options = array(
                 "getcount" => true,
