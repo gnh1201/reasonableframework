@@ -3,6 +3,8 @@ return <<<EOF
 [system]
 max_execution_time=0
 memory_limit=0
+upload_max_filesize=0
+post_max_size=0
 session_dir=session
 enable_autoload=0
 default_route=welcome
