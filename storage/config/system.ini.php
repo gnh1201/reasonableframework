@@ -2,7 +2,7 @@
 return <<<EOF
 [system]
 max_execution_time=0
-memory_limit=128M
+memory_limit=0
 session_dir=session
 enable_autoload=0
 default_route=welcome
