@@ -53,9 +53,12 @@
 - CORS, CSRF, XSS, SQL-injection protection is common security, it is free and open-source for everyone.
 - Firewall, DDoS protection, and more tools are available only for sponsors. [see details](https://github.com/gnh1201/reasonableframework/blob/master/SECURITY.md)
 
-## How to use CLI
+## [NEW] Remote Debugging (free for all)
+- Remote debugging feature based on RFC3164(The BSD Syslog Protocol), with [Papertrail](https://www.papertrail.com/)
+
+## How to use CLI (Command line interface)
 ```
-$ php cli.php --route [route name]
+$ php cli.php --route [route name] --session-id [session ID]
 ```
 
 ## 한국어(Korean)
@@ -65,7 +68,7 @@ $ php cli.php --route [route name]
 - 객체지향, 모듈러(MVC), 시큐어 코딩 등 현대적인 웹 기술을 모르더라도 **더 견고한** 기준을 제공합니다.
 - 리즈너블 프레임워크는 CSRF, XSS, SQL 인젝션 등 기초적인 **보안 위협에 사전 대응**하도록 설계되어 있습니다.
 - PHP 버전 4 부터 버전 7까지 다양한 개인 및 기업 **적용 사례**를 보유하고 있습니다.
-- 카카오톡 채팅방을 통해 실시간 버그 및 보안 이슈 해결이 가능합니다. https://open.kakao.com/o/g9spGfrb
+- [카카오톡 채팅방](https://catswords.re.kr/go/kakaotalk)을 통해 실시간 버그 및 보안 이슈 해결이 가능합니다.
 
 ## English
 - **Reasonable Framework** is a PHP framework designed for rugged web development environments.
@@ -74,7 +77,7 @@ $ php cli.php --route [route name]
 - It provides a **stronger standard** even if you don't know modern web technologies, such as object-oriented, modular (MVC), and secure coding.
 - Resonable Framework is designed to **proactively respond to fundamental security threats** such as CSRF, XSS, and SQL injection.
 - We have **various enterprise cases** from PHP version 4(legacy) to 7(modern).
-- You can quickly resolve bugs and security issues in our chatting room: https://open.kakao.com/o/g9spGfrb
+- You can quickly resolve bugs and security issues in [our chatting room](https://catswords.re.kr/go/kakaotalk).
 
 ## Contact us
 - support@exts.kr
