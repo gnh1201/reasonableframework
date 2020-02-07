@@ -133,8 +133,10 @@ if(!check_function_exists("get_web_cmd")) {
                 $headers['Content-Type'] = "application/json;charset=utf-8";
                 $headers['Accept'] = "application/json, text/plain, */*";
             } else {
+                // possible: application/octet-stream (RFC2046)
                 $_data = $data;
-                $headers['Content-Type'] = "text/plain"; // possible: application/octet-stream (RFC2046)
+                $headers['Content-Type'] = "text/plain;charset=utf-8";
+                $headers['Accept'] = "text/plain, */*";
             }
 
             // get content size
@@ -343,6 +345,16 @@ if(!check_function_exists("get_web_curl")) {
                 $options[CURLOPT_POSTFIELDS] = $_data;
                 $headers['Content-Type'] = "application/json;charset=utf-8";
                 $headers['Accept'] = "application/json, text/plain, */*";
+                $headers['Content-Length'] = strlen($_data);
+            }
+
+            if($method == "rawdata") {
+                $_data = $data;
+                $options[CURLOPT_CUSTOMREQUEST] = "POST";
+                $options[CURLOPT_POST] = 1;
+                $options[CURLOPT_POSTFIELDS] = $_data;
+                $headers['Content-Type'] = "text/plain;charset=utf-8";
+                $headers['Accept'] = "text/plain, */*";
                 $headers['Content-Length'] = strlen($_data);
             }
         }
