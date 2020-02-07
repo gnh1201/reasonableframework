@@ -393,17 +393,14 @@ if(!check_function_exists("get_web_page")) {
             $data = $data['data'];
         }
 
-        // redefine data (JSON-RPC 1.1)
-        if(in_array("jsonrpc", $req_methods)) {
+        // redefine data (JSON-RPC 1.1 / JSON-RPC 2.0)
+        if(in_array("jsonrpc", $req_methods) && in_array("compatible", $req_methods)) {
             $req_methods[] = "jsondata";
             $headers['Content-Type'] = "application/json-rpc";
             $data = array_merge(array(
                 "jsonrpc" => "1.1"
             ), $data);
-        }
-
-        // redefine data (JSON-RPC 2.0)
-        if(in_array("jsonrpc2", $req_methods)) {
+        } elseif(in_array("jsonrpc", $req_methods) || in_array("jsonrpc2", $req_methods)) {
             $req_methods[] = "jsondata";
             $headers['Content-Type'] = "application/json-rpc";
             $data = array_merge(array(
