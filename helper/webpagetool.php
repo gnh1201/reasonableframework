@@ -133,12 +133,14 @@ if(!check_function_exists("get_web_cmd")) {
                 $headers['Content-Type'] = "application/json;charset=utf-8";
                 $headers['Accept'] = "application/json, text/plain, */*";
             } else {
+                $_data = $data;
                 $headers['Content-Type'] = "text/plain"; // possible: application/octet-stream (RFC2046)
             }
 
             // get content size
             $headers['Content-Length'] = strlen($_data);
 
+            // set headers
             foreach($headers as $k=>$v) {
                 // the same as --header
                 if(is_array($v)) {
