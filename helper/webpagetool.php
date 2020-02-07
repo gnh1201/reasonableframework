@@ -123,14 +123,22 @@ if(!check_function_exists("get_web_cmd")) {
             $args[] = $url;
         }
 
-        if($method == "jsondata") {
-            $_data = json_encode($data);
+        if($method == "jsondata" || $method == "rawdata") {
             $args[] = "-X POST"; // set post request (the same as -X)
             $args[] = sprintf("-A '%s'", get_web_user_agent($ua)); // set agent
             $args[] = "-k"; // allow self-signed certificate (the same as --insecure)
-            $headers['Content-Type'] = "application/json;charset=utf-8";
-            $headers['Accept'] = "application/json, text/plain, */*";
+
+            if($method == "jsondata") {
+                $_data = json_encode($data);
+                $headers['Content-Type'] = "application/json;charset=utf-8";
+                $headers['Accept'] = "application/json, text/plain, */*";
+            } else {
+                $headers['Content-Type'] = "text/plain"; // possible: application/octet-stream (RFC2046)
+            }
+
+            // get content size
             $headers['Content-Length'] = strlen($_data);
+
             foreach($headers as $k=>$v) {
                 // the same as --header
                 if(is_array($v)) {
