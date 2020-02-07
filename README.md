@@ -59,19 +59,19 @@ $ php cli.php --route [route name]
 ```
 
 ## 한국어(Korean)
-- **리즈너블(이유있는) 프레임워크**는 제약 사항이 많은 웹 개발 환경을 위해 설계된 PHP 프레임워크입니다.
-- **개발 자산 및 능력**이 취약한 환경에 집중한 설계를 기반으로 높은 수준의 안정성과 보안을 제공합니다.
+- **리즈너블(이유있는) 프레임워크**는 거친 웹 개발 환경을 위해 설계된 PHP 프레임워크입니다.
+- **레거시 개발**이나 **과학기술연구** 등 특수 목적을 가진 개발에 특화된 설계로 높은 안정성과 보안을 제공합니다.
 - PHP를 기반으로 하는 무료 웹 호스팅에서도 원활하게 돌아가도록 지원합니다.
-- 개발 인력이 객체지향, 모듈러(MVC), 시큐어 코딩 등 현대적인 웹 기술을 모르더라도, **더 높은** 기술 수준을 지원합니다.
+- 객체지향, 모듈러(MVC), 시큐어 코딩 등 현대적인 웹 기술을 모르더라도 **더 견고한** 기준을 제공합니다.
 - 리즈너블 프레임워크는 CSRF, XSS, SQL 인젝션 등 기초적인 **보안 위협에 사전 대응**하도록 설계되어 있습니다.
-- PHP 버전 4 부터 버전 7까지 다양한 기업 **적용 사례**를 보유하고 있습니다.
-- 공식 카카오톡 채팅방을 통해 신속한 버그 및 보안이슈 해결이 가능합니다. https://open.kakao.com/o/g9spGfrb
+- PHP 버전 4 부터 버전 7까지 다양한 개인 및 기업 **적용 사례**를 보유하고 있습니다.
+- 카카오톡 채팅방을 통해 실시간 버그 및 보안 이슈 해결이 가능합니다. https://open.kakao.com/o/g9spGfrb
 
 ## English
-- **Reasonable Framework** is a PHP framework designed for highly constrained web development environments.
-- Delivers a high level of reliability and security based on a design focused on vulnerable environments.
+- **Reasonable Framework** is a PHP framework designed for rugged web development environments.
+-Designed for special purpose development such as **legacy development** or **science and technology research**, it provides high stability and security.
 - It also works smoothly on free web hosting based on PHP.
-- Even if the development staff doesn't know modern web techniques such as object-oriented and modular (MVC) and secure coding, we're support the **higher** technical level.
+- Even if the development staff doesn't know modern web techniques such as object-oriented and modular (MVC) and secure coding, we're support the **robust** technical level.
 - Resonable Framework is designed to proactively respond to fundamental security threats such as CSRF, XSS, and SQL injection.
 - We have various enterprise cases from PHP version 4(legacy) to 7(modern).
 - You can quickly resolve bugs and security issues in our chatting room: https://open.kakao.com/o/g9spGfrb
