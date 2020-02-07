@@ -292,6 +292,8 @@ if(!check_function_exists("get_bind_to_sql_insert")) {
         $safemode_off = array_key_equals("safemode_off", $options, true);
 
         // set variables
+        $num_keys = count($setkeys);
+        $num_wheres = count($setkeys);
         $num_duplicates = 0;
         $num_ignores = 0;
 
@@ -317,7 +319,7 @@ if(!check_function_exists("get_bind_to_sql_insert")) {
         }
 
         // preventing accidentally query
-        $num_conditions = count($setkeys) + count($setwheres);
+        $num_conditions = sum($num_keys, $num_wheres);
         if($num_conditions == 0 && $safemode_off !== true) {
             write_common_log("Blocked accidentally query. Set safemode_off to TRUE if you want disable", "system/database");
             return false;
@@ -358,7 +360,7 @@ if(!check_function_exists("get_bind_to_sql_insert")) {
 }
 
 // Deprecated: get_bind_to_sql_where($bind, $excludes) - lower than 1.6
-// Now: get_bind_to_sql_where($bind, $options, $_options) - 1.6 or above
+// Now: get_bind_to_sql_where($bind, $options) - 1.6 or above
 
 if(!check_function_exists("get_bind_to_sql_where")) {
     // warning: variable k is not protected. do not use variable k and external variable without filter
