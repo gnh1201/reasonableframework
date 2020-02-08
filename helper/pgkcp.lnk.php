@@ -77,13 +77,13 @@ if(!check_function_exists("get_pgkcp_platform")) {
     function get_pgkcp_platform($pgkcp_config) {
         $platform = false;
 
-        $exe_files = array(
+        $executables = array(
             "default" => $pgkcp_config['g_conf_home_dir'] . "/bin/pp_cli",
             "win32" => $pgkcp_config['g_conf_home_dir'] . "/bin/pp_cli.exe"
         );
 
-        foreach($exe_files as $k=>$v) {
-            if(file_exists($v)) {
+        foreach($executables as $k=>$v) {
+            if(file_exists($v) && is_executable($v)) {
                 $platform = $k;
                 break;
             }
