@@ -63,7 +63,7 @@ if(!check_function_exists("get_pgkcp_config")) {
         // check installed platform
         $platform = get_pgkcp_platform($pgkcp_config);
         if(empty($platform)) {
-            set_error("pp_cli or pp_cli.exe file not found");
+            set_error("pp_cli(pp_cli.exe) file is not found or executable");
             show_errors();
         } else {
             $pgkcp_config['g_conf_platform'] = $platform;
