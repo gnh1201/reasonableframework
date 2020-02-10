@@ -294,7 +294,7 @@ if(!is_fn("set_error")) {
     function set_error($msg, $code="ERROR") {
         global $shared_vars;
         $shared_vars['errors'][] = $code . ": " . $msg;
-        write_common_log($msg, "set_error);
+        write_common_log($msg, "set_error");
     }
 }
 
