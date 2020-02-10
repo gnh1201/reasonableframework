@@ -7,7 +7,7 @@
  * @brief Configuration module
  */
 
-if(!check_function_exists("read_config")) {
+if(!is_fn("read_config")) {
     function read_config() {
         $config = array();
         $is_legacy_version = version_compare(phpversion(), "5.3.0", "<");
@@ -33,7 +33,7 @@ if(!check_function_exists("read_config")) {
     }
 }
 
-if(!check_function_exists("get_config")) {
+if(!is_fn("get_config")) {
     function get_config() {
         $config = get_shared_var("config");
         if(!is_array($config)) {
@@ -44,7 +44,7 @@ if(!check_function_exists("get_config")) {
     }
 }
 
-if(!check_function_exists("get_config_value")) {
+if(!is_fn("get_config_value")) {
     function get_config_value($key) {
         $config = get_config();
 
@@ -57,7 +57,7 @@ if(!check_function_exists("get_config_value")) {
     }
 }
 
-if(!check_function_exists("get_current_timestamp")) {
+if(!is_fn("get_current_timestamp")) {
     function get_current_timestamp($options=array()) { 
         $timestamp = time();
 
@@ -116,7 +116,7 @@ if(!check_function_exists("get_current_timestamp")) {
     }
 }
 
-if(!check_function_exists("get_current_datetime")) {
+if(!is_fn("get_current_datetime")) {
     function get_current_datetime($options=array()) {
         $config = get_config();
 
@@ -136,7 +136,7 @@ if(!check_function_exists("get_current_datetime")) {
     }
 }
 
-if(!check_function_exists("get_old_version")) {
+if(!is_fn("get_old_version")) {
     function get_old_version() {
         $config = get_config();
         return get_value_in_array("old_version", $config, 0);

@@ -7,7 +7,7 @@
  * @brief Logger module for ReasonableFramework
  */
 
-if(!check_function_exists("append_log_to_file")) {
+if(!is_fn("append_log_to_file")) {
     function append_log_to_file($data, $filename) {
         return append_storage_file($data, array(
             "storage_type" => "logs",
@@ -18,7 +18,7 @@ if(!check_function_exists("append_log_to_file")) {
     }
 }
 
-if(!check_function_exists("write_visit_log")) {
+if(!is_fn("write_visit_log")) {
     function write_visit_log() {
         $fw = false;
 
@@ -38,7 +38,7 @@ if(!check_function_exists("write_visit_log")) {
     }
 }
 
-if(!check_function_exists("write_common_log")) {
+if(!is_fn("write_common_log")) {
     function write_common_log($message, $component="None", $program="") {
         $fw = false;
 
@@ -54,7 +54,7 @@ if(!check_function_exists("write_common_log")) {
     }
 }
 
-if(!check_function_exists("write_debug_log")) {
+if(!is_fn("write_debug_log")) {
     function write_debug_log($message, $component="Debug", $program="") {
         $fw = false;
 

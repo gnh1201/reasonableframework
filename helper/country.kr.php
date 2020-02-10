@@ -7,7 +7,7 @@
  */
 
 // parse telephone number
-if(!check_function_exists("get_kr_parsed_tel_number")) {
+if(!is_fn("get_kr_parsed_tel_number")) {
     function get_kr_parsed_tel_number($tel) {
         $output = preg_replace("/[^0-9]/", "", $tel); // 숫자 이외 제거
         $local_code = substr($tel, 0, 2);
@@ -22,7 +22,7 @@ if(!check_function_exists("get_kr_parsed_tel_number")) {
     }
 }
 
-if(!check_function_exists("get_kr_get_lastname")) {
+if(!is_fn("get_kr_get_lastname")) {
     function get_kr_get_lastname() 
         if(loadHelper("string.utils")) {
             $words = read_storage_file_by_line("kr.lastname.txt", array(
@@ -33,7 +33,7 @@ if(!check_function_exists("get_kr_get_lastname")) {
     }
 }
 
-if(!check_function_exists("get_kr_get_firstname")) {
+if(!is_fn("get_kr_get_firstname")) {
     function get_kr_get_firstname() {
         if(loadHelper("string.utils")) {
             $words = read_storage_file_by_line("kr.firstname.txt", array(
@@ -44,7 +44,7 @@ if(!check_function_exists("get_kr_get_firstname")) {
     }
 }
 
-if(!check_function_exists("get_kr_get_generated_name")) {
+if(!is_fn("get_kr_get_generated_name")) {
     function get_kr_get_generated_name() {
         return sprintf("%s%s", get_kr_get_lastname(), get_kr_get_firstname());
     }

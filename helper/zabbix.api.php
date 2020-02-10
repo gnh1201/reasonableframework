@@ -8,7 +8,7 @@
  * @documentation https://www.zabbix.com/documentation/current/ (4.4)
  */
 
-if(!check_function_exists("get_zabbix_config")) {
+if(!is_fn("get_zabbix_config")) {
     function get_zabbix_config() {
         $config = get_config();
         
@@ -21,20 +21,20 @@ if(!check_function_exists("get_zabbix_config")) {
     }
 }
 
-if(!check_function_exists("zabbix_get_base_url")) {
+if(!is_fn("zabbix_get_base_url")) {
     function zabbix_get_api_url() {
         $cnf = get_zabbix_config();
         return sprintf("%s://%s/zabbix/api_jsonrpc.php", $cnf['protocol'], $cnf['host']);
     }
 }
 
-if(!check_function_exists("zabbix_get_id")) {
+if(!is_fn("zabbix_get_id")) {
     function zabbix_get_id() {
         return 1;
     }
 }
 
-if(!check_function_exists("zabbix_authenticate")) {
+if(!is_fn("zabbix_authenticate")) {
     function zabbix_authenticate() {
         $response = false;
 
@@ -65,7 +65,7 @@ if(!check_function_exists("zabbix_authenticate")) {
     }
 }
 
-if(!check_function_exists("zabbix_get_hosts")) {
+if(!is_fn("zabbix_get_hosts")) {
     function zabbix_get_hosts() {
         $hosts = false;
         $response = false;
@@ -93,13 +93,13 @@ if(!check_function_exists("zabbix_get_hosts")) {
     }
 }
 
-if(!check_function_exists("zabbix_retrieve_hosts")) {
+if(!is_fn("zabbix_retrieve_hosts")) {
     function zabbix_retrieve_hosts() {
         return zabbix_get_hosts();
     }
 }
 
-if(!check_function_exists("zabbix_get_items")) {
+if(!is_fn("zabbix_get_items")) {
     function zabbix_get_items($hostids=null) {
         $items = false;
         $results = false;
@@ -135,7 +135,7 @@ if(!check_function_exists("zabbix_get_items")) {
     }
 }
 
-if(!check_function_exists("zabbix_get_problems")) {
+if(!is_fn("zabbix_get_problems")) {
     function zabbix_get_problems($hostids=null) {
         $problems = false;
         $response = false;
@@ -172,7 +172,7 @@ if(!check_function_exists("zabbix_get_problems")) {
     }
 }
 
-if(!check_function_exists("zabbix_get_triggers")) {
+if(!is_fn("zabbix_get_triggers")) {
     function zabbix_get_triggers($hostids=null) {
         $triggers = false;
         $response = false;
@@ -203,7 +203,7 @@ if(!check_function_exists("zabbix_get_triggers")) {
     }
 }
 
-if(!check_function_exists("zabbix_get_alerts")) {
+if(!is_fn("zabbix_get_alerts")) {
     function zabbix_get_alerts($hostids=null, $time_from=0, $time_till=0) {
         $alerts = false;
         $response = false;
@@ -247,7 +247,7 @@ if(!check_function_exists("zabbix_get_alerts")) {
     }
 }
 
-if(!check_function_exists("zabbix_get_records")) {
+if(!is_fn("zabbix_get_records")) {
     function zabbix_get_records($itemids, $now_dt="", $adjust="-24h", $value_type=3) {
         $records = false;
         $response = false;

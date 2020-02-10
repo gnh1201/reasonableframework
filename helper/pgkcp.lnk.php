@@ -14,13 +14,13 @@ loadHelper("webpagetool");
 loadHelper("compress.zip");
 loadHelper("exectool");
 
-if(!check_function_exists("get_pgkcp_config")) {
+if(!is_fn("get_pgkcp_config")) {
     function get_pgkcp_dir() {
         return get_current_working_dir() . "/vendor/_dist/pgkcp";
     }
 }
 
-if(!check_function_exists("get_pgkcp_config")) {
+if(!is_fn("get_pgkcp_config")) {
     function get_pgkcp_config() {
         $pgkcp_config = array();
 
@@ -73,7 +73,7 @@ if(!check_function_exists("get_pgkcp_config")) {
     }
 }
 
-if(!check_function_exists("get_pgkcp_platform")) {
+if(!is_fn("get_pgkcp_platform")) {
     function get_pgkcp_platform($pgkcp_config) {
         $platform = false;
 
@@ -93,7 +93,7 @@ if(!check_function_exists("get_pgkcp_platform")) {
     }
 }
 
-if(!check_function_exists("load_pgkcp_library")) {
+if(!is_fn("load_pgkcp_library")) {
     function load_pgkcp_library() {
         $inc_file = get_pgkcp_dir() . "/sample/pp_cli_hub_lib.php";
         if(file_exists($inc_file)) {

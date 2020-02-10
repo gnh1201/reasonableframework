@@ -6,7 +6,7 @@
  * @brief Database alternative driver switcher
  */
 
-if(!check_function_exists("exec_db_alt_callback")) {
+if(!is_fn("exec_db_alt_callback")) {
     function exec_db_alt_callback($rules, $params=array(), $driver="") {
         $result = false;
         $db_driver = empty($driver) ? get_db_driver() : $driver;
@@ -14,7 +14,7 @@ if(!check_function_exists("exec_db_alt_callback")) {
         foreach($rules as $rule) {
             if($rule['driver'] == $db_driver) {
                 if(loadHelper(sprintf("database.%s", $rule['driver']))) {
-                    if(check_function_exists($rule['callback'])) {
+                    if(is_fn($rule['callback'])) {
                         if(is_array($params) && count($params) > 0) {
                             $result = call_user_func_array($rule['callback'], $params);
                         } else {
@@ -33,7 +33,7 @@ if(!check_function_exists("exec_db_alt_callback")) {
     }
 }
 
-if(!check_function_exists("get_db_alt_connect")) {
+if(!is_fn("get_db_alt_connect")) {
     function get_db_alt_connect($driver) {
         $conn = false;
         $config = get_config();
@@ -54,7 +54,7 @@ if(!check_function_exists("get_db_alt_connect")) {
     }
 }
 
-if(!check_function_exists("exec_db_alt_query")) {
+if(!is_fn("exec_db_alt_query")) {
     function exec_db_alt_query($sql, $bind=array(), $options=array()) {
         $result = false;
         
@@ -83,7 +83,7 @@ if(!check_function_exists("exec_db_alt_query")) {
     }
 }
 
-if(!check_function_exists("exec_db_alt_fetch_all")) {
+if(!is_fn("exec_db_alt_fetch_all")) {
     function exec_db_alt_fetch_all($sql, $bind=array(), $options=array()) {
         $rows = array();
 
@@ -104,7 +104,7 @@ if(!check_function_exists("exec_db_alt_fetch_all")) {
     }
 }
 
-if(!check_function_exists("exec_db_alt_fetch")) {
+if(!is_fn("exec_db_alt_fetch")) {
     function exec_db_alt_fetch($sql, $bind) {
         $fetched = false;
 
@@ -118,7 +118,7 @@ if(!check_function_exists("exec_db_alt_fetch")) {
     }
 }
 
-if(!check_function_exists("get_db_alt_last_id")) {
+if(!is_fn("get_db_alt_last_id")) {
     function get_db_alt_last_id($driver) {
         $last_id = false;
 

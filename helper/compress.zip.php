@@ -2,7 +2,7 @@
 // @date 2019-10-13
 // @author Go Namhyeon <gnh1201@gmail.com>
 
-if(!check_function_exists("unzip")) {
+if(!is_fn("unzip")) {
     function unzip($src, $dst, $options=array()) {
         $flag = false;
 

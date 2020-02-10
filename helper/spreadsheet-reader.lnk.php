@@ -6,7 +6,7 @@
   * @brief Excel file parser
 ***/
 
-if(!check_function_exists("parse_excel_file")) {
+if(!is_fn("parse_excel_file")) {
     function parse_excel_file($filepath, $format="xlsx", $setColumnName=false) {
         $rows = array();
 

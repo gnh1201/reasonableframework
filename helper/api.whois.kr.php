@@ -6,7 +6,7 @@
  * @brief KISA Whois/Domain/IP/AS Query Helper (https://whois.kr)
  */
  
-if(!check_function_exists("get_whois_kr")) {
+if(!is_fn("get_whois_kr")) {
     function get_whois_kr($name, $key, $type="whois") {
         $response = false;
 

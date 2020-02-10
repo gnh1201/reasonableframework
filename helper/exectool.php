@@ -13,7 +13,7 @@
  * in the webserver configuration. The function execTests returns an array, which 
  * contains names of all successful tested PHP functions.
  */
-if(!check_function_exists("exec_test")) {
+if(!is_fn("exec_test")) {
     function exec_test() {
         $cmd = "whoami";
         $cmdPath = "/usr/bin/whoami";
@@ -103,7 +103,7 @@ if(!check_function_exists("exec_test")) {
 /*
  * exec_command() executes a command (like "whoami") with the submited method    
  */
-if(!check_function_exists("exec_command")) {
+if(!is_fn("exec_command")) {
     function exec_command($command, $method="shell_exec", $options=array()) {
         $return = false;
         

@@ -10,7 +10,7 @@ if(!defined("_DEF_RSF_")) set_error_exit("do not allow access");
 
 loadHelper("pgkcp.lnk");
 
-if(!check_function_exists("install_pgkcp")) {
+if(!is_fn("install_pgkcp")) {
     function install_pgkcp() {
         $response = get_web_page("https://admin8.kcp.co.kr/assist/download/sampleDownload", "get", array(
             "type1" => "FM01",

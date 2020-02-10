@@ -19,13 +19,13 @@
 /* // PRINT CONTENT: echo $response['content']; */
 /****** END EXAMPLES *****/
 
-if(!check_function_exists("get_web_fgc")) {
+if(!is_fn("get_web_fgc")) {
     function get_web_fgc($url) {
         return (ini_get("allow_url_fopen") ? file_get_contents($url) : false);
     }
 }
 
-if(!check_function_exists("get_web_build_qs")) {
+if(!is_fn("get_web_build_qs")) {
     function get_web_build_qs($url="", $data) {
         $qs = "";
         if(empty($url)) {
@@ -42,7 +42,7 @@ if(!check_function_exists("get_web_build_qs")) {
     }
 }
 
-if(!check_function_exists("get_web_binded_url")) {
+if(!is_fn("get_web_binded_url")) {
     function get_web_binded_url($url="", $bind) {
         if(is_array($bind) && check_array_length($bind, 0) > 0) {
             $bind_keys = array_keys($bind);
@@ -55,7 +55,7 @@ if(!check_function_exists("get_web_binded_url")) {
     }
 }
 
-if(!check_function_exists("get_web_cmd")) {
+if(!is_fn("get_web_cmd")) {
     function get_web_cmd($url, $method="get", $data=array(), $proxy="", $ua="", $ct_out=45, $t_out=45, $headers=array()) {
         $output = "";
 
@@ -174,7 +174,7 @@ if(!check_function_exists("get_web_cmd")) {
 }
 
 // http://dev.epiloum.net/109
-if(!check_function_exists("get_web_sock")) {
+if(!is_fn("get_web_sock")) {
     function get_web_sock($url, $method="get", $data=array(), $proxy="", $ua="", $ct_out=45, $t_out=45) {
         $output     = "";
 
@@ -261,7 +261,7 @@ if(!check_function_exists("get_web_sock")) {
     }
 }
 
-if(!check_function_exists("get_web_wget")) {
+if(!is_fn("get_web_wget")) {
     function get_web_wget($url, $method="get", $data=array(), $proxy="", $ua="", $ct_out=45, $t_out=45) {
         $content = false;
         
@@ -281,7 +281,7 @@ if(!check_function_exists("get_web_wget")) {
     }
 }
 
-if(!check_function_exists("get_web_curl")) {
+if(!is_fn("get_web_curl")) {
     function get_web_curl($url, $method="get", $data=array(), $proxy="", $ua="", $ct_out=45, $t_out=45, $headers=array()) {
         $content = false;
         $_headers = array();
@@ -318,7 +318,7 @@ if(!check_function_exists("get_web_curl")) {
             if($method == "post") {
                 foreach($data as $k=>$v) {
                     if(substr($v, 0, 1) == "@") { // if this is a file
-                        if(check_function_exists("curl_file_create")) { // php 5.5+
+                        if(is_fn("curl_file_create")) { // php 5.5+
                             $data[$k] = curl_file_create(substr($v, 1));
                         } else {
                             $data[$k] = "@" . realpath(substr($v, 1));
@@ -393,7 +393,7 @@ if(!check_function_exists("get_web_curl")) {
     }
 }
 
-if(!check_function_exists("get_web_page")) {
+if(!is_fn("get_web_page")) {
     function get_web_page($url, $method="get", $data=array(), $proxy="", $ua="", $ct_out=45, $t_out=45) {
         $status = false;
         $resno = false;
@@ -492,7 +492,7 @@ if(!check_function_exists("get_web_page")) {
     }
 }
 
-if(!check_function_exists("get_web_identifier")) {
+if(!is_fn("get_web_identifier")) {
     function get_web_identifier($url, $method="get", $data=array(), $headers=array()) {
         $checksum_data = (count($data) > 0) ? get_hashed_text(serialize($data)) : "*";
         $checksum_header = (count($headers) > 0) ? get_hashed_text(serialize($data)) : "*";
@@ -510,7 +510,7 @@ if(!check_function_exists("get_web_identifier")) {
     }
 }
 
-if(!check_function_exists("get_web_cache")) {
+if(!is_fn("get_web_cache")) {
     function get_web_cache($url, $method="get", $data=array(), $proxy="", $ua="", $ct_out=45, $t_out=45, $headers=array()) {
         $content = false;
         $config = get_config();
@@ -566,7 +566,7 @@ if(!check_function_exists("get_web_cache")) {
     }
 }
 
-if(!check_function_exists("get_web_json")) {
+if(!is_fn("get_web_json")) {
     function get_web_json($url, $method="get", $data=array(), $proxy="", $ua="", $ct_out=45, $t_out=45) {
         $result = false;
 
@@ -579,7 +579,7 @@ if(!check_function_exists("get_web_json")) {
     }
 }
 
-if(!check_function_exists("get_web_dom")) {
+if(!is_fn("get_web_dom")) {
     function get_web_dom($url, $method="get", $data=array(), $proxy="", $ua="", $ct_out=45, $t_out=45) {
         $result = false;
         $response = get_web_page($url, $method, $data, $proxy, $ua, $ct_out, $t_out);
@@ -593,7 +593,7 @@ if(!check_function_exists("get_web_dom")) {
     }
 }
 
-if(!check_function_exists("get_web_meta")) {
+if(!is_fn("get_web_meta")) {
     function get_web_meta($url, $method="get", $data=array(), $proxy="", $ua="", $ct_out=45, $t_out=45) {
         $result = false;
         $response = get_web_page($url, $method, $data, $proxy, $ua, $ct_out, $t_out);
@@ -610,7 +610,7 @@ if(!check_function_exists("get_web_meta")) {
     }
 }
 
-if(!check_function_exists("get_web_xml")) {
+if(!is_fn("get_web_xml")) {
     function get_web_xml($url, $method="get", $data=array(), $proxy="", $ua="", $ct_out=45, $t_out=45) {
         $result = false;
 
@@ -623,7 +623,7 @@ if(!check_function_exists("get_web_xml")) {
     }
 }
 
-if(!check_function_exists("get_web_cspt")) {
+if(!is_fn("get_web_cspt")) {
     function get_web_cspt($url, $method="get", $data=array(), $proxy="", $ua="", $ct_out=45, $t_out=45) {
         $result = false;
 
@@ -638,7 +638,7 @@ if(!check_function_exists("get_web_cspt")) {
     }
 }
 
-if(!check_function_exists("get_parsed_json")) {
+if(!is_fn("get_parsed_json")) {
     function get_parsed_json($raw, $options=array()) {
         $result = false;
 
@@ -652,11 +652,11 @@ if(!check_function_exists("get_parsed_json")) {
     }
 }
 
-if(!check_function_exists("get_parsed_xml")) {
+if(!is_fn("get_parsed_xml")) {
     function get_parsed_xml($raw, $options=array()) {
         $result = false;
 
-        if(check_function_exists("simplexml_load_string")) {
+        if(is_fn("simplexml_load_string")) {
             $result = simplexml_load_string($response['content'], null, LIBXML_NOCDATA);
         }
 
@@ -664,12 +664,12 @@ if(!check_function_exists("get_parsed_xml")) {
     }
 }
 
-if(!check_function_exists("get_parsed_dom")) {
+if(!is_fn("get_parsed_dom")) {
     function get_parsed_dom($raw, $options=array()) {
         $result = false;
 
         if(loadHelper("simple_html_dom")) {
-            $result = check_function_exists("str_get_html") ? str_get_html($response['content']) : $raw;
+            $result = is_fn("str_get_html") ? str_get_html($response['content']) : $raw;
         }
 
         return $result;
@@ -677,7 +677,7 @@ if(!check_function_exists("get_parsed_dom")) {
 }
     
 // 2018-06-01: Adaptive JSON is always quotes without escape non-ascii characters
-if(!check_function_exists("get_adaptive_json")) {
+if(!is_fn("get_adaptive_json")) {
     function get_adaptive_json($data) {
         if(loadHelper("json.format")) {
             return json_encode_ex($data, array("adaptive" => true));
@@ -686,7 +686,7 @@ if(!check_function_exists("get_adaptive_json")) {
 }
 
 // 2018-09-10: support webproxy
-if(!check_function_exists("get_webproxy_url")) {
+if(!is_fn("get_webproxy_url")) {
     function get_webproxy_url($url, $route="webproxy") {
         return get_route_link($route, array(
             "url" => $url
@@ -694,7 +694,7 @@ if(!check_function_exists("get_webproxy_url")) {
     }
 }
 
-if(!check_function_exists("get_web_user_agent")) {
+if(!is_fn("get_web_user_agent")) {
     function get_web_user_agent($ua="") {
         if(empty($ua)) {
             $ua = "ReasonableFramework/1.6-dev (https://github.com/gnh1201/reasonableframework)";

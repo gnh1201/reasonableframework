@@ -7,21 +7,21 @@
  */
 
 // get database prefix
-if(!check_function_exists("zb4_get_db_prefix")) {
+if(!is_fn("zb4_get_db_prefix")) {
     function zb4_get_db_prefix() {
         return "zetyx_";
     }
 }
 
 // get table
-if(!check_function_exists("zb4_get_db_table")) {
+if(!is_fn("zb4_get_db_table")) {
     function zb4_get_db_table($tablename) {
         return (zb4_get_db_prefix() . $tablename);
     }
 }
 
 // get write table
-if(!check_function_exists("zb4_get_write_table")) {
+if(!is_fn("zb4_get_write_table")) {
     function zb4_get_write_table($tablename, $version=4) {
         $write_prefix = zb4_get_db_prefix() . "board_";
         $write_table = $write_prefix . $tablename;
@@ -30,7 +30,7 @@ if(!check_function_exists("zb4_get_write_table")) {
 }
 
 // write post
-if(!check_function_exists("zb4_write_post")) {
+if(!is_fn("zb4_write_post")) {
     function zb4_write_post($tablename, $data=array()) {
         $result = 0;
         $write_table = zb4_get_write_table($tablename);
@@ -105,14 +105,14 @@ if(!check_function_exists("zb4_write_post")) {
     }
 }
 
-if(!check_function_exists("zb4_get_posts")) {
+if(!is_fn("zb4_get_posts")) {
     function zb4_get_posts($table_name, $page=1, $limit=20, $options=array()) {
         $sql = "select * from " . zb4_get_write_table($table_name) . " order by no desc" . get_page_range($page, $limit);
         return exec_db_fetch_all($sql);
     }
 }
 
-if(!check_function_exists("zb4_get_post_by_id")) {
+if(!is_fn("zb4_get_post_by_id")) {
     function zb4_get_post_by_id($table_name, $post_id) {
         $sql = "select * from " . zb4_get_write_table($table_name) . " where no = :no";
         return exec_db_fetch($sql, array(

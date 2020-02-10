@@ -1,7 +1,7 @@
 <?php
 // database.mssql.pdo.php
 
-if(!check_function_exists("get_db_mssql_pdo_connect")) {
+if(!is_fn("get_db_mssql_pdo_connect")) {
     function get_db_mssql_pdo_connect() {
         $conn = false;
 
@@ -29,7 +29,7 @@ if(!check_function_exists("get_db_mssql_pdo_connect")) {
     }
 }
 
-if(!check_function_exists("exec_db_mssql_pdo_query")) {
+if(!is_fn("exec_db_mssql_pdo_query")) {
     function exec_db_mssql_pdo_query($sql, $bind=array(), $options=array()) {
         $dbc = get_value_in_array("dbc", $options, get_dbc_object());
 
@@ -43,7 +43,7 @@ if(!check_function_exists("exec_db_mssql_pdo_query")) {
     }
 }
 
-if(!check_function_exists("exec_db_mssql_pdo_fetch_all")) {
+if(!is_fn("exec_db_mssql_pdo_fetch_all")) {
     function exec_db_mssql_pdo_fetch_all($sql, $bind=array(), $options=array()) {
         $rows = array();
 

@@ -6,7 +6,7 @@
  * @brief MySQL(MariaDB) command line driver
  */
 
-if(!check_function_exists("get_db_mysql_cmd_connect")) {
+if(!is_fn("get_db_mysql_cmd_connect")) {
     function get_db_mysql_cmd_connect() {
         $result = false;
         $config = get_config();
@@ -28,7 +28,7 @@ if(!check_function_exists("get_db_mysql_cmd_connect")) {
     }
 }
 
-if(!check_function_exists("exec_db_mysql_cmd_query")) {
+if(!is_fn("exec_db_mysql_cmd_query")) {
     function exec_db_mysql_cmd_query($sql, $bind) {
         $result = false;
         $config = get_config();
@@ -51,7 +51,7 @@ if(!check_function_exists("exec_db_mysql_cmd_query")) {
     }
 }
 
-if(!check_function_exists("exec_db_mysql_cmd_fetch_all")) {
+if(!is_fn("exec_db_mysql_cmd_fetch_all")) {
     function exec_db_mysql_cmd_fetch_all($sql, $bind) {
         $result = false;
 
@@ -59,7 +59,7 @@ if(!check_function_exists("exec_db_mysql_cmd_fetch_all")) {
         $lines = explode(DOC_EOL, $tsvData);
         $rows = array();
 
-        if(check_function_exists("str_getcsv")) {
+        if(is_fn("str_getcsv")) {
             foreach($lines as $line) {
                 $rows[] = str_getcsv($line, "\t");
             }

@@ -7,19 +7,19 @@
  * @documentation https://github.com/gnh1201/catsplit-format
  */
 
-if(!check_function_exists("catsplit_unescape")) {
+if(!is_fn("catsplit_unescape")) {
     function catsplit_unescape($data) {
         return trim($data);
     }
 }
 
-if(!check_function_exists("casplit_escape")) {
+if(!is_fn("casplit_escape")) {
     function casplit_escape($data) {
         return htmlspecialchars($data);
     }
 }
 
-if(!check_function_exists("catsplit_encode")) {
+if(!is_fn("catsplit_encode")) {
     function catsplit_encode($data) {
         $_ks = array();
         $_vs = array();
@@ -34,7 +34,7 @@ if(!check_function_exists("catsplit_encode")) {
     }
 }
 
-if(!check_function_exists("catsplit_decode")) {
+if(!is_fn("catsplit_decode")) {
     function catsplit_decode($data) {
         $s_final = array();
 

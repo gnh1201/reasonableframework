@@ -7,7 +7,7 @@
  * @documentation https://www.w3.org/Mobile/training/device-detection/mobile_detector.txt
  */
 
-if(!check_function_exists("detect_mobile")) {
+if(!is_fn("detect_mobile")) {
     function detect_mobile() {
         // This function returns the value of a local variable ($dm)
         // that is 0 if a desktop client is detected and > 0 for mobile.

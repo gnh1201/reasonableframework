@@ -1,6 +1,6 @@
 <?php
 
-if(!check_function_exists("get_youtube_thumbnail")) {
+if(!is_fn("get_youtube_thumbnail")) {
     function get_youtube_thumbnail($vi) {
         $ytimgs = array();
         $ytimg_urls = array();

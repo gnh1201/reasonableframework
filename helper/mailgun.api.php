@@ -7,7 +7,7 @@
  * @documentation https://documentation.mailgun.com/en/latest/api-sending.html
  */
 
-if(!check_function_exists("mailgun_get_config")) {
+if(!is_fn("mailgun_get_config")) {
   function mailgun_get_config() {
     $config = get_config();
     
@@ -20,7 +20,7 @@ if(!check_function_exists("mailgun_get_config")) {
   }
 }
 
-if(!check_function_exists("mailgun_send_message")) {
+if(!is_fn("mailgun_send_message")) {
   function mailgun_send_message($content, $to, $subject="Untitled") {
     $response = false;
 

@@ -6,7 +6,7 @@
  * @brief SocialTools (refactoring from SocioRouter)
  */
  
-if(!check_function_exists("social_send_message")) {
+if(!is_fn("social_send_message")) {
     function social_send_message($provider, $adapter, $message, $options=array()) {
         $response = false;
         $status = array(
@@ -48,7 +48,7 @@ if(!check_function_exists("social_send_message")) {
     }
 }
  
-if(!check_function_exists("social_parse_object_id")) {
+if(!is_fn("social_parse_object_id")) {
     function social_parse_object_id($provider, $response) {
         $object_id = false;
 
@@ -69,7 +69,7 @@ if(!check_function_exists("social_parse_object_id")) {
     }
 }
 
-if(!check_function_exists("social_get_object")) {
+if(!is_fn("social_get_object")) {
     function social_get_object($provider, $adapter, $object_id) {
         $result = false;
         $access_token = $adapter->getAccessToken();
@@ -90,7 +90,7 @@ if(!check_function_exists("social_get_object")) {
     }
 }
 
-if(!check_function_exists("social_get_object_facebook")) {
+if(!is_fn("social_get_object_facebook")) {
     function social_get_object_facebook($adapter, $object_id, $type="post") {
         $result = false;
         $response = false;

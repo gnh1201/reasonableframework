@@ -8,7 +8,7 @@
 
 if(!defined("_DEF_RSF_")) set_error_exit("do not allow access");
 
-if(!check_function_exists("lguplus_install")) {
+if(!is_fn("lguplus_install")) {
     function lguplus_install() {
         $response = get_web_page("https://openapi.sms.uplus.co.kr/sdkFile/php_sdk.zip");
 

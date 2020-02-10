@@ -6,7 +6,7 @@
  * @brief Oracle database helper for ReasonableFramework
  */
 
-if(!check_function_exists("check_db_oracle_installed")) {
+if(!is_fn("check_db_oracle_installed")) {
     function check_db_oracle_installed() {
         $fn = check_invalid_function(array(
             "NO_FUNCTION_OCI_PARSE" => "oci_parse",
@@ -25,13 +25,13 @@ if(!check_function_exists("check_db_oracle_installed")) {
     }
 }
 
-if(!check_function_exists("get_db_orable_binded_sql")) {
+if(!is_fn("get_db_orable_binded_sql")) {
     function get_db_orable_binded_sql($sql, $bind) {
         return get_db_binded_sql($sql, $bind);
     }
 }
 
-if(!check_function_exists("get_db_oracle_stmt")) {
+if(!is_fn("get_db_oracle_stmt")) {
     function get_db_oracle_stmt($sql, $bind) {
         $stmt = NULL;
 
@@ -46,7 +46,7 @@ if(!check_function_exists("get_db_oracle_stmt")) {
     }
 }
 
-if(!check_function_exists("exec_db_oracle_connect")) {
+if(!is_fn("exec_db_oracle_connect")) {
     function exec_db_oracle_connect($host, $port, $user, $password, $options=array()) {
         $conn = NULL;
         $envs = get_value_in_array("envs", $options, array());
@@ -90,7 +90,7 @@ if(!check_function_exists("exec_db_oracle_connect")) {
     }
 }
 
-if(!check_function_exists("exec_db_oracle_fetch_all")) {
+if(!is_fn("exec_db_oracle_fetch_all")) {
     function exec_db_oracle_fetch_all($sql, $bind, $conn) {
         $rows = array();
 
@@ -111,7 +111,7 @@ if(!check_function_exists("exec_db_oracle_fetch_all")) {
     }
 }
 
-if(!check_function_exists("exec_db_oracle_query")) {
+if(!is_fn("exec_db_oracle_query")) {
     function exec_db_oracle_query($sql, $bind, $conn) {
         $flag = false;
 
@@ -128,7 +128,7 @@ if(!check_function_exists("exec_db_oracle_query")) {
     }
 }
 
-if(!check_function_exists("close_db_oracle_connect")) {
+if(!is_fn("close_db_oracle_connect")) {
     function close_db_oracle_connect() {
         $dbc = get_shared_var("dbc");
 

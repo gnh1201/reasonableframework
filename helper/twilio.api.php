@@ -7,7 +7,7 @@
  * @documentation https://www.twilio.com/docs/sms/send-messages
  */
 
-if(!check_function_exists("twilio_get_config")) {
+if(!is_fn("twilio_get_config")) {
     function twilio_get_config() {
         $config = get_config();
 
@@ -20,7 +20,7 @@ if(!check_function_exists("twilio_get_config")) {
     }
 }
 
-if(!check_function_exists("twilio_get_message_blocks")) {
+if(!is_fn("twilio_get_message_blocks")) {
     function twilio_parse_messages($message) {
         $strings = array();
 
@@ -36,7 +36,7 @@ if(!check_function_exists("twilio_get_message_blocks")) {
     }
 }
 
-if(!check_function_exists("twilio_send_message")) {
+if(!is_fn("twilio_send_message")) {
     function twilio_send_message($message, $to) {
         $response = false;
 
@@ -67,7 +67,7 @@ if(!check_function_exists("twilio_send_message")) {
     }
 }
 
-if(!check_function_exists("twilio_send_voice")) {
+if(!is_fn("twilio_send_voice")) {
     function twilio_send_voice($message="", $to) {
         $response = false;
 

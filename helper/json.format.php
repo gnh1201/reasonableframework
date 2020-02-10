@@ -3,7 +3,7 @@
 // @updated_on 2020-01-27
 // @author Go Namhyeon <gnh1201@gmail.com>
 
-if(!check_function_exists("json_decode_ex")) {
+if(!is_fn("json_decode_ex")) {
     function json_decode_ex($data, $options=array()) {
         $result = false;
 
@@ -29,7 +29,7 @@ if(!check_function_exists("json_decode_ex")) {
     }
 }
 
-if(!check_function_exists("json_encode_ex")) {
+if(!is_fn("json_encode_ex")) {
     function json_encode_ex($data, $options=array()) {
         $result = false;
         

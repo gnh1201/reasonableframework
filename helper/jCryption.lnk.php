@@ -6,7 +6,7 @@
  * @brief jCryption (alternative HTTPS on javascript) Helper
  */
 
-if(!check_function_exists("jCryption_load")) {
+if(!is_fn("jCryption_load")) {
     function jCryption_load() {
         $required_files = array(
             "jCryption/sqAES",
@@ -21,7 +21,7 @@ if(!check_function_exists("jCryption_load")) {
     }
 }
 
-if(!check_function_exists("jCryption_get")) {
+if(!is_fn("jCryption_get")) {
     function jCryption_get($idx=0, $selector="") {
         $s = array();
         $s[] = "JCryption::decrypt();";

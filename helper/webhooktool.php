@@ -10,7 +10,7 @@
  * * `Slack` is trademark of Slack Technologies Inc.
  */
 
-if(!check_function_exists("send_web_hook")) {
+if(!is_fn("send_web_hook")) {
     function send_web_hook($message, $networkid, $options=array()) {
         $response = false;
 

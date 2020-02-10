@@ -6,7 +6,7 @@
  * @brief IsEmail library linker
  */
 
-if(!check_function_exists("is_email")) {
+if(!is_fn("is_email")) {
     $inc_file = "./vendor/_dist/isemail/is_email.php";
     if(file_exists($inc_file)) {
         include($inc_file);
