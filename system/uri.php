@@ -22,13 +22,13 @@ if(!is_fn("base_api_url")) {
 if(!is_fn("get_uri")) {
     function get_uri() {
         $requests = get_requests();
-
-        $request_uri = "";
-        if(!array_key_empty("REQUEST_URI", $_SERVER)) {
-            $request_uri = $requests["_URI"];
+        
+        $uri = get_requested_value("_uri");
+        if(empty($uri)) {
+            $uri = $requests["_URI"];
         }
 
-        return $request_uri;
+        return $uri;
     }
 }
 
