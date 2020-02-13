@@ -59,8 +59,12 @@ if(!is_fn("get_web_binded_url")) {
 if(!is_fn("get_web_cmd")) {
     function get_web_cmd($url, $method="get", $data=array(), $proxy="", $ua="", $ct_out=45, $t_out=45, $headers=array()) {
         $output = "";
+        
+        // set method
+        $method = strtolower($method);
+        $req_methods = explode(".", $method);
 
-        $methods = explode(",", $method);
+        // set command
         $args = array("curl");
         $cmd = "";
 
@@ -167,7 +171,7 @@ if(!is_fn("get_web_cmd")) {
         $cmd = trim(implode(" ", $args));
 
         // do async(background)
-        if(in_array("async", $methods)) {
+        if(in_array("async", $req_methods)) {
             $cmd = sprintf("bash -c '%s 1>/dev/null 2>&1 & echo $!'", $cmd);
         }
 
