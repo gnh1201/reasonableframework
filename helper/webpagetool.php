@@ -168,7 +168,7 @@ if(!is_fn("get_web_cmd")) {
 
         // do async(background)
         if(in_array("async", $methods)) {
-            $cmd = sprintf("(%s &) & echo $!", $cmd);
+            $cmd = sprintf("bash -c '%s 1>/dev/null 2>&1 & echo $!'", $cmd);
         }
 
         // run command
