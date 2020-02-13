@@ -7,8 +7,7 @@
  * @brief WebPageTool helper
  */
 
-
-/****** START EXAMPLES *****/
+/****** EXAMPLES { *****/
 /* * GET: $response = get_web_page($url, "get", $data); */
 /* * POST: $response = get_web_page($url, "post", $data); */
 /* * GET/CACHE: $response = get_web_page($url, "get.cache", $data); */
@@ -19,7 +18,7 @@
 /* * GET/WGET: $response = get_web_page($url, "get.wget"); */
 /* * GET/ARIA: $response = get_web_page($url, "get.aria"); */
 /* * PRINT: echo $response['content']; */
-/****** END EXAMPLES *****/
+/****** } // END EXAMPLES *****/
 
 if(!is_fn("get_web_fgc")) {
     function get_web_fgc($url) {
@@ -61,6 +60,7 @@ if(!is_fn("get_web_cmd")) {
     function get_web_cmd($url, $method="get", $data=array(), $proxy="", $ua="", $ct_out=45, $t_out=45, $headers=array()) {
         $output = "";
 
+        $methods = explode(",", $method);
         $args = array("curl");
         $cmd = "";
 
@@ -165,6 +165,11 @@ if(!is_fn("get_web_cmd")) {
 
         // complete and run command
         $cmd = trim(implode(" ", $args));
+
+        // do async(background)
+        if(in_array("async", $methods)) {
+            $cmd = sprintf("(%s &) & echo $!", $cmd);
+        }
 
         // run command
         if(!empty($cmd)) {
@@ -496,6 +501,8 @@ if(!is_fn("get_web_page")) {
         // do request
         if(in_array("cache", $req_methods)) {
             $content = get_web_cache($url, $method, $data, $proxy, $ua, $ct_out, $t_out, $headers);
+        } elseif(in_array("async", $req_methods)) {
+            $content = get_web_async($url, $req_methods[0], $data, $proxy, $ua, $ct_out, $t_out, $headers);
         } elseif(in_array("cmd", $req_methods)) {
             $content = get_web_cmd($url, $req_methods[0], $data, $proxy, $ua, $ct_out, $t_out, $headers);
         } elseif(in_array("fgc", $req_methods)) {
@@ -572,6 +579,17 @@ if(!is_fn("get_web_identifier")) {
         //write_common_log(json_encode($checksums), "get_web_identifier");
 
         return get_hashed_text(implode(".", $checksums));
+    }
+}
+
+if(!is_fn("get_web_async")) {
+    function get_web_async($url, $method="get", $data=array(), $proxy="", $ua="", $ct_out=45, $t_out=45, $headers=array()) {
+        $pid = 0;
+
+        $_method = sprintf("%s.%s", $method, "async");
+        $pid = get_web_cmd($url, $_method, $data, $proxy, $ua, $ct_out, $t_out, $headers);
+
+        return $pid;
     }
 }
 
