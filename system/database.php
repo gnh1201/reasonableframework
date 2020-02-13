@@ -372,13 +372,20 @@ if(!is_fn("get_bind_to_sql_where")) {
         if(get_old_version() == "1.5") { // compatible 1.5 or below
             $excludes = $options;
         }
-
+        
         if(is_array($bind)) {    
             foreach($bind as $k=>$v) {
                 if(!in_array($k, $excludes)) {
                     $s3 .= sprintf(" and %s = :%s", $k, $k);
                 }
             }
+        }
+        
+        // s1a: s1 additonal (set new fields)
+        $s1a = array();
+        if(array_key_is_array("setfields", $options)) {
+            $setfields = $options['setfields'];
+            $s1a = get_bind_to_sql_fields($setfields);
         }
         
         if(!array_keys_empty(array("settimefield", "setminutes"), $options)) {
@@ -546,6 +553,72 @@ if(!is_fn("get_db_tablenames")) {
     }
 }
 
+if(!is_fn("get_bind_to_sql_fields")) {
+    function get_bind_to_sql_fields($fields) {
+        $s1a = array()
+
+        foreach($setfields as $k=>$v) {
+            // add
+            if(!array_keys_empty("add", $v)) {
+                $s1a[$k] = sprintf("(%s + %s)", $k, $v['add']);
+            }
+
+            // sub
+            if(!array_keys_empty("sub", $v)) {
+                $s1a[$k] = sprintf("(%s - %s)", $k, $v['sub']);
+            }
+
+            // mul
+            if(!array_key_empty("mul", $v)) {
+                $s1a[$k] = sprintf("(%s * %s)", $k, $v['mul']);
+            }
+
+            // div
+            if(!array_key_empty("div", $v)) {
+                $s1a[$k] = sprintf("(%s / %s)", $k, $v['div']);
+            }
+
+            // eval (warning: do not use if you did not understand enough)
+            if(!array_key_empty("eval", $v)) {
+                $s1a[$k] = sprintf("(%s)", $k, $v['eval']);
+            }
+
+            // concat and delimiter
+            if(!array_keys_empty("concat", $v)) {
+                $delimiter = get_value_in_array("delimiter", $v, ",");
+                $s1a[$k] = sprintf("concat(%s)", implode(sprintf(", '%s', ", $delimiter), $v['concat']));
+            }
+
+            // group_concat and delimiter, condition
+            if(!array_keys_empty("group_concat", $v)) {
+                $arguments = $v['group_concat'];
+                $delimiter = get_value_in_array("delimiter", $v, ",");
+                // group_concat(a, b, c); a=fieldname or value(if true), b=condition, c=fieldname or value(if false)
+                if(check_array_length($arguments, 3) == 0) {
+                    $s1a[$k] = sprintf("group_concat(if(%s, '%s', '%s'))", $arguments[1], make_safe_argument($arguments[0]), make_safe_argument($arguments[2]));
+                } elseif(check_array_length($arguments, 2) == 0) {
+                    $s1a[$k] = sprintf("group_concat(if(%s, '%s', null))", $arguments[1], make_safe_argument($arguments[0]));
+                } elseif(check_array_length($arguments, 1) == 0) {
+                    $s1a[$k] = sprintf("group_concat(%s)", $arguments[0]);
+                } else {
+                    $s1a[$k] = sprintf("group_concat(%s)", $arguments);
+                }
+            }
+
+            // use mysql function
+            if(!array_key_empty("call", $v)) {
+                if(check_array_length($v['call'], 1) > 0) {
+                    // add to s1a
+                    $s1a[$k] = sprintf("%s(%s)", $v['call'][0], implode(", ", array_slice($v['call'], 1)));
+                }
+            }
+            
+        }
+        
+        return $s1a;
+    }
+}
+
 if(!is_fn("get_bind_to_sql_select")) {
     // warning: variable k is not protected. do not use variable k and external variable without filter
     function get_bind_to_sql_select($tablename, $bind=array(), $options=array()) {
@@ -565,77 +638,12 @@ if(!is_fn("get_bind_to_sql_select")) {
         } else {
             $s1 .= "*";
         }
-        
+
         // s1a: s1 additonal (set new fields)
         $s1a = array();
         if(array_key_is_array("setfields", $options)) {
             $setfields = $options['setfields'];
-
-            foreach($setfields as $k=>$v) {
-                // add
-                if(!array_keys_empty("add", $v)) {
-                    $s1a[$k] = sprintf("(%s + %s)", $k, $v['add']);
-                }
-                
-                // sub
-                if(!array_keys_empty("sub", $v)) {
-                    $s1a[$k] = sprintf("(%s - %s)", $k, $v['sub']);
-                }
-                
-                // mul
-                if(!array_key_empty("mul", $v)) {
-                    $s1a[$k] = sprintf("(%s * %s)", $k, $v['mul']);
-                }
-                
-                // div
-                if(!array_key_empty("div", $v)) {
-                    $s1a[$k] = sprintf("(%s / %s)", $k, $v['div']);
-                }
-                
-                // eval (warning: do not use if you did not understand enough)
-                if(!array_key_empty("eval", $v)) {
-                    $s1a[$k] = sprintf("(%s)", $k, $v['eval']);
-                }
-
-                // concat and delimiter
-                if(!array_keys_empty("concat", $v)) {
-                    $delimiter = get_value_in_array("delimiter", $v, ",");
-                    $s1a[$k] = sprintf("concat(%s)", implode(sprintf(", '%s', ", $delimiter), $v['concat']));
-                }
-
-                // group_concat and delimiter, condition
-                if(!array_keys_empty("group_concat", $v)) {
-                    $arguments = $v['group_concat'];
-                    $delimiter = get_value_in_array("delimiter", $v, ",");
-                    // group_concat(a, b, c); a=fieldname or value(if true), b=condition, c=fieldname or value(if false)
-                    if(check_array_length($arguments, 3) == 0) {
-                        $s1a[$k] = sprintf("group_concat(if(%s, '%s', '%s'))", $arguments[1], make_safe_argument($arguments[0]), make_safe_argument($arguments[2]));
-                    } elseif(check_array_length($arguments, 2) == 0) {
-                        $s1a[$k] = sprintf("group_concat(if(%s, '%s', null))", $arguments[1], make_safe_argument($arguments[0]));
-                    } elseif(check_array_length($arguments, 1) == 0) {
-                        $s1a[$k] = sprintf("group_concat(%s)", $arguments[0]);
-                    } else {
-                        $s1a[$k] = sprintf("group_concat(%s)", $arguments);
-                    }
-                }
-
-                // use mysql function
-                if(!array_key_empty("call", $v)) {
-                    if(check_array_length($v['call'], 1) > 0) {
-                        // add to s1a
-                        $s1a[$k] = sprintf("%s(%s)", $v['call'][0], implode(", ", array_slice($v['call'], 1)));
-                    }
-                }
-
-                // use simple distance
-                if(!array_key_empty("simple_distance", $v)) {
-                    if(check_array_length($v['simple_distance'], 2) == 0) {
-                        $a = floatval($v['simple_distance'][1]); // percentage (range 0 to 1)
-                        $b = $v['simple_distance'][0]; // field or number
-                        $s1a[$k] = sprintf("abs(1.0 - (abs(%s - %s) / %s))", $b, $a, $a);
-                    }
-                }
-            }
+            $s1a = get_bind_to_sql_fields($setfields);
         }
 
         // s2: set table name
