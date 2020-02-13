@@ -7,16 +7,18 @@
  * @brief WebPageTool helper
  */
 
+
 /****** START EXAMPLES *****/
-/* // REQUEST GET: $response = get_web_page($url, "get", $data); */
-/* // REQUEST POST: $response = get_web_page($url, "post", $data); */
-/* // REQUEST GET with CACHE: $response = get_web_page($url, "get.cache", $data); */
-/* // REQUEST POST with CACHE: $response = get_web_page($url, "post.cache", $data); */
-/* // REQUEST GET by CMD with CACHE: $response = get_web_page($url, "get.cmd.cache"); */
-/* // REQUEST GET by SOCK with CACHE: $response = get_web_page($url, "get.sock.cache"); */
-/* // REQUEST GET by FGC: $response = get_web_page($url, "get.fgc"); */
-/* // REQUEST GET by WGET: $response = get_web_page($url, "get.wget"); */
-/* // PRINT CONTENT: echo $response['content']; */
+/* * GET: $response = get_web_page($url, "get", $data); */
+/* * POST: $response = get_web_page($url, "post", $data); */
+/* * GET/CACHE: $response = get_web_page($url, "get.cache", $data); */
+/* * POST/CACHE: $response = get_web_page($url, "post.cache", $data); */
+/* * GET/CMD/CACHE: $response = get_web_page($url, "get.cmd.cache"); */
+/* * GET/CMD/CACHE: $response = get_web_page($url, "get.sock.cache"); */
+/* * GET/FGC: $response = get_web_page($url, "get.fgc"); */
+/* * GET/WGET: $response = get_web_page($url, "get.wget"); */
+/* * GET/ARIA: $response = get_web_page($url, "get.aria"); */
+/* * PRINT: echo $response['content']; */
 /****** END EXAMPLES *****/
 
 if(!is_fn("get_web_fgc")) {
@@ -266,16 +268,77 @@ if(!is_fn("get_web_wget")) {
         $content = false;
         
         $filename = make_random_id(32);
-        $filepath = write_storage_file("", array(
+        $fw = write_storage_file("", array(
             "filename" => $filename,
             "mode" => "fake",
         ));
 
-        $cmd = sprintf("wget '%s' -O %s", $url, $filepath);
+        $cmd = sprintf("wget '%s' -O %s", $url, $fw);
         if(loadHelper("exectool")) {
-            exec_command($cmd, "shell_exec");
+            exec_command($cmd);
             $content = read_storage_file($filename);
         }
+
+        return $content;
+    }
+}
+
+if(!is_fn("get_web_aria")) {
+    function get_web_aria($url, $method="get", $data=array(), $proxy="", $ua="", $ct_out=45, $t_out=45, $headers=array()) {
+        $content = false;
+        
+        $filename = make_random_id(32);
+        $fw = write_storage_file("", array(
+            "filename" => $filename,
+            "mode" => "fake"
+        ));
+        
+        // init args
+        $args = array();
+        
+        // make args
+        $args[] = "aria2c";
+        $args[] = "--out=" . $fw; // set output file
+        $args[] = "--connect-timeout=" . $ct_out; // connection timeout (seconds)
+        $args[] = "--timeout=" . $t_out; // timeout (seconds)
+
+        // set proxy
+        if(!empty($proxy)) {
+            $args[] = "--http-proxy=" . $proxy;
+        }
+        
+        // set user agent
+        if(!empty($ua)) {
+            $args[] = "--user-agent=" . $ua;
+        }
+        
+        // set headers
+        foreach($headers as $k=>$v) {
+            // the same as --header
+            if(is_array($v)) {
+                if($k == "Authentication") {
+                    if($v[0] == "Basic" && check_array_length($v, 3) == 0) {
+                        $args[] = sprintf("--header='Authentication: Basic %s'", base64_decode($v[1] . ":" . $v[2]));
+                    } else {
+                        $args[] = sprintf("--header='%s: %s'", $k, make_safe_argument(implode("", $v)));
+                    }
+                }
+            } else {
+                $args[] = sprintf("--header='%s: %s'", make_safe_argument($k), make_safe_argument($v));
+            }
+        }
+        
+        // set URL
+        $args[] = $url;
+        
+        // build a command
+        $cmd = implode(" ", $args);
+
+        // execute a command
+        exec_command($cmd);
+
+        // read contents
+        $content = read_storage_file($filename);
 
         return $content;
     }
@@ -441,6 +504,8 @@ if(!is_fn("get_web_page")) {
             $content = get_web_sock($url, $req_methods[0], $data, $proxy, $ua, $ct_out, $t_out);
         } elseif(in_array("wget", $req_methods)) {
             $content = get_web_wget($url, $req_methods[0], $data, $proxy, $ua, $ct_out, $t_out);
+        } elseif(in_array("aria", $req_methods)) {
+            $content = get_web_aria($url, $req_methods[0], $data, $proxy, $ua, $ct_out, $t_out);
         } elseif(in_array("jsondata", $req_methods)) {
             $response = get_web_curl($url, "jsondata", $data, $proxy, $ua, $ct_out, $t_out, $headers);
             $content = $response['content'];
