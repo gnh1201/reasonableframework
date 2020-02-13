@@ -18,6 +18,7 @@
 /* * GET/FGC: $response = get_web_page($url, "get.fgc"); */
 /* * GET/WGET: $response = get_web_page($url, "get.wget"); */
 /* * GET/ARIA: $response = get_web_page($url, "get.aria"); */
+/* * GET/HTTPIE: $response = get_web_page($url, "get.httpie"); */
 /* * PRINT: echo $response['content']; */
 /****** } // END EXAMPLES *****/
 
@@ -296,16 +297,16 @@ if(!is_fn("get_web_wget")) {
 if(!is_fn("get_web_aria")) {
     function get_web_aria($url, $method="get", $data=array(), $proxy="", $ua="", $ct_out=45, $t_out=45, $headers=array()) {
         $content = false;
-        
+
         $filename = make_random_id(32);
         $fw = write_storage_file("", array(
             "filename" => $filename,
             "mode" => "fake"
         ));
-        
+
         // init args
         $args = array();
-        
+
         // make args
         $args[] = "aria2c";
         $args[] = "--out=" . $fw; // set output file
@@ -316,35 +317,101 @@ if(!is_fn("get_web_aria")) {
         if(!empty($proxy)) {
             $args[] = "--http-proxy=" . $proxy;
         }
-        
+
         // set user agent
         if(!empty($ua)) {
             $args[] = "--user-agent=" . $ua;
         }
-        
+
         // set headers
         foreach($headers as $k=>$v) {
-            // the same as --header
             if(is_array($v)) {
                 if($k == "Authentication") {
                     if($v[0] == "Basic" && check_array_length($v, 3) == 0) {
-                        $args[] = sprintf("--header='Authentication: Basic %s'", base64_decode($v[1] . ":" . $v[2]));
+                        $args[] = sprintf("--header='%s: Basic %s'", $k, base64_decode($v[1] . ":" . $v[2]));
                     } else {
-                        $args[] = sprintf("--header='%s: %s'", $k, make_safe_argument(implode("", $v)));
+                        $args[] = sprintf("--header='%s: %s %s'", $k, make_safe_argument(implode(" ", $v)));
                     }
                 }
             } else {
                 $args[] = sprintf("--header='%s: %s'", make_safe_argument($k), make_safe_argument($v));
             }
         }
-        
+
         // set URL
         $args[] = $url;
-        
+
         // build a command
         $cmd = implode(" ", $args);
 
         // execute a command
+        exec_command($cmd);
+
+        // read contents
+        $content = read_storage_file($filename);
+
+        return $content;
+    }
+}
+
+if(!is_fn("get_web_httpie")) {
+    function get_web_httpie($url, $method="get", $data=array(), $proxy="", $ua="", $ct_out=45, $t_out=45, $headers=array()) {
+        $content = false;
+
+        $filename = make_random_id(32);
+        $fw = write_storage_file("", array(
+            "filename" => $filename,
+            "mode" => "fake"
+        ));
+
+        // init args
+        $args = array();
+
+        // make args
+        $args[] = "http";
+        
+        // set method, URL
+        if($method == "jsondata") {
+            $args[] = "POST";
+            $args[] = $url;
+            $args[] = sprintf("body='%s'", json_encode($data));
+        } elseif($method == "post") {
+            $args[] = "POST";
+            $args[] = $url;
+            $args[] = sprintf("body='%s'", http_build_query($data));
+        } else {
+            $args[] = get_web_build_qs($url, $data);
+        }
+
+        // set timeout
+        $args[] = "--timeout=" . $t_out;
+
+        // set proxy
+        if(!empty($proxy)) {
+            $args[] = "--proxy=" . $proxy;
+        }
+
+        // set headers
+        foreach($headers as $k=>$v) {
+            if(is_array($v)) {
+                if($k == "Authentication") {
+                    if($v[0] == "Basic" && check_array_length($v, 3) == 0) {
+                        $args[] = sprintf("-a '%s:%s'", $v[1], $v[2]);
+                    } else {
+                        $args[] = sprintf("'%s:%s'", $k, make_safe_argument(implode(" ", $v)));
+                    }
+                }
+            } else {
+                $args[] = sprintf("'%s:%s'", make_safe_argument($k), make_safe_argument($v));
+            }
+        }
+
+        // set output file
+        $args[] = ">";
+        $args[] = $fw;
+
+        // execute a command
+        $cmd = implode(" ", $args);
         exec_command($cmd);
 
         // read contents
