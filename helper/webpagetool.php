@@ -2,7 +2,7 @@
 /**
  * @file webpagetool.php
  * @created_on 2018-06-01
- * @updated_on 2020-01-16
+ * @updated_on 2020-02-13
  * @author Go Namhyeon <gnh1201@gmail.com>
  * @brief WebPageTool helper
  */
@@ -10,6 +10,7 @@
 /****** EXAMPLES { *****/
 /* * GET: $response = get_web_page($url, "get", $data); */
 /* * POST: $response = get_web_page($url, "post", $data); */
+/* * GET/ASYNC: $response = get_web_page($url, "get.async", $data); */
 /* * GET/CACHE: $response = get_web_page($url, "get.cache", $data); */
 /* * POST/CACHE: $response = get_web_page($url, "post.cache", $data); */
 /* * GET/CMD/CACHE: $response = get_web_page($url, "get.cmd.cache"); */
@@ -61,8 +62,8 @@ if(!is_fn("get_web_cmd")) {
         $output = "";
         
         // set method
-        $method = strtolower($method);
         $req_methods = explode(".", $method);
+        $method = $req_methods[0];
 
         // set command
         $args = array("curl");
@@ -164,7 +165,7 @@ if(!is_fn("get_web_cmd")) {
                 }
             }
             $args[] = sprintf("--data '%s'", $_data);
-            $args[] = $url;
+            $args[] = sprintf("'%s'", $url);
         }
 
         // complete and run command
@@ -172,7 +173,7 @@ if(!is_fn("get_web_cmd")) {
 
         // do async(background)
         if(in_array("async", $req_methods)) {
-            $cmd = sprintf("bash -c '%s 1>/dev/null 2>&1 & echo $!'", $cmd);
+            $cmd = sprintf("%s 1>/dev/null 2>&1 & echo $!;", $cmd);
         }
 
         // run command
