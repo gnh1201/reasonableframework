@@ -585,6 +585,8 @@ if(!is_fn("get_web_page")) {
             $content = get_web_wget($url, $req_methods[0], $data, $proxy, $ua, $ct_out, $t_out);
         } elseif(in_array("aria", $req_methods)) {
             $content = get_web_aria($url, $req_methods[0], $data, $proxy, $ua, $ct_out, $t_out);
+        } elseif(in_array("httpie", $req_methods)) {
+            $content = get_web_httpie($url, $req_methods[0], $data, $proxy, $ua, $ct_out, $t_out);
         } elseif(in_array("jsondata", $req_methods)) {
             $response = get_web_curl($url, "jsondata", $data, $proxy, $ua, $ct_out, $t_out, $headers);
             $content = $response['content'];
