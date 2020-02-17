@@ -363,20 +363,22 @@ if(!is_fn("exec_db_bulk_start")) {
     function exec_db_bulk_start() {
         $bulkid = make_random_id();
         set_shared_var("bulk_" . $bulkid, array());
+        write_common_log("bulk started: " . $bulkid);
         return $bulkid;
     }
 }
 
 if(!is_fn("exec_db_bulk_push")) {
-    function exec_db_bulk_push($bind, $bulkid) {
+    function exec_db_bulk_push($bulkid, $bind) {
         $rows = get_shared_var("bulk_" . $bulkid);
         $rows[] = $bind;
         set_shared_var("bulk_" . $bulkid, $rows);
+        //write_common_log("bulk pushed: " . $bulkid . " / " . count($rows));
     }
 }
 
 if(!is_fn("exec_db_bulk_end")) {
-    function exec_db_bulk_end($bulkid, $bindkeys) {
+    function exec_db_bulk_end($bulkid, $tablename, $bindkeys) {
         $rows = get_shared_var("bulk_" . $bulkid);
 
         $sql = "insert into `%s` (%s) values (%s)";
@@ -385,11 +387,13 @@ if(!is_fn("exec_db_bulk_end")) {
 
         $s3a = array();
         foreach($rows as $row) {
-            $s3a[] = sprintf("`%s`", implode("`, `", $row));
+            $s3a[] = sprintf("'%s'", implode("', '", $row));
         }
         $s3 = implode("), (", $s3a);
 
         $sql = sprintf($sql, $s1, $s2, $s3);
+
+        //write_common_log("bulk ended: " . $sql);
 
         return exec_db_query($sql);
     }
