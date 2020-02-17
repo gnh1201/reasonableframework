@@ -363,7 +363,7 @@ if(!is_fn("exec_db_bulk_start")) {
     function exec_db_bulk_start() {
         $bulkid = make_random_id();
         set_shared_var("bulk_" . $bulkid, array());
-        //write_common_log("bulk started: " . $bulkid);
+        //write_common_log("bulk started: " . $bulkid, "system/database");
         return $bulkid;
     }
 }
@@ -373,7 +373,7 @@ if(!is_fn("exec_db_bulk_push")) {
         $rows = get_shared_var("bulk_" . $bulkid);
         $rows[] = $bind;
         set_shared_var("bulk_" . $bulkid, $rows);
-        //write_common_log("bulk pushed: " . $bulkid . " / " . count($rows));
+        //write_common_log("bulk pushed: " . $bulkid . " / " . count($rows), "system/database");
     }
 }
 
@@ -393,7 +393,7 @@ if(!is_fn("exec_db_bulk_end")) {
 
         $sql = sprintf($sql, $s1, $s2, $s3);
 
-        //write_common_log("bulk ended: " . $sql);
+        write_common_log("bulk ended: " . substr($sql, 0, 200) . "...", "system/database");
 
         return exec_db_query($sql);
     }
