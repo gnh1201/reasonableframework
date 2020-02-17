@@ -32,7 +32,7 @@
 ![Map of structure](https://github.com/gnh1201/reasonableframework/raw/master/assets/img/reasonableframework.jpg)
 
 ## Roadmap
-- Support critial and special-purposed web environment (industry, scientific, embedded, HR, low-end, rugged, legacy, or more)
+- Support critial and special-purposed web environment (industry, scientific, legacy, or more)
 
 ## Quick Start
 1. git clone https://github.com/gnh1201/reasonableframework.git
