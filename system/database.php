@@ -87,13 +87,13 @@ if(!function_exists("compare_db_key_length")) {
 if(!function_exists("get_db_binded_sql")) {
     function get_db_binded_sql($sql, $bind=array()) {
         if(is_array($bind) && check_array_length($bind, 0) > 0) {
-            $bind_keys = array_keys($bind);
+            $bindkeys = array_keys($bind);
 
             // 2018-08-19: support lower php version (not supported anonymous function)
-            usort($bind_keys, "compare_db_key_length");
+            usort($bindkeys, "compare_db_key_length");
 
             // bind values
-            foreach($bind_keys as $k) {
+            foreach($bindkeys as $k) {
                 $sql = str_replace(":" . $k, "'" . addslashes($bind[$k]) . "'", $sql);
             }
         }
@@ -348,14 +348,50 @@ if(!is_fn("get_bind_to_sql_insert")) {
             ));
         } else {
             $sql = "insert into `%s` (%s) values (:%s)";
-            $bind_keys = array_keys($bind);
+            $bindkeys = array_keys($bind);
             $s1 = $tablename;
-            $s2 = sprintf("`%s`", implode("`, `", $bind_keys));
-            $s3 = implode(", :", $bind_keys);
+            $s2 = sprintf("`%s`", implode("`, `", $bindkeys));
+            $s3 = implode(", :", $bindkeys);
             $sql = sprintf($sql, $s1, $s2, $s3);
         }
 
         return $sql;
+    }
+}
+
+if(!is_fn("exec_db_bulk_start")) {
+    function exec_db_bulk_start() {
+        $bulkid = make_random_id();
+        set_shared_var("bulk_" . $bulkid, array());
+        return $bulkid;
+    }
+}
+
+if(!is_fn("exec_db_bulk_push")) {
+    function exec_db_bulk_push($bind, $bulkid) {
+        $rows = get_shared_var("bulk_" . $bulkid);
+        $rows[] = $bind;
+        set_shared_var("bulk_" . $bulkid, $rows);
+    }
+}
+
+if(!is_fn("exec_db_bulk_end")) {
+    function exec_db_bulk_end($bulkid, $bindkeys) {
+        $rows = get_shared_var("bulk_" . $bulkid);
+
+        $sql = "insert into `%s` (%s) values (%s)";
+        $s1 = $tablename;
+        $s2 = sprintf("`%s`", implode("`, `", $bindkeys));
+
+        $s3a = array();
+        foreach($rows as $row) {
+            $s3a[] = sprintf("`%s`", implode("`, `", $row));
+        }
+        $s3 = implode("), (", $s3a);
+
+        $sql = sprintf($sql, $s1, $s2, $s3);
+
+        return exec_db_query($sql);
     }
 }
 
