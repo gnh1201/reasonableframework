@@ -3,7 +3,7 @@
 ![View Licence](https://img.shields.io/github/license/gnh1201/reasonableframework.svg)
 ![Librapay](http://img.shields.io/liberapay/receives/catswords.svg?logo=liberapay)
 
-- ReasonableFramework is `RVHM` structured PHP web framework, securely and compatibility
+- ReasonableFramework is `RVHM` structured PHP web framework with common security
 - Prefix code: `RSF` (ReasonableFramework)
 - Old prefix code: `VSPF` (Very Simple PHP Framework)
 
