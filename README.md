@@ -7,6 +7,8 @@
 - Prefix code: `RSF` (ReasonableFramework)
 - Old prefix code: `VSPF` (Very Simple PHP Framework)
 
+![This project open source licensed under LGPL version 3](https://github.com/gnh1201/reasonableframework/raw/master/lgplv3-147x51.png)
+
 ## technical support (donate us)
 - [Technical support and improved web security for ReasonableFramework](https://catswords.re.kr/go/rsfsecurity) ($4/Monthly, pay on Patreon)
 
