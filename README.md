@@ -7,9 +7,9 @@
 - Prefix code: `RSF` (ReasonableFramework)
 - Old prefix code: `VSPF` (Very Simple PHP Framework)
 
-## Donate us (technical support)
-- https://www.patreon.com/posts/25380536
- 
+## technical support (donate us)
+- [Technical support and improved web security for ReasonableFramework](https://catswords.re.kr/go/rsfsecurity) ($4/Monthly, pay on Patreon)
+
 ## Specification
 - Database connection (via PDO, MySQLi (MySQL Improved), MySQL Tranditional, MySQL CLI, Oracle(OCI))
 - RVHM structure: `R` is Route (like as `controller`), `V` is View, `H` is Helper (like as `import` on Python/Go/NodeJS), `M` is Model and implemented with `KV bind`(like as `Map` data structure), Model is not required.
@@ -29,19 +29,13 @@
 ## Map of structure
 ![Map of structure](https://github.com/gnh1201/reasonableframework/raw/master/assets/img/reasonableframework.jpg)
 
-## Roadmap: Support legacy
-- Support critical legacy web server (old: PHP 4.x ~ modern: 7.x)
-- Support critical old browser (old: IE 6 ~ modern: IEs 11)
-- Support experience clean & modern PHP environments without hard study.
-
-## Contact me
-- Go Namhyeon <gnh1201@gmail.com>
-- Website: https://exts.kr/go/home
+## Roadmap
+- Support critial and special-purposed web environment (industry, scientific, embedded, HR, low-end, rugged, legacy, or more)
 
 ## Quick Start
 1. git clone https://github.com/gnh1201/reasonableframework.git
 2. set up database configuration: `/storage/config/database.ini.php`
-3. touch(make new file): `/route/example.php`
+3. create new file: `/route/example.php`
 4. go to `http://[base_url]/?route=example` or `http://[base_url]/example/`(if set `.htaccess`) in your web browser.
 5. enjoy it.
 
@@ -51,10 +45,10 @@
 
 ## [NEW] Advanced security (only for sponsors)
 - CORS, CSRF, XSS, SQL-injection protection is common security, it is free and open-source for everyone.
-- Firewall, DDoS protection, and more tools are available only for sponsors. [see details](https://github.com/gnh1201/reasonableframework/blob/master/SECURITY.md)
+- Firewall, DDoS protection, and more security tools are available only for sponsors. [more](https://github.com/gnh1201/reasonableframework/blob/master/SECURITY.md)
 
 ## [NEW] Remote Debugging (free for all)
-- Remote debugging feature based on RFC3164(The BSD Syslog Protocol), with [Papertrail](https://www.papertrail.com/)
+- Remote debugging feature based on [RFC3164(The BSD Syslog Protocol)](https://catswords.re.kr/go/rfc3164), with [Papertrail](https://catswords.re.kr/go/papertrail)
 
 ## How to use CLI (Command line interface)
 ```
@@ -80,4 +74,6 @@ $ php cli.php --route [route name] --session-id [session ID]
 - You can quickly resolve bugs and security issues in [our chatting room](https://catswords.re.kr/go/kakaotalk).
 
 ## Contact us
+- gnh1201@gmail.com
 - support@exts.kr
+- catswords@protonmail (if you require confidential)
