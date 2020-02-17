@@ -363,7 +363,7 @@ if(!is_fn("exec_db_bulk_start")) {
     function exec_db_bulk_start() {
         $bulkid = make_random_id();
         set_shared_var("bulk_" . $bulkid, array());
-        write_common_log("bulk started: " . $bulkid);
+        //write_common_log("bulk started: " . $bulkid);
         return $bulkid;
     }
 }
