@@ -142,3 +142,37 @@ if(!is_fn("get_old_version")) {
         return get_value_in_array("old_version", $config, 0);
     }
 }
+
+if(!is_fn("set_max_execution_time")) {
+    function set_max_execution_time($time) {
+        if($time > -1) {
+            @ini_set("max_execution_time", $time);
+            @set_time_limit($time);
+        }
+    }
+}
+
+if(!is_fn("set_memory_limit")) {
+    function set_memory_limit($limit) {
+        if($limit > -1) {
+            @ini_set("memory_limit", $limit);
+            @ini_set("suhosin.memory_limit", $limit);
+        }
+    }
+}
+
+if(!is_fn("set_upload_max_filesize")) {
+    function set_upload_max_filesize($filesize) {
+        if($filesize > -1) {
+            @ini_set("upload_max_filesize", $upload_max_filesize);
+        }
+    }
+}
+
+if(!is_fn("set_post_max_size")) {
+    function set_post_max_size($size) {
+        if($size > -1) {
+            @ini_set("post_max_size", $post_max_size);
+        }
+    }
+}
