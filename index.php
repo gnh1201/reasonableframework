@@ -84,6 +84,8 @@ foreach($load_systems as $system_name) {
 
 // get config
 $config = get_config();
+
+// get requests
 $requests = get_requests();
 
 // get PID(Process ID)
