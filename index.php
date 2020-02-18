@@ -90,28 +90,20 @@ $requests = get_requests();
 set_shared_var("dbc", get_db_connect());
 
 // set max_execution_time
-$max_execution_time = get_value_in_array("max_execution_time", $config, 0);
-@ini_set("max_execution_time", $max_execution_time);
-//@set_time_limit($max_execution_time);
+$max_execution_time = get_value_in_array("max_execution_time", $config, -1);
+set_max_execution_time($max_execution_time);
 
 // set memory limit
-$memory_limit = get_value_in_array("memory_limit", $config, 0);
-if(!empty($memory_limit)) {
-    @ini_set("memory_limit", $memory_limit);
-    @ini_set("suhosin.memory_limit", $memory_limit);
-}
+$memory_limit = get_value_in_array("memory_limit", $config, -1);
+set_memory_limit($memory_limit);
 
 // set upload max filesize
-$upload_max_filesize = get_value_in_array("upload_max_filesize", $config, 0);
-if(!empty($upload_max_filesize)) {
-    @ini_set("upload_max_filesize", $upload_max_filesize);
-}
+$upload_max_filesize = get_value_in_array("upload_max_filesize", $config, -1);
+set_upload_max_filesize($upload_max_filesize);
 
 // set post max size
-$post_max_size = get_value_in_array("post_max_size", $config, 0);
-if(!empty($post_max_size)) {
-    @ini_set("post_max_size", $post_max_size);
-}
+$post_max_size = get_value_in_array("post_max_size", $config, -1);
+set_post_max_size($post_max_size);
 
 // start session
 start_isolated_session();
