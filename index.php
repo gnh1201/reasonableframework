@@ -86,6 +86,9 @@ foreach($load_systems as $system_name) {
 $config = get_config();
 $requests = get_requests();
 
+// get PID(Process ID)
+set_shared_var("mypid", getmypid());
+
 // set database connection
 // variable _unset_dbc: will not connect to database
 $_unset_dbc = get_requested_value("_unset_dbc");
