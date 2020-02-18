@@ -2,9 +2,9 @@
 /**
  * @file index.php
  * @created_on 2018-05-27
- * @updated_on 2020-01-17
+ * @updated_on 2020-02-18
  * @author Go Namhyeon <gnh1201@gmail.com>
- * @brief ReasonableFramework
+ * @brief ReasonableFramework is RVHM structured PHP framework with common security
  * @cvs https://github.com/gnh1201/reasonableframework
  * @sponsor https://patreon.com/catswords (with advanced security)
  */
