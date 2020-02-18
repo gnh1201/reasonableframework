@@ -86,8 +86,12 @@ foreach($load_systems as $system_name) {
 $config = get_config();
 $requests = get_requests();
 
-// set shared vars
-set_shared_var("dbc", get_db_connect());
+// set database connection
+// variable _unset_dbc: will not connect to database
+$_unset_dbc = get_requested_value("_unset_dbc");
+if(!empty($_unset_dbc)) {
+    set_shared_var("dbc", get_db_connect());
+}
 
 // set max_execution_time
 $max_execution_time = get_value_in_array("max_execution_time", $config, -1);
