@@ -147,7 +147,7 @@ if(!is_fn("set_max_execution_time")) {
     function set_max_execution_time($time) {
         if($time > -1) {
             @ini_set("max_execution_time", $time);
-            @set_time_limit($time);
+            //@set_time_limit($time);
         }
     }
 }
