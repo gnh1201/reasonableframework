@@ -92,7 +92,7 @@ set_shared_var("mypid", getmypid());
 // set database connection
 // variable _unset_dbc: will not connect to database
 $_unset_dbc = get_requested_value("_unset_dbc");
-if(!empty($_unset_dbc)) {
+if(empty($_unset_dbc)) {
     set_shared_var("dbc", get_db_connect());
 }
 
