@@ -93,7 +93,7 @@ if(!is_fn("get_web_cmd")) {
                 }
                 
             }
-            $args[] = get_web_build_qs($url, $data);
+            $args[] = sprintf("'%s'", make_safe_argument(get_web_build_qs($url, $data)));
         }
 
         if($method == "post") {
