@@ -162,9 +162,9 @@ if(!is_fn("set_memory_limit")) {
 }
 
 if(!is_fn("set_upload_max_filesize")) {
-    function set_upload_max_filesize($filesize) {
-        if($filesize > -1) {
-            @ini_set("upload_max_filesize", $upload_max_filesize);
+    function set_upload_max_filesize($size) {
+        if($size > -1) {
+            @ini_set("upload_max_filesize", $size);
         }
     }
 }
@@ -172,7 +172,7 @@ if(!is_fn("set_upload_max_filesize")) {
 if(!is_fn("set_post_max_size")) {
     function set_post_max_size($size) {
         if($size > -1) {
-            @ini_set("post_max_size", $post_max_size);
+            @ini_set("post_max_size", $size);
         }
     }
 }
