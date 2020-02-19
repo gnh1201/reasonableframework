@@ -9,7 +9,7 @@
 
 if(!is_fn("get_cpu_idle")) {
     function get_cpu_idle() {
-        $idle = 100.0;
+        $idle = false;
 
         if(loadHelper("exectool")) {
             $idle = floatval(trim(exec_command("top -n 1 | grep -i Cpu\(s\) | awk '{print \$8}'")));
