@@ -285,6 +285,7 @@ if(!is_fn("get_bind_to_sql_insert")) {
 
         // get not duplicatable fieldnames
         $setkeys = get_array(get_value_in_array("setkeys", $options, false));
+        $setfixeds = get_array(get_value_in_array("setfixeds", $options, false));
         $setignores = get_array(get_value_in_array("setignores", $options, false));
         $setwheres = get_array(get_value_in_array("setwheres", $options, false));
         
@@ -302,10 +303,12 @@ if(!is_fn("get_bind_to_sql_insert")) {
             $_bind_K = array();
             $_bind_V = array();
             foreach($bind as $k=>$v) {
-                if(in_array($k, $setkeys)) {
-                    $_bind_K[$k] = $v;
-                } else {
-                    $_bind_V[$k] = $v;
+                if(!in_array($k, $setfixeds)) {
+                    if(in_array($k, $setkeys)) {
+                        $_bind_K[$k] = $v;
+                    } else {
+                        $_bind_V[$k] = $v;
+                    }
                 }
             }
             $_options = array(
