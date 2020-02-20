@@ -2,7 +2,7 @@
 /**
  * @file database.php
  * @created_on 2018-04-13
- * @updated_on 2020-02-17
+ * @updated_on 2020-02-20
  * @author Go Namhyeon <gnh1201@gmail.com>
  * @brief Database module
  */
@@ -595,7 +595,7 @@ if(!is_fn("get_db_tablenames")) {
 
 if(!is_fn("get_bind_to_sql_fields")) {
     function get_bind_to_sql_fields($fields) {
-        $s1a = array()
+        $s1a = array();
 
         foreach($setfields as $k=>$v) {
             // add
