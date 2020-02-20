@@ -2,7 +2,7 @@
 // Go Namhyeon <gnh1201@gmail.com>
 // 2019-09-25
 
-if(!is_fn("decode_colona_format") {
+if(!is_fn("decode_colona_format")) {
     function decode_colona_format($data) {
         $lines = split_by_line(remove_utf8_bom($data));
         $jobargs = array();
