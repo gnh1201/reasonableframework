@@ -387,6 +387,7 @@ if(!is_fn("exec_db_bulk_end")) {
         $rows = get_shared_var("bulk_" . $bulkid);
         if(count($rows) == 0) {
             write_common_log("bulk ended: empty", "system/database");
+            return;
         }
 
         $sql = "insert into `%s` (%s) values (%s)";
