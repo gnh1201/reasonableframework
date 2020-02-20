@@ -382,7 +382,12 @@ if(!is_fn("exec_db_bulk_push")) {
 
 if(!is_fn("exec_db_bulk_end")) {
     function exec_db_bulk_end($bulkid, $tablename, $bindkeys) {
+        $result = false;
+
         $rows = get_shared_var("bulk_" . $bulkid);
+        if(count($rows) == 0) {
+            write_common_log("bulk ended: empty", "system/database");
+        }
 
         $sql = "insert into `%s` (%s) values (%s)";
         $s1 = $tablename;
@@ -395,10 +400,11 @@ if(!is_fn("exec_db_bulk_end")) {
         $s3 = implode("), (", $s3a);
 
         $sql = sprintf($sql, $s1, $s2, $s3);
+        $result = exec_db_query($sql);
 
         write_common_log("bulk ended: " . substr($sql, 0, 200) . "...", "system/database");
 
-        return exec_db_query($sql);
+        return $result;
     }
 }
 
