@@ -321,7 +321,7 @@ if(!is_fn("get_bind_to_sql_insert")) {
             }
         }
 
-        // preventing accidentally query
+        // preventing incident query
         $num_conditions = sum($num_keys, $num_wheres);
         if($num_conditions == 0 && $safemode_off !== true) {
             write_common_log("suspicious incident query. blocked. (safemode=1)", "system/database");
