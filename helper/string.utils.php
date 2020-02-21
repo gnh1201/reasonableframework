@@ -60,10 +60,10 @@ if(!is_fn("get_converted_string")) {
 }
 
 if(!is_fn("nl2p")) {
-    function nl2p($string) {
-        $paragraphs = '';
-        foreach (explode("\n", $string) as $line) {
-            if (trim($line)) {
+    function nl2p($str) {
+        $paragraphs = "";
+        foreach(explode_by_line($str) as $line) {
+            if(trim($line)) {
                 $paragraphs .= '<p>' . $line . '</p>';
             }
         }
@@ -73,7 +73,7 @@ if(!is_fn("nl2p")) {
 
 if(!is_fn("br2nl")) {
     function br2nl($string) {
-        return preg_replace('/\<br(\s*)?\/?\>/i', "\n", $string); 
+        return preg_replace('/\<br(\s*)?\/?\>/i', DOC_EOL, $string); 
     }
 }
 
