@@ -151,6 +151,13 @@ if(!is_fn("explode_by_line")) {
     }
 }
 
+// Deprecated: split_by_line()
+if(!is_fn("split_by_line")) {
+    function split_by_line($str) {
+        return explode_by_line($str);
+    }
+}
+
 if(!is_fn("explode_storage_file_by_line")) {
     function explode_storage_file_by_line($filename, $options=array()) {
         return explode_by_line(read_storage_file($filename, $options));
