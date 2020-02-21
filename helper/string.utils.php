@@ -145,38 +145,36 @@ if(!is_fn("get_splitted_strings")) {
     }
 }
 
-if(!is_fn("split_by_line")) {
-    function split_by_line($str) {
+if(!is_fn("explode_by_line")) {
+    function explode_by_line($str) {
         return preg_split('/\n|\r\n?/', $str);
     }
 }
 
-if(!is_fn("read_storage_file_by_line")) {
-    function read_storage_file_by_line($filename, $options=array()) {
-        return split_by_line(read_storage_file($filename, $options));
+if(!is_fn("explode_storage_file_by_line")) {
+    function explode_storage_file_by_line($filename, $options=array()) {
+        return explode_by_line(read_storage_file($filename, $options));
     }
 }
 
 // https://stackoverflow.com/questions/834303/startswith-and-endswith-functions-in-php
-if(!is_fn("startsWith")) {
-    function startsWith($haystack, $needle) {
+if(!is_fn("is_prefix")) {
+    function is_prefix($haystack, $needle) {
         $length = strlen($needle);
         return (substr($haystack, 0, $length) === $needle);
     }
 }
 
-if(!is_fn("endsWith")) {
-    function endsWith($haystack, $needle) {
+if(!is_fn("is_suffix")) {
+    function is_suffix($haystack, $needle) {
         $length = strlen($needle);
         if($length == 0) {
             return true;
         }
-
         return (substr($haystack, -$length) === $needle);
     }
 }
 
-// https://stackoverflow.com/questions/4955433/php-multiple-delimiters-in-explode/27767665#27767665
 if(!is_fn("multi_explode")) {
     function multi_explode($delimiters, $string) {
         $ready = str_replace($delimiters, $delimiters[0], $string);
@@ -202,24 +200,6 @@ if(!is_fn("multi_strpos")) {
         }
 
         return (($pos < $last_pos) ? $pos : false);
-    }
-}
-
-if(!is_fn("multi_str_split")) {
-    function multi_str_split($string, $delimiters) {
-        $strings = array();
-
-        if(is_string($string)) {
-            $offset = 0;
-            $pos = -1;
-            while(!($pos !== false)) {
-                $offset = $pos + 1;
-                $pos = multi_strpos($string, $delimiters, $offset);
-                $strings[] = substr($string, $offset, $pos - $offset);
-            }
-        }
-
-        return $strings;
     }
 }
 
@@ -275,19 +255,19 @@ if(!is_fn("get_highlighted_html_by_words")) {
 }
 
 if(!is_fn("get_floating_percentage")) {
-    function get_floating_percentage($x, $a=2) {
-        return round(floatval($x) / 100, floatval($a));
+    function get_floating_percentage($x, $a=5) {
+        return round(floatval($x) / 100.0, $a);
     }
 }
 
-if(!is_fn("eregi_compatible")) {
-    function eregi_compatible($pattern, $subject, &$matches=NULL) {
+if(!is_fn("eregi")) {
+    function eregi($pattern, $subject, &$matches=NULL) {
         return preg_match(sprintf("/%s/i", $pattern), $subject, $matches);
     }
 }
 
-if(!is_fn("eregi_replace_compatible")) {
-    function eregi_replace_compatible($pattern, $replacement, $subject) {
+if(!is_fn("eregi_replace")) {
+    function eregi_replace($pattern, $replacement, $subject) {
         return preg_replace(sprintf("/%s/i", $pattern), $replacement, $subject);
     }
 }
