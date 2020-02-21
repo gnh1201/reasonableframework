@@ -34,6 +34,32 @@ if(!(is_not_fn("is_fn") < 0)) {
     }
 }
 
+if(!is_fn("is_deprecated_fn")) {
+    function is_deprecated_fn($fn) {
+        $flag = false;
+
+        $config = get_config();
+        $deprecated_fn = get_value_in_array("deprecated_fn", $config, array());
+        $deprecated_fn_list = explode(",", $deprecated_fn);
+
+        if(is_array($fn)) {
+            foreach($fn as $k=>$v) {
+                if(in_array($v, $deprecated_fn_list)) {
+                    $flag = true;
+                    write_common_log(sprintf("Deprecated: %s()", $v), "system/base");
+                }
+            }
+        } else {
+            if(in_array($fn, $deprecated_fn_list)) {
+                $flag = true;
+                write_common_log(sprintf("Deprecated: %s()", $fn), "system/base");
+            }
+        }
+
+        return $flag;
+    }
+}
+
 // set_shared_var: void
 if(!is_fn("set_shared_var")) {
     function set_shared_var($k, $v) {
