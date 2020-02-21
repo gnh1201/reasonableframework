@@ -497,6 +497,14 @@ if(!is_fn("get_bind_to_sql_where")) {
                                 }
                                 $s3 .= sprintf(" %s (%s)", $opts[0], implode(" and ", $s3a));
                             }
+                        } elseif($opts[1][0] == "inset") {
+                            if(check_array_length($opts[1][2], 0) > 0) {
+                                $s3a = array();
+                                foreach($opts[1][2] as $word) {
+                                    $s3a[] = sprintf("find_in_set('%s', %s)", $word, $opts[1][1]);
+                                }
+                                $s3 .= sprintf(" %s (%s)", $opts[0], implode(" or ", $s3a));
+                            }
                         } elseif($opts[1][0] == "interval") {
                             $s3u = array("s" => 1, "m" => 60, "h" => 120, "d" => 86400);
                             // todo
