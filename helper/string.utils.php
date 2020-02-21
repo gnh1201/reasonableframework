@@ -2,7 +2,7 @@
 /**
  * @file string.utils.php
  * @created_on 2018-05-27
- * @updated_on 2020-01-25
+ * @updated_on 2020-02-21
  * @author Go Namhyeon <gnh1201@gmail.com>
  * @brief String utility helper
  */
@@ -157,7 +157,6 @@ if(!is_fn("explode_storage_file_by_line")) {
     }
 }
 
-// https://stackoverflow.com/questions/834303/startswith-and-endswith-functions-in-php
 if(!is_fn("is_prefix")) {
     function is_prefix($haystack, $needle) {
         $length = strlen($needle);
