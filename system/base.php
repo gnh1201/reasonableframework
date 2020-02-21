@@ -321,14 +321,6 @@ if(!is_fn("get_key_in_array")) {
     }
 }
 
-if(!is_fn("remove_item_in_array")) {
-    function remove_item_in_array($key, $arr) {
-        if(array_key_exists($key, $arr)) {
-            unset($arr[$key]);
-        }
-    }
-}
-
 // error handler (set error)
 if(!is_fn("set_error")) {
     function set_error($msg, $code="ERROR") {
