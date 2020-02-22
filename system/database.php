@@ -288,7 +288,7 @@ if(!is_fn("get_bind_to_sql_insert")) {
         $setfixeds = get_array(get_value_in_array("setfixeds", $options, false));
         $setignores = get_array(get_value_in_array("setignores", $options, false));
         $setwheres = get_array(get_value_in_array("setwheres", $options, false));
-        
+
         // safemode_off (default: false)
         $safemode_off = array_key_equals("safemode_off", $options, true);
 
@@ -322,10 +322,12 @@ if(!is_fn("get_bind_to_sql_insert")) {
         }
 
         // preventing incident query
-        $num_conditions = sum($num_keys, $num_wheres);
-        if($num_conditions == 0 && $safemode_off !== true) {
-            write_common_log("suspicious incident query. blocked. (safemode=1)", "system/database");
-            return false;
+        if($num_duplicates > 0)
+            $num_conditions = array_sum(array($num_keys, $num_wheres));
+            if($num_conditions == 0 && $safemode_off !== true) {
+                write_common_log("suspicious incident query. blocked. (safemode=1)", "system/database");
+                return false;
+            }
         }
 
         // check ignores
