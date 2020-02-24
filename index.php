@@ -91,16 +91,6 @@ $requests = get_requests();
 // get PID(Process ID)
 set_shared_var("mypid", getmypid());
 
-// set limit of CPU usage
-$min_cpu_idle = floatval(get_value_in_array("min_cpu_idle", $config, 0)); // range: 0.0(0%) ~ 1.0(100%)
-$cpu_sleep_time =  floatval(get_value_in_array("cpu_sleep_time", $config, 3)); // default: 3 seconds
-if($min_cpu_idle > 0 && $min_cpu_idle < 1 && loadHelper("perftool")) {
-    while(get_cpu_idle() < $min_cpu_idle) {
-        sleep($cpu_sleep_time);
-        write_common_log(sprintf("CPU usage exceeded, wait a %s second(s)...", $cpu_sleep_time), "index");
-    }
-}
-
 // set database connection
 // variable _unset_dbc: will not connect to database
 $_unset_dbc = get_requested_value("_unset_dbc");
