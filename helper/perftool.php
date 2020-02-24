@@ -20,7 +20,7 @@ if(!is_fn("get_cpu_idle")) {
 }
 
 if(!is_fn("set_min_cpu_idle")) {
-    function set_min_cpu_idle($min_cpu_idle=0.05) {
+    function set_min_cpu_idle($min_cpu_idle=0.01) {
         $wait = 0;
 
         // default (cpu_sleep_time): 3 seconds
@@ -28,7 +28,7 @@ if(!is_fn("set_min_cpu_idle")) {
         if($min_cpu_idle > 0 && $min_cpu_idle < 1) {
             while(get_cpu_idle() < $min_cpu_idle) {
                 if($wait == 0) {
-                    write_common_log("CPU usage exceeded, wait a few seconds...", "helper/preftool");
+                    write_common_log("CPU usage exceeded. wait a few seconds...", "helper/preftool");
                 }
 
                 sleep($cpu_sleep_time);
@@ -37,7 +37,7 @@ if(!is_fn("set_min_cpu_idle")) {
         }
 
         if($wait > 0) {
-            write_common_log(sprintf("CPU usage recovered, waited %s seconds ago", ($wait * $cpu_sleep_time)), "helper/preftool");
+            write_common_log(sprintf("CPU usage recovered. waited %s seconds ago", ($wait * $cpu_sleep_time)), "helper/preftool");
         }
     }
 }
