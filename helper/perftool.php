@@ -20,13 +20,13 @@ if(!is_fn("get_cpu_idle")) {
 }
 
 if(!is_fn("set_min_cpu_idle")) {
-    function set_min_cpu_idle($min_cpu_idle=0.01) {
+    function set_min_cpu_idle($idle=0.01) {
         $wait = 0;
 
         // default (cpu_sleep_time): 3 seconds
         $cpu_sleep_time =  floatval(get_value_in_array("cpu_sleep_time", $config, 3));
-        if($min_cpu_idle > 0 && $min_cpu_idle < 1) {
-            while(get_cpu_idle() < $min_cpu_idle) {
+        if($idle > 0 && $idle < 1) {
+            while(get_cpu_idle() < $idle) {
                 if($wait == 0) {
                     write_common_log("CPU usage exceeded. wait a few seconds...", "helper/preftool");
                 }
