@@ -15,7 +15,7 @@ if(!is_fn("set_scope")) {
 }
 
 if(!is_fn("get_scope")) {
-    functon get_scope($k) {
+    function get_scope($k) {
         return get_shared_var($k);
     }
 }
