@@ -7,6 +7,7 @@ upload_max_filesize=0
 post_max_size=0
 min_cpu_idle=0
 cpu_sleep_time=3
+cpu_num_cores=1
 session_dir=session
 enable_autoload=0
 default_route=welcome
