@@ -258,6 +258,21 @@ if(!is_fn("array_key_is_array")) {
     }
 }
 
+if(!is_fn("array_key_unset")) {
+    function array_key_unset($key, $array) {
+        $_array = array();
+
+        // alternative to `unset($array[$key])`
+        foreach($array as $k=>$v) {
+            if($k != $key) {
+                $_array[$k] = $v;
+            }
+        }
+
+        return $_array;
+    }
+}
+
 if(!is_fn("array_keys_empty")) {
     function array_keys_empty($keys, $array) {
         $flag = false;
