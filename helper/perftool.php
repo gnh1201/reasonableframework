@@ -19,6 +19,18 @@ if(!is_fn("get_cpu_idle")) {
     }
 }
 
+if(!is_fn("get_cpu_idle2")) {
+    function get_cpu_idle2() {
+        $idle = false;
+
+        if(loadHelper("exectool")) {
+            $idle = floatval(trim(exec_command("grep 'cpu ' /proc/stat | awk '{idle=(\$5)/(\$2+\$4+\$5)} END {print idle}'")));
+        }
+
+        return $idle;
+    }
+}
+
 if(!is_fn("set_min_cpu_idle")) {
     function set_min_cpu_idle($ratio=0.01) {
         $wait = 0;
