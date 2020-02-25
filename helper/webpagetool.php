@@ -457,7 +457,7 @@ if(!is_fn("get_web_curl")) {
         if(count($data) > 0) {
             if($method == "post") {
                 foreach($data as $k=>$v) {
-                    if(substr($v, 0, 1) == "@") { // if this is a file
+                    if(is_string($v) && substr($v, 0, 1) == "@") { // if this is a file
                         if(is_fn("curl_file_create")) { // php 5.5+
                             $data[$k] = curl_file_create(substr($v, 1));
                         } else {
