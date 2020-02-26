@@ -258,18 +258,12 @@ if(!is_fn("array_key_is_array")) {
     }
 }
 
-if(!is_fn("array_key_unset")) {
-    function array_key_unset($key, $array) {
-        $_array = array();
-
-        // alternative to `unset($array[$key])`
-        foreach($array as $k=>$v) {
-            if($k != $key) {
-                $_array[$k] = $v;
-            }
+// example: array_key_unset(array_search("apple", $fruits), $fruits);
+if(!check_function_exists("array_key_unset")) {
+    function array_key_unset($key, &$array) {
+        if(array_key_exists($key, $array)) {
+            unset($array[$key]);
         }
-
-        return $_array;
     }
 }
 
