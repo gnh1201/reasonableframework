@@ -356,8 +356,8 @@ if(!is_fn("write_storage_file")) {
                 }
                 fclose($fhandle);
             } else {
-                set_error("maybe, your storage is write-protected. " . $upload_filename);
-                show_errors();
+                write_common_log("maybe, your storage is write-protected. " . $upload_filename);
+                $result = false;
             }
         }
 
