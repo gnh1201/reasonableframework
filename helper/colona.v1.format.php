@@ -4,7 +4,7 @@
 
 if(!is_fn("decode_colona_format")) {
     function decode_colona_format($data) {
-        $lines = split_by_line(remove_utf8_bom($data));
+        $lines = explode_by_line(remove_utf8_bom($data));
         $jobargs = array();
         $eof = false;
         $delimiter = ":";
