@@ -61,9 +61,8 @@ if(!is_fn("set_cpu_usage_limit")) {
         $pid = get_shared_var("mypid");
 
         if(!empty($pid) && loadHelper("exectool")) {
-            write_common_log(sprintf("CPU usage limit setted. (PID, LIMIT)=(%s, %s)", $pid, ($ratio * $num_cores) * 100), "helper/perftool");
+            write_common_log(sprintf("Limited CPU usage (%s, %s)<=(PID, LIMIT)", $pid, ($ratio * $num_cores) * 100), "helper/perftool");
             exec_command(sprintf("cpulimit --pid %s --limit %s", $pid, ($ratio * $num_cores) * 100));
         }
     }
 }
-
