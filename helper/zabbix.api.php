@@ -65,6 +65,33 @@ if(!is_fn("zabbix_authenticate")) {
     }
 }
 
+if(!is_fn("zabbix_get_hostgroups")) {
+    function zabbix_get_hostgroups() {
+        $hostgroups = false;
+        $response = false;
+        
+        // get zabbix authentication
+        $zabbix_api_url = get_scope("zabbix_api_url");
+        $zabbix_auth = get_scope("zabbix_auth");
+
+        // connect to zabbix server
+        if(loadHelper("webpagetool")) {
+            $response = get_web_json($zabbix_api_url, "jsonrpc2.cache", array(
+                "method" => "hostgroup.get",
+                "params" => array(
+                    "output" => "extend"
+                ),
+                "id" => zabbix_get_id(),
+                "auth" => $zabbix_auth
+            ));
+            
+            $hostgroups = get_property_value("result", $response);
+        }
+
+        return $hostgroups;
+    }
+}
+
 if(!is_fn("zabbix_get_hosts")) {
     function zabbix_get_hosts() {
         $hosts = false;
