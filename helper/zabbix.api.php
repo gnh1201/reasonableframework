@@ -2,7 +2,7 @@
 /**
  * @file zabbix.api.php
  * @created_on 2019-04-08
- * @updated_on 2020-02-05
+ * @updated_on 2020-03-05
  * @author Go Namhyeon <gnh1201@gmail.com>
  * @brief Zabbix JSON-RPC API (3.0) interface module
  * @documentation https://www.zabbix.com/documentation/current/ (4.4)
