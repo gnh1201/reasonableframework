@@ -105,6 +105,7 @@ if(!is_fn("zabbix_get_hosts")) {
         if(loadHelper("webpagetool")) {
             $response = get_web_json($zabbix_api_url, "jsonrpc2.cache", array(
                 "method" => "host.get",
+                "selectGroups" => "extend",
                 "params" => array(
                     "output" => array("hostid", "host"),
                     "selectInterfaces" => array("interfaceid", "ip"),
