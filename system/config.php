@@ -10,14 +10,14 @@
 if(!is_fn("read_config")) {
     function read_config() {
         $config = array();
-        $is_legacy_version = version_compare(phpversion(), "5.3.0", "<");
+        $is_compatible = version_compare(phpversion(), "5.3.0", "<");
 
         $files = retrieve_storage_dir("config");
         foreach($files as $file) {
             $ini = array();
 
             // `parse_ini_string` function is not supported under 5.3.0. Use only 'ini' file
-            if(!$is_legacy_version && check_file_extension($file, "ini.php", array("multiple" => true))) {
+            if(!$is_compatible && check_file_extension($file, "ini.php", array("multiple" => true))) {
                 $str = include($file);
                 $ini = parse_ini_string($str);
             } elseif(check_file_extension($file, "ini")) {
