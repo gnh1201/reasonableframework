@@ -440,8 +440,15 @@ if(!is_fn("get_bind_to_sql_where")) {
             $s1a = get_bind_to_sql_fields($setfields);
         }
         
-        if(!array_keys_empty(array("settimefield", "setminutes"), $options)) {
-            $s3 .= get_bind_to_sql_past_minutes($options['settimefield'], $options['setminutes']);
+        // set time range
+        if(!array_key_empty("settimefield", $options)) {
+            if(!array_key_empty("setpast", $options)) {
+                $s3 .= get_bind_to_sql_past($options['settimefield'], $options['setpast']);
+            }
+
+            if(!array_key_empty("setlast", $options)) {
+                $s3 .= get_bind_to_sql_last($options['settimefield'], $options['setlast']);
+            }
         }
 
         if(!array_key_empty("setwheres", $options)) {
@@ -831,13 +838,45 @@ if(!is_fn("get_bind_to_sql_delete")) {
     }
 }
 
-if(!is_fn("get_bind_to_sql_past_minutes")) {
-    function get_bind_to_sql_past_minutes($fieldname, $minutes=5) {
-        $sql_past_minutes = "";
-        if($minutes > 0) {
-            $sql_past_minutes = sprintf(" and %s > DATE_SUB(now(), INTERVAL %d MINUTE)", $fieldname, $minutes);
+if(!is_fn("get_bind_to_sql_past")) {
+    function get_bind_to_sql_past($fieldname, $interval) {
+        $sql_past = "";
+        
+        $time = 0;
+
+        $_U = array("s" => 1, "m" => 60, "h" => 3600, "d" => 86400);
+        $_L = intval(substr($interval, 0, -1));
+        $_R = substr($interval, -1);
+        if(array_key_exists($_R, $_U)) {
+            $time = $_L * $_U[$_R];
         }
-        return $sql_past_minutes;
+
+        if($time > 0) {
+            $sql_past = sprintf(" and `%s` < DATE_SUB(NOW(), INTERVAL %d SECOND)", $fieldname, $time);
+        }
+        
+        return $sql_past;
+    }
+}
+
+if(!is_fn("get_bind_to_sql_last")) {
+    function get_bind_to_sql_last($fieldname, $interval) {
+        $sql_last = "";
+        
+        $time = 0;
+
+        $_U = array("s" => 1, "m" => 60, "h" => 3600, "d" => 86400);
+        $_L = intval(substr($interval, 0, -1));
+        $_R = substr($interval, -1);
+        if(array_key_exists($_R, $_U)) {
+            $time = $_L * $_U[$_R];
+        }
+
+        if($time > 0) {
+            $sql_last = sprintf(" and `%s` >= DATE_SUB(NOW(), INTERVAL %d SECOND)", $fieldname, $time);
+        }
+
+        return $sql_last;
     }
 }
 
@@ -943,6 +982,7 @@ if(!is_fn("exec_db_table_create")) {
         $setspatial = get_value_in_array("setspatial", $options, false);
         
         // get event options
+        $settimefield = get_value_in_array("settimefield", $options, false);
         $setevent = get_value_in_array("setevent", $options, false);
 
         // check if exists table
@@ -1016,8 +1056,33 @@ if(!is_fn("exec_db_table_create")) {
 
             // create event
             foreach($setevent as $event) {
-                $sql = sprintf("create event event_%s on schedule at CURRENT_TIMESTAMP + INTERVAL %s MINUTES DO (%s)", make_random_id(), $event['interval'], $event['query']);
-                exec_db_query($sql);
+                if(check_array_length($event, 3) == 0) {
+                    $mode = $event[0];
+                    $interval = $event[1];
+                    $query = "";
+
+                    // bind(array) or query(string)
+                    $_arg3 = $event[2];
+
+                    if(is_array($_arg3)) {
+                        if($mode == "expire") {
+                            $bind = $_arg3;
+                            $query = get_bind_to_sql_delete($_tablename, $bind, array(
+                                "settimefield" => $settimefield,
+                                "setpast" => $interval
+                            ));
+                        }
+                    } else {
+                        if($mode == "query") {
+                            $query = $_arg3;
+                        }
+                    }
+
+                    if(!empty($query)) {
+                        $sql = sprintf("create event `scheduled_%s` on schedule at CURRENT_TIMESTAMP + INTERVAL %s MINUTES DO (%s)", make_random_id(), $interval, $query);
+                        exec_db_query($sql);
+                    }
+                }
             }
         }
 
