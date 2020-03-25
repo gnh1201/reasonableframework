@@ -1040,14 +1040,17 @@ if(!is_fn("exec_db_table_create")) {
 
             // set expire time
             if(!empty($setexpire)) {
+                $_eventname = sprintf("scheduled_%s", make_random_id());
+                $_seconds = get_seconds($setexpire);
                 $_query = get_bind_to_sql_delete($_tablename, $bind, array(
                     "settimefield" => $settimefield,
-                    "setpast" => $interval
+                    "setpast" => $_seconds
                 ));
+
+                $sql = sprintf("create event `%s` on schedule at CURRENT_TIMESTAMP + INTERVAL %s MINUTES DO (%s)", $_eventname, $_seconds, $_query);
+                exec_db_query($sql);
             }
-            
-            
-            
+
             foreach($setevent as $event) {
                 if(check_array_length($event, 3) == 0) {
                     $mode = $event[0];
