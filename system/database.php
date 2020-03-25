@@ -1047,7 +1047,7 @@ if(!is_fn("exec_db_table_create")) {
                     "setpast" => $_seconds
                 ));
 
-                $sql = sprintf("create event `%s` on schedule at CURRENT_TIMESTAMP + INTERVAL %s SECONDS DO (%s)", $_eventname, $_seconds, $_query);
+                $sql = sprintf("CREATE EVENT `%s` ON SCHEDULE AT CURRENT_TIMESTAMP + INTERVAL %s SECOND DO %s", $_eventname, $_seconds, $_query);
                 exec_db_query($sql);
             }
 
