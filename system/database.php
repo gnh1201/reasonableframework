@@ -838,23 +838,17 @@ if(!is_fn("get_bind_to_sql_delete")) {
     }
 }
 
+function get_seconds_from_interval
+
 if(!is_fn("get_bind_to_sql_past")) {
     function get_bind_to_sql_past($fieldname, $interval) {
         $sql_past = "";
         
-        $time = 0;
-
-        $_U = array("s" => 1, "m" => 60, "h" => 3600, "d" => 86400);
-        $_L = intval(substr($interval, 0, -1));
-        $_R = substr($interval, -1);
-        if(array_key_exists($_R, $_U)) {
-            $time = $_L * $_U[$_R];
-        }
-
+        $time = get_seconds($interval);
         if($time > 0) {
             $sql_past = sprintf(" and `%s` < DATE_SUB(NOW(), INTERVAL %d SECOND)", $fieldname, $time);
         }
-        
+
         return $sql_past;
     }
 }
@@ -863,15 +857,7 @@ if(!is_fn("get_bind_to_sql_last")) {
     function get_bind_to_sql_last($fieldname, $interval) {
         $sql_last = "";
         
-        $time = 0;
-
-        $_U = array("s" => 1, "m" => 60, "h" => 3600, "d" => 86400);
-        $_L = intval(substr($interval, 0, -1));
-        $_R = substr($interval, -1);
-        if(array_key_exists($_R, $_U)) {
-            $time = $_L * $_U[$_R];
-        }
-
+        $time = get_seconds($interval);
         if($time > 0) {
             $sql_last = sprintf(" and `%s` >= DATE_SUB(NOW(), INTERVAL %d SECOND)", $fieldname, $time);
         }
@@ -983,7 +969,7 @@ if(!is_fn("exec_db_table_create")) {
         
         // get event options
         $settimefield = get_value_in_array("settimefield", $options, false);
-        $setevent = get_value_in_array("setevent", $options, false);
+        $setexpire = get_value_in_array("setexpire", $options, false);
 
         // check if exists table
         $bind = array(
@@ -1054,7 +1040,16 @@ if(!is_fn("exec_db_table_create")) {
                 exec_db_query($sql);
             }
 
-            // create event
+            // set expire time
+            if(!empty($setexpire)) {
+                $_query = get_bind_to_sql_delete($_tablename, $bind, array(
+                    "settimefield" => $settimefield,
+                    "setpast" => $interval
+                ));
+            }
+            
+            
+            
             foreach($setevent as $event) {
                 if(check_array_length($event, 3) == 0) {
                     $mode = $event[0];
