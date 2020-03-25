@@ -838,8 +838,6 @@ if(!is_fn("get_bind_to_sql_delete")) {
     }
 }
 
-function get_seconds_from_interval
-
 if(!is_fn("get_bind_to_sql_past")) {
     function get_bind_to_sql_past($fieldname, $interval) {
         $sql_past = "";
