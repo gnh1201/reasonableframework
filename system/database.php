@@ -1016,7 +1016,7 @@ if(!is_fn("exec_db_table_create")) {
 
             // create event
             foreach($setevent as $event) {
-                $sql = sprintf("create event `%s` on schedule at CURRENT_TIMESTAMP + INTERVAL %s MINUTES DO %s", $_tablename, $event['interval'], $event['query']);
+                $sql = sprintf("create event event_%s on schedule at CURRENT_TIMESTAMP + INTERVAL %s MINUTES DO (%s)", make_random_id(), $event['interval'], $event['query']);
                 exec_db_query($sql);
             }
         }
