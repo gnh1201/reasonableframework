@@ -1061,7 +1061,7 @@ if(!is_fn("exec_db_table_create")) {
                     $interval = $event[1];
                     $query = "";
 
-                    // bind(array) or query(string)
+                    // _arg3: bind(array) or query(string)
                     $_arg3 = $event[2];
 
                     if(is_array($_arg3)) {
