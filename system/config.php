@@ -94,7 +94,7 @@ if(!is_fn("get_current_timestamp")) {
                 $units = array(
                     "s" => array(    1, "second", "seconds"),
                     "m" => array(   60, "minute", "minutes"),
-                    "h" => array(  120, "hour",   "hours"  ),
+                    "h" => array( 3600, "hour",   "hours"  ),
                     "d" => array(86400, "day",    "days"   )
                 );
                 $_L = intval(substr($adjust, 0, -1));
@@ -113,6 +113,21 @@ if(!is_fn("get_current_timestamp")) {
         }
 
         return $timestamp;
+    }
+}
+
+if(!is_fn("get_seconds")) {
+    function get_seconds($interval) {
+        $time = 0;
+
+        $_U = array("s" => 1, "m" => 60, "h" => 3600, "d" => 86400);
+        $_L = intval(substr($interval, 0, -1));
+        $_R = substr($interval, -1);
+        if(array_key_exists($_R, $_U)) {
+            $time = $_L * $_U[$_R];
+        }
+
+        return $time;
     }
 }
 
