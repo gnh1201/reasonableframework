@@ -2,7 +2,7 @@
 /**
  * @file database.php
  * @created_on 2018-04-13
- * @updated_on 2020-02-20
+ * @updated_on 2020-03-25
  * @author Go Namhyeon <gnh1201@gmail.com>
  * @brief Database module
  */
@@ -932,13 +932,18 @@ if(!is_fn("exec_db_table_create")) {
         $_tablename_p = sprintf("%s%s", $_prefix, $tablename);
         $_tablename_s = sprintf("%s%s", $tablename, $_suffix);
         $_tablename_t = sprintf("%s.tables", $_tablename_p);
+        
+        // get global configuration
+        $config = get_config();
 
         // get index options
-        $config = get_config();
         $setindex = get_value_in_array("setindex", $options, false);
         $setunique = get_value_in_array("setunique", $options, false);
         $setfulltext = get_value_in_array("setfulltext", $options, false);
         $setspatial = get_value_in_array("setspatial", $options, false);
+        
+        // get event options
+        $setevent = get_value_in_array("setevent", $options, false);
 
         // check if exists table
         $bind = array(
@@ -1006,6 +1011,12 @@ if(!is_fn("exec_db_table_create")) {
             // create spatial(geometry) (type of index)
             foreach($setspatial as $k=>$v) {
                 $sql = sprintf("create spatial index `%s` on `%s` (%s)", $k, $_tablename, implode(", ", $v));
+                exec_db_query($sql);
+            }
+
+            // create event
+            foreach($setevent as $event) {
+                $sql = sprintf("create event `%s` on schedule at CURRENT_TIMESTAMP + INTERVAL %s MINUTES DO %s", $_tablename, $event['interval'], $event['query']);
                 exec_db_query($sql);
             }
         }
