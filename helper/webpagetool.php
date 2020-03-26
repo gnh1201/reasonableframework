@@ -2,7 +2,7 @@
 /**
  * @file webpagetool.php
  * @created_on 2018-06-01
- * @updated_on 2020-02-13
+ * @updated_on 2020-02-26
  * @author Go Namhyeon <gnh1201@gmail.com>
  * @brief WebPageTool helper
  */
@@ -100,6 +100,7 @@ if(!is_fn("get_web_cmd")) {
             $args[] = "-X POST"; // set post request (the same as --request)
             $args[] = sprintf("-A '%s'", get_web_user_agent($ua)); // set agent
             $args[] = "-k"; // allow self-signed certificate (the same as --insecure)
+            
             foreach($headers as $k=>$v) {
                 // the same as --header
                 if(is_array($v)) {
@@ -114,11 +115,15 @@ if(!is_fn("get_web_cmd")) {
                     $args[] = sprintf("-H '%s: %s'", make_safe_argument($k), make_safe_argument($v));
                 }
             }
+
+            $_data = array();
             foreach($data as $k=>$v) {
                 if(substr($v, 0, 1) == "@") { // if this is a file
                     // the same as --form
                     $args[] = sprintf("-F %s='%s'", make_safe_argument($k), make_safe_argument($v));
                 } else {
+                    $_data[$k] = $v;
+                    /*
                     if(array_key_equals("Content-Type", $headers, "multipart/form-data")) {
                         $args[] = sprintf("-F %s='%s'", make_safe_argument($k), make_safe_argument($v));
                     } elseif(array_key_equals("Content-Type", $headers, "application/x-www-form-urlencoded")) {
@@ -126,8 +131,15 @@ if(!is_fn("get_web_cmd")) {
                     } else { // the same as --data
                         $args[] = sprintf("-d %s='%s'", make_safe_argument($k), make_safe_argument($v));
                     }
+                    */
                 }
             }
+
+            // #110 [helper/webpagetool] post array data, but (string)`Array` given
+            if(count($_data)) > 0) {
+                $args[] = sprintf("--data '%s'", make_safe_argument(http_build_query($_data)));
+            }
+
             $args[] = $url;
         }
 
