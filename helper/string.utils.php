@@ -164,6 +164,33 @@ if(!is_fn("explode_storage_file_by_line")) {
     }
 }
 
+if(!is_fn("strlike")) {
+    function strlike($haystack, $needle) {
+        $flag = false;
+
+        $s = explode("%", $needle);
+        $d = count($s);
+        switch($d) {
+            case 3:
+                $flag = (strpos($haystack, $s[1]) !== false);
+                break;
+            case 2:
+                if($s[1] == "") {
+                    //$flag = (strpos($haystack, $s[0]) === 0);
+                    $flag = is_prefix($haystack, $s[0]);
+                } elseif($s[0] == "")  {
+                    //$flag = (strpos($haystack, $s[1]) !== false);
+                    $flag = is_suffix($haystack, $s[1]);
+                }
+                break;
+            default:
+                $flag = ($needle === $haystack);
+        }
+
+        return $flag;
+    }
+}
+
 if(!is_fn("is_prefix")) {
     function is_prefix($haystack, $needle) {
         $length = strlen($needle);
