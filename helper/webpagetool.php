@@ -2,7 +2,7 @@
 /**
  * @file webpagetool.php
  * @created_on 2018-06-01
- * @updated_on 2020-02-26
+ * @updated_on 2020-04-06
  * @author Go Namhyeon <gnh1201@gmail.com>
  * @brief WebPageTool helper
  */
@@ -137,7 +137,7 @@ if(!is_fn("get_web_cmd")) {
 
             // #110 [helper/webpagetool] post array data, but (string)`Array` given
             if(count($_data)) > 0) {
-                $args[] = sprintf("--data '%s'", make_safe_argument(http_build_query($_data)));
+                $args[] = sprintf("--data '%s'", get_web_build_qs("", $_data));
             }
 
             $args[] = $url;
@@ -390,7 +390,7 @@ if(!is_fn("get_web_httpie")) {
         } elseif($method == "post") {
             $args[] = "POST";
             $args[] = $url;
-            $args[] = sprintf("body='%s'", http_build_query($data));
+            $args[] = sprintf("body='%s'", get_web_build_qs("", $data));
         } else {
             $args[] = get_web_build_qs($url, $data);
         }
@@ -480,7 +480,7 @@ if(!is_fn("get_web_curl")) {
 
                 $options[CURLOPT_POST] = 1;
                 if(is_array($data)) {
-                    $options[CURLOPT_POSTFIELDS] = http_build_query($data);
+                    $options[CURLOPT_POSTFIELDS] = get_web_build_qs("", $data);
                 } else {
                     $options[CURLOPT_POSTFIELDS] = $data;
                 }
