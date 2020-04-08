@@ -694,7 +694,7 @@ if(!is_fn("get_bind_to_sql_select")) {
         // setcreatedtime: range of table creation time
         $created_start_dt = "";
         $created_end_dt = "";
-        if(!array_key_is_empty("setcreatedtime", $options)) {
+        if(!array_key_empty("setcreatedtime", $options)) {
             if(is_string($options['setcreatedtime'])) {
                 $created_end_dt = $options['setcreatedtime'];
             } elseif(is_array($options['setcreatedtime'])) {
