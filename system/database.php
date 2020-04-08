@@ -691,6 +691,22 @@ if(!is_fn("get_bind_to_sql_select")) {
     function get_bind_to_sql_select($tablename, $bind=array(), $options=array()) {
         $sql = "select %s from `%s` where %s %s %s";
 
+        // setcreatedtime: range of table creation time
+        $created_start_dt = "";
+        $created_end_dt = "";
+        if(!array_key_is_empty("setcreatedtime", $options)) {
+            if(is_string($options['setcreatedtime'])) {
+                $created_end_dt = $options['setcreatedtime'];
+            } elseif(is_array($options['setcreatedtime'])) {
+                if(array_key_exists("end", $options['setcreatedtime'])) {
+                    $created_end_dt = $options['setcreatedtime']['end'];
+                }
+                if(array_key_exists("start", $options['setcreatedtime'])) {
+                    $created_start_dt = $options['setcreatedtime']['start'];
+                }
+            }
+        }
+
         // is_separated: check it is seperated table
         $is_separated = check_table_is_separated($tablename);
 
@@ -761,7 +777,7 @@ if(!is_fn("get_bind_to_sql_select")) {
             $sql = sprintf($sql, $s1, $s2, $s3, $s4, $s5);
         } else {
             $separated_sqls = array();
-            $tablenames = get_db_tablenames($tablename);
+            $tablenames = get_db_tablenames($tablename, $created_end_dt, $created_start_dt);
             foreach($tablenames as $_tablename) {
                 $separated_sqls[] = sprintf($sql, $s1, $_tablename, $s3, $s4, $s5);
             }
