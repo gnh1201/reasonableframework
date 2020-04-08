@@ -36,9 +36,9 @@ if(!is_fn("get_web_build_qs")) {
         } else {
             $pos = strpos($url, '?');
             if ($pos === false) {
-                $qs = $url . '?' . http_build_query($data);
+                $qs = $url . '?' . http_build_query($data, '', '&');
             } else {
-                $qs = $url . '&' . http_build_query($data);
+                $qs = $url . '&' . http_build_query($data, '', '&');
             }
         }
         return $qs;
