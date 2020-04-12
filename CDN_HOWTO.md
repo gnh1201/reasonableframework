@@ -37,8 +37,8 @@ ReasonableFramework v1.6.1 기준 https://github.com/gnh1201/reasonableframework
    2. `storage/config/uri.ini.php` 파일의 CDN/스트리밍 관련 부분을 아래와 같이 수정한다.
    
        ```
-       base_cdn_url=https://[사용자 아이디].cdn2.cafe24.com
-       base_vod_url=mms://wm-004.cafe24.com/[사용자 아이디]
+       base_cdn_url = https://[사용자 아이디].cdn2.cafe24.com
+       base_vod_url = mms://wm-004.cafe24.com/[사용자 아이디]
        ```
        
    3. `route` 폴더 밑에 `cdntest.php` 이름의 빈 파일을 만들고, 아래와 같이 입력 후 저장한다.
