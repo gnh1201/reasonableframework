@@ -231,6 +231,24 @@ if(!is_fn("get_route_link")) {
     }
 }
 
+// only for static resources (html, css, jpg, png, gif, ...)
+if(!is_fn("get_cdn_link")) {
+    function get_cdn_link($uri) {
+        $config = get_config();
+        $base_cdn_url = get_value_in_array("base_cdn_url", $config, "");
+        return sprintf("%s%s", $base_cdn_url, $uri);
+    }
+}
+
+// only for video resources (avi, mp4, mpeg, ...)
+if(!is_fn("get_vod_link")) {
+    function get_vod_link($uri) {
+        $config = get_config();
+        $base_vod_url = get_value_in_array("base_vod_url", $config, "");
+        return sprintf("%s%s", $base_vod_url, $uri);
+    }
+}
+
 // URI: Uniform Resource Identifier
 // URL: Uniform Resource Locator
 if(!is_fn("redirect_uri")) {
