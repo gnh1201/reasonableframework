@@ -4,6 +4,8 @@ ReasonableFramework v1.6.1 기준 https://github.com/gnh1201/reasonableframework
 
 ## 카페24
 
+기준: https://www.cafe24.com/?controller=product_page&type=basic&page=autoban
+
 1. 카페24(cafe24.com) 관리자 페이지에 로그인하여, CDN/스트리밍 도메인 정보를 얻는다.
    1. 메인 웹 사이트 로그인 -> `나의서비스관리` 클릭
    2. 좌측 메뉴에서 `서비스 접속관리` -> `서비스 접속 정보` 클릭
