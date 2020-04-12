@@ -259,7 +259,7 @@ if(!is_fn("array_key_is_array")) {
 }
 
 // example: array_key_unset(array_search("apple", $fruits), $fruits);
-if(!check_function_exists("array_key_unset")) {
+if(!is_fn("array_key_unset")) {
     function array_key_unset($key, &$array) {
         if(array_key_exists($key, $array)) {
             unset($array[$key]);
