@@ -22,7 +22,7 @@ ReasonableFramework v1.6.1 기준
        스트리밍 트래픽 용량: 500M
        FTP 주소: wm-004.cafe24.com
        FTP 포트: 5565
-       FTP 아이디: utilhome
+       FTP 아이디: [사용자 아이디]
        ```
    4. CDN의 경우, `https://[사용자 아이디].cdn2.cafe24.com`(예시)가 접속 주소가 된다.
    5. 스트리밍의 경우, `mms://wm-004.cafe24.com/[사용자 아이디]/abc.mp3`(예시)가 접속 주소가 된다.
