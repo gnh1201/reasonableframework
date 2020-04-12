@@ -1,4 +1,6 @@
-# 카페24(cafe24) CDN/스트리밍 사용법 (ReasonableFramework v1.6.1 기준)
+# 카페24(cafe24) CDN/스트리밍 사용법
+
+ReasonableFramework v1.6.1 기준
 
 ## 카페24
 
