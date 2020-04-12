@@ -4,8 +4,8 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>Welcome to ReasonableFramework</title>
-        <link href="<?php echo base_url(); ?>vendor/_dist/min/entireframework.min.css" rel="stylesheet" type="text/css">
-        <link href="<?php echo base_url(); ?>vendor/_dist/min/welcome.css" rel="stylesheet" type="text/css">
+        <link href="<?php echo base_url(); ?>/vendor/_dist/min/entireframework.min.css" rel="stylesheet" type="text/css">
+        <link href="<?php echo base_url(); ?>/vendor/_dist/min/welcome.css" rel="stylesheet" type="text/css">
     </head>
     <body>
         <nav class="nav" tabindex="-1" onclick="this.focus()">
