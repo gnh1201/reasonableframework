@@ -44,6 +44,7 @@ ReasonableFramework v1.6.1 기준 https://github.com/gnh1201/reasonableframework
    3. `route` 폴더 밑에 `cdntest.php` 이름의 빈 파일을 만들고, 아래와 같이 입력 후 저장한다.
    
        ```
+       <?php
        $data = array(
            "imageurl" => get_cdn_link("/picture.jpg");
        );
