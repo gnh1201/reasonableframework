@@ -43,6 +43,9 @@ if(!is_fn("read_route")) {
         $config = get_config();
         $requests = get_requests();
 
+        // get base route
+        $base_route = get_value_in_array("base_route", $config, "/");
+
         // get requested route
         $route = get_requested_value("route");
 
