@@ -9,7 +9,11 @@
 
 if(!is_fn("base_url")) {
     function base_url() {
-        return get_config_value("base_url");
+        $base_url = get_config_value("base_url");
+        if(empty($base_url)) {
+            $base_url = sprintf("https://%s", $_SERVER['HTTP_HOST']);
+        }
+        return $base_url;
     }
 }
 
