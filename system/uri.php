@@ -386,6 +386,7 @@ if(!is_fn("set_header_content_type")) {
             "json" => "application/json",
             "xml" => "text/xml",
             "txt" => "text/plain",
+            "yaml" => "application/x-yaml",
             "html" => "text/html",
             "xhtml" => "application/xhtml+xml",
             "cspt" => "application/catsplit",
