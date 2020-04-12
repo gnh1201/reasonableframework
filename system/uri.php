@@ -37,7 +37,7 @@ if(!is_fn("get_uri")) {
 }
 
 if(!is_fn("read_route")) {
-    function read_route($route=false) {
+    function read_route($route=false, $base_route="/") {
         $route = false;
 
         $config = get_config();
