@@ -1,6 +1,6 @@
 # 카페24(cafe24) CDN/스트리밍 사용법
 
-ReasonableFramework v1.6.1 기준 https://github.com/gnh1201/reasonableframework
+ReasonableFramework v1.6.2 기준 https://github.com/gnh1201/reasonableframework
 
 ## 목차
 - 카페24 ([10G 광아우토반 Full SSD](https://www.cafe24.com/?controller=product_page&type=basic&page=autoban) 웹 호스팅 상품 기준)
@@ -32,8 +32,8 @@ ReasonableFramework v1.6.1 기준 https://github.com/gnh1201/reasonableframework
    4. CDN의 경우, `https://[사용자 아이디].cdn2.cafe24.com`(예시)가 접속 주소가 된다.
    5. 스트리밍의 경우, `mms://wm-004.cafe24.com/[사용자 아이디]/abc.mp3`(예시)가 접속 주소가 된다.
 
-2. ResonableFramework v1.6.1 설치 및 CDN/스트리밍 설정
-   1. https://github.com/gnh1201/reasonableframework 접속 후 `Release` 탭을 누르고 `v1.6.1` 또는 최신 버전을 내려받는다.
+2. ResonableFramework v1.6.2 설치 및 CDN/스트리밍 설정
+   1. https://github.com/gnh1201/reasonableframework 접속 후 `Release` 탭을 누르고 `v1.6.2` 또는 최신 버전을 내려받는다.
    2. `storage/config/uri.ini.php` 파일의 CDN/스트리밍 관련 부분을 아래와 같이 수정한다.
    
        ```
