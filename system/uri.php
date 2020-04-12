@@ -2,7 +2,7 @@
 /**
  * @file uri.php
  * @created_on 2018-04-13
- * @updated_on 2020-01-19
+ * @updated_on 2020-04-12
  * @author Go Namhyeon <gnh1201@gmail.com>
  * @brief URI module
  */
@@ -395,7 +395,7 @@ if(!is_fn("set_header_content_type")) {
         if(array_key_exists($type, $rules)) {
             header(sprintf("Content-type: %s", $rules[$type]));
         } else {
-            header("Content-type: plain/text");
+            header("Content-type: text/plain");
         }
     }
 }
