@@ -40,7 +40,7 @@ ReasonableFramework v1.6.1 기준 https://github.com/gnh1201/reasonableframework
    
        ```
        $data = array(
-           "imageurl" => get_cdn_url("/picture.jpg");
+           "imageurl" => get_cdn_link("/picture.jpg");
        );
        renderView("view_cdntest", $data);
        ```
