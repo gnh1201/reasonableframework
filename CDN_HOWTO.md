@@ -3,11 +3,11 @@
 ReasonableFramework v1.6.1 기준 https://github.com/gnh1201/reasonableframework
 
 ## 목차
-- 카페24 ([10G 광아투토반 Full SSD](https://www.cafe24.com/?controller=product_page&type=basic&page=autoban) 웹 호스팅 상품 기준)
+- 카페24 ([10G 광아우토반 Full SSD](https://www.cafe24.com/?controller=product_page&type=basic&page=autoban) 웹 호스팅 상품 기준)
 - Amazon S3 또는 타사 정적 파일 호스팅/Object Storage 사용자
 - 문의사항
 
-## 카페24 ([10G 광아투토반 Full SSD](https://www.cafe24.com/?controller=product_page&type=basic&page=autoban) 웹 호스팅 상품 기준)
+## 카페24 ([10G 광아우토반 Full SSD](https://www.cafe24.com/?controller=product_page&type=basic&page=autoban) 웹 호스팅 상품 기준)
 
 1. 카페24(cafe24.com) 관리자 페이지에 로그인하여, CDN/스트리밍 도메인 정보를 얻는다.
    1. 메인 웹 사이트 로그인 -> `나의서비스관리` 클릭
