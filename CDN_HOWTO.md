@@ -10,11 +10,19 @@ ReasonableFramework v1.6.1 기준
    3. CDN/스트리밍 정보 확인
    
        ```
+       *** CDN ***
        CDN 하드 용량: 200M
        CDN 트래픽 용량: 500M
        FTP 주소: iup.cdn2.cafe24.com
        FTP 포트: 21
        FTP 아이디: [사용자 아이디]
+       
+       *** 스트리밍 ***
+       스트리밍 하드 용량: 200M
+       스트리밍 트래픽 용량: 500M
+       FTP 주소: wm-004.cafe24.com
+       FTP 포트: 5565
+       FTP 아이디: utilhome
        ```
    4. CDN의 경우, `https://[사용자 아이디].cdn2.cafe24.com`(예시)가 접속 주소가 된다.
    5. 스트리밍의 경우, `mms://wm-004.cafe24.com/[사용자 아이디]/abc.mp3`(예시)가 접속 주소가 된다.
