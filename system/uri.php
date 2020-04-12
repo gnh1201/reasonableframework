@@ -235,7 +235,10 @@ if(!is_fn("get_route_link")) {
 if(!is_fn("get_cdn_link")) {
     function get_cdn_link($uri) {
         $config = get_config();
-        $base_cdn_url = get_value_in_array("base_cdn_url", $config, "");
+        
+        $base_url = get_value_in_array("base_url", $config, "");
+        $base_cdn_url = get_value_in_array("base_cdn_url", $config, $base_url);
+
         return sprintf("%s%s", $base_cdn_url, $uri);
     }
 }
@@ -244,7 +247,10 @@ if(!is_fn("get_cdn_link")) {
 if(!is_fn("get_vod_link")) {
     function get_vod_link($uri) {
         $config = get_config();
-        $base_vod_url = get_value_in_array("base_vod_url", $config, "");
+        
+        $base_url = get_value_in_array("base_url", $config, "");
+        $base_vod_url = get_value_in_array("base_vod_url", $config, $base_url);
+
         return sprintf("%s%s", $base_vod_url, $uri);
     }
 }
