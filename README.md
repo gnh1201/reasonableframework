@@ -56,7 +56,7 @@
 
 | Provider               | Pass?  | Tested version | Note
 | ---------------------- | ------ | -------------- | ------------- |
-| cafe24.com             | Passed | v1.6.2         |               |
+| cafe24.com (Paid)      | Passed | v1.6.2         |               |
 | woobi.co.kr            | Passed | v1.6.2         |               |
 | dothome.co.kr          | Passed | v1.5           |               |
 | ivyro.net              | Passed | v1.5           |               |
