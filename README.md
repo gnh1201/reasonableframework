@@ -52,6 +52,22 @@
 ## [NEW] Remote Debugging (free for all)
 - Remote debugging feature based on [RFC3164(The BSD Syslog Protocol)](https://catswords.re.kr/go/rfc3164), with [Papertrail](https://catswords.re.kr/go/papertrail)
 
+## Compatible of free web hostings
+
+| Provider               | Pass?  | Tested version | Note
+| ---------------------- | ------ | -------------- | ------------- |
+| cafe24.com             | Passed | v1.6.2         |               |
+| woobi.co.kr            | Passed | v1.6.2         |               |
+| dothome.co.kr          | Passed | v1.5           |               |
+| ivyro.net              | Passed | v1.5           |               |
+| 000webhost.com         | Warn   | v1.5           | Ad logo       |
+| freewebhostingarea.com | Passed | v1.5           |               |
+| infinityfree.net       | Warn   | v1.5           | anti-crawling |
+| freehosting.io         | Passed | v1.5           |               |
+| freehostingeu.com      | Warn   | v1.5           | CURL blocked  |
+| freehostingnoads.net   | Warn   | v1.5           | CURL blocked  |
+| awardspace.com         | Warn   | v1.5           | CURL blocked  |
+
 ## How to use CLI (Command line interface)
 ```
 $ php cli.php --route [route name] --session-id [session ID]
