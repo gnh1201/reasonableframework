@@ -985,6 +985,20 @@ if(!is_fn("exec_db_table_create")) {
         $settimefield = get_value_in_array("settimefield", $options, false);
         $setexpire = get_value_in_array("setexpire", $options, false);
 
+        // check before options
+        $before = get_value_in_array("before", $options, false);
+        if(is_array($before)) {
+            foreach($before as $v) {
+                if($v == "truncate") {
+                    $sql = sprintf("truncate `%`", $_tablename);
+                    exec_db_query($sql);
+                } elseif($v == "auto_increment_1") {
+                    $sql = sprintf("alter table `%s` AUTO_INCREMENT = 1", $_tablename);
+                    exec_db_query($sql);
+                }
+            }
+        }
+
         // check if exists table
         $bind = array(
             "TABLE_SCHEMA" => $config['db_name'],
