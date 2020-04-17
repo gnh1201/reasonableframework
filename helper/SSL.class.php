@@ -35,7 +35,7 @@ class SSL {
         $ssl_info['validity'] = static::diffDate($current_t, $validTo_time_t)." days";
         $ssl_info['validitytot'] = (static::diffDate($validFrom_time_t, $validTo_time_t)-1).' days';
 
-        $ssl_info['crtValRemaining'] =$certinfo['validTo_time_t'];
+        $ssl_info['crtValRemaining'] = $certinfo['validTo_time_t'];
 
         return static::instantiate($url, $ssl_info); // return an object
     }
