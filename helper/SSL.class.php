@@ -18,9 +18,9 @@ if(!class_exists("SSL")) {
             return $obj;
         }
 
-        public static function getSSLinfo($url) {
+        public static function getSSLinfo($url, $port=443) {
             $ssl_info = [];
-            $certinfo = static::getCertificateDetails($url);
+            $certinfo = static::getCertificateDetails($url, $port);
             $validFrom_time_t_m = static::dateFormatMonth($certinfo['validFrom_time_t']);
             $validTo_time_t_m = static::dateFormatMonth($certinfo['validTo_time_t']);
 
@@ -40,7 +40,7 @@ if(!class_exists("SSL")) {
             return static::instantiate($url, $ssl_info); // return an object
         }
 
-        private static function getCertificateDetails($url) {
+        private static function getCertificateDetails($url, $port=443) {
             $urlStr = strtolower(trim($url)); 
 
             $parsed = parse_url($urlStr);// add http://
@@ -49,7 +49,7 @@ if(!class_exists("SSL")) {
             }
             $orignal_parse = parse_url($urlStr, PHP_URL_HOST);
             $get = stream_context_create(array("ssl" => array("capture_peer_cert" => TRUE)));
-            $read = stream_socket_client("ssl://".$orignal_parse.":443", $errno, $errstr, 30, STREAM_CLIENT_CONNECT, $get);
+            $read = stream_socket_client("ssl://".$orignal_parse.":".$port, $errno, $errstr, 30, STREAM_CLIENT_CONNECT, $get);
             $cert = stream_context_get_params($read);
             $certinfo = openssl_x509_parse($cert['options']['ssl']['peer_certificate']);
             return $certinfo;
