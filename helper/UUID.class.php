@@ -12,8 +12,11 @@
  * @author Andrew Moore
  * @link http://www.php.net/manual/en/function.uniqid.php#94959
  */
-if(!class_exists("UUID")) {
-    class UUID {
+
+if(!class_exists("UUID"))
+{
+    class UUID
+    {
         /**
          * Generate v3 UUID
          *
@@ -146,7 +149,8 @@ if(!class_exists("UUID")) {
             );
         }
 
-        public static function is_valid($uuid) {
+        public static function is_valid($uuid)
+        {
             return preg_match('/^\{?[0-9a-f]{8}\-?[0-9a-f]{4}\-?[0-9a-f]{4}\-?'.
                           '[0-9a-f]{4}\-?[0-9a-f]{12}\}?$/i', $uuid) === 1;
         }
