@@ -84,6 +84,12 @@ if(!empty($opts['route'])) {
 set_shared_var("route", $route);
 set_shared_var("host", $opts['host']);
 
+// get PID(Process ID)
+set_shared_var("mypid", getmypid());
+
+// set database connection
+set_shared_var("dbc", get_db_connect());
+
 // load route file
 if(!loadRoute($route, $shared_vars)) {
     loadRoute("errors/404", $shared_vars);
