@@ -3,11 +3,13 @@
 /**
  * @file cli.php
  * @created_on 2018-07-22
- * @created_on 2020-01-28
+ * @created_on 2020-04-20
  * @author Go Namhyeon <gnh1201@gmail.com>
  * @brief ReasonableFramework CLI mode
  * @cvs http://github.com/gnh1201/reasonableframework
  */
+
+// example: php cli.php --route=welcome
 
 define("_DEF_VSPF_", true); // compatible to VSPF
 define("_DEF_RSF_", true); // compatible to RSF
@@ -60,7 +62,6 @@ if(!empty($memory_limit)) {
     @ini_set("memory_limit", $memory_limit);
     @ini_set("suhosin.memory_limit", $memory_limit);
 }
-
 
 // autoload module
 if(!array_key_empty("enable_autoload", $config)) {
