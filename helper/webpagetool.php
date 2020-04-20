@@ -136,7 +136,7 @@ if(!is_fn("get_web_cmd")) {
             }
 
             // #110 [helper/webpagetool] post array data, but (string)`Array` given
-            if(count($_data)) > 0) {
+            if(count($_data) > 0) {
                 $args[] = sprintf("--data '%s'", get_web_build_qs("", $_data));
             }
 
