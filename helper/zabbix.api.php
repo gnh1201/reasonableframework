@@ -58,8 +58,8 @@ if(!is_fn("zabbix_authenticate")) {
         }
 
         // set connection to global scope
-        set_scope("zabbix_api_url", $zabbix_api_url);
-        set_scope("zabbix_auth", get_property_value("result", $response));
+        set_shared_var("zabbix_api_url", $zabbix_api_url);
+        set_shared_var("zabbix_auth", get_property_value("result", $response));
 
         return $response;
     }
@@ -71,8 +71,8 @@ if(!is_fn("zabbix_get_hostgroups")) {
         $response = false;
         
         // get zabbix authentication
-        $zabbix_api_url = get_scope("zabbix_api_url");
-        $zabbix_auth = get_scope("zabbix_auth");
+        $zabbix_api_url = get_shared_var("zabbix_api_url");
+        $zabbix_auth = get_shared_var("zabbix_auth");
 
         // connect to zabbix server
         if(loadHelper("webpagetool")) {
@@ -98,8 +98,8 @@ if(!is_fn("zabbix_get_hosts")) {
         $response = false;
 
         // get zabbix authentication
-        $zabbix_api_url = get_scope("zabbix_api_url");
-        $zabbix_auth = get_scope("zabbix_auth");
+        $zabbix_api_url = get_shared_var("zabbix_api_url");
+        $zabbix_auth = get_shared_var("zabbix_auth");
 
         // connect to zabbix server
         if(loadHelper("webpagetool")) {
@@ -134,8 +134,8 @@ if(!is_fn("zabbix_get_items")) {
         $response = false;
 
         // get zabbix authentication
-        $zabbix_api_url = get_scope("zabbix_api_url");
-        $zabbix_auth = get_scope("zabbix_auth");
+        $zabbix_api_url = get_shared_var("zabbix_api_url");
+        $zabbix_auth = get_shared_var("zabbix_auth");
 
         // connect to zabbix server
         if(loadHelper("webpagetool")) {
@@ -169,8 +169,8 @@ if(!is_fn("zabbix_get_problems")) {
         $response = false;
 
         // get zabbix authentication
-        $zabbix_api_url = get_scope("zabbix_api_url");
-        $zabbix_auth = get_scope("zabbix_auth");
+        $zabbix_api_url = get_shared_var("zabbix_api_url");
+        $zabbix_auth = get_shared_var("zabbix_auth");
 
         // connect to zabbix server
         if(loadHelper("webpagetool")) {
@@ -206,8 +206,8 @@ if(!is_fn("zabbix_get_triggers")) {
         $response = false;
 
         // get zabbix authentication
-        $zabbix_api_url = get_scope("zabbix_api_url");
-        $zabbix_auth = get_scope("zabbix_auth");
+        $zabbix_api_url = get_shared_var("zabbix_api_url");
+        $zabbix_auth = get_shared_var("zabbix_auth");
 
         if(loadHelper("webpagetool")) {
             $response = get_web_json($zabbix_api_url, "jsonrpc2.cache", array(
@@ -237,8 +237,8 @@ if(!is_fn("zabbix_get_alerts")) {
         $response = false;
 
         // get zabbix authentication
-        $zabbix_api_url = get_scope("zabbix_api_url");
-        $zabbix_auth = get_scope("zabbix_auth");
+        $zabbix_api_url = get_shared_var("zabbix_api_url");
+        $zabbix_auth = get_shared_var("zabbix_auth");
 
         if(loadHelper("webpagetool")) {
             $params = array(
@@ -286,8 +286,8 @@ if(!is_fn("zabbix_get_records")) {
         }
 
         // get zabbix authentication
-        $zabbix_api_url = get_scope("zabbix_api_url");
-        $zabbix_auth = get_scope("zabbix_auth");
+        $zabbix_api_url = get_shared_var("zabbix_api_url");
+        $zabbix_auth = get_shared_var("zabbix_auth");
 
         // set time range variables
         $time_from = get_current_timestamp(array("now" => $now_dt, "adjust" => $adjust));
