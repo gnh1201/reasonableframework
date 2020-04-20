@@ -75,19 +75,14 @@ date_default_timezone_set($default_timezone);
 $route = "welcome";
 
 // set arguments of command line
-$opts = setopt("r::h::", array("route::", "host::"));
-set_shared_var("route", $opts['route']);
-set_shared_var("host", $opts['host']);
-
-// load route
-if(empty($route)) {
-    $route = get_value_in_array("default_route", $config, "welcome");
-} else {
-    $route_names = explode('/', $route);
-    if(count($route_names) > 1) {
-        $route = $route_names[0];
-    }
+$opts = getopt("r::h::", array("route::", "host::")); 
+if(!empty($opts['route'])) {
+    $route = $opts['route'];
 }
+
+// set global variables
+set_shared_var("route", $route);
+set_shared_var("host", $opts['host']);
 
 // load route file
 if(!loadRoute($route, $shared_vars)) {
