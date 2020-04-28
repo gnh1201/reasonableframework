@@ -41,8 +41,9 @@ if(!is_fn("write_visit_log")) {
 if(!is_fn("write_common_log")) {
     function write_common_log($message, $component="None", $program="") {
         $fw = false;
-
-        $data = implode("\t", array(get_current_datetime(), $component, $message));
+        
+        $mypid = get_shared_var("mypid");
+        $data = implode("\t", array(get_current_datetime(), $mypid, $component, $message));
         $fw = append_log_to_file($data, "common.log");
 
         // if enabled RFC3164 remote debugging
