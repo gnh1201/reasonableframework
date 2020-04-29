@@ -907,7 +907,7 @@ if(!is_fn("get_db_timediff")) {
     function get_db_timediff($a, $b) {
         $dt = 0;
 
-        $sql = "select timediff(:a, :b) as dt";
+        $sql = "select time_to_sec(timediff(:a, :b)) as dt";
         $bind = array(
             "a" => $a,
             "b" => $b
