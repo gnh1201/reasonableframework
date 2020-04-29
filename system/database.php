@@ -903,8 +903,8 @@ if(!is_fn("sql_query")) {
 }
 
 // get timediff
-if(!is_fn("get_timediff_on_query")) {
-    function get_timediff_on_query($a, $b) {
+if(!is_fn("get_db_timediff")) {
+    function get_db_timediff($a, $b) {
         $dt = 0;
 
         $sql = "select timediff(:a, :b) as dt";
