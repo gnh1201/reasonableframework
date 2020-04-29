@@ -106,7 +106,7 @@ if(!is_fn("zabbix_get_hosts")) {
             $response = get_web_json($zabbix_api_url, "jsonrpc2.cache", array(
                 "method" => "host.get",
                 "params" => array(
-                    "output" => array("hostid", "host"),
+                    "output" => array("hostid", "host", "status"),
                     "selectInterfaces" => array("interfaceid", "ip"),
                     "selectGroups" => "extend"
                 ),
