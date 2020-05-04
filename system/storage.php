@@ -70,12 +70,12 @@ if(!is_fn("get_storage_path")) {
 
 if(!is_fn("get_storage_url")) {
     function get_storage_url($type="data") {
-        return sprintf("%s%s/%s", base_url(), get_storage_dir(), get_safe_path($type));
+        return sprintf("%s/%s/%s", base_url(), get_storage_dir(), get_safe_path($type));
     }
 }
 
-if(!is_fn("move_uploaded_file_to_storage")) {
-    function move_uploaded_file_to_stroage($options=array()) {
+if(!is_fn("allocate_uploaded_files")) {
+    function allocate_uploaded_files($options=array()) {
         $response = array(
             "files" => array()
         );
