@@ -76,7 +76,7 @@ $ php cli.php --route [route name] --session-id [session ID]
 
 ## 한국어(Korean)
 - **리즈너블 프레임워크**는 `정도가 지나친 부작용`에 적절하게 대응하고자 설계된 PHP 프레임워크입니다.
-- `정도가 지나친 부작용` 출현 빈도가 높은 프로그래밍 환경(예. 레거시 방식의 개발)에서 최대의 안정성과 보안을 제공합니다.
+- `정도가 지나친 부작용` 출현 빈도가 높은 프로그래밍 환경(예. 레거시, 미숙련 개발자)에서 최대의 안정성과 보안을 제공합니다.
 - PHP를 기반으로 하는 무료 웹 호스팅에서도 원활하게 돌아가도록 지원합니다.
 - 객체지향, 모듈러(MVC), 시큐어 코딩 등 현대적인 웹 기술을 모르더라도 **더 견고한** 기준을 제공합니다.
 - 리즈너블 프레임워크는 CSRF, XSS, SQL 인젝션 등 기초적인 **보안 위협에 사전 대응**하도록 설계되어 있습니다.
@@ -85,7 +85,7 @@ $ php cli.php --route [route name] --session-id [session ID]
 
 ## English
 - **ReasonableFramework** is a PHP framework designed to properly against the `excessive side-effects`.
-- It provides maximum stability and security in a programming environment with high frequency of the `excessive side-effects` (eg legacy development).
+- It provides maximum stability and security in a programming environment with high frequency of the `excessive side-effects` (eg. legacy, untrained developer).
 - It also works smoothly on free web hosting based on PHP.
 - It provides a **stronger standard** even if you don't know modern web technologies, such as object-oriented, modular (MVC), and secure coding.
 - Resonable Framework is designed to **proactively respond to fundamental security threats** such as CSRF, XSS, and SQL injection.
