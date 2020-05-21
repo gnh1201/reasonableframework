@@ -322,17 +322,17 @@ if(!is_fn("get_requested_value")) {
             }
         }
 
-            if(is_string($value)) {
-                        // security: set escape quotes
-                        if($escape_quotes == true) {
-                                $value = addslashes($value);
-                        }
+        if(is_string($value)) {
+            // security: set escape quotes
+            if($escape_quotes == true) {
+                $value = addslashes($value);
+            }
 
-                        // security: set escape tags
-                        if($escape_tags == true) {
-                                $value = htmlspecialchars($value);
-                        }
-                }
+            // security: set escape tags
+            if($escape_tags == true) {
+                $value = htmlspecialchars($value);
+            }
+        }
 
         return $value;
     }
@@ -412,11 +412,5 @@ if(!is_fn("set_header_content_type")) {
         } else {
             header("Content-type: text/plain");
         }
-    }
-}
-
-if(!is_fn("get_requested_jsondata")) {
-    function get_requested_jsondata($name, $escape_quotes=true, $escape_tags=false) {
-        return get_requested_jsondata($name, "_JSON", $escape_quotes, $escape_tags);
     }
 }
