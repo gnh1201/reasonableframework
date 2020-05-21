@@ -130,7 +130,7 @@ if(!is_fn("read_requests")) {
 
         // check if json request
         if(array_key_equals("json", $options, true)) {
-            $jsondata = ($jsondata !== false) ? $js ondata : $requests['_RAW'];
+            $jsondata = ($jsondata !== false) ? $jsondata : $requests['_RAW'];
             $requests['_JSON'] = json_decode($jsondata);
         }
 
