@@ -85,7 +85,7 @@ $ php cli.php --route [route name] --session-id [session ID]
 
 ## English
 - **ReasonableFramework** is a PHP framework designed to properly against the `excessive side-effects`.
-- It provides maximum stability and security in a programming environment with high frequency of the `excessive side-effects` (eg. legacy, untrained developer).
+- It provides maximum stability and security in a programming environment with high frequency of the `excessive side-effects` (eg. legacy, untrained developers).
 - It also works smoothly on free web hosting based on PHP.
 - It provides a **stronger standard** even if you don't know modern web technologies, such as object-oriented, modular (MVC), and secure coding.
 - Resonable Framework is designed to **proactively respond to fundamental security threats** such as CSRF, XSS, and SQL injection.
