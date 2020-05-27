@@ -293,6 +293,18 @@ if(!is_fn("get_floating_percentage")) {
     }
 }
 
+// https://stackoverflow.com/questions/13108157
+if(!is_fn("get_csv_from_array")) {
+    function get_csv_from_array($data, $delimiter = ',', $enclosure = '"', $escape_char = "\\") {
+        $f = fopen('php://memory', 'r+');
+        foreach ($data as $item) {
+            fputcsv($f, $item, $delimiter, $enclosure, $escape_char);
+        }
+        rewind($f);
+        return stream_get_contents($f);
+    }
+}
+
 if(!is_fn("eregi")) {
     function eregi($pattern, $subject, &$matches=NULL) {
         return preg_match(sprintf("/%s/i", $pattern), $subject, $matches);
