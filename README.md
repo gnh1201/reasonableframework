@@ -9,8 +9,8 @@
 
 ![This project open source licensed under LGPL version 3](https://github.com/gnh1201/reasonableframework/raw/master/lgplv3-147x51.png)
 
-## technical support (donate us)
-- [Technical support and improved web security for ReasonableFramework](https://catswords.re.kr/go/rsfsecurity) ($4/Monthly, pay on Patreon)
+## Security policy
+- [Security policy and techincal support](SECURTY.md)
 
 ## Specification
 - Database connection (via PDO, MySQLi (MySQL Improved), MySQL Tranditional, MySQL CLI, Oracle(OCI))
