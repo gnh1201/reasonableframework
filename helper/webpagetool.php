@@ -552,6 +552,9 @@ if(!is_fn("get_web_page")) {
         $errno = false;
         $content = false;
         $_method = $method;
+        
+        // get process ID
+        $pid = getmyid();
 
         // set user agent
         $ua = get_web_user_agent($ua);
@@ -586,7 +589,8 @@ if(!is_fn("get_web_page")) {
         if(in_array("cache", $req_methods)) {
             $content = get_web_cache($url, $method, $data, $proxy, $ua, $ct_out, $t_out, $headers);
         } elseif(in_array("async", $req_methods)) {
-            $content = get_web_async($url, $req_methods[0], $data, $proxy, $ua, $ct_out, $t_out, $headers);
+            $pid = get_web_async($url, $req_methods[0], $data, $proxy, $ua, $ct_out, $t_out, $headers);
+            $content = posix_getpgid($pid);
         } elseif(in_array("cmd", $req_methods)) {
             $content = get_web_cmd($url, $req_methods[0], $data, $proxy, $ua, $ct_out, $t_out, $headers);
         } elseif(in_array("fgc", $req_methods)) {
@@ -635,6 +639,7 @@ if(!is_fn("get_web_page")) {
             "resno"      => $resno,
             "errno"      => $errno,
             "id"         => get_web_identifier($url, $method, $data, $headers),
+            "pid"        => $pid,
             "md5"        => get_hashed_text($content, "md5"),
             "sha1"       => get_hashed_text($content, "sha1"),
             "gz_content" => get_hashed_text($gz_content, "base64"),
@@ -661,9 +666,7 @@ if(!is_fn("get_web_identifier")) {
         if($checksum_header != "*") { // compatible below 1.6
             $checksums[] = $checksum_header;
         }
-
-        //write_common_log(json_encode($checksums), "get_web_identifier");
-
+        
         return get_hashed_text(implode(".", $checksums));
     }
 }
