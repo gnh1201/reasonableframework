@@ -10,7 +10,7 @@
 ![This project open source licensed under LGPL version 3](https://github.com/gnh1201/reasonableframework/raw/master/lgplv3-147x51.png)
 
 ## Security policy
-- [Security policy and techincal support](SECURTY.md)
+- [Security policy and techincal support](SECURITY.md)
 
 ## Specification
 - Database connection (via PDO, MySQLi (MySQL Improved), MySQL Tranditional, MySQL CLI, Oracle(OCI))
