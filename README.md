@@ -74,6 +74,10 @@
 $ php cli.php --route [route name] --session-id [session ID]
 ```
 
+## administratives
+- This project was registered to the Korea Copyright Commission's software copyright registration system. the registration number is `C-2020-018490` and approved in June 3, 2020.
+- The open source license applied to this project will remain the same now and in the future.
+
 ## 한국어(Korean)
 - **리즈너블 프레임워크**는 `불필요한 부작용`에 적절하게 대응하고자 설계된 PHP 프레임워크입니다.
 - `불필요한 부작용` 출현 빈도가 높은 프로그래밍 환경(예. 레거시, 미숙련 개발자)에서 최대의 안정성과 보안을 제공합니다.
