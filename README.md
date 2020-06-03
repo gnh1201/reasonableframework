@@ -75,7 +75,7 @@ $ php cli.php --route [route name] --session-id [session ID]
 ```
 
 ## Administratives
-- This project was registered to the Korea Copyright Commission's software copyright registration system. the registration number is `C-2020-018490` and approved in June 3, 2020.
+- This project was registered to the Korea Copyright Commission's software copyright registration system. the registration number is `C-2020-018490`(version: v1.6.5.1-kcc) and approved in June 3, 2020.
 - The open source license applied to this project will remain the same now and in the future.
 
 ## 한국어(Korean)
