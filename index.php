@@ -127,7 +127,8 @@ $default_timezone = get_value_in_array("timezone", $config, "UTC");
 date_default_timezone_set($default_timezone);
 
 // write visit log
-write_visit_log();
+$log_mode_visit = get_value_in_array("log_mode_visit", $config, "");
+write_visit_log($log_mode_visit);
 
 // get requested route
 $route = read_route();
