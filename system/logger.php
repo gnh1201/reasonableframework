@@ -51,7 +51,7 @@ if(!is_fn("write_visit_log")) {
                 "server" => $nevt['server'],
                 "hostname" => $nevt['hostname'],
                 "client" => $nevt['client'],
-                "agent" => $nvet['agent'],
+                "agent" => $nevt['agent'],
                 "referrer" => $nevt['referrer'],
                 "self" => $nevt['self'],
                 "method" => $nevt['method']
