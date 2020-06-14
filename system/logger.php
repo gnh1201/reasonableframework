@@ -19,21 +19,57 @@ if(!is_fn("append_log_to_file")) {
 }
 
 if(!is_fn("write_visit_log")) {
-    function write_visit_log() {
+    function write_visit_log($mode="") {
         $fw = false;
-
-        $data = "";
+        
+        $nevt = false;
         if(loadHelper("networktool")) {
             $nevt = get_network_event();
-            if(loadHelper("catsplit.format")) {
-                $data = catsplit_encode($nevt);
-            } else {
-                $data = json_encode($nevt);
-            }
-
-            $fw = append_log_to_file($data, "network.log");
+        }
+        
+        if($nevt === false) {
+            return $fw;
         }
 
+        if($mode == "database") {
+            $tablename = exec_db_table_create(array(
+                "datetime" => array("datetime"),
+                "server" => array("varchar", 255),
+                "hostname" => array("varchar", 255),
+                "client" => array("varchar", 255),
+                "agent" => array("text"),
+                "referrer" => array("text"),
+                "self" => array("varchar", 255),
+                "method" => array("varchar", 255)
+            ), "rsf_visit_log", array(
+                "setindex" => array(
+                    "index_1" => array("datetime"),
+                    "index_2" => array("client")
+                )
+            ));
+            
+            $bind = array(
+                "datetime" => $nevt['datetime'],
+                "server" => $nevt['server'],
+                "hostname" => $nevt['hostname'],
+                "client" => $nevt['client'],
+                "agent" => $nvet['agent'],
+                "referrer" => $nevt['referrer'],
+                "self" => $nevt['self'],
+                "method" => $nevt['method']
+            );
+            $sql = get_bind_to_sql_insert($tablename, $bind);
+            exec_db_query($sql, $bind);
+        } else {
+            $line = "";
+            if(loadHelper("catsplit.format")) {
+                $line = catsplit_encode($nevt);
+            } else {
+                $line = json_encode($nevt);
+            }
+            $fw = append_log_to_file($line, "network.log"); 
+        }
+        
         return $fw;
     }
 }
