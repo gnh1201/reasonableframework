@@ -21,15 +21,13 @@ if(!is_fn("append_log_to_file")) {
 if(!is_fn("write_visit_log")) {
     function write_visit_log($mode="") {
         $fw = false;
-        
+
         $nevt = false;
         if(loadHelper("networktool")) {
             $nevt = get_network_event();
         }
-        
-        if($nevt === false) {
-            return $fw;
-        }
+
+        if($nevt === false) return $fw;
 
         if($mode == "database") {
             $tablename = exec_db_table_create(array(
