@@ -56,7 +56,7 @@ if(!is_fn("get_safe_path")) {
 
 if(!is_fn("get_storage_path")) {
     function get_storage_path($type="data") {
-        $dir_path = sprintf("./%s/%s", get_storage_dir(), get_safe_path($type));
+        $dir_path = sprintf("%s/%s/%s", get_current_working_dir(), get_storage_dir(), get_safe_path($type));
 
         if(!is_dir($dir_path)) {
             if(!@mkdir($dir_path, 0777)) {
