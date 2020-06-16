@@ -91,7 +91,7 @@ if(!is_fn("allocate_uploaded_files")) {
 
         // storage/config/security.ini -> allowextensionsdisabled, allowextensions
         $allow_extensions_disabled = get_value_in_array("allowextensionsdisabled", $config, 0);
-        if(!empty($allow_extensions_disabled)) {
+        if(empty($allow_extensions_disabled)) {
             $allow_extensions = get_value_in_array("allowextensions", $config, $upload_allow_ext);
         }
 
