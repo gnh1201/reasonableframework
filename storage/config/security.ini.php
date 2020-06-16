@@ -10,4 +10,7 @@ animals=warthog,hedgehog,badger,drake,eft,fawn,gibbon,heron,ibex,jackalope,koala
 https=auto
 hashalgos=md5,sha1,crypt,crc32,base64,sql_password
 sandboxdisabled=0
+allowextensions=png,gif,jpg,jpeg,tif
+allowextensions2=xls,ppt,doc,xlsx,pptx,docx,odt,odp,ods,xlsm,tiff,pdf,xlsm
+allowextensions3=mp3,ogg,m4a,wma,wav
 EOF;
