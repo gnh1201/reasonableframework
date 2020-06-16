@@ -79,31 +79,20 @@ if(!is_fn("allocate_uploaded_files")) {
         $response = array(
             "files" => array()
         );
-
+        
+        $config = get_config();
         $requests = get_requests();
         $files = $requests['_FILES'];
 
         $storage_type = get_value_in_array("storage_type", $options, "data");
         $upload_base_path = get_storage_path($storage_type);
         $upload_base_url = get_storage_url($storage_type);
+        $upload_allow_ext = array();
 
-        if(!array_key_empty("only_image", $options)) {
-            $upload_allow_ext = array(
-                "png", "gif", "jpg", "jpeg", "tif"
-            );
-        } elseif(!array_key_empty("only_docs", $options)) {
-            $upload_allow_ext = array(
-                "png", "gif", "jpg", "jpeg", "tif",
-                "xls", "ppt", "doc", "xlsx", "pptx",
-                "docx", "odt", "odp", "ods", "xlsm",
-                "tiff", "pdf", "xlsm"
-            );
-        } elseif(!array_key_empty("only_audio", $options)) {
-            $upload_allow_ext = array(
-                "mp3", "ogg", "m4a", "wma", "wav"
-            );
-        } else {
-            $upload_allow_ext = array();
+        // storage/config/security.ini -> allowextensionsdisabled, allowextensions
+        $allow_extensions_disabled = get_value_in_array("allowextensionsdisabled", $config, 0);
+        if(!empty($allow_extensions_disabled)) {
+            $allow_extensions = get_value_in_array("allowextensions", $config, $upload_allow_ext);
         }
 
         foreach($files as $k=>$file) {
