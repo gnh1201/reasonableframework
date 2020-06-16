@@ -28,14 +28,13 @@ if(!is_fn("get_current_working_dir")) {
                 break;
             case "windows":
                 if(loadHelper("exectool")) {
-                    $exec_contents = implode("\r\n", array("@echo off", "SET var=%cd%", "ECHO %var%"));
+                    $exec_contents = implode("\r\n", array("@echo off", "ECHO %cd%"));
                     $exec_file = write_storage_file($exec_contents, array(
                         "filename" => "pwd.bat"
                     ));
                     $working_dir = exec_command($exec_file);
                 }
                 break;
-                
         }
 
         return $working_dir;
@@ -60,7 +59,7 @@ if(!is_fn("get_storage_path")) {
 
         if(!is_dir($dir_path)) {
             if(!@mkdir($dir_path, 0777)) {
-                set_error("can not create directory. " . $dir_path);
+                set_error("Could not create directory. " . $dir_path);
                 show_errors();
             }
         }
