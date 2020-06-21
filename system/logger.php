@@ -2,18 +2,25 @@
 /**
  * @file logger.php
  * @created_on 2018-05-27
- * @updated_on 2020-06-24
+ * @updated_on 2020-06-21
  * @author Go Namhyeon <gnh1201@gmail.com>
  * @brief Logger module for ReasonableFramework
  */
 
 if(!is_fn("append_log_to_file")) {
     function append_log_to_file($data, $filename) {
+        $config = get_config();
+
+        $rotate_size = get_value_in_array("log_rotate_size", $config, 0);
+        $rotate_ratio = get_value_in_array("log_rotate_size", $config, 0.9);
+
         return append_storage_file($data, array(
             "storage_type" => "logs",
             "filename" => $filename,
             "chmod" => 0644,
             "nl" => "<",
+            "rotate_size" => $rotate_size,
+            "rotate_ratio" => $rotate_ratio,
         ));
     }
 }
