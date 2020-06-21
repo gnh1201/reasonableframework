@@ -335,13 +335,13 @@ if(!is_fn("write_storage_file")) {
             } elseif($fhandle = fopen($upload_filename, $mode)) {
                 // if it is append, check the `rotate_size` option
                 if($mode == "a") {
-                    $log_rotate_size = intval(get_value_in_array("log_rotate_size", $options, 0));
-                    $log_rotate_ratio = floatval(get_value_in_array("log_rotate_ratio", $options, 0.9));
-                    $log_size_limit = floor($log_rotate_size * $log_rotate_ratio);
-                    if($log_rotate_size > 0) {
-                        if($log_rotate_size > filesize($upload_filename)) {
+                    $rotate_size = intval(get_value_in_array("rotate_size", $options, 0));
+                    $rotate_ratio = floatval(get_value_in_array("rotate_ratio", $options, 0.9));
+                    $size_limit = floor($rotate_size * $rotate_ratio);
+                    if($rotate_size > 0) {
+                        if($rotate_size > filesize($upload_filename)) {
                             if(loadHelper("exectool")) {
-                                exec_command(sprintf("tail -c %s '%s' > '%s'", $log_size_limit, $upload_filename, $upload_filename));
+                                exec_command(sprintf("tail -c %s '%s' > '%s'", $size_limit, $upload_filename, $upload_filename));
                             }
                         }
                     }
