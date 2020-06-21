@@ -342,6 +342,8 @@ if(!is_fn("write_storage_file")) {
                         if($rotate_size > filesize($upload_filename)) {
                             if(loadHelper("exectool")) {
                                 exec_command(sprintf("tail -c %s '%s' > '%s'", $size_limit, $upload_filename, $upload_filename));
+                            } else {
+                                write_common_log("failed load exectool helper", "system/storage");
                             }
                         }
                     }
