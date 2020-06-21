@@ -12,7 +12,7 @@ if(!is_fn("append_log_to_file")) {
         $config = get_config();
 
         $rotate_size = get_value_in_array("log_rotate_size", $config, 0);
-        $rotate_ratio = get_value_in_array("log_rotate_size", $config, 0.9);
+        $rotate_ratio = get_value_in_array("log_rotate_ratio", $config, 0.9);
 
         return append_storage_file($data, array(
             "storage_type" => "logs",
