@@ -38,35 +38,36 @@
 2. set up database configuration: `/storage/config/database.ini.php`
 3. create new file: `/route/example.php`
 4. go to `http://[base_url]/?route=example` or `http://[base_url]/example/`(if set `.htaccess`) in your web browser.
-5. enjoy it.
+5. code it.
 
 ## Examples
 - [Send severities from Zabbix to Grafana](https://gist.github.com/gnh1201/792964e9719d2f62157cf46e394888f5)
 - [REST API Integration (Naver Papago Translation REST API)](https://gist.github.com/gnh1201/081484e6f5e10bd3be819093ba5f49c8)
 - [Payment Gateway Integration (KCP)](https://github.com/gnh1201/reasonableframework/blob/master/route/orderpay.pgkcp.php)
 
-## [NEW] Advanced security (only for sponsors)
+## Advanced security (only for sponsors)
 - CORS, CSRF, XSS, SQL-injection protection is common security, it is free and open-source for everyone.
 - Firewall, DDoS protection, and more security tools are available only for sponsors. [more](https://github.com/gnh1201/reasonableframework/blob/master/SECURITY.md)
 
-## [NEW] Remote Debugging (free for all)
-- Remote debugging feature based on [RFC3164(The BSD Syslog Protocol)](https://catswords.re.kr/go/rfc3164), with [Papertrail](https://catswords.re.kr/go/papertrail)
+## Remote logger (free for all)
+- Remote logger feature based on [RFC3164(The BSD Syslog Protocol)](https://catswords.re.kr/go/rfc3164), with [Papertrail](https://catswords.re.kr/go/papertrail)
 
 ## Compatible of free web hostings
 
 | Provider               | Pass?  | Tested version | Note
-| ---------------------- | ------ | -------------- | ------------- |
-| cafe24.com (Paid)      | Passed | v1.6.2         |               |
-| woobi.co.kr            | Passed | v1.6.2         |               |
-| dothome.co.kr          | Passed | v1.5           |               |
-| ivyro.net              | Passed | v1.5           |               |
-| 000webhost.com         | Warn   | v1.5           | Ad logo       |
-| freewebhostingarea.com | Passed | v1.5           |               |
-| infinityfree.net       | Warn   | v1.5           | anti-crawling |
-| freehosting.io         | Passed | v1.5           |               |
-| freehostingeu.com      | Warn   | v1.5           | CURL blocked  |
-| freehostingnoads.net   | Warn   | v1.5           | CURL blocked  |
-| awardspace.com         | Warn   | v1.5           | CURL blocked  |
+| ---------------------- | ------ | -------------- | -------------------------- |
+| vultr.com (Paid)       | Passed | v1.6.5.2       | Pre-configured LAMP server |
+| cafe24.com (Paid)      | Passed | v1.6.2         |                            |
+| woobi.co.kr            | Passed | v1.6.2         |                            |
+| dothome.co.kr          | Passed | v1.5           |                            |
+| ivyro.net              | Passed | v1.5           |                            |
+| 000webhost.com         | Warn   | v1.5           | Advertising logo           |
+| freewebhostingarea.com | Passed | v1.5           |                            |
+| infinityfree.net       | Warn   | v1.5           | Anti-crawling              |
+| freehosting.io         | Passed | v1.5           |                            |
+| freehostingeu.com      | Warn   | v1.5           | CURL blocked               |
+| freehostingnoads.net   | Warn   | v1.5           | CURL blocked               |
+| awardspace.com         | Warn   | v1.5           | CURL blocked               |
 
 ## How to use CLI (Command line interface)
 ```
@@ -78,8 +79,8 @@ $ php cli.php --route [route name] --session-id [session ID]
 - The open source license applied to this project will remain the same now and in the future.
 
 ## 한국어(Korean)
-- **리즈너블 프레임워크**는 `불필요한 부작용`에 적절하게 대응하고자 설계된 PHP 프레임워크입니다.
-- `불필요한 부작용` 출현 빈도가 높은 프로그래밍 환경(예. 레거시, 미숙련 개발자)에서 최대의 안정성과 보안을 제공합니다.
+- **리즈너블 프레임워크**는 `불필요한 부수효과`에 적절하게 대응하고자 설계된 PHP 프레임워크입니다.
+- `불필요한 부수효과` 출현 빈도가 높은 프로그래밍 환경(예. 레거시, 미숙련 개발자)에서 최대의 안정성과 보안을 제공합니다.
 - PHP를 기반으로 하는 무료 웹 호스팅에서도 원활하게 돌아가도록 지원합니다.
 - 객체지향, 모듈러(MVC), 시큐어 코딩 등 현대적인 웹 기술을 모르더라도 **더 견고한** 기준을 제공합니다.
 - 리즈너블 프레임워크는 CSRF, XSS, SQL 인젝션 등 기초적인 **보안 위협에 사전 대응**하도록 설계되어 있습니다.
