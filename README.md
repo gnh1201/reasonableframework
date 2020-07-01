@@ -56,8 +56,8 @@
 
 | Provider               | Pass?  | Tested version | Note
 | ---------------------- | ------ | -------------- | -------------------------- |
-| [vultr.com](https://catswords.re.kr/go/vultr) (Paid, Vultr Holdings Co.)       | :heavy_check_mark: Passed | v1.6.5.2       | Pre-configured LAMP server |
-| cafe24.com (Paid, Cafe24 Inc.)      | :heavy_check_mark: Passed | v1.6.2         |                            |
+| [vultr.com](https://catswords.re.kr/go/vultr) (Vultr Holdings Co.)       | :heavy_check_mark: Passed | v1.6.5.2       | Paid, Pre-configured LAMP server |
+| cafe24.com (Cafe24 Inc.)      | :heavy_check_mark: Passed | v1.6.2         | Paid                           |
 | woobi.co.kr (MyCGI)            | :heavy_check_mark: Passed | v1.6.2         |                            |
 | dothome.co.kr (Anysecure Inc.)         | :heavy_check_mark: Passed | v1.5           |                            |
 | ivyro.net (Smileserv Inc.)            | :heavy_check_mark: Passed | v1.5           |                            |
