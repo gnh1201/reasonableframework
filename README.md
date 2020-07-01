@@ -1,7 +1,6 @@
 # ReasonableFramework
-![Discord](https://img.shields.io/discord/359930650330923008.svg)
 ![View Licence](https://img.shields.io/github/license/gnh1201/reasonableframework.svg)
-![Librapay](http://img.shields.io/liberapay/receives/catswords.svg?logo=liberapay)
+![KCC-CROS](https://badgen.net/badge/KCC/C-2020-018490/orange)
 
 - ReasonableFramework is `RVHM` structured PHP framework with common security
 - Prefix code: `RSF` (ReasonableFramework)
