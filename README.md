@@ -57,10 +57,10 @@
 | Provider               | Pass?  | Tested version | Note
 | ---------------------- | ------ | -------------- | -------------------------- |
 | [vultr.com](https://catswords.re.kr/go/vultr) (Paid)       | :heavy_check_mark: Passed | v1.6.5.2       | Pre-configured LAMP server |
-| cafe24.com (Paid)      | :heavy_check_mark: Passed | v1.6.2         |                            |
-| woobi.co.kr            | :heavy_check_mark: Passed | v1.6.2         |                            |
-| dothome.co.kr          | :heavy_check_mark: Passed | v1.5           |                            |
-| ivyro.net              | :heavy_check_mark: Passed | v1.5           |                            |
+| cafe24.com (Paid, Cafe24 Inc.)      | :heavy_check_mark: Passed | v1.6.2         |                            |
+| woobi.co.kr (MyCGI)            | :heavy_check_mark: Passed | v1.6.2         |                            |
+| dothome.co.kr (Anysecure Inc.)         | :heavy_check_mark: Passed | v1.5           |                            |
+| ivyro.net (Smileserv Inc.)            | :heavy_check_mark: Passed | v1.5           |                            |
 | 000webhost.com         | :warning: Warn   | v1.5           | Advertising logo           |
 | freewebhostingarea.com | :heavy_check_mark: Passed | v1.5           |                            |
 | infinityfree.net       | :warning: Warn   | v1.5           | Anti-crawling              |
