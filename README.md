@@ -99,4 +99,4 @@ $ php cli.php --route [route name] --session-id [session ID]
 ## Contact us
 - gnh1201@gmail.com
 - support@exts.kr
-- catswords@protonmail (if you require confidential)
+- catswords@protonmail.com (if you require confidential)
