@@ -56,7 +56,7 @@
 
 | Provider               | Pass?  | Tested version | Note
 | ---------------------- | ------ | -------------- | -------------------------- |
-| vultr.com (Paid)       | Passed | v1.6.5.2       | Pre-configured LAMP server |
+| [vultr.com](https://catswords.re.kr/go/vultr) (Paid)       | Passed | v1.6.5.2       | Pre-configured LAMP server |
 | cafe24.com (Paid)      | Passed | v1.6.2         |                            |
 | woobi.co.kr            | Passed | v1.6.2         |                            |
 | dothome.co.kr          | Passed | v1.5           |                            |
