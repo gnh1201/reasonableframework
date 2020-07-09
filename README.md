@@ -82,7 +82,10 @@ $ php cli.php --route [route name] --session-id [session ID]
 - **리즈너블 프레임워크**는 한국의 웹 개발 환경에 적합한 PHP 프레임워크입니다.
 - 레거시 코드에 기반하거나 숙련되지 않은 개발자가 프로그램을 개발하여도 최대의 안정성을 제공합니다.
 - 한국, 아시아, 북미, 유럽권의 PHP를 기반으로 하는 무료 웹 호스팅에서도 안정적인 운영이 가능합니다.
-- 객체지향, 모듈러(MVC), 시큐어 코딩 등 현대적인 웹 기술을 모르더라도 **편리한 기준**을 제공합니다.
+- 객체지향(OOP), 모듈러(MVC), 시큐어 코딩 등 현대적인 웹 기술을 모르더라도 **편리한 기준**을 제공합니다.
+    - Composer(패키지 관리자)를 포함한 별도의 개발 보조 도구, PHP 플러그인, PHP 프레임워크가 사용 불가능한 환경에 적합합니다.
+    - 한국에서 사용되는 각종 CMS와 API와 연동되어 한국 환경에서 사용 빈도가 높은 구현 유형을 작성하는데 적합합니다.
+    - RVHM 구조는 MVC 구조와 함께 사용하실 수 있으며, 기존 개발 스킬로도 사용할 수 있도록 더 유연한 구조를 가집니다.
 - **리즈너블 프레임워크**는 CSRF, XSS, SQL 인젝션 등 기초적인 **보안 위협에 대응**하도록 설계되어 있습니다.
 - 이 프로젝트는 PHP 버전 4 부터 버전 7까지 다양한 **기업 수준의 적용 사례**를 포함하고 있습니다.
 - 이 프로젝트는 [카카오톡 채팅방](https://catswords.re.kr/go/kakaotalk)에서 실시간으로 버그 및 보안 이슈를 제보받고 있습니다.
@@ -92,6 +95,9 @@ $ php cli.php --route [route name] --session-id [session ID]
 - It provides maximum stability even if the program is developed for developers who are based on legacy code or are not skilled.
 - It also works smoothly on free web hosting (in South Korea, Asia, America, and Europe) based on PHP 4 and 7.
 - It provides **a convincing standard** even if you don't know modern web techs, such as object-oriented, modular(MVC), and secure coding.
+    - Ideal for environments where separate development aids, including Composer, PHP extensions, and the famous PHP framework are not available.
+    - Compatible with various CMS and API used with REST API, it is suitable to create implementation type that is frequently used in various environment.
+    - RVHM structure can be used with MVC structure, and has more flexible structure to use as existing development skill.
 - **ResonableFramework** is designed to **respond to fundamental security threats** such as CSRF, XSS, and SQL injection.
 - This project including a lots of the **enterprise level cases** from PHP version 4(legacy) to 7(modern).
 - This project receiving a realtime reports that bugs and security issues in the [official chatting room](https://catswords.re.kr/go/kakaotalk).
