@@ -84,8 +84,8 @@ $ php cli.php --route [route name] --session-id [session ID]
 - 한국, 북미, 유럽권의 PHP를 기반으로 하는 무료 웹 호스팅에서도 안정적인 운영이 가능합니다.
 - 객체지향, 모듈러(MVC), 시큐어 코딩 등 현대적인 웹 기술을 모르더라도 **더 적합한** 기준을 제공합니다.
 - 리즈너블 프레임워크는 CSRF, XSS, SQL 인젝션 등 기초적인 **보안 위협에 사전 대응**하도록 설계되어 있습니다.
-- 이 프로젝트는 PHP 버전 4 부터 버전 7까지 다양한 기업 수준의 적용 사례를 포함하고 있습니다.
-- [카카오톡 채팅방](https://catswords.re.kr/go/kakaotalk)을 통해 실시간 버그 및 보안 이슈 해결이 가능합니다.
+- 이 프로젝트는 PHP 버전 4 부터 버전 7까지 다양한 **기업 수준의 적용 사례**를 포함하고 있습니다.
+- 이 프로젝트는 [카카오톡 채팅방](https://catswords.re.kr/go/kakaotalk)에서 실시간으로 버그 및 보안 이슈를 제보받고 있습니다.
 
 ## English
 - **ReasonableFramework** is a PHP framework designed to the restrictive web environments.
@@ -93,8 +93,8 @@ $ php cli.php --route [route name] --session-id [session ID]
 - It also works smoothly on free web hosting (in South Korea, America, and Europe) based on PHP 4 and 7.
 - It provides a convincing standard even if you don't know modern web techs, such as object-oriented, modular(MVC), and secure coding.
 - **ResonableFramework** is designed to **proactively respond to fundamental security threats** such as CSRF, XSS, and SQL injection.
-- This projects including a lots of the **enterprise level cases** from PHP version 4(legacy) to 7(modern).
-- You can quickly resolve bugs and security issues in [our chatting room](https://catswords.re.kr/go/kakaotalk).
+- This project including a lots of the **enterprise level cases** from PHP version 4(legacy) to 7(modern).
+- This project receiving a realtime reports that bugs and security issues in the [official chatting room](https://catswords.re.kr/go/kakaotalk).
 
 ## Contact us
 - gnh1201@gmail.com
