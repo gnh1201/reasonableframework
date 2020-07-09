@@ -96,8 +96,8 @@ $ php cli.php --route [route name] --session-id [session ID]
 - It also works smoothly on free web hosting (in South Korea, Asia, America, and Europe) based on PHP 4 and 7.
 - It provides **a convincing standard** even if you don't know modern web techs, such as object-oriented, modular(MVC), and secure coding.
     - Ideal for environments where separate development aids, including Composer, PHP extensions, and the famous PHP framework are not available.
-    - Compatible with various CMS and API used with REST API, it is suitable to create implementation type that is frequently used in various environment.
-    - RVHM structure can be used with MVC structure, and has more flexible structure to use as existing development skill.
+    - Compatible with famous CMS and API used with REST API, it is suitable to create implementation type that is frequently used in various environment.
+    - RVHM structure can be used with MVC structure, and has more flexible structure to use as existing development skills.
 - **ResonableFramework** is designed to **respond to fundamental security threats** such as CSRF, XSS, and SQL injection.
 - This project including a lots of the **enterprise level cases** from PHP version 4(legacy) to 7(modern).
 - This project receiving a realtime reports that bugs and security issues in the [official chatting room](https://catswords.re.kr/go/kakaotalk).
