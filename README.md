@@ -89,7 +89,7 @@ $ php cli.php --route [route name] --session-id [session ID]
 
 ## English
 - **ReasonableFramework** is a PHP framework designed to the restrictive web environments.
-- It provides maximum stability even in environments where programs are developed by inexperienced developers or based on lagacy codes.
+- It provides maximum stability even in environments that developed by inexperienced developers or based on lagacy codes.
 - It also works smoothly on free web hosting (in South Korea, America, and Europe) based on PHP 4 and 7.
 - It provides **a convincing standard** even if you don't know modern web techs, such as object-oriented, modular(MVC), and secure coding.
 - **ResonableFramework** is designed to **respond to fundamental security threats** such as CSRF, XSS, and SQL injection.
