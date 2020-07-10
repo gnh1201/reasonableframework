@@ -134,6 +134,11 @@ if(!is_fn("exec_command")) {
             return $return;
         }
 
+        // An 'async' option will be return PID
+        if(array_key_equals("async", $options, true)) {
+            $command = sprintf("%s 1>/dev/null 2>&1 & echo $!;", $command);
+        }
+
         if (empty($method)) {
             // ob_start() will turn on output buffering to collect all output from
             // exec_test() and ob_end_clean() will clean the buffer afterwards ("garbage collection") 
@@ -147,11 +152,6 @@ if(!is_fn("exec_command")) {
                 echo "[!] No method available";
                 exit;
             }            
-        }
-
-        // An 'async' option will be return PID
-        if(array_key_equals("async", $options, true)) {
-            $command = sprintf("%s 1>/dev/null 2>&1 & echo $!;", $command);
         }
 
         ob_start();
