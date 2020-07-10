@@ -206,6 +206,11 @@ if(!is_fn("exec_command")) {
 
         $return = ob_get_clean();
 
+        // PID is integer
+        if(array_key_equals("async", $options, true)) {
+            $return = intval(rtrim($return));
+        };
+
         return $return;
     }
 }
