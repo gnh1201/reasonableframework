@@ -638,7 +638,7 @@ if(!is_fn("get_web_page")) {
             "status"     => $status,
             "resno"      => $resno,
             "errno"      => $errno,
-            "id"         => get_web_identifier($url, $method, $data, $headers),
+            "id"         => get_web_identifier($url, $method, $data),
             "pid"        => $pid,
             "md5"        => get_hashed_text($content, "md5"),
             "sha1"       => get_hashed_text($content, "sha1"),
@@ -719,8 +719,16 @@ if(!is_fn("get_web_cache")) {
                 }
             }
             $_method = implode(".", $_new_methods);
+
+            $_data = $data;
+            if(count($headers) > 0) {
+                $_data = array(
+                    "headers" => $headers,
+                    "data" => $data
+                );
+            }
  
-            $response = get_web_page($url, $_method, $data, $proxy, $ua, $ct_out, $t_out);
+            $response = get_web_page($url, $_method, $_data, $proxy, $ua, $ct_out, $t_out);
             $content = $response['content'];
             if($cache_enabled) {
                 $gz_content = gzdeflate($content);
