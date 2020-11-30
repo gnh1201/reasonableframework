@@ -25,7 +25,7 @@ the advanced security against XSS, CSRF, SQL injection, DDoS, Webshell (maliciou
 Generally, the default security is sufficient to you in our framework. so, you have to use it after did understand what is this.
 
 ### Minimum tier
-- 25 USD/monthly (Email question and answer)
+- 25 USD/monthly (Email questions and answers)
 
 ### Link
 https://www.patreon.com/posts/advanced-security-27376670
