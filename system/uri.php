@@ -115,6 +115,7 @@ if(!is_fn("read_requests")) {
             "_YAML"   => false,
             "_CSPT"   => false,
             "_SERVER" => array_map("make_safe_argument", get_array($_SERVER)),
+            "_HEADER" => getallheaders()
         );
 
         // check if json or serialized request
@@ -429,5 +430,20 @@ if(!is_fn("set_header_content_type")) {
         } else {
             header("Content-type: text/plain");
         }
+    }
+}
+
+if(!is_fn("get_header_value")) {
+    function get_header_value($name) {
+        $value = false;
+
+        $requests = get_requests();
+        foreach ($requests['_HEADER'] as $k=>$v) {
+            if (strtolower($k) == strtolower($name)) {
+                $value = $v;
+            }
+        }
+
+        return $value;
     }
 }
