@@ -505,8 +505,8 @@ if(!is_fn("get_web_curl")) {
                 $options[CURLOPT_CUSTOMREQUEST] = "POST";
                 $options[CURLOPT_POST] = 1;
                 $options[CURLOPT_POSTFIELDS] = $_data;
-                $headers['Content-Type'] = "text/plain;charset=utf-8";
-                $headers['Accept'] = "text/plain, */*";
+                $headers['Content-Type'] = "application/octet-stream";
+                $headers['Accept'] = "application/octet-stream, */*";
                 $headers['Content-Length'] = strlen($_data);
             }
         }
