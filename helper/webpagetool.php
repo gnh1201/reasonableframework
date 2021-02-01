@@ -2,7 +2,7 @@
 /**
  * @file webpagetool.php
  * @created_on 2018-06-01
- * @updated_on 2020-07-16
+ * @updated_on 2021-02-01
  * @author Go Namhyeon <gnh1201@gmail.com>
  * @brief WebPageTool helper
  */
@@ -514,7 +514,7 @@ if(!is_fn("get_web_curl")) {
         if(count($headers) > 0) {
             foreach($headers as $k=>$v) {
                 if(is_array($v)) {
-                    if($k == "Authorization") {
+                    if($k == "Authorization" || $k == "Authentication") {
                         if($v[0] == "Basic" && check_array_length($v, 3) == 0) {
                             $options[CURLOPT_USERPWD] = sprintf("%s:%s", make_safe_argument($v[1]), make_safe_argument($v[2]));
                         } else {
