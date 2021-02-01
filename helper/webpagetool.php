@@ -648,7 +648,8 @@ if(!is_fn("get_web_page")) {
             "gz_sha1"    => get_hashed_text($gz_content, "sha1"),
             "gz_ratio"   => $gz_ratio,
             "method"     => $_method,
-            "params"     => $data,
+            "headers"    => $headers,
+            "params"     => $data
         );
 
         return $response;
