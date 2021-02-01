@@ -514,7 +514,7 @@ if(!is_fn("get_web_curl")) {
         if(count($headers) > 0) {
             foreach($headers as $k=>$v) {
                 if(is_array($v)) {
-                    if($k == "Authentication") {
+                    if($k == "Authorization") {
                         if($v[0] == "Basic" && check_array_length($v, 3) == 0) {
                             $options[CURLOPT_USERPWD] = sprintf("%s:%s", make_safe_argument($v[1]), make_safe_argument($v[2]));
                         } else {
