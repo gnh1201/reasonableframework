@@ -132,7 +132,7 @@ if(!is_fn("get_db_last_id")) {
 
         if(in_array($db_driver, array("mysql", "mysql.pdo"))) {
             $last_id = $dbc->lastInsertId();
-        } elseif(loadHelper("database.dbt")) {
+        } elseif(loadHelper("database.alt")) {
             $last_id = call_user_func("get_db_alt_last_id", $db_driver);
         }
 
