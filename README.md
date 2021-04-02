@@ -100,7 +100,7 @@ $ php cli.php --route :route --session-id :session_id
     - Compatible with famous CMS and API used with REST API, it is suitable to create implementation type that is frequently used in various environment.
     - RVHM structure can be used with MVC structure, and has more flexible structure to use as existing development skills.
 - **ResonableFramework** is designed to **respond to fundamental security threats** such as CSRF, XSS, and SQL injection.
-- **ResonableFramework** is supported `Forwarded` headers natively, so it is ideal for build a load balancing or hidden(for example, Tor) services.
+- **ResonableFramework** is supported `Forwarded` headers natively, so it is ideal for build a load balancing or hidden(e.g. Tor) services.
 - This project including a lots of the **enterprise level cases** from PHP version 4(legacy) to 7(modern).
 - This project receiving a realtime reports that bugs and security issues in the [official chatting room](https://catswords.re.kr/go/kakaotalk).
 
