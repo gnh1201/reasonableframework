@@ -10,8 +10,8 @@ if(!is_fn("coupang_get_signature")) {
         $datetime = date("ymd") . 'T' . date("His") . 'Z';
         $message = $datetime . strtoupper($method) . str_replace("?", "", $path) . http_build_query($query);
         $algorithm = "HmacSHA256";
-
         $signature = hmacsha256_sign_message($message, $SECRET_KEY);
+
         return "CEA algorithm=HmacSHA256, access-key=" . $ACCESS_KEY . ", signed-date=" . $datetime . ", signature=" . $signature;
     }
 }
