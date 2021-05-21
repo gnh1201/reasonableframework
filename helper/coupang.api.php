@@ -1,5 +1,6 @@
 <?php
 // Coupang Products Search API
+// https://coupa.ng/bZ3Kba
 
 loadHelper("webpagetool");
 
