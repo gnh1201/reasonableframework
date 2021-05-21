@@ -26,8 +26,8 @@ if(!is_fn("coupang_search_items")) {
                 "Authorization" => coupang_get_signature("GET", $path, $ACCESS_KEY, $SECRET_KEY),
                 "data" => array(
                     "keyword" => $keyword,
-                    "limit" => 20, 
-                    //"subId" => ""
+                    //"limit" => 20,   // default is 20
+                    //"subId" => ""    // default is null
                 )
             )
         ));
