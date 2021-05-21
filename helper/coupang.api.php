@@ -11,7 +11,7 @@ if(!is_fn("coupang_get_signature")) {
         $algorithm = "HmacSHA256";
 
         $signature = hmacsha256_sign_message($message, $SECRET_KEY);
-        return "CEA algorithm=HmacSHA256, access-key=" . $ACCESS_KEY.", signed-date=" . $datetime.", signature=" . $signature;
+        return "CEA algorithm=HmacSHA256, access-key=" . $ACCESS_KEY . ", signed-date=" . $datetime . ", signature=" . $signature;
     }
 }
 
