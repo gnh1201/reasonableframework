@@ -22,7 +22,7 @@ if(!is_fn("coupang_search_items")) {
 
         $path = $URL_PARTS[1] . $URL_PARTS[2];
 
-        return get_web_json($BASE_URL . $URL_PARTS[2]. "get", array(
+        return get_web_json($BASE_URL . $URL_PARTS[2], "get", array(
             "headers" => array(
                 "Authorization" => coupang_get_signature("GET", $path, $ACCESS_KEY, $SECRET_KEY),
                 "data" => array(
