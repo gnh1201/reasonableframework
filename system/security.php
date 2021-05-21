@@ -702,3 +702,10 @@ if(!is_fn("expire_isolated_session")) {
         session_destroy();
     }
 }
+
+// Add support HmacSHA256 algorithm #137
+if(!is_fn("hmacsha256_sign_message")) {
+    function hmacsha256_sign_message($message, $secret_key) {
+        return hash_hmac("sha256", $message, $secret_key);
+    }
+}
