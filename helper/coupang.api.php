@@ -1,4 +1,6 @@
 <?php
+// Coupang Products Search API
+
 loadHelper("webpagetool");
 
 if(!is_fn("coupang_get_signature")) {
