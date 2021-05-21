@@ -24,12 +24,12 @@ if(!is_fn("coupang_search_items")) {
 
         return get_web_json($BASE_URL . $URL_PARTS[2], "get", array(
             "headers" => array(
-                "Authorization" => coupang_get_signature("GET", $path, $ACCESS_KEY, $SECRET_KEY),
-                "data" => array(
-                    "keyword" => $keyword,
-                    //"limit" => 20,   // default is 20
-                    //"subId" => ""    // default is null
-                )
+                "Authorization" => coupang_get_signature("GET", $path, $ACCESS_KEY, $SECRET_KEY)
+            )
+            "data" => array(
+                "keyword" => $keyword,
+                //"limit" => 20,   // default is 20
+                //"subId" => ""    // default is null
             )
         ));
     }
