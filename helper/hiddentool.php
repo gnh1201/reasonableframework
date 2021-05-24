@@ -11,7 +11,7 @@ if (!is_fn("detect_hidden_service")) {
     function detect_hidden_service() {
 	    $score = 0;
 
-        $suffixes = array(".onion", ".i2p");
+        $suffixes = array("onion", "i2p");
         $forwarded_host = get_header_value("X-Forwarded-Host");
         if (!empty($forwarded_host)) {
             if (in_array(end(explode('.', $forwarded_host)), $suffixes)) {
