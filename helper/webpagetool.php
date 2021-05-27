@@ -553,6 +553,12 @@ if(!is_fn("get_web_page")) {
         $content = false;
         $_method = $method;
         
+        // check request method
+        if (!is_string($method)) {
+            set_error("method must be string");
+            show_errors();
+        }
+
         // get process ID
         $pid = getmyid();
 
