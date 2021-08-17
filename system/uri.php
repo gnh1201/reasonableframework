@@ -69,7 +69,7 @@ if(!is_fn("read_route")) {
                 }
 
                 if(strpos($uri, $base_route) == 0) {
-                    $_routes = explode("/", substr($nevt['self'], strlen($base_route)));
+                    $_routes = explode("/", substr($uri, strlen($base_route)));
                     foreach($_routes as $_route) {
                         if($_route != "index.php") {
                             $route = $_route;
