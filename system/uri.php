@@ -2,7 +2,7 @@
 /**
  * @file uri.php
  * @created_on 2018-04-13
- * @updated_on 2020-12-25
+ * @updated_on 2021-10-27
  * @author Go Namhyeon <gnh1201@gmail.com>
  * @brief URI module
  */
@@ -447,3 +447,22 @@ if(!is_fn("get_header_value")) {
         return $value;
     }
 }
+
+if(!is_fn("test_user_agent")) {
+    function test_user_agent($ua, $tua) {
+        $result = false;
+
+        if (!empty($ua)) {
+            $words = explode(" ", str_replace("/", " ", $ua));
+            foreach($words as $word) {
+                if (in_array($word, $tua)) {
+                    $result = true;
+                    break;
+                }
+            }
+        }
+
+        return $result;
+    }
+
+    
