@@ -298,8 +298,26 @@ if(!is_fn("redirect_uri")) {
                 show_errors();
             }
         }
+        
+        if(array_key_equals("method", $options, "html")) {
+            echo <<<EOF
+<!doctype html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="refresh" content="1;url=$uri">
+        <title>Redirect</title>
+    </head>
+    <body>
+        <a id="goto" href="$uri">Go to the page</a>
+        <script>window.onload = function() { document.getElementById("goto").click(); };</script>
+    </body>
+</html>
+EOF;
+        } else {
+            header("Location: " . $uri, true, $permanent ? 301 : 302);
+        }
 
-        header("Location: " . $uri, true, $permanent ? 301 : 302);
         exit();
     }
 }
