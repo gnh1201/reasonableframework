@@ -464,5 +464,4 @@ if(!is_fn("test_user_agent")) {
 
         return $result;
     }
-
-    
+}
