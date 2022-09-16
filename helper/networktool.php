@@ -1,7 +1,8 @@
 <?php
 /**
  * @file networktool.php
- * @date 2018-04-11
+ * @created_on 2018-04-11
+ * @updated_on 2022-09-16
  * @author Go Namhyeon <gnh1201@gmail.com>
  * @brief Network tool helper
  */
