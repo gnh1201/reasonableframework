@@ -131,6 +131,6 @@ if(!is_fn("detect_perf_agent")) {
     function detect_perf_agent() {
         $evt = get_network_event();
         $agent = $ent['agent'];
-        return preg_match('(PingdomPageSpeed|GTmetrix)', $data) === 1);
+        return preg_match('(PingdomPageSpeed|GTmetrix)', $agent) === 1);
     }
 }
