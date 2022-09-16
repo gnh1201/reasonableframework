@@ -126,3 +126,11 @@ if(!is_fn("get_network_outbound_addr")) {
         return $addr;
     }
 }
+
+if(!is_fn("detect_perf_agent")) {
+    function detect_perf_agent() {
+        $evt = get_network_event();
+        $agent = $ent['agent'];
+        return preg_match('(PingdomPageSpeed|GTmetrix)', $data) === 1);
+    }
+}
