@@ -2,7 +2,7 @@
 /**
  * @file uri.php
  * @created_on 2018-04-13
- * @updated_on 2021-10-27
+ * @updated_on 2022-09-29
  * @author Go Namhyeon <gnh1201@gmail.com>
  * @brief URI module
  */
@@ -11,10 +11,10 @@ if(!is_fn("base_url")) {
     function base_url() {
         $base_url = "";
 
-        // 2020-12-25: #133 Add support 'X-Forwarded-Host' header 
+        // #133 Add support 'X-Forwarded-Host' header 
         $forwarded_host = get_header_value("X-Forwarded-Host");
         if(!empty($forwarded_host)) {
-            $base_url = sprintf("http://%s", $forwarded_host);
+            $base_url = sprintf("https://%s", $forwarded_host);
         } else {
             $base_url = get_config_value("base_url");
             if(empty($base_url)) {
