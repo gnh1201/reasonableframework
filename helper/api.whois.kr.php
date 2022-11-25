@@ -2,7 +2,7 @@
 /**
  * @file api.whois.kr.php
  * @date 2019-05-26
- * @author Go Namhyeon <gnh1201@gmail.com>
+ * @author Go Namhyeon <abuse@catswords.net>
  * @brief KISA Whois/Domain/IP/AS Query Helper (https://whois.kr)
  */
  

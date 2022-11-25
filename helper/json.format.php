@@ -1,7 +1,7 @@
 <?php
 // @created_on 2019-10-13
 // @updated_on 2020-01-27
-// @author Go Namhyeon <gnh1201@gmail.com>
+// @author Go Namhyeon <abuse@catswords.net>
 
 if(!is_fn("json_decode_ex")) {
     function json_decode_ex($data, $options=array()) {

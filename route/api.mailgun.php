@@ -2,7 +2,7 @@
 /**
  * @file api.mailgun.php
  * @date 2019-04-15
- * @author Go Namhyeon <gnh1201@gmail.com>
+ * @author Go Namhyeon <abuse@catswords.net>
  * @brief Mailgun API controller
  */
 

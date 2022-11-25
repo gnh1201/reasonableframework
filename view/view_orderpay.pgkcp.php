@@ -2,7 +2,7 @@
 /**
  * @file view_orderpay.pgkcp.php
  * @date 2018-08-25
- * @author Go Namhyeon <gnh1201@gmail.com>
+ * @author Go Namhyeon <abuse@catswords.net>
  * @brief KCP PG(Payment Gateway) View
  */
 

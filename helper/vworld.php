@@ -2,7 +2,7 @@
 /**
  * @file vworld.php
  * @date 2018-01-11
- * @author Go Namhyeon <gnh1201@gmail.com>
+ * @author Go Namhyeon <abuse@catswords.net>
  * @brief Geo Helper based on vWorld (vworld.kr, molit.go.kr)
  */
 

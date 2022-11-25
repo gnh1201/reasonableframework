@@ -2,7 +2,7 @@
 /**
  * @file zeroboard4.dbt.php
  * @date 2018-08-20
- * @author Go Namhyeon <gnh1201@gmail.com>
+ * @author Go Namhyeon <abuse@catswords.net>
  * @brief Database Helper for Zeroboard 4 PL 9 (experimental)
  */
 

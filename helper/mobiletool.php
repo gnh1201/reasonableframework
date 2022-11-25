@@ -2,7 +2,7 @@
 /**
  * @file mobiletool.php
  * @date 2019-04-29
- * @author Go Namhyeon <gnh1201@gmail.com>
+ * @author Go Namhyeon <abuse@catswords.net>
  * @brief Mobile Tool
  * @documentation https://www.w3.org/Mobile/training/device-detection/mobile_detector.txt
  */

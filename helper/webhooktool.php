@@ -2,7 +2,7 @@
 /**
  * @file webhooktool.php
  * @date 2019-05-04
- * @author Go Namhyeon <gnh1201@gmail.com>
+ * @author Go Namhyeon <abuse@catswords.net>
  * @brief WebhookTools
  * @trademark
  * * `NateOn` is trademark of SK Communications Co Ltd., SK Planet Co Ltd., or other SK businesses.

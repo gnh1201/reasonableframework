@@ -4,7 +4,7 @@
  * @file cli.php
  * @created_on 2018-07-22
  * @created_on 2020-04-20
- * @author Go Namhyeon <gnh1201@gmail.com>
+ * @author Go Namhyeon <abuse@catswords.net>
  * @brief ReasonableFramework CLI mode
  * @cvs http://github.com/gnh1201/reasonableframework
  */

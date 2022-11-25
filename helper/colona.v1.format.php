@@ -1,5 +1,5 @@
 <?php
-// Go Namhyeon <gnh1201@gmail.com>
+// Go Namhyeon <abuse@catswords.net>
 // 2019-09-25
 
 if(!is_fn("decode_colona_format")) {

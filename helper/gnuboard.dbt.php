@@ -2,7 +2,7 @@
 /**
  * @file gnuboard.php
  * @date 2018-05-27
- * @author Go Namhyeon <gnh1201@gmail.com>
+ * @author Go Namhyeon <abuse@catswords.net>
  * @brief Database Helper for Gnuboard 4, Gnuboard 5
  */
 

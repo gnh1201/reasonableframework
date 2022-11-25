@@ -3,7 +3,7 @@
  * @file base.php
  * @created_on 2018-04-13
  * @updated_on 2020-02-10
- * @author Go Namhyeon <gnh1201@gmail.com>
+ * @author Go Namhyeon <abuse@catswords.net>
  * @brief Base module
  */
 

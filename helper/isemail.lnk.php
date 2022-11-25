@@ -2,7 +2,7 @@
 /**
  * @file isemail.lnk.php
  * @date 2018-03-02
- * @author Go Namhyeon <gnh1201@gmail.com>
+ * @author Go Namhyeon <abuse@catswords.net>
  * @brief IsEmail library linker
  */
 

@@ -3,7 +3,7 @@
  * @file webpagetool.php
  * @created_on 2018-06-01
  * @updated_on 2021-02-01
- * @author Go Namhyeon <gnh1201@gmail.com>
+ * @author Go Namhyeon <abuse@catswords.net>
  * @brief WebPageTool helper
  */
 

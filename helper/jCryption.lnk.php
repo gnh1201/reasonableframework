@@ -2,7 +2,7 @@
 /**
  * @file jCryption.lnk.php
  * @date 2018-09-30
- * @author Go Namhyeon <gnh1201@gmail.com>
+ * @author Go Namhyeon <abuse@catswords.net>
  * @brief jCryption (alternative HTTPS on javascript) Helper
  */
 

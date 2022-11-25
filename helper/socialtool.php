@@ -2,7 +2,7 @@
 /**
  * @file socialtools.php
  * @date 2018-09-27
- * @author Go Namhyeon <gnh1201@gmail.com>
+ * @author Go Namhyeon <abuse@catswords.net>
  * @brief SocialTools (refactoring from SocioRouter)
  */
  

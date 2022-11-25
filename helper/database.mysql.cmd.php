@@ -2,7 +2,7 @@
 /**
  * @file database.mysql.cmd.php
  * @date 2019-04-06
- * @auther Go Namhyeon <gnh1201@gmail.com>
+ * @auther Go Namhyeon <abuse@catswords.net>
  * @brief MySQL(MariaDB) command line driver
  */
 

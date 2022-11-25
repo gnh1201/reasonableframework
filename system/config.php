@@ -3,7 +3,7 @@
  * @file config.php
  * @date 2018-04-13
  * @updated 2020-03-25
- * @author Go Namhyeon <gnh1201@gmail.com>
+ * @author Go Namhyeon <abuse@catswords.net>
  * @brief Configuration module
  */
 

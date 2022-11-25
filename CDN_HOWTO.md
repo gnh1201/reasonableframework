@@ -67,4 +67,4 @@ ReasonableFramework v1.6.2 기준 https://github.com/gnh1201/reasonableframework
   - 정적 파일 호스팅을 지원하는 서비스의 경우, `base_cdn_url`의 주소만 바꾸어주면 동일한 방법으로 사용이 가능하다.
 
 ## 문의사항
-   - support@exts.kr
+   - abuse@catswords.net

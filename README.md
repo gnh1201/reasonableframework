@@ -105,6 +105,4 @@ $ php cli.php --route :route --session-id :session_id
 - This project receiving a realtime reports that bugs and security issues in the [official chatting room](https://catswords.re.kr/go/kakaotalk).
 
 ## Contact us
-- gnh1201@gmail.com
-- support@exts.kr
-- catswords@protonmail.com (if you require confidential)
+- abuse@catswords.net

@@ -2,7 +2,7 @@
 /**
  * @file api.setconfig.pgkcp.php
  * @date 2018-09-30
- * @author Go Namhyeon <gnh1201@gmail.com>
+ * @author Go Namhyeon <abuse@catswords.net>
  * @brief KCP PG(Payment Gateway) set configuration API
  */
 

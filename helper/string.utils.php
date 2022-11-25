@@ -3,7 +3,7 @@
  * @file string.utils.php
  * @created_on 2018-05-27
  * @updated_on 2020-02-21
- * @author Go Namhyeon <gnh1201@gmail.com>
+ * @author Go Namhyeon <abuse@catswords.net>
  * @brief String utility helper
  */
 

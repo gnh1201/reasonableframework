@@ -2,7 +2,7 @@
 /**
  * @file mailgun.api.php
  * @date 2019-04-12
- * @author Go Namhyeon <gnh1201@gmail.com>
+ * @author Go Namhyeon <abuse@catswords.net>
  * @brief Mailgun REST API interface module
  * @documentation https://documentation.mailgun.com/en/latest/api-sending.html
  */

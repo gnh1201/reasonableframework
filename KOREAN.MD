@@ -44,7 +44,7 @@ https://github.com/gnh1201/reasonableframework
 
 * Website: https://exts.kr/go/home
 
-* E-mail: support@exts.kr
+* E-mail: abuse@catswords.net
 
 ## 저작권
 

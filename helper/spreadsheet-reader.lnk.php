@@ -2,7 +2,7 @@
 /**
   * @file spreadsheet-reader.lnk.php
   * @date 2018-09-20
-  * @author Go Namhyeon <gnh1201@gmail.com>
+  * @author Go Namhyeon <abuse@catswords.net>
   * @brief Excel file parser
 ***/
 

@@ -2,7 +2,7 @@
 /**
  * @file catsplit.format.php
  * @date 2019-05-28
- * @author Go Namhyeon <gnh1201@gmail.com>
+ * @author Go Namhyeon <abuse@catswords.net>
  * @brief Catsplit format encoder
  * @documentation https://github.com/gnh1201/catsplit-format
  */
