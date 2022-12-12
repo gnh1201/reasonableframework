@@ -20,7 +20,7 @@ reported vulnerability, what to expect if the vulnerability is accepted or
 declined, etc.
 
 ## Paid security services
-For paid customers only, we offer advanced security services associated with XSS, CSRF, SQL injection, DDoS, Webshell, Mis-configurations.
+For paid customers, we offer advanced security services such as protecting from XSS, CSRF, SQL injection, DoS, Webshell, Mis-configurations.
 
 ## Contact us
 abuse@catswords.net
