@@ -19,11 +19,8 @@ Tell them where to go, how often they can expect to get an update on a
 reported vulnerability, what to expect if the vulnerability is accepted or
 declined, etc.
 
-## Paid tier for improving security
+## Paid security services
+For paid customers only, we offer advanced security services associated with XSS, CSRF, SQL injection, DDoS, Webshell, Mis-configurations.
 
-the advanced security against XSS, CSRF, SQL injection, DDoS, Webshell (malicious code), weak configurations, which extensions available only for sponsors.
-Generally, the default security is sufficient to you in our framework. so, you have to use it after did understand what is this.
-
-### Link
-
-https://www.patreon.com/posts/advanced-security-27376670
+## Contact us
+abuse@catswords.net
