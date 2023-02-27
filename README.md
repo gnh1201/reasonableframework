@@ -1,6 +1,6 @@
 # ReasonableFramework
 ![License LGPLv3](https://img.shields.io/github/license/gnh1201/reasonableframework.svg)
-![Compliance C-2020-018490](https://img.shields.io/static/v1?label=Compliance&message=C-2020-018490&color=orange)
+![Compliance KCC C-2020-018490](https://img.shields.io/static/v1?label=Compliance&message=KCC%20C-2020-018490&color=orange)
 
 - ReasonableFramework is `RVHM` structured PHP framework with common security
 - Prefix code: `RSF` (ReasonableFramework)
