@@ -1,6 +1,6 @@
 # ReasonableFramework
 ![License LGPLv3](https://img.shields.io/github/license/gnh1201/reasonableframework.svg)
-![KCC C-2020-018490](https://img.shields.io/static/v1?label=KCC&message=C-2020-018490&color=orange)
+![Compliance C-2020-018490](https://img.shields.io/static/v1?label=Compliance&message=C-2020-018490&color=orange)
 
 - ReasonableFramework is `RVHM` structured PHP framework with common security
 - Prefix code: `RSF` (ReasonableFramework)
@@ -31,7 +31,7 @@
 ![Map of structure](https://github.com/gnh1201/reasonableframework/raw/master/assets/img/reasonableframework.jpg)
 
 ## Roadmap
-- Support critial and special-purposed web environment (industry, scientific, legacy, or more)
+- Support a mission critial and specialized web environment (For industry, For scientific, For legacy, or more)
 
 ## Quick Start
 1. git clone https://github.com/gnh1201/reasonableframework.git
@@ -45,12 +45,8 @@
 - [REST API Integration (Naver Papago Translation REST API)](https://gist.github.com/gnh1201/081484e6f5e10bd3be819093ba5f49c8)
 - [Payment Gateway Integration (KCP)](https://github.com/gnh1201/reasonableframework/blob/master/route/orderpay.pgkcp.php)
 
-## Advanced security (only for sponsors)
-- CORS, CSRF, XSS, SQL-injection protection is common security, it is free and open-source for everyone.
-- Firewall, DDoS protection, and more security tools are available only for sponsors. [more](https://github.com/gnh1201/reasonableframework/blob/master/SECURITY.md)
-
-## Remote logger (free for all)
-- Remote logger feature based on [RFC3164(The BSD Syslog Protocol)](https://tools.ietf.org/html/rfc3164), with [Papertrail](https://www.papertrail.com/)
+## Remote logging
+- Remote logging feature based on [RFC3164(The BSD Syslog Protocol)](https://tools.ietf.org/html/rfc3164)
 
 ## Compatible of free web hostings
 
@@ -74,7 +70,10 @@
 $ php cli.php --route :route --session-id :session_id
 ```
 
-## Administratives
+## Paid options
+- Advanced security: Enhanced protection for CORS, CSRF, XSS, SQL-injection, DDoS attack, etc.
+
+## Compliances
 - This project was registered to the Korea Copyright Commission's software copyright registration system. the registration number is `C-2020-018490`(version: v1.6.5.1-kcc) and approved in June 3, 2020.
 - The open source license applied to this project will remain the same now and in the future.
 
@@ -92,17 +91,17 @@ $ php cli.php --route :route --session-id :session_id
 - 이 프로젝트는 [카카오톡 채팅방](https://catswords.re.kr/go/kakaotalk)에서 실시간으로 버그 및 보안 이슈를 제보받고 있습니다.
 
 ## English
-- **ReasonableFramework** is a PHP framework designed to the restrictive web environments.
-- It provides maximum stability even if the program is developed for developers who are based on legacy code or are not skilled.
-- It also works smoothly on free web hosting (in South Korea, Asia, America, and Europe) based on PHP 4 and 7.
-- It provides **a convincing standard** even if you don't know modern web techs, such as object-oriented, modular(MVC), and secure coding.
-    - Ideal for environments where separate development aids, including Composer, PHP extensions, and the famous PHP framework are not available.
-    - Compatible with famous CMS and API used with REST API, it is suitable to create implementation type that is frequently used in various environment.
-    - RVHM structure can be used with MVC structure, and has more flexible structure to use as existing development skills.
-- **ResonableFramework** is designed to **respond to fundamental security threats** such as CSRF, XSS, and SQL injection.
-- **ResonableFramework** is supported `Forwarded` headers natively, so it is ideal for build a load balancing or hidden(e.g. Tor) services.
-- This project including a lots of the **enterprise level cases** from PHP version 4(legacy) to 7(modern).
-- This project receiving a realtime reports that bugs and security issues in the [official chatting room](https://catswords.re.kr/go/kakaotalk).
+* **ReasonableFramework** is a PHP framework designed for restrictive web environments.
+* It provides maximum stability even if the program is developed by developers who are working with legacy code or who lack experience.
+* It also runs smoothly on free web hosting services (in South Korea, Asia, America, and Europe) based on PHP 4 and 7.
+* It provides a reliable standard even if you are not familiar with modern web technologies, such as object-oriented, modular (MVC), and secure coding.
+  * It is ideal for environments where separate development tools, including Composer, PHP extensions, and famous PHP frameworks, are not available.
+  * It is compatible with famous CMS and APIs used with REST APIs, making it suitable for creating implementations that are frequently used in various environments.
+  * The RVHM structure can be used with the MVC structure and has a more flexible structure to use with existing development skills.
+* **ReasonableFramework** is designed to address fundamental **security threats** such as CSRF, XSS, and SQL injection.
+* **ReasonableFramework** natively supports 'Forwarded' headers, making it ideal for building load balancing or private services.
+* This project includes a lot of enterprise-level use cases from PHP version 4 (legacy) to 7 (modern).
+* This project receives real-time reports of bugs and security issues in the [official chat room](https://catswords.re.kr/go/kakaotalk).
 
 ## Contact us
 - abuse@catswords.net
