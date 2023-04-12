@@ -80,5 +80,7 @@ We made efforts to address common security vulnerabilities (XSS, CSRF, SQL injec
 
 The specifications that this project offers are still in demand in enterprise environments, so it can be a useful solution if you happen to be in such a situation.
 
+If you want to comply with the PSR standards and your colleagues are also ready to learn them humbly, we recommend that you consider [Codeigniter](https://github.com/bcit-ci/CodeIgniter) (which has a similar structure to this project) or [Silm Framework](https://github.com/slimphp/Slim).
+
 ## Contact us
 - abuse@catswords.net
