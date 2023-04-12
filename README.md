@@ -72,7 +72,7 @@ $ php cli.php --route :route --session-id :session_id
 ## Comment about PSR standards
 Many people are saying that this project seems to be distant from the PSR standards, and that claim is correct.
 
-The coding convention of this project is similar to the CGI style that was widely used in the early 2000s. Moreover, this style is still observed in solutions written in PHP that are sold in markets such as [WordPress](https://wordpress.org/) plugins, a local-optimized CMS [solution](https://github.com/gnuboard/gnuboard5), or [Codecanyon](https://codecanyon.net/) in 2023.
+The coding convention of this project is similar to the CGI style that was widely used in the early 2000s. Moreover, this style is still observed in solutions written in PHP that are sold in markets such as [WordPress](https://wordpress.org/) plugins, [a local-optimized CMS](https://github.com/gnuboard/gnuboard5), or [Codecanyon](https://codecanyon.net/) in 2023.
 
 Although this project hardly uses object-oriented concepts and does not use package managers like Composer much, it still incorporates concepts such as Model, View, Controller, Router, and Helper that are proposed in modern frameworks, and we have made efforts to provide a similar experience as much as possible.
 
