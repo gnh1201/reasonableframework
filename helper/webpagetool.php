@@ -884,7 +884,7 @@ if(!is_fn("get_webproxy_url")) {
 if(!is_fn("get_web_user_agent")) {
     function get_web_user_agent($ua="") {
         if(empty($ua)) {
-            $ua = "ReasonableFramework/1.6-dev (Server; PHP " . phpversion() . "; https://github.com/gnh1201/reasonableframework; abuse@catswords.net)";
+            $ua = "ReasonableFramework/1.6.7-preview1 (Server; PHP " . phpversion() . "; https://catswords.social/@catswords_oss; abuse@catswords.net)";
         } else {
             $ua = make_safe_argument($ua);
         }
