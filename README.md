@@ -76,7 +76,7 @@ The coding convention of this project is similar to the CGI style that was widel
 
 Although this project hardly uses object-oriented concepts and does not use package managers like Composer much, it still incorporates concepts such as Model, View, Controller, Router, and Helper that are proposed in modern frameworks, and we have made efforts to provide a similar experience as much as possible.
 
-We made efforts to address common security vulnerabilities (XSS, CSRF, SQL injection) in web applications, and included many code snippets that were designed to minimize reliance on specific DBMS or communication drivers
+We made efforts to address common security vulnerabilities (XSS, CSRF, SQL injection) in web applications, and included many code snippets that were designed to minimize reliance on specific DBMS or communication drivers.
 
 The specifications that this project offers are still in demand in enterprise environments, so it can be a useful solution if you happen to be in such a situation.
 
