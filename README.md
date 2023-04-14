@@ -70,7 +70,7 @@ $ php cli.php --route :route --session-id :session_id
 ```
 
 ## Comment about PSR standards
-Many people are saying that this project seems to be distant from the PSR standards, and that claim is correct.
+Many people are saying that this project seems to be distant from the [PSR](https://www.php-fig.org/psr/) standards, and that claim is correct.
 
 The coding convention of this project is similar to the CGI style that was widely used in the early 2000s. Moreover, this style is still observed in solutions written in PHP that are sold in markets such as [WordPress](https://wordpress.org/) plugins, [a local-optimized CMS](https://github.com/gnuboard/gnuboard5), or [Codecanyon](https://codecanyon.net/) in 2023.
 
