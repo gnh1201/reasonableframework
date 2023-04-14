@@ -36,7 +36,7 @@
 
 - 카페24 ([10G 광아우토반 Full SSD](https://www.cafe24.com/?controller=product_page&type=basic&page=autoban) 웹 호스팅 상품 기준)
 - Amazon S3 또는 타사 정적 파일 호스팅/Object Storage 사용자
-- 문의사항
+- 문의사항이 있다면
 
 ## 카페24 ([10G 광아우토반 Full SSD](https://www.cafe24.com/?controller=product_page&type=basic&page=autoban) 웹 호스팅 상품 기준)
 
@@ -96,5 +96,6 @@
 ## Amazon S3 또는 타사 정적 파일 호스팅/Object Storage 사용자
   - 정적 파일 호스팅을 지원하는 서비스의 경우, `base_cdn_url`의 주소만 바꾸어주면 동일한 방법으로 사용이 가능하다.
 
-## 문의사항
-   - abuse@catswords.net
+## 문의사항이 있다면
+  - Website: https://catswords.social/@catswords_oss
+  - E-mail: abuse@catswords.
