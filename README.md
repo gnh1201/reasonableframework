@@ -86,3 +86,4 @@ If you want to comply with the PSR standards and your colleagues are also ready 
 
 ## Contact us
 - abuse@catswords.net
+- ActivityPub [@catswords_oss@catswords.social](https://catswords.social/@catswords_oss)
