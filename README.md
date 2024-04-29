@@ -3,11 +3,6 @@
 
 ReasonableFramework is RVHM structured PHP framework. aka, RSF, VSPF, C-2020-018490
 
-![This project open source licensed under LGPL version 3](https://github.com/gnh1201/reasonableframework/raw/master/lgplv3-147x51.png)
-
-## Security Policy
-- [Security policy and techincal support](SECURITY.md)
-
 ## Specifications
 - Various types of database connection drivers. e.g, PHP PDO, MySQLi, Legacy MySQL, MySQL over the shell, Oracle(OCI)
 - No OOP, Just `RVHM` structure
@@ -83,6 +78,9 @@ The specifications that this project offers are still in demand in enterprise en
 Whenever this project was introduced, I received a lot of questions about PSR, and I also made efforts to find customers who were willing to pay for a PSR version, such as holding conferences for existing customers. However, there is still no good news. Until good news comes, my plan is to mainly maintain this project.
 
 If you want to comply with the PSR standards and your colleagues are also ready to learn them humbly, we recommend that you consider [Codeigniter](https://github.com/bcit-ci/CodeIgniter) (which has a similar structure to this project) or [Silm Framework](https://github.com/slimphp/Slim).
+
+## Security Policy
+- [Security policy](SECURITY.md)
 
 ## Contact us
 - abuse@catswords.net
