@@ -12,15 +12,12 @@ currently being supported with security updates.
 | < 1.5   | :x:                                        |
 
 ## Reporting a Vulnerability
-
 Use this section to tell people how to report a vulnerability.
 
 Tell them where to go, how often they can expect to get an update on a
 reported vulnerability, what to expect if the vulnerability is accepted or
 declined, etc.
 
-## Paid security services
-For paid customers, we offer additional security services such as protecting from XSS, CSRF, SQL injection, DoS, Webshell, Mis-configurations.
-
 ## Contact us
-abuse@catswords.net
+* ActivityPub [@catswords_oss@catswords.social](https://catswords.social/@catswords_oss)
+* abuse@catswords.net
