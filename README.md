@@ -10,7 +10,7 @@ ReasonableFramework is RVHM structured PHP framework with common security. aka, 
 
 ## Specifications
 - Various types of database connection drivers. e.g, PHP PDO, MySQLi, Legacy MySQL, MySQL over the shell, Oracle(OCI)
-- Not OOP, Just `RVHM` structure
+- No OOP, Just `RVHM` structure
   - R is Route, like as `controller`
   - V is View
   - H is Helper, like a `import` on Python, Go, NodeJS
