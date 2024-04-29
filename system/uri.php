@@ -61,7 +61,7 @@ if(!is_fn("read_route")) {
         // get route in URI
         if(empty($route)) {
             if(loadHelper("networktool")) {
-                $nevt = get_network_event();
+                //$nevt = get_network_event();   // unused
 
                 $uri = $requests['_URI'];
                 if(strpos($uri, '?') !== false) {
