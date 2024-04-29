@@ -1,22 +1,22 @@
 # ReasonableFramework
 ![License LGPLv3](https://img.shields.io/github/license/gnh1201/reasonableframework.svg)
-![Registered KCC C-2020-018490](https://img.shields.io/static/v1?label=registered&message=KCC%20C-2020-018490&color=orange)
 
-- ReasonableFramework is `RVHM` structured PHP framework with common security
-- Prefix code: `RSF` (ReasonableFramework)
-- Old prefix code: `VSPF` (Very Simple PHP Framework)
+ReasonableFramework is RVHM structured PHP framework with common security. aka, RSF, VSPF, C-2020-018490
 
 ![This project open source licensed under LGPL version 3](https://github.com/gnh1201/reasonableframework/raw/master/lgplv3-147x51.png)
 
-Note: This project has been assigned a registration number by the Korea Copyright Commission Software Copyright Registration System. It was registered on June 3, 2020, with registration number `C-2020-018490` for version `v1.6.5.1-kcc`. This registration does not affect the open source license applied to this project.
-
-## Security policy
+## Security Policy
 - [Security policy and techincal support](SECURITY.md)
 
-## Specification
-- Database connection (via PDO, MySQLi (MySQL Improved), MySQL Tranditional, MySQL CLI, Oracle(OCI))
-- RVHM structure: `R` is Route (like as `controller`), `V` is View, `H` is Helper (like as `import` on Python/Go/NodeJS), `M` is Model and implemented with `KV bind`(like as `Map` data structure), Model is not required.
-- Controllable shared variables: Minimize abuse of global variables (Inspired by the `scope` of AngularJS, and `SharedPreferences` of Android Framework)
+## Specifications
+- Various types of database connection drivers. e.g, PHP PDO, MySQLi, Legacy MySQL, MySQL over the shell, Oracle(OCI)
+- Not OOP, Just `RVHM` structure
+  - R is Route, like as `controller`
+  - V is View
+  - H is Helper, like a `import` on Python, Go, NodeJS
+  - M is Model and implemented with `KV bind`(like as `Map` data structure), Model is optional.
+- Controllable shared variables: Minimize abuse of global variables. Inspired by the `scope` of AngularJS, and `SharedPreferences` of Android Framework
+- CGI style compatibility prepared for industrial applications: This framework can utilize both the latest object-oriented style and the CGI style required in industrial applications.
 
 ## Compatible
 - Tested in PHP 5.3.3
@@ -47,7 +47,7 @@ Note: This project has been assigned a registration number by the Korea Copyrigh
 ## Remote logging
 - Remote logging feature based on [RFC3164(The BSD Syslog Protocol)](https://tools.ietf.org/html/rfc3164)
 
-## Compatible of free web hostings
+## Tested on free web hostings
 
 | Provider               | Pass?  | Tested version | Note
 | ---------------------- | ------ | -------------- | -------------------------- |
