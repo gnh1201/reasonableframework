@@ -11,10 +11,10 @@ ReasonableFramework is RVHM structured PHP framework. aka, RSF, VSPF, C-2020-018
 ## Specifications
 - Various types of database connection drivers. e.g, PHP PDO, MySQLi, Legacy MySQL, MySQL over the shell, Oracle(OCI)
 - No OOP, Just `RVHM` structure
-  - R is Route, like as `controller`
+  - R is Route. like as `controller`
   - V is View
-  - H is Helper, like a `import` on Python, Go, NodeJS
-  - M is Model and implemented with `KV bind`(like as `Map` data structure), Model is optional.
+  - H is Helper. like a `import` on Python, Go, NodeJS
+  - M is Model. it implemented with `KV bind`(like as `Map` data structure), Model is optional.
 - Controllable shared variables: Minimize abuse of global variables. Inspired by the `scope` of AngularJS, and `SharedPreferences` of Android Framework
 - CGI style compatibility prepared for industrial applications: This framework can utilize both the latest object-oriented style and the CGI style required in industrial applications.
 
