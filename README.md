@@ -1,7 +1,7 @@
 # ReasonableFramework
 ![License LGPLv3](https://img.shields.io/github/license/gnh1201/reasonableframework.svg)
 
-ReasonableFramework is RVHM structured PHP framework with common security. aka, RSF, VSPF, C-2020-018490
+ReasonableFramework is RVHM structured PHP framework. aka, RSF, VSPF, C-2020-018490
 
 ![This project open source licensed under LGPL version 3](https://github.com/gnh1201/reasonableframework/raw/master/lgplv3-147x51.png)
 
