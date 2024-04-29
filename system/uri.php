@@ -2,7 +2,7 @@
 /**
  * @file uri.php
  * @created_on 2018-04-13
- * @updated_on 2022-09-29
+ * @updated_on 2024-04-29
  * @author Go Namhyeon <abuse@catswords.net>
  * @brief URI module
  */
