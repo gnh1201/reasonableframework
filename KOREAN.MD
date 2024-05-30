@@ -21,10 +21,6 @@
 * Helper: exectool (PHP 명령행 실행 지원)
 * 그 외 다양한 사양 지원을 위한 모듈들
 
-## 기술지원
-* Website: https://catswords.social/@catswords_oss
-* E-mail: abuse@catswords.net
-
 ## 오픈소스 라이선스
 * LGPL 3.0
 
@@ -97,6 +93,6 @@
 ## Amazon S3 또는 Object Storage 사용자
 - 해당 정적 파일 호스팅 업체에서 제공하는 공통 링크를 확인한 뒤, 해당 링크를 `storage/config/uri.ini.php` 파일의 `base_cdn_url`에 반영한다.
 
-## 문의사항
+## 기술지원 및 문의사항
 - 웹사이트: https://catswords.social/@catswords_oss
 - 이메일: abuse@catswords.net
