@@ -35,7 +35,7 @@
 본 지침은 버전 v1.6.8를 기준으로 한다.
 
 ## 정적 파일 호스팅 서비스의 예시
-- 카페24 ([10G 광아우토반 Full SSD](https://www.cafe24.com/?controller=product_page&type=basic&page=autoban) 웹 호스팅 상품 기준)
+- 카페24 ([10G 광아우토반 FullSSD+](https://hosting.cafe24.com/?controller=new_product_page&page=autobahn) 웹 호스팅 상품 기준)
 - Amazon S3
 - Object Storage
 
