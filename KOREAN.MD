@@ -1,5 +1,5 @@
 # 본 웹 어플리케이션에 대하여
-본 웹 어플리케이션은 ReasonableFramework 기반으로 작성되었습니다. https://github.com/gnh1201/reasonableframework
+본 웹 어플리케이션은 ReasonableFramework 기반으로 작성됨. https://github.com/gnh1201/reasonableframework
 
 ## 적재된 모듈 목록
 * System: base (시스템 기반)
@@ -25,20 +25,21 @@
 * Website: https://catswords.social/@catswords_oss
 * E-mail: abuse@catswords.net
 
-## 저작권
+## 오픈소스 라이선스
 * LGPL 3.0
 
 ## 최근변경
-* 2023-04-14
+* 2024-05-30
 
-# 정적 파일 호스팅 관련 가이드 (카페24 CDN/Amazon S3)
-이 가이드는 ReasonableFramework 버전 v1.6.2를 기준으로 합니다. https://github.com/gnh1201/reasonableframework
+# 정적 파일 호스팅 관련 지침 (카페24 CDN 또는 Amazon S3)
+본 지침은 버전 v1.6.8를 기준으로 한다.
 
+## 정적 파일 호스팅 서비스의 예시
 - 카페24 ([10G 광아우토반 Full SSD](https://www.cafe24.com/?controller=product_page&type=basic&page=autoban) 웹 호스팅 상품 기준)
-- Amazon S3 또는 타사 정적 파일 호스팅/Object Storage 사용자
-- 문의사항이 있다면
+- Amazon S3
+- Object Storage
 
-## 카페24 ([10G 광아우토반 Full SSD](https://www.cafe24.com/?controller=product_page&type=basic&page=autoban) 웹 호스팅 상품 기준)
+## 카페24 정적 파일 호스팅 사용자
 
 1. 카페24(cafe24.com) 관리자 페이지에 로그인하여, CDN/스트리밍 도메인 정보를 얻는다.
    1. 메인 웹 사이트 로그인 -> `나의서비스관리` 클릭
@@ -65,7 +66,7 @@
    5. 스트리밍의 경우, `mms://wm-004.cafe24.com/[사용자 아이디]/abc.mp3`(예시)가 접속 주소가 된다.
 
 2. ResonableFramework v1.6.2 설치 및 CDN/스트리밍 설정
-   1. https://github.com/gnh1201/reasonableframework 접속 후 `Release` 탭을 누르고 `v1.6.2` 또는 최신 버전을 내려받는다.
+   1. [깃허브 저장소](https://github.com/gnh1201/reasonableframework) 접속 후 `Release` 탭을 누르고 `v1.6.8` 또는 최신 버전을 내려받는다.
    2. `storage/config/uri.ini.php` 파일의 CDN/스트리밍 관련 부분을 아래와 같이 수정한다.
 
        ```
@@ -93,9 +94,9 @@
    6. 1번에서 얻은 FTP 정보를 이용하여, CDN 서버에 `picture.jpg` 이름으로 임의의 JPG 그림 파일을 업로드한다.
    7. 웹 브라우저를 열고 `http://[웹 호스팅 주소]/?route=cdntest`에 접속하여 그림이 잘 뜨는지 확인한다.
 
-## Amazon S3 또는 타사 정적 파일 호스팅/Object Storage 사용자
-  - 정적 파일 호스팅을 지원하는 서비스의 경우, `base_cdn_url`의 주소만 바꾸어주면 동일한 방법으로 사용이 가능하다.
+## Amazon S3 또는 Object Storage 사용자
+- 해당 정적 파일 호스팅 업체에서 제공하는 공통 링크를 확인한 뒤, 해당 링크를 `storage/config/uri.ini.php` 파일의 `base_cdn_url`에 반영한다.
 
-## 문의사항이 있다면
-  - Website: https://catswords.social/@catswords_oss
-  - E-mail: abuse@catswords.
+## 문의사항
+- 웹사이트: https://catswords.social/@catswords_oss
+- 이메일: abuse@catswords.net
