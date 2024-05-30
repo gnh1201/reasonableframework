@@ -22,20 +22,20 @@
 * 그 외 다양한 사양 지원을 위한 모듈들
 
 ## 오픈소스 라이선스
-* LGPL 3.0
+* 이 프로젝트는 LGPL 3.0 오픈소스 라이선스 하에 배포됨.
 
 ## 최근변경
 * 2024-05-30
 
-# 정적 파일 호스팅 관련 지침 (카페24 CDN 또는 Amazon S3)
+## 정적 파일 호스팅 관련 지침 (카페24 CDN 또는 Amazon S3)
 본 지침은 버전 v1.6.8를 기준으로 한다.
 
-## 정적 파일 호스팅 서비스의 예시
+### 정적 파일 호스팅 서비스의 예시
 - 카페24 ([10G 광아우토반 FullSSD+](https://hosting.cafe24.com/?controller=new_product_page&page=autobahn) 웹 호스팅 상품 기준)
 - Amazon S3
 - Object Storage
 
-## 카페24 정적 파일 호스팅 사용자
+### 카페24 정적 파일 호스팅 사용자
 
 1. 카페24(cafe24.com) 관리자 페이지에 로그인하여, CDN/스트리밍 도메인 정보를 얻는다.
    1. 메인 웹 사이트 로그인 -> `나의서비스관리` 클릭
@@ -61,7 +61,7 @@
    4. CDN의 경우, `https://[사용자 아이디].cdn2.cafe24.com`(예시)가 접속 주소가 된다.
    5. 스트리밍의 경우, `mms://wm-004.cafe24.com/[사용자 아이디]/abc.mp3`(예시)가 접속 주소가 된다.
 
-2. ResonableFramework v1.6.2 설치 및 CDN/스트리밍 설정
+2. ResonableFramework v1.6.8 설치 및 CDN/스트리밍 설정
    1. [깃허브 저장소](https://github.com/gnh1201/reasonableframework) 접속 후 `Release` 탭을 누르고 `v1.6.8` 또는 최신 버전을 내려받는다.
    2. `storage/config/uri.ini.php` 파일의 CDN/스트리밍 관련 부분을 아래와 같이 수정한다.
 
@@ -90,7 +90,7 @@
    6. 1번에서 얻은 FTP 정보를 이용하여, CDN 서버에 `picture.jpg` 이름으로 임의의 JPG 그림 파일을 업로드한다.
    7. 웹 브라우저를 열고 `http://[웹 호스팅 주소]/?route=cdntest`에 접속하여 그림이 잘 뜨는지 확인한다.
 
-## Amazon S3 또는 Object Storage 사용자
+### Amazon S3 또는 Object Storage 사용자
 - 해당 정적 파일 호스팅 업체에서 제공하는 공통 링크를 확인한 뒤, 해당 링크를 `storage/config/uri.ini.php` 파일의 `base_cdn_url`에 반영한다.
 
 ## 기술지원 및 문의사항
