@@ -19,5 +19,6 @@ reported vulnerability, what to expect if the vulnerability is accepted or
 declined, etc.
 
 ## Contact us
-* ActivityPub [@catswords_oss@catswords.social](https://catswords.social/@catswords_oss)
-* abuse@catswords.net
+- ActivityPub [@catswords_oss@catswords.social](https://catswords.social/@catswords_oss)
+- abuse@catswords.net
+- [Join Catswords on Microsoft Teams](https://teams.live.com/l/community/FEACHncAhq8ldnojAI)
