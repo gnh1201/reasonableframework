@@ -11,6 +11,8 @@ currently being supported with security updates.
 | 1.5.x   | :x: (EOL: 2020-08-25)                      |
 | < 1.5   | :x:                                        |
 
+For more details, please refer to the [EOL (catswords-oss.rdbl.io)](https://catswords-oss.rdbl.io/7839294550/3090512080) page.
+
 ## Reporting a Vulnerability
 Use this section to tell people how to report a vulnerability.
 
