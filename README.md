@@ -1,6 +1,6 @@
 # ReasonableFramework
-![License LGPLv3](https://img.shields.io/github/license/gnh1201/reasonableframework.svg)
-[![DOI](https://zenodo.org/badge/114566493.svg)](https://zenodo.org/doi/10.5281/zenodo.11392416)
+![Open Source Licensed under LGPLv3](https://img.shields.io/github/license/gnh1201/reasonableframework.svg)
+[![DOI 10.5281/zenodo.11392416](https://zenodo.org/badge/114566493.svg)](https://zenodo.org/doi/10.5281/zenodo.11392416)
 
 ReasonableFramework is RVHM structured PHP framework. aka, RSF, VSPF, C-2020-018490
 
@@ -25,8 +25,8 @@ ReasonableFramework is RVHM structured PHP framework. aka, RSF, VSPF, C-2020-018
 - You can add your custom `ini.php` configuration file in `config` directory.
 - Enjoy it!
 
-## Map of structure
-![Map of structure](https://github.com/gnh1201/reasonableframework/raw/master/assets/img/reasonableframework.jpg)
+## Structure Map
+![Structure Map](https://github.com/gnh1201/reasonableframework/raw/master/assets/img/reasonableframework.jpg)
 
 ## Quick Start
 1. git clone https://github.com/gnh1201/reasonableframework.git
@@ -36,8 +36,8 @@ ReasonableFramework is RVHM structured PHP framework. aka, RSF, VSPF, C-2020-018
 5. code it.
 
 ## Use cases
-- [Send severities from Zabbix to Grafana](https://gist.github.com/gnh1201/792964e9719d2f62157cf46e394888f5)
-- [REST API Integration (Papago Translation REST API)](https://gist.github.com/gnh1201/081484e6f5e10bd3be819093ba5f49c8)
+- [Send severities from Zabbix to Grafana](https://catswords-oss.rdbl.io/7839294550/2189219652)
+- [REST API Integration (Papago Translation REST API)](https://catswords-oss.rdbl.io/7839294550/2189219652)
 - [Payment Gateway Integration](https://github.com/gnh1201/reasonableframework/blob/master/route/orderpay.pgkcp.php)
 
 ## Remote logging
@@ -80,10 +80,9 @@ Whenever this project was introduced, I received a lot of questions about PSR, a
 
 If you want to comply with the PSR standards and your colleagues are also ready to learn them humbly, we recommend that you consider [Codeigniter](https://github.com/bcit-ci/CodeIgniter) (which has a similar structure to this project) or [Silm Framework](https://github.com/slimphp/Slim).
 
-## Security Policy
-- [Security policy](SECURITY.md)
-
 ## Contact us
+- [GitHub Security Advisories](https://github.com/gnh1201/welsonjs/security)
 - abuse@catswords.net
 - ActivityPub [@catswords_oss@catswords.social](https://catswords.social/@catswords_oss)
+- XMPP [catswords@conference.xmpp.catswords.net](xmpp:catswords@conference.xmpp.catswords.net?join)
 - [Join Catswords on Microsoft Teams](https://teams.live.com/l/community/FEACHncAhq8ldnojAI)
