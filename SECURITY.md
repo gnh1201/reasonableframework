@@ -8,8 +8,8 @@ currently being supported with security updates.
 | Version | Supported                                  |
 | ------- | ------------------------------------------ |
 | 1.6.x   | :white_check_mark: (Current)               |
-| 1.5.x   | :x: (EOL: 2020-08-25)                      |
-| < 1.5   | :x:                                        |
+| 1.5.x   | :x: (EOL: 2020-08-25, Legacy)              |
+| < 1.5   | :x: (Legacy)                               |
 
 For more details, please refer to the [EOL (catswords-oss.rdbl.io)](https://catswords-oss.rdbl.io/7839294550/3090512080) page.
 
