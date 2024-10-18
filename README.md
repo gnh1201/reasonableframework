@@ -36,9 +36,9 @@ ReasonableFramework is RVHM structured PHP framework. aka, RSF, VSPF, C-2020-018
 5. code it.
 
 ## Use cases
-- [Send severities from Zabbix to Grafana](https://catswords-oss.rdbl.io/7839294550/2189219652)
-- [REST API Integration (Papago Translation REST API)](https://catswords-oss.rdbl.io/7839294550/2189219652)
-- [Payment Gateway Integration](https://github.com/gnh1201/reasonableframework/blob/master/route/orderpay.pgkcp.php)
+- [Send severities from Zabbix to Grafana (catswords-oss.rdbl.io)](https://catswords-oss.rdbl.io/7839294550/2189219652)
+- [REST API Integration: Papago Translation REST API (catswords-oss.rdbl.io)](https://catswords-oss.rdbl.io/7839294550/2189219652)
+- [Payment Gateway Integration (github.com)](https://github.com/gnh1201/reasonableframework/blob/master/route/orderpay.pgkcp.php)
 
 ## Remote logging
 - Remote logging feature based on [RFC3164(The BSD Syslog Protocol)](https://tools.ietf.org/html/rfc3164)
