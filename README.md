@@ -85,5 +85,5 @@ If you want to comply with the PSR standards and your colleagues are also ready 
 - [GitHub Security Advisories](https://github.com/gnh1201/welsonjs/security)
 - abuse@catswords.net
 - ActivityPub [@catswords_oss@catswords.social](https://catswords.social/@catswords_oss)
-- XMPP [catswords@conference.xmpp.catswords.net](xmpp:catswords@conference.xmpp.catswords.net?join)
+- XMPP [catswords@conference.omemo.id](xmpp:catswords@conference.omemo.id?join)
 - [Join Catswords on Microsoft Teams](https://teams.live.com/l/community/FEACHncAhq8ldnojAI)
