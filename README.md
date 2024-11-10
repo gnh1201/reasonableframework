@@ -26,7 +26,7 @@ ReasonableFramework is RVHM structured PHP framework. aka, RSF, VSPF, C-2020-018
 - Enjoy it!
 
 ## Structure Map
-![Structure Map](https://github.com/gnh1201/reasonableframework/raw/master/assets/img/reasonableframework.jpg)
+![Structure Map](https://ics.catswords.net/reasonableframework.jpg)
 
 ## Quick Start
 1. git clone https://github.com/gnh1201/reasonableframework.git
@@ -35,14 +35,13 @@ ReasonableFramework is RVHM structured PHP framework. aka, RSF, VSPF, C-2020-018
 4. go to `http://:base_url/?route=example` or `http://:base_url/example/`(if set `.htaccess`) in the web browser.
 5. code it.
 
-## Use cases
+## Use cases and integrations
 - [REST client (webpagetool) (catswords-oss.rdbl.io)](https://catswords-oss.rdbl.io/7839294550/2212849588)
 - [Send severities from Zabbix to Grafana (catswords-oss.rdbl.io)](https://catswords-oss.rdbl.io/7839294550/2189219652)
 - [REST API Integration: Papago Translation REST API (catswords-oss.rdbl.io)](https://catswords-oss.rdbl.io/7839294550/2189219652)
 - [Payment Gateway Integration (github.com)](https://github.com/gnh1201/reasonableframework/blob/master/route/orderpay.pgkcp.php)
-
-## Remote logging
-- Remote logging feature based on [RFC3164(The BSD Syslog Protocol)](https://tools.ietf.org/html/rfc3164)
+- Remote logging based on [RFC3164 (The BSD Syslog Protocol)](https://tools.ietf.org/html/rfc3164)
+- [Rewrite a links with static file hosting services (catswords-oss.rdbl.io)](https://catswords-oss.rdbl.io/7839294550/3237877389)
 
 ## Tested on free web hostings
 
@@ -82,7 +81,7 @@ Whenever this project was introduced, I received a lot of questions about PSR, a
 If you want to comply with the PSR standards and your colleagues are also ready to learn them humbly, we recommend that you consider [Codeigniter](https://github.com/bcit-ci/CodeIgniter) (which has a similar structure to this project) or [Silm Framework](https://github.com/slimphp/Slim).
 
 ## Contact us
-- [GitHub Security Advisories](https://github.com/gnh1201/welsonjs/security)
+- [GitHub Security Advisories](https://github.com/gnh1201/reasonableframework/security)
 - abuse@catswords.net
 - ActivityPub [@catswords_oss@catswords.social](https://catswords.social/@catswords_oss)
 - XMPP [catswords@conference.omemo.id](xmpp:catswords@conference.omemo.id?join)
