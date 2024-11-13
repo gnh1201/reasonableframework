@@ -85,4 +85,5 @@ If you want to comply with the PSR standards and your colleagues are also ready 
 - abuse@catswords.net
 - ActivityPub [@catswords_oss@catswords.social](https://catswords.social/@catswords_oss)
 - XMPP [catswords@conference.omemo.id](xmpp:catswords@conference.omemo.id?join)
-- [Join Catswords on Microsoft Teams](https://teams.live.com/l/community/FEACHncAhq8ldnojAI)
+- [Join Catswords OSS on Microsoft Teams](https://teams.live.com/l/community/FEACHncAhq8ldnojAI)
+- [Join Catswords OSS #reasonableframework on Discord](https://discord.gg/FGMb9VnVFC)
