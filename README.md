@@ -80,6 +80,9 @@ Whenever this project was introduced, I received a lot of questions about PSR, a
 
 If you want to comply with the PSR standards and your colleagues are also ready to learn them humbly, we recommend that you consider [Codeigniter](https://github.com/bcit-ci/CodeIgniter) (which has a similar structure to this project) or [Silm Framework](https://github.com/slimphp/Slim).
 
+## Future updates
+As of February 2025, ReasonableFramework is not expected to have any major updates aside from security patches. A similar project with a comparable user base is the [PHP-based worker of Caterpillar Proxy](https://github.com/gnh1201/caterpillar/blob/main/assets/php/index.php), which primarily targets microservices architecture (MSA). If you need a very simple structure based on JSON-RPC 2.0, you may find [Caterpillar Proxy](https://github.com/gnh1201/caterpillar) useful.
+
 ## Contact us
 - [GitHub Security Advisories](https://github.com/gnh1201/reasonableframework/security)
 - abuse@catswords.net
