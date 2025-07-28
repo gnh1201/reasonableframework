@@ -84,9 +84,11 @@ If you want to comply with the PSR standards and your colleagues are also ready 
 ## Future updates
 As of February 2025, ReasonableFramework is not expected to have any major updates aside from security patches. A similar project with a comparable user base is the [PHP-based worker of Caterpillar Proxy](https://github.com/gnh1201/caterpillar/blob/main/assets/php/index.php), which primarily targets microservices architecture (MSA). If you need a very simple structure based on JSON-RPC 2.0, you may find [Caterpillar Proxy](https://github.com/gnh1201/caterpillar) useful.
 
-## Contact us
-- [GitHub Security Advisories](https://github.com/gnh1201/reasonableframework/security)
-- abuse@catswords.net
+## Report abuse
+- abuse@catswords.re.kr
+- [GitHub Security Advisories (gnh1201/reasonableframework)](https://github.com/gnh1201/reasonableframework/security)
+
+## Join our community
 - ActivityPub [@catswords_oss@catswords.social](https://catswords.social/@catswords_oss)
 - XMPP [catswords@conference.omemo.id](xmpp:catswords@conference.omemo.id?join)
 - [Join Catswords OSS on Microsoft Teams](https://teams.live.com/l/community/FEACHncAhq8ldnojAI)
