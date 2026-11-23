@@ -883,11 +883,389 @@ if(!is_fn("get_adaptive_json")) {
 }
 
 // 2018-09-10: support webproxy
+// 2026-11-23: the public route only fetches an allowlisted public host
 if(!is_fn("get_webproxy_url")) {
     function get_webproxy_url($url, $route="webproxy") {
         return get_route_link($route, array(
             "url" => $url
         ));
+    }
+}
+
+if(!is_fn("get_webproxy_allowed_hosts")) {
+    function get_webproxy_allowed_hosts() {
+        $config = get_config();
+        $raw = "code.jquery.com";
+        if(is_array($config) && array_key_exists("webproxy_hosts", $config)) {
+            $raw = $config["webproxy_hosts"];
+        }
+        if(!is_string($raw)) {
+            return array();
+        }
+
+        $hosts = array();
+        $parts = explode(",", strtolower($raw));
+        foreach($parts as $part) {
+            $host = trim($part);
+            if($host !== "" && !in_array($host, $hosts, true)) {
+                $hosts[] = $host;
+            }
+        }
+        return $hosts;
+    }
+}
+
+if(!is_fn("webproxy_has_forbidden_chars")) {
+    function webproxy_has_forbidden_chars($value) {
+        if(!is_string($value)) {
+            return true;
+        }
+        $len = strlen($value);
+        for($i = 0; $i < $len; $i++) {
+            $c = ord($value[$i]);
+            if($c <= 32 || $c === 127 || $c === 92) {
+                return true;
+            }
+        }
+        return false;
+    }
+}
+
+if(!is_fn("webproxy_ipv4_is_blocked")) {
+    function webproxy_ipv4_is_blocked($ip) {
+        $parts = explode(".", $ip);
+        if(count($parts) !== 4) {
+            return true;
+        }
+        $o = array();
+        foreach($parts as $part) {
+            if(!preg_match('/^[0-9]{1,3}$/', $part)) {
+                return true;
+            }
+            if(strlen($part) > 1 && $part[0] === "0") {
+                return true;
+            }
+            $n = intval($part);
+            if($n > 255) {
+                return true;
+            }
+            $o[] = $n;
+        }
+        if($o[0] === 0 || $o[0] === 10 || $o[0] === 127 || $o[0] >= 224) {
+            return true;
+        }
+        if($o[0] === 100 && $o[1] >= 64 && $o[1] <= 127) {
+            return true;
+        }
+        if($o[0] === 169 && $o[1] === 254) {
+            return true;
+        }
+        if($o[0] === 172 && $o[1] >= 16 && $o[1] <= 31) {
+            return true;
+        }
+        if($o[0] === 192 && $o[1] === 0 && ($o[2] === 0 || $o[2] === 2)) {
+            return true;
+        }
+        if($o[0] === 192 && $o[1] === 168) {
+            return true;
+        }
+        if($o[0] === 198 && ($o[1] === 18 || $o[1] === 19)) {
+            return true;
+        }
+        if($o[0] === 198 && $o[1] === 51 && $o[2] === 100) {
+            return true;
+        }
+        if($o[0] === 203 && $o[1] === 0 && $o[2] === 113) {
+            return true;
+        }
+        return false;
+    }
+}
+
+if(!is_fn("webproxy_ip_is_public")) {
+    function webproxy_ip_is_public($ip) {
+        if(!is_string($ip)) {
+            return false;
+        }
+        $flags = FILTER_FLAG_IPV4 | FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE;
+        if(filter_var($ip, FILTER_VALIDATE_IP, $flags) === false) {
+            return false;
+        }
+        return !webproxy_ipv4_is_blocked($ip);
+    }
+}
+
+if(!is_fn("webproxy_host_is_public")) {
+    function webproxy_host_is_public($host) {
+        if(!is_string($host) || $host === "") {
+            return false;
+        }
+        $reported = error_reporting(0);
+        $ips = gethostbynamel($host);
+        error_reporting($reported);
+        if(!is_array($ips) || count($ips) < 1) {
+            return false;
+        }
+        foreach($ips as $ip) {
+            if(!is_string($ip) || !webproxy_ip_is_public($ip)) {
+                return false;
+            }
+        }
+        return $ips[0];
+    }
+}
+
+if(!is_fn("webproxy_url_parts")) {
+    function webproxy_url_parts($url) {
+        if(!is_string($url) || $url === "" || strlen($url) > 2048) {
+            return false;
+        }
+        if(webproxy_has_forbidden_chars($url)) {
+            return false;
+        }
+        $parts = parse_url($url);
+        if(!is_array($parts) || empty($parts["scheme"]) || empty($parts["host"])) {
+            return false;
+        }
+        if(isset($parts["user"]) || isset($parts["pass"])) {
+            return false;
+        }
+
+        $scheme = strtolower($parts["scheme"]);
+        if($scheme !== "https" && $scheme !== "http") {
+            return false;
+        }
+        $port = ($scheme === "https") ? 443 : 80;
+        if(isset($parts["port"])) {
+            $port = intval($parts["port"]);
+            if(($scheme === "https" && $port !== 443) || ($scheme === "http" && $port !== 80)) {
+                return false;
+            }
+        }
+
+        $host = strtolower(rtrim($parts["host"], "."));
+        if($host === "" || strlen($host) > 253) {
+            return false;
+        }
+        if(filter_var($host, FILTER_VALIDATE_IP) !== false) {
+            return false;
+        }
+        if(!preg_match('/^[a-z0-9]([a-z0-9-]{0,61}[a-z0-9])?(\.[a-z0-9]([a-z0-9-]{0,61}[a-z0-9])?)+$/', $host)) {
+            return false;
+        }
+
+        $path = "/";
+        if(isset($parts["path"]) && is_string($parts["path"]) && $parts["path"] !== "") {
+            $path = $parts["path"];
+        }
+        if($path[0] !== "/") {
+            return false;
+        }
+        $query = "";
+        if(isset($parts["query"])) {
+            if(!is_string($parts["query"])) {
+                return false;
+            }
+            $query = $parts["query"];
+        }
+
+        return array(
+            "scheme" => $scheme,
+            "host" => $host,
+            "port" => $port,
+            "path" => $path,
+            "query" => $query
+        );
+    }
+}
+
+if(!is_fn("is_webproxy_url_allowed")) {
+    function is_webproxy_url_allowed($url) {
+        $parts = webproxy_url_parts($url);
+        if(!is_array($parts)) {
+            return false;
+        }
+        if(!in_array($parts["host"], get_webproxy_allowed_hosts(), true)) {
+            return false;
+        }
+        return webproxy_host_is_public($parts["host"]) !== false;
+    }
+}
+
+if(!is_fn("webproxy_canonical_url")) {
+    function webproxy_canonical_url($url) {
+        $parts = webproxy_url_parts($url);
+        if(!is_array($parts)) {
+            return false;
+        }
+        $built = $parts["scheme"] . "://" . $parts["host"] . $parts["path"];
+        if($parts["query"] !== "") {
+            $built .= "?" . $parts["query"];
+        }
+        return $built;
+    }
+}
+
+if(!is_fn("resolve_webproxy_location")) {
+    function resolve_webproxy_location($base, $location) {
+        if(!is_string($location)) {
+            return false;
+        }
+        $location = trim($location);
+        if($location === "" || webproxy_has_forbidden_chars($location)) {
+            return false;
+        }
+        if(preg_match('/^[a-z][a-z0-9+.-]*:/i', $location)) {
+            return $location;
+        }
+
+        $parts = webproxy_url_parts($base);
+        if(!is_array($parts)) {
+            return false;
+        }
+        $origin = $parts["scheme"] . "://" . $parts["host"];
+        if(substr($location, 0, 2) === "//") {
+            return $parts["scheme"] . ":" . $location;
+        }
+        if(substr($location, 0, 1) === "/") {
+            return $origin . $location;
+        }
+
+        $path = $parts["path"];
+        $slash = strrpos($path, "/");
+        $dir = ($slash === false) ? "/" : substr($path, 0, $slash + 1);
+        return $origin . $dir . $location;
+    }
+}
+
+if(!is_fn("webproxy_content_type")) {
+    function webproxy_content_type($url) {
+        $path = parse_url($url, PHP_URL_PATH);
+        $ext = "";
+        if(is_string($path)) {
+            $ext = strtolower(pathinfo($path, PATHINFO_EXTENSION));
+        }
+        if($ext === "js") {
+            return "application/javascript";
+        }
+        if($ext === "css") {
+            return "text/css";
+        }
+        if($ext === "json") {
+            return "application/json";
+        }
+        if($ext === "png") {
+            return "image/png";
+        }
+        if($ext === "jpg" || $ext === "jpeg") {
+            return "image/jpeg";
+        }
+        if($ext === "gif") {
+            return "image/gif";
+        }
+        if($ext === "webp") {
+            return "image/webp";
+        }
+        return "application/octet-stream";
+    }
+}
+
+if(!is_fn("get_webproxy_page")) {
+    function get_webproxy_page($url) {
+        if(!function_exists("curl_init")) {
+            return false;
+        }
+
+        $current = webproxy_canonical_url($url);
+        $hop = 0;
+        while($hop < 3) {
+            if(!is_webproxy_url_allowed($current)) {
+                return false;
+            }
+            $parts = webproxy_url_parts($current);
+            if(!is_array($parts)) {
+                return false;
+            }
+            $current = webproxy_canonical_url($current);
+            if($current === false) {
+                return false;
+            }
+            $ip = webproxy_host_is_public($parts["host"]);
+            if($ip === false) {
+                return false;
+            }
+
+            $ch = curl_init();
+            $options = array(
+                CURLOPT_URL => $current,
+                CURLOPT_PROXY => "",
+                CURLOPT_RETURNTRANSFER => true,
+                CURLOPT_HEADER => true,
+                CURLOPT_FOLLOWLOCATION => false,
+                CURLOPT_CONNECTTIMEOUT => 15,
+                CURLOPT_TIMEOUT => 20,
+                CURLOPT_SSL_VERIFYPEER => true,
+                CURLOPT_SSL_VERIFYHOST => 2,
+                CURLOPT_USERAGENT => get_web_user_agent("")
+            );
+            if(defined("CURLOPT_PROTOCOLS") && defined("CURLPROTO_HTTP") && defined("CURLPROTO_HTTPS")) {
+                $options[CURLOPT_PROTOCOLS] = CURLPROTO_HTTP | CURLPROTO_HTTPS;
+            }
+            if(defined("CURLOPT_REDIR_PROTOCOLS") && defined("CURLPROTO_HTTP") && defined("CURLPROTO_HTTPS")) {
+                $options[CURLOPT_REDIR_PROTOCOLS] = CURLPROTO_HTTP | CURLPROTO_HTTPS;
+            }
+            if(defined("CURLOPT_IPRESOLVE") && defined("CURL_IPRESOLVE_V4")) {
+                $options[CURLOPT_IPRESOLVE] = CURL_IPRESOLVE_V4;
+            }
+            // PHP 5.5 and later pin the address checked above. PHP 5.3 has no CURLOPT_RESOLVE.
+            if(defined("CURLOPT_RESOLVE")) {
+                $options[CURLOPT_RESOLVE] = array($parts["host"] . ":" . $parts["port"] . ":" . $ip);
+            }
+            if(!curl_setopt_array($ch, $options)) {
+                curl_close($ch);
+                return false;
+            }
+            $raw = curl_exec($ch);
+            $status = intval(curl_getinfo($ch, CURLINFO_HTTP_CODE));
+            $header_size = intval(curl_getinfo($ch, CURLINFO_HEADER_SIZE));
+            curl_close($ch);
+
+            if(!is_string($raw) || $header_size < 0 || $header_size > strlen($raw)) {
+                return false;
+            }
+            $headers = substr($raw, 0, $header_size);
+            $body = substr($raw, $header_size);
+            if(strlen($body) > 2097152) {
+                return false;
+            }
+            if($status >= 200 && $status < 300) {
+                return array(
+                    "content" => $body,
+                    "status" => $status,
+                    "url" => $current
+                );
+            }
+            if($status !== 301 && $status !== 302 && $status !== 303 && $status !== 307 && $status !== 308) {
+                return false;
+            }
+
+            $location = false;
+            if(preg_match_all('/^Location:\s*(\S+)/im', $headers, $matches)) {
+                $found = $matches[1];
+                $location = $found[count($found) - 1];
+            }
+            $next = resolve_webproxy_location($current, $location);
+            $next = webproxy_canonical_url($next);
+            if($next === false) {
+                return false;
+            }
+            if($parts["scheme"] === "https" && strpos($next, "https://") !== 0) {
+                return false;
+            }
+            $current = $next;
+            $hop++;
+        }
+        return false;
     }
 }
 
