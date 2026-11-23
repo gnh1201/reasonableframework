@@ -3,6 +3,10 @@
 [![DOI 10.5281/zenodo.11392416](https://zenodo.org/badge/114566493.svg)](https://zenodo.org/doi/10.5281/zenodo.11392416)
 [![Discord chat](https://img.shields.io/discord/359930650330923008?logo=discord)](https://discord.gg/FGMb9VnVFC)
 
+> **Legacy Project**
+> 
+> This project is maintained primarily to support existing legacy applications and projects. Only security updates and patches are provided. No new features or general enhancements are planned.
+
 ReasonableFramework is RVHM structured PHP framework. aka, RSF, VSPF, C-2020-018490
 
 ## Specifications
