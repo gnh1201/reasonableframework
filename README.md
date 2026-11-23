@@ -3,9 +3,9 @@
 [![DOI 10.5281/zenodo.11392416](https://zenodo.org/badge/114566493.svg)](https://zenodo.org/doi/10.5281/zenodo.11392416)
 [![Discord chat](https://img.shields.io/discord/359930650330923008?logo=discord)](https://discord.gg/FGMb9VnVFC)
 
-> **Legacy Notice**
->
-> As of 2025, this project is considered legacy software. It is maintained to support existing users and projects, and only security patches will be provided. For the successor project with ongoing PHP support, please see [gnh1201/caterpillar](https://github.com/gnh1201/caterpillar?utm_source=chatgpt.com).
+> **Maintenance Notice**
+> 
+> As of 2025, this project is no longer actively developed. However, it is still maintained to support existing users and projects, and is not considered obsolete or abandoned. Maintenance is limited to security patches.
 
 ReasonableFramework is RVHM structured PHP framework. aka, RSF, VSPF, C-2020-018490
 
