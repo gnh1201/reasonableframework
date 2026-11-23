@@ -30,6 +30,23 @@ $self_filename = "";
 
 // get routes
 $routes = read_route_all();
+if(!is_array($routes)) {
+    $routes = array();
+}
+$safe_routes = array();
+foreach($routes as $route_part) {
+    $safe_part = is_fn("normalize_local_path") ? normalize_local_path($route_part) : false;
+    if($safe_part === false || strpos($safe_part, "/") !== false || !is_fn("is_code_path_name") || !is_code_path_name($safe_part)) {
+        set_error("Webapp 404 Not Found");
+        show_errors();
+    }
+    $safe_routes[] = $safe_part;
+}
+$routes = $safe_routes;
+if(count($routes) < 1) {
+    set_error("Webapp 404 Not Found");
+    show_errors();
+}
 
 // set path and URL
 $webapp_root = $_SERVER["DOCUMENT_ROOT"] . "/webapp";
@@ -53,7 +70,7 @@ $end_era = end($end_routes_attributes);
 
 if($end_era == "php" || file_exists($appfile_path)) {
     $appfile_path = str_replace(".php.php", ".php", $appfile_path);
-    if(file_exists($appfile_path)) {
+    if(file_exists($appfile_path) && is_fn("local_target_is_inside") && local_target_is_inside($webapp_root, $appfile_path)) {
         include($appfile_path);
         $self_filename = $end_fra . ".php";
     } else {
@@ -64,7 +81,9 @@ if($end_era == "php" || file_exists($appfile_path)) {
     if(file_exists($appfile . "/index.php")) {
         $appfile .= "/index.php";
         if(empty($end_era)) {
-            include($appfile);
+            if(is_fn("local_target_is_inside") && local_target_is_inside($webapp_root, $appfile)) {
+                include($appfile);
+            }
         } else {
             $is_redirect_to_index = true;
         }
@@ -87,7 +106,7 @@ if($is_redirect_to_index == true) {
 }
 
 if($is_static_file == true) {
-    if(file_exists($appfile)) {
+    if(file_exists($appfile) && is_file($appfile) && is_fn("local_target_is_inside") && local_target_is_inside($webapp_root, $appfile)) {
         set_header_content_type($end_era);
         header("Cache-Control: max-age=86400");
 

@@ -15,6 +15,7 @@ Each section is the difference from the previous tag in this list. v1.4 does not
 - `get_web_fgc()`, `file_get_html()`, and `simple_html_dom::load_file()` now read remote URLs through that function.
 - Replace curly-brace string offsets in `get_xor_text()` with square brackets so `system/security.php` loads on PHP 8. The same code still runs on PHP 5.2 and later. PHP versions before 5.3.4 ignore the `follow_location` context option; `max_redirects` set to `0` still stops the wrapper from following redirects there.
 - Limit `route/webproxy.php` to `http` and `https` URLs whose host is listed in `webproxy_hosts`. The default host is `code.jquery.com`. The route refuses an IP address, a name that resolves to a private or reserved address, a non-default port, a redirect that leaves the list, and a redirect from `https` to `http`. It rebuilds the request from the scheme, host, path, and query, ignores an environment HTTP proxy, chooses the response content type from the final file extension, and checks the TLS certificate for that request.
+- Keep route, view, helper, module, and vendor includes inside their own directories. `get_safe_path()` rejects a parent segment, a leading slash, a drive prefix, and a null byte. Storage reads and writes, uploaded names, config includes, vendor autoload, `route/webapp.php`, and zip extraction stay under the directory they were given. Names such as `errors/404` and `api.mailgun` still match.
 
 ### Changed
 
