@@ -2,7 +2,7 @@
 /**
  * @file api.gnuboard.php
  * @date 2018-05-31
- * @author Go Namhyeon <abuse@catswords.net>
+ * @author Go Namhyeon <gnh1201@catswords.re.kr>
  * @brief Integration controller for Gnuboard CMS 4.x, 5.x
  */
 

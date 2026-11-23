@@ -3,7 +3,7 @@
  * @file webpagetool.php
  * @created_on 2018-06-01
  * @updated_on 2026-11-23
- * @author Go Namhyeon <abuse@catswords.net>
+ * @author Go Namhyeon <gnh1201@catswords.re.kr>
  * @brief WebPageTool helper
  */
 
@@ -894,7 +894,7 @@ if(!is_fn("get_webproxy_url")) {
 if(!is_fn("get_web_user_agent")) {
     function get_web_user_agent($ua="") {
         if(empty($ua)) {
-            $ua = "ReasonableFramework/1.6.7-preview1 (Server; PHP " . phpversion() . "; https://catswords.social/@catswords_oss; abuse@catswords.net)";
+            $ua = "ReasonableFramework/1.6.7-preview1 (Server; PHP " . phpversion() . "; https://catswords.social/@catswords_oss; oss@catswords.re.kr)";
         } else {
             $ua = make_safe_argument($ua);
         }

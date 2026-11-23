@@ -20,6 +20,9 @@ Each section is the difference from the previous tag in this list. v1.4 does not
 - State in the README that, as of 2025, development has stopped and maintenance is limited to security patches for existing users.
 - Point vulnerability reports to oss@catswords.re.kr and [GitHub Security Advisories](https://github.com/gnh1201/reasonableframework/security).
 - Point the community link to [Catswords OSS on Discord](https://discord.gg/FGMb9VnVFC).
+- Publish the catswords-oss.rdbl.io notes in English and Korean under `docs/`. The text comes from the Internet Archive snapshots of 2025-08-12, and the samples now follow the functions in this repository. `README.md` and `SECURITY.md` link the English pages.
+- Use oss@catswords.re.kr for contact addresses, including `SECURITY.md`, the payment notice, and the default User-Agent.
+- Use gnh1201@catswords.re.kr as the author email for Go Namhyeon in file headers and `composer.json`.
 
 ## [1.6.9] - 2024-11-11
 

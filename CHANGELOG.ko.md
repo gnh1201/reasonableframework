@@ -20,6 +20,9 @@ ReasonableFramework의 주요 변경을 이 파일에 적습니다.
 - README에 2025년부터 기능 개발을 멈추고, 기존 사용자를 위한 보안 패치만 유지한다고 적었습니다.
 - 취약점 제보 창구를 oss@catswords.re.kr과 [GitHub Security Advisories](https://github.com/gnh1201/reasonableframework/security)로 바꿨습니다.
 - 커뮤니티 링크를 [Catswords OSS Discord](https://discord.gg/FGMb9VnVFC)로 바꿨습니다.
+- catswords-oss.rdbl.io 문서를 영어와 한국어로 `docs/`에 실었습니다. 본문은 2025-08-12 인터넷 아카이브 스냅샷이고, 예제는 이 저장소의 함수를 따릅니다. `README.md`와 `SECURITY.md`는 영어 페이지를 가리킵니다.
+- 연락 주소를 oss@catswords.re.kr로 맞췄습니다. `SECURITY.md`, 결제 안내, 기본 User-Agent가 여기 포함됩니다.
+- Go Namhyeon의 작성자 이메일을 파일 헤더와 `composer.json`에서 gnh1201@catswords.re.kr로 바꿨습니다.
 
 ## [1.6.9] - 2024-11-11
 

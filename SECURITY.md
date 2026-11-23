@@ -11,7 +11,7 @@ currently being supported with security updates.
 | 1.5.x   | :x: (EOL: 2020-08-25, Legacy)              |
 | < 1.5   | :x: (Legacy)                               |
 
-For more details, please refer to the [EOL (catswords-oss.rdbl.io)](https://catswords-oss.rdbl.io/7839294550/3090512080) page.
+For more details, please refer to the [EOL](docs/eol.md) page ([한국어](docs/eol.ko.md)).
 
 ## Reporting a Vulnerability
 Use this section to tell people how to report a vulnerability.
@@ -22,5 +22,5 @@ declined, etc.
 
 ## Contact us
 - ActivityPub [@catswords_oss@catswords.social](https://catswords.social/@catswords_oss)
-- abuse@catswords.net
+- oss@catswords.re.kr
 - [Join Catswords on Microsoft Teams](https://teams.live.com/l/community/FEACHncAhq8ldnojAI)

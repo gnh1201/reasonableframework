@@ -2,7 +2,7 @@
 /**
  * @file wprest.php
  * @date 2018-03-14
- * @author Go Namhyeon <abuse@catswords.net>
+ * @author Go Namhyeon <gnh1201@catswords.re.kr>
  * @brief Wordpress Rest API helper
  */
 

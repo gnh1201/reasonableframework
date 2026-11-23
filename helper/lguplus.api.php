@@ -2,7 +2,7 @@
 /**
  * @file lguplus.api.php
  * @date 2019-10-07
- * @author Go Namhyeon <abuse@catswords.net>
+ * @author Go Namhyeon <gnh1201@catswords.re.kr>
  * @brief `LGU+`or `LGUPlus` is trandmark of LGUPlus Co. Ltd.
  */
 

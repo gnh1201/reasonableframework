@@ -3,7 +3,7 @@
  * @file orderpay.pgkcp.php
  * @date 2018-08-25
  * @updated 2019-10-14
- * @author Go Namhyeon <abuse@catswords.net>
+ * @author Go Namhyeon <gnh1201@catswords.re.kr>
  * @brief KCP PG(Payment Gateway) Controller
  */
 

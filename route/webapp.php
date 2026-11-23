@@ -2,7 +2,7 @@
 /**
  * @file webapp.php
  * @date 2019-02-23
- * @author Go Namhyeon <abuse@catswords.net>
+ * @author Go Namhyeon <gnh1201@catswords.re.kr>
  * @brief Isolator(Compatibility mode) for legacy application
  */
 

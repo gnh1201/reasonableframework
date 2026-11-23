@@ -3,7 +3,7 @@
  * @file security.php
  * @created_on 2018-05-27
  * @updated_on 2026-11-23
- * @author Go Namhyeon <abuse@catswords.net>
+ * @author Go Namhyeon <gnh1201@catswords.re.kr>
  * @brief Security module for ReasonableFramework
  * @sponsor https://patreon.com/catswords (with advanced security)
  */

@@ -2,7 +2,7 @@
 /**
  * @file database.alt.php
  * @date 2018-09-10
- * @author Go Namhyeon <abuse@catswords.net>
+ * @author Go Namhyeon <gnh1201@catswords.re.kr>
  * @brief Database alternative driver switcher
  */
 

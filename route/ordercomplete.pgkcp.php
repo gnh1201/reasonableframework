@@ -3,7 +3,7 @@
  * @file ordercomplete.pgkcp.php
  * @created_on 2018-09-03
  * @updated_on 2020-01-25
- * @author Go Namhyeon <abuse@catswords.net>
+ * @author Go Namhyeon <gnh1201@catswords.re.kr>
  * @brief KCP PG(Payment Gateway) contoller when completed
  */
 

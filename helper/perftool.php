@@ -3,7 +3,7 @@
  * @file perftool.php
  * @created_on 2020-02-19
  * @updated_on 2020-02-24
- * @author Go Namhyeon <abuse@catswords.net>
+ * @author Go Namhyeon <gnh1201@catswords.re.kr>
  * @brief PerfTool helper
  */
 

@@ -2,7 +2,7 @@
 /**
  * @file api.zabbix.php
  * @date 2019-04-15
- * @author Go Namhyeon <abuse@catswords.net>
+ * @author Go Namhyeon <gnh1201@catswords.re.kr>
  * @brief Zabbix API
  */
 

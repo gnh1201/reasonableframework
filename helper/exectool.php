@@ -3,7 +3,7 @@
  * @file exectool.php
  * @created_on 2018-07-22
  * @updated_on 2020-07-10
- * @author Go Namhyeon <abuse@catswords.net>
+ * @author Go Namhyeon <gnh1201@catswords.re.kr>
  * @forked from https://github.com/scipag/PHPUtilities
  * @brief ExecTool helper
  */

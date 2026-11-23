@@ -2,7 +2,7 @@
 /**
  * @file oracle.php
  * @date 2018-03-27
- * @author Go Namhyeon <abuse@catswords.net>
+ * @author Go Namhyeon <gnh1201@catswords.re.kr>
  * @brief Oracle database helper for ReasonableFramework
  */
 

@@ -2,7 +2,7 @@
 /**
  * @file metaparser.lnk.php
  * @date 2018-03-21
- * @author Go Namhyeon <abuse@catswords.net>
+ * @author Go Namhyeon <gnh1201@catswords.re.kr>
  * @brief PHP-Metaparser library linker
  */
 

@@ -2,7 +2,7 @@
 /**
   * @file hybridauth.lnk.php
   * @date 2018-09-26
-  * @author Go Namhyeon <abuse@catswords.net>
+  * @author Go Namhyeon <gnh1201@catswords.re.kr>
   * @brief HybridAuth library RSF Linker
 ***/
 

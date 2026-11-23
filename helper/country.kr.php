@@ -2,7 +2,7 @@
 /**
  * @file country.kr.php
  * @date 2018-04-15
- * @author Go Namhyeon <abuse@catswords.net>
+ * @author Go Namhyeon <gnh1201@catswords.re.kr>
  * @brief Country Helper (Korean)
  */
 

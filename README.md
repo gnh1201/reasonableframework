@@ -41,12 +41,13 @@ ReasonableFramework is RVHM structured PHP framework. aka, RSF, VSPF, C-2020-018
 5. code it.
 
 ## Use cases and integrations
-- [REST client (webpagetool) (catswords-oss.rdbl.io)](https://catswords-oss.rdbl.io/7839294550/2212849588)
-- [Send severities from Zabbix to Grafana (catswords-oss.rdbl.io)](https://catswords-oss.rdbl.io/7839294550/2189219652)
-- [REST API Integration: Papago Translation REST API (catswords-oss.rdbl.io)](https://catswords-oss.rdbl.io/7839294550/2189219652)
+- [REST client (webpagetool)](docs/rest-client.md)
+- [Send severities from Zabbix to Grafana](docs/use-cases.md#send-zabbix-severities-to-grafana)
+- [REST API Integration: Papago Translation REST API](docs/use-cases.md#call-the-naver-papago-translation-api)
 - [Payment Gateway Integration (github.com)](https://github.com/gnh1201/reasonableframework/blob/master/route/orderpay.pgkcp.php)
 - Remote logging based on [RFC3164 (The BSD Syslog Protocol)](https://tools.ietf.org/html/rfc3164)
-- [Rewrite a links with static file hosting services (catswords-oss.rdbl.io)](https://catswords-oss.rdbl.io/7839294550/3237877389)
+- [Rewrite a links with static file hosting services](docs/integration.md#static-file-hosting-cafe24-cdn-or-amazon-s3)
+- [Documentation](docs/README.md) ([한국어](docs/README.ko.md))
 
 ## Tested on free web hostings
 
