@@ -3,9 +3,9 @@
 [![DOI 10.5281/zenodo.11392416](https://zenodo.org/badge/114566493.svg)](https://zenodo.org/doi/10.5281/zenodo.11392416)
 [![Discord chat](https://img.shields.io/discord/359930650330923008?logo=discord)](https://discord.gg/FGMb9VnVFC)
 
-> **Legacy Project**
-> 
-> This project is maintained primarily to support existing legacy applications and projects. Only security updates and patches are provided. No new features or general enhancements are planned.
+> **Legacy Notice**
+>
+> As of 2025, this project is considered legacy software. It is maintained to support existing users and projects, and only security patches will be provided. For the successor project with ongoing PHP support, please see [gnh1201/caterpillar](https://github.com/gnh1201/caterpillar?utm_source=chatgpt.com).
 
 ReasonableFramework is RVHM structured PHP framework. aka, RSF, VSPF, C-2020-018490
 
@@ -85,15 +85,9 @@ Whenever this project was introduced, I received a lot of questions about PSR, a
 
 If you want to comply with the PSR standards and your colleagues are also ready to learn them humbly, we recommend that you consider [Codeigniter](https://github.com/bcit-ci/CodeIgniter) (which has a similar structure to this project) or [Silm Framework](https://github.com/slimphp/Slim).
 
-## Future updates
-As of February 2025, ReasonableFramework is not expected to have any major updates aside from security patches. A similar project with a comparable user base is the [PHP-based worker of Caterpillar Proxy](https://github.com/gnh1201/caterpillar/blob/main/assets/php/index.php), which primarily targets microservices architecture (MSA). If you need a very simple structure based on JSON-RPC 2.0, you may find [Caterpillar Proxy](https://github.com/gnh1201/caterpillar) useful.
-
-## Report abuse
-- abuse@catswords.re.kr
+## Report security issues
+- oss@catswords.re.kr
 - [GitHub Security Advisories (gnh1201/reasonableframework)](https://github.com/gnh1201/reasonableframework/security)
 
 ## Join our community
-- ActivityPub [@catswords_oss@catswords.social](https://catswords.social/@catswords_oss)
-- XMPP [catswords@conference.omemo.id](xmpp:catswords@conference.omemo.id?join)
-- [Join Catswords OSS on Microsoft Teams](https://teams.live.com/l/community/FEACHncAhq8ldnojAI)
 - [Join Catswords OSS #reasonableframework on Discord](https://discord.gg/FGMb9VnVFC)
