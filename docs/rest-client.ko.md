@@ -18,7 +18,7 @@ loadHelper("webpagetool");
 - `post`는 `application/x-www-form-urlencoded` 본문을 보냅니다. `@`로 시작하는 값은 파일로 업로드합니다.
 - `jsondata`는 JSON 본문을 POST로 보냅니다. `jsonrpc`와 `jsonrpc2`도 같고, `jsonrpc` 값을 `2.0`으로 넣습니다. `jsonrpc.compatible`는 `1.1`로 넣습니다.
 - `rawdata`는 본문을 바이트로 보냅니다.
-- 점 뒤의 접미사는 전송 방식을 고릅니다. `.cache`는 `storage/config/system.ini.php`에서 `cache_enabled`가 켜져 있으면 응답을 저장합니다. `cache_max_age`는 초 단위 수명입니다. `.cmd`는 `curl` 프로그램을 씁니다. 그 밖에는 `async`, `fgc`, `sock`, `wget`, `aria`, `httpie`가 있습니다.
+- 점 뒤의 접미사는 전송 방식을 고릅니다. `.cache`는 `storage/config/system.ini.php`에서 `cache_enabled`가 켜져 있으면 응답을 저장합니다. `cache_max_age`는 초 단위 수명입니다. 캐시가 빗나가면 그 수명보다 오래된 파일을 지웁니다. `cache_max_files`는 캐시 파일 개수 상한입니다. 기본값은 256이고, `0`이면 상한이 없습니다. `.cmd`는 `curl` 프로그램을 씁니다. 그 밖에는 `async`, `fgc`, `sock`, `wget`, `aria`, `httpie`가 있습니다.
 
 Basic 인증은 헤더 키 `Authentication` 또는 `Authorization`에 `array("Basic", $user, $secret)`을 넣습니다. 헬퍼는 그 쌍을 cURL 사용자와 비밀번호로 넘깁니다. 문자열 값은 일반 헤더로 나가며, Bearer 토큰을 이렇게 보냅니다.
 

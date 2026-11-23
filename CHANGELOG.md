@@ -28,6 +28,12 @@ Each section is the difference from the previous tag in this list. v1.4 does not
 - Document the PHP runtime upgrade for the engine defects announced on 21 October 2026 and 19 November 2026. The short list is at the top of `README.md`. The steps are in `docs/php-runtime.md` and `docs/php-runtime.ko.md`.
 - Explain [CVE-2026-128064](https://github.com/php/php-src/security/advisories/GHSA-f6gg-rchx-xw8j) at the top of `README.md`. The detail is in `docs/cve-2026-128064.md` and `docs/cve-2026-128064.ko.md`.
 
+### Fixed
+
+- Keep an empty requested string in `get_requested_value()`. `get_final_link()` builds `q=` for that value and for boolean `false`. A requested `0` stays `0`.
+- Delete aged files from `remove_volatile_files()` one at a time while the directory is read. A large cache no longer builds a list of every name.
+- Limit webpage cache files in `get_web_cache()`. Files older than `cache_max_age` are removed, and a new file is stored only while fewer than `cache_max_files` files remain. The default is 256. Set `cache_max_files` to `0` for no file limit.
+
 ## [1.6.9] - 2024-11-11
 
 Documentation release. No runtime code changed between v1.6.8 and v1.6.9.

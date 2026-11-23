@@ -28,6 +28,12 @@ ReasonableFramework의 주요 변경을 이 파일에 적습니다.
 - 2026년 10월 21일과 11월 19일에 발표된 PHP 엔진 결함의 런타임 업그레이드를 문서화했습니다. 짧은 목록은 `README.md` 상단에 있고, 절차는 `docs/php-runtime.md`와 `docs/php-runtime.ko.md`에 있습니다.
 - [CVE-2026-128064](https://github.com/php/php-src/security/advisories/GHSA-f6gg-rchx-xw8j) 설명을 `README.md` 상단에 넣었습니다. 자세한 내용은 `docs/cve-2026-128064.md`와 `docs/cve-2026-128064.ko.md`에 있습니다.
 
+### 수정
+
+- `get_requested_value()`가 빈 문자열 파라미터를 빈 문자열로 돌려줍니다. `get_final_link()`는 빈 문자열과 불리언 `false`를 `q=`로 만듭니다. 요청 값 `0`은 `0`으로 남습니다.
+- `remove_volatile_files()`가 디렉터리를 읽는 동안 오래된 파일을 하나씩 지웁니다. 캐시 파일이 많아도 이름 목록을 한꺼번에 만들지 않습니다.
+- `get_web_cache()`가 웹 페이지 캐시 파일 수를 제한합니다. `cache_max_age`보다 오래된 파일을 지우고, 남은 파일이 `cache_max_files`보다 적을 때만 새 파일을 저장합니다. 기본값은 256입니다. `cache_max_files`를 `0`으로 두면 개수 제한이 없습니다.
+
 ## [1.6.9] - 2024-11-11
 
 문서 릴리즈입니다. v1.6.8과 v1.6.9 사이에는 실행 코드 변경이 없습니다.

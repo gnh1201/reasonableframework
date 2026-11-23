@@ -18,7 +18,7 @@ The first public note is from September 2019. It was moved in November 2024. The
 - `post` sends an `application/x-www-form-urlencoded` body. A value that starts with `@` is uploaded as a file.
 - `jsondata` sends a JSON body with POST. `jsonrpc` and `jsonrpc2` do the same and set `jsonrpc` to `2.0`. `jsonrpc.compatible` sets it to `1.1`.
 - `rawdata` sends the body as bytes.
-- A dotted suffix selects the transport. `.cache` stores the response when `cache_enabled` is on in `storage/config/system.ini.php`. `cache_max_age` is the lifetime in seconds. `.cmd` uses the `curl` program. The other suffixes are `async`, `fgc`, `sock`, `wget`, `aria`, and `httpie`.
+- A dotted suffix selects the transport. `.cache` stores the response when `cache_enabled` is on in `storage/config/system.ini.php`. `cache_max_age` is the lifetime in seconds. A cache miss removes files older than that lifetime. `cache_max_files` is the maximum number of cache files. The default is 256, and `0` means no maximum. `.cmd` uses the `curl` program. The other suffixes are `async`, `fgc`, `sock`, `wget`, `aria`, and `httpie`.
 
 Basic authentication uses the header key `Authentication` or `Authorization` with `array("Basic", $user, $secret)`. The helper passes that pair to cURL as the user and password. A string value is sent as a normal header, which is how a Bearer token is passed.
 
