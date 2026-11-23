@@ -2,7 +2,7 @@
 /**
  * @file uri.php
  * @created_on 2018-04-13
- * @updated_on 2024-04-29
+ * @updated_on 2026-11-24
  * @author Go Namhyeon <gnh1201@catswords.re.kr>
  * @brief URI module
  */
@@ -230,6 +230,10 @@ if(!is_fn("get_final_link")) {
         }
 
         foreach($data as $k=>$v) {
+            // http_build_query() encodes false as 0. An empty request is "".
+            if($v === false) {
+                $v = "";
+            }
             $params[$k] = $v;
         }
 
@@ -347,14 +351,19 @@ if(!is_fn("get_requested_value")) {
         }
         $req_methods = array_reverse($req_methods);
 
-        // set validated value
+        // A present value is kept, including "" and "0".
+        // empty() treats both as missing and get_final_link() then encodes false as 0.
         foreach($req_methods as $method) {
-            if(array_key_exists($method, $requests)) {
-                if(is_array($requests[$method])) {
-                    $value = get_value_in_array($name, $requests[$method], $value);
-                } elseif(is_object($requests[$method])) {
-                    $value = get_property_value($name, $requests[$method]);
+            if(!array_key_exists($method, $requests)) {
+                continue;
+            }
+            $bucket = $requests[$method];
+            if(is_array($bucket)) {
+                if(array_key_exists($name, $bucket)) {
+                    $value = $bucket[$name];
                 }
+            } elseif(is_object($bucket) && property_exists($bucket, $name)) {
+                $value = get_property_value($name, $bucket);
             }
         }
 

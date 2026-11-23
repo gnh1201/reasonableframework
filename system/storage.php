@@ -2,7 +2,7 @@
 /**
  * @file storage.php
  * @date 2018-05-27
- * @updated 2020-06-16
+ * @updated 2026-11-24
  * @author Go Namhyeon <gnh1201@catswords.re.kr>
  * @brief Stroage module for ReasonableFramework
  */
@@ -298,6 +298,10 @@ if(!is_fn("remove_storage_file")) {
         }
 
         if(file_exists($upload_filename)) {
+            if(array_key_equals("count_only", $options, true)) {
+                return false;
+            }
+
             $is_valid = false;
             $upload_mtime = filemtime($upload_filename);
             $upload_age = get_current_timestamp() - $upload_mtime;
@@ -319,9 +323,13 @@ if(!is_fn("remove_storage_file")) {
                     @chown($upload_filename, $options['chown']);
                 }
 
-                if(!array_key_equals("shell", $options, true)) {
+                $shell = "";
+                if(is_array($options) && array_key_exists("shell", $options)) {
+                    $shell = $options["shell"];
+                }
+                if($shell === "windows" || $shell === "unix") {
                     if(loadHelper("exectool")) {
-                        $exec_cmd = ($options['shell'] == "windows") ? "del '%s'" : "rm -f '%s'";
+                        $exec_cmd = ($shell === "windows") ? "del '%s'" : "rm -f '%s'";
                         exec_command(sprintf($exec_cmd, make_safe_argument($upload_filename)));
                     }
                 } else {
@@ -340,21 +348,36 @@ if(!is_fn("remove_storage_files")) {
     function remove_storage_files($storage_type, $options=array()) {
         $failed = 0;
 
+        if(!is_array($options)) {
+            $options = array();
+        }
         $max_age = intval(get_value_in_array("max_age", $options, 0));
         $excludes = get_array(get_value_in_array("excludes", $options, array()));
+        $storage_path = get_storage_path($storage_type);
+        if($storage_path === false || !is_dir($storage_path)) {
+            return $failed;
+        }
 
-        $filenames = iterate_storage_files($storage_type);
-        foreach($filenames as $filename) {
-            if(!in_array($filename, $excludes)) {
-                $rm = remove_storage_file($filename, array(
-                    "storage_type" => $storage_type,
-                    "max_age" => $max_age
-                ));
-                if(!$rm) {
-                    $failed++;
-                }
+        $handle = opendir($storage_path);
+        if($handle === false) {
+            return $failed;
+        }
+        while(false !== ($file = readdir($handle))) {
+            if($file === "." || $file === "..") {
+                continue;
+            }
+            if(in_array($file, $excludes)) {
+                continue;
+            }
+            $file_options = $options;
+            $file_options["storage_type"] = $storage_type;
+            $file_options["max_age"] = $max_age;
+            $rm = remove_storage_file($file, $file_options);
+            if(!$rm) {
+                $failed++;
             }
         }
+        closedir($handle);
 
         return $failed;
     }
@@ -362,10 +385,14 @@ if(!is_fn("remove_storage_files")) {
 
 if(!is_fn("remove_volatile_files")) {
     function remove_volatile_files($storage_type, $max_age=0, $options=array()) {
-        return remove_storage_files($storage_type, array(
-            "max_age" => $max_age,
-            "excludes" => array("index.php", "index.html")
-        ), $options);
+        if(!is_array($options)) {
+            $options = array();
+        }
+        $options["max_age"] = $max_age;
+        if(!array_key_exists("excludes", $options)) {
+            $options["excludes"] = array("index.php", "index.html");
+        }
+        return remove_storage_files($storage_type, $options);
     }
 }
 

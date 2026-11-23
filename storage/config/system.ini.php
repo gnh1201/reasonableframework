@@ -13,6 +13,7 @@ enable_autoload=0
 default_route=welcome
 cache_enabled=1
 cache_max_age=180
+cache_max_files=256
 temp_max_age=60
 old_version=0
 EOF;

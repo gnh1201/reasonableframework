@@ -748,13 +748,30 @@ if(!is_fn("get_web_cache")) {
             $response = get_web_page($url, $_method, $_data, $proxy, $ua, $ct_out, $t_out);
             $content = $response['content'];
             if($cache_enabled) {
+                $cache_max_files = 256;
+                if(is_array($config) && array_key_exists("cache_max_files", $config)) {
+                    $raw_max_files = $config["cache_max_files"];
+                    if($raw_max_files !== "" && $raw_max_files !== false && $raw_max_files !== null) {
+                        $cache_max_files = intval($raw_max_files);
+                    }
+                }
+
+                $prune_options = array();
+                if($cache_max_age < 1) {
+                    $prune_options["count_only"] = true;
+                }
+                $kept = remove_volatile_files("cache", $cache_max_age, $prune_options);
                 $gz_content = gzdeflate($content);
-                $fw = write_storage_file($gz_content, array(
-                    "storage_type" => "cache",
-                    "filename" => $identifier
-                ));
-                if(!$fw) {
-                    write_common_log("Failed to write cache file", "helper/webpagetool");
+                if($cache_max_files < 1 || $kept < $cache_max_files) {
+                    $fw = write_storage_file($gz_content, array(
+                        "storage_type" => "cache",
+                        "filename" => $identifier
+                    ));
+                    if(!$fw) {
+                        write_common_log("Failed to write cache file", "helper/webpagetool");
+                    }
+                } else {
+                    write_common_log("Cache file limit reached. " . $cache_max_files, "helper/webpagetool");
                 }
             }
         }
