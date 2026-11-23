@@ -2,7 +2,7 @@
 /**
  * @file twilio.api.php
  * @date 2019-04-08
- * @author Go Namhyeon <abuse@catswords.net>
+ * @author Go Namhyeon <gnh1201@catswords.re.kr>
  * @brief Twilio REST API interface module
  * @documentation https://www.twilio.com/docs/sms/send-messages
  */

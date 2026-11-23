@@ -2,7 +2,7 @@
 /**
  * @file database.mysql.old.php
  * @date 2018-09-14
- * @author Go Namhyeon <abuse@catswords.net>
+ * @author Go Namhyeon <gnh1201@catswords.re.kr>
  * @brief MySQL-old (lower than 5.4) database helper
  */
 

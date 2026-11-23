@@ -2,7 +2,7 @@
 /**
  * @file obfuscator.php
  * @date 2018-10-21
- * @author Go Namhyeon <abuse@catswords.net>
+ * @author Go Namhyeon <gnh1201@catswords.re.kr>
  * @brief PHP Obfuscator for ReasonableFramework
  */
 

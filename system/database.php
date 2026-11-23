@@ -3,7 +3,7 @@
  * @file database.php
  * @created_on 2018-04-13
  * @updated_on 2020-04-16
- * @author Go Namhyeon <abuse@catswords.net>
+ * @author Go Namhyeon <gnh1201@catswords.re.kr>
  * @brief Database module
  */
 

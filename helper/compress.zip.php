@@ -1,6 +1,6 @@
 <?php
 // @date 2019-10-13
-// @author Go Namhyeon <abuse@catswords.net>
+// @author Go Namhyeon <gnh1201@catswords.re.kr>
 
 if(!is_fn("unzip")) {
     function unzip($src, $dst, $options=array()) {

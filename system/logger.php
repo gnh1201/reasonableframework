@@ -3,7 +3,7 @@
  * @file logger.php
  * @created_on 2018-05-27
  * @updated_on 2020-06-21
- * @author Go Namhyeon <abuse@catswords.net>
+ * @author Go Namhyeon <gnh1201@catswords.re.kr>
  * @brief Logger module for ReasonableFramework
  */
 

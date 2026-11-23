@@ -3,7 +3,7 @@
  * @file storage.php
  * @date 2018-05-27
  * @updated 2020-06-16
- * @author Go Namhyeon <abuse@catswords.net>
+ * @author Go Namhyeon <gnh1201@catswords.re.kr>
  * @brief Stroage module for ReasonableFramework
  */
 

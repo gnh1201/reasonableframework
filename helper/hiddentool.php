@@ -3,7 +3,7 @@
  * @file hiddentool.php
  * @created_on 2021-05-24
  * @updated_on 2022-09-13
- * @author Go Namhyeon <abuse@catswords.net>
+ * @author Go Namhyeon <gnh1201@catswords.re.kr>
  * @brief Tools for Hidden Services (e.g. Tor, I2P, etc...)
  */
 

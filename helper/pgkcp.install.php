@@ -2,7 +2,7 @@
 /**
  * @file pgkcp.install.php
  * @date 2019-10-13
- * @author Go Namhyeon <abuse@catswords.net>
+ * @author Go Namhyeon <gnh1201@catswords.re.kr>
  * @brief KCP PG(Payment Gateway) Auto-Install Tool
  */
 

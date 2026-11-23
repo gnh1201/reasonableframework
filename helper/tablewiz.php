@@ -2,7 +2,7 @@
 /**
  * @file tablewiz.php
  * @date 2018-02-26
- * @author Go Namhyeon <abuse@catswords.net>
+ * @author Go Namhyeon <gnh1201@catswords.re.kr>
  * @brief TableWiz helper
  */
 

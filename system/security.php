@@ -2,8 +2,8 @@
 /**
  * @file security.php
  * @created_on 2018-05-27
- * @updated_on 2020-02-04
- * @author Go Namhyeon <abuse@catswords.net>
+ * @updated_on 2026-11-23
+ * @author Go Namhyeon <gnh1201@catswords.re.kr>
  * @brief Security module for ReasonableFramework
  * @sponsor https://patreon.com/catswords (with advanced security)
  */
@@ -616,10 +616,10 @@ if(!is_fn("get_xor_text")) {
 
         for($i = 0; $i < strlen($text); ) {
             for($j = 0; ($j < strlen($key) && $i < strlen($text)); $j++, $i++) {
-                $outText .= $text{$i} ^ $key{$j};
+                $outText .= $text[$i] ^ $key[$j];
 
                 if($debug) {
-                    echo 'i=' . $i . ', ' . 'j=' . $j . ', ' . $outText{$i} . '<br />';
+                    echo 'i=' . $i . ', ' . 'j=' . $j . ', ' . $outText[$i] . '<br />';
                 }
             }
         }
@@ -660,6 +660,212 @@ if(!is_fn("get_generated_name")) {
         $generated_name = $c_adjective . " " . $c_animal;
 
         return $generated_name;
+    }
+}
+
+// CVE-2026-128064: the HTTP and FTP stream wrappers treat the scheme as
+// case-insensitive, but turn on TLS only when a lowercase "s" sits at a fixed
+// offset. HTTPS:// and FTPS:// are therefore sent in plaintext. The same check
+// runs again for a redirect Location, so those targets are rewritten here too.
+if(!is_fn("normalize_stream_url_scheme")) {
+    function normalize_stream_url_scheme($url) {
+        if(!is_string($url) || $url === "") {
+            return $url;
+        }
+        if(!preg_match('/^([a-z][a-z0-9+.\-]*):/i', $url, $match)) {
+            return $url;
+        }
+
+        $scheme = strtolower($match[1]);
+        if(!in_array($scheme, array("http", "https", "ftp", "ftps"), true)) {
+            return $url;
+        }
+        if($match[1] === $scheme) {
+            return $url;
+        }
+
+        return $scheme . substr($url, strlen($match[1]));
+    }
+}
+
+if(!is_fn("stream_url_scheme")) {
+    function stream_url_scheme($url) {
+        if(!is_string($url) || !preg_match('/^([a-z][a-z0-9+.\-]*):/i', $url, $match)) {
+            return "";
+        }
+
+        return strtolower($match[1]);
+    }
+}
+
+if(!is_fn("resolve_stream_redirect_url")) {
+    function resolve_stream_redirect_url($base, $location) {
+        $location = trim($location);
+        if(strlen($location) >= 2 && $location[0] === "<" && substr($location, -1) === ">") {
+            $location = trim(substr($location, 1, -1));
+        }
+        if($location === "") {
+            return $base;
+        }
+        if(preg_match('/^[a-z][a-z0-9+.\-]*:/i', $location)) {
+            return normalize_stream_url_scheme($location);
+        }
+
+        $parts = parse_url($base);
+        if(!is_array($parts) || empty($parts['scheme']) || empty($parts['host'])) {
+            return $location;
+        }
+
+        $scheme = strtolower($parts['scheme']);
+        $origin = $scheme . "://";
+        if(isset($parts['user'])) {
+            $origin .= $parts['user'];
+            if(isset($parts['pass'])) {
+                $origin .= ":" . $parts['pass'];
+            }
+            $origin .= "@";
+        }
+        $origin .= $parts['host'];
+        if(isset($parts['port'])) {
+            $origin .= ":" . $parts['port'];
+        }
+
+        if(substr($location, 0, 2) === "//") {
+            return normalize_stream_url_scheme($scheme . ":" . $location);
+        }
+        if($location[0] === "/") {
+            return $origin . $location;
+        }
+        if($location[0] === "?") {
+            $path = isset($parts['path']) ? $parts['path'] : "/";
+            return $origin . $path . $location;
+        }
+        if($location[0] === "#") {
+            return $base;
+        }
+
+        $path = isset($parts['path']) ? $parts['path'] : "/";
+        $slash = strrpos($path, "/");
+        $dir = ($slash === false) ? "/" : substr($path, 0, $slash + 1);
+        $joined = $dir . $location;
+
+        $query = "";
+        $query_pos = strpos($joined, "?");
+        if($query_pos !== false) {
+            $query = substr($joined, $query_pos);
+            $joined = substr($joined, 0, $query_pos);
+        }
+
+        $segments = explode("/", $joined);
+        $resolved = array();
+        foreach($segments as $index => $segment) {
+            if($segment === "" || $segment === ".") {
+                if($index === 0) {
+                    $resolved[] = "";
+                }
+                continue;
+            }
+            if($segment === "..") {
+                if(count($resolved) > 1) {
+                    array_pop($resolved);
+                }
+                continue;
+            }
+            $resolved[] = $segment;
+        }
+
+        $path = implode("/", $resolved);
+        if($path === "") {
+            $path = "/";
+        }
+
+        return $origin . $path . $query;
+    }
+}
+
+if(!is_fn("stream_redirect_location")) {
+    function stream_redirect_location($headers) {
+        if(!is_array($headers)) {
+            return null;
+        }
+
+        $status = 0;
+        $location = "";
+        foreach($headers as $header) {
+            if(preg_match('/^HTTP\/\S+\s+(\d{3})/', $header, $match)) {
+                $status = intval($match[1]);
+                $location = "";
+            } elseif(stripos($header, "Location:") === 0) {
+                $location = trim(substr($header, 9));
+            }
+        }
+
+        if($location === "") {
+            return null;
+        }
+        if($status < 300 || $status >= 400 || $status === 304 || $status === 305) {
+            return null;
+        }
+
+        return $location;
+    }
+}
+
+if(!is_fn("file_get_contents_tls_scheme")) {
+    function file_get_contents_tls_scheme($filename, $use_include_path = false, $context = null, $offset = 0, $length = null) {
+        if(!is_string($filename)) {
+            return false;
+        }
+
+        $options = array();
+        if($context) {
+            $options = stream_context_get_options($context);
+        }
+        $max_redirects = 20;
+        if(isset($options['http']['max_redirects'])) {
+            $max_redirects = intval($options['http']['max_redirects']);
+        }
+        if(!isset($options['http']) || !is_array($options['http'])) {
+            $options['http'] = array();
+        }
+        // PHP must not follow Location itself. A mixed-case target would skip TLS.
+        $options['http']['max_redirects'] = 0;
+        $options['http']['follow_location'] = 0;
+        $context = stream_context_create($options);
+
+        $url = normalize_stream_url_scheme($filename);
+        $redirects = 0;
+
+        while(true) {
+            $scheme = stream_url_scheme($url);
+            $http_response_header = null;
+            if($length === null) {
+                $body = file_get_contents($url, $use_include_path, $context, $offset);
+            } else {
+                $body = file_get_contents($url, $use_include_path, $context, $offset, $length);
+            }
+
+            if($scheme !== "http" && $scheme !== "https") {
+                return $body;
+            }
+            if($redirects >= $max_redirects) {
+                return $body;
+            }
+
+            $location = stream_redirect_location(isset($http_response_header) ? $http_response_header : null);
+            if($location === null) {
+                return $body;
+            }
+
+            $next = normalize_stream_url_scheme(resolve_stream_redirect_url($url, $location));
+            $next_scheme = stream_url_scheme($next);
+            if(!in_array($next_scheme, array("http", "https", "ftp", "ftps"), true)) {
+                return $body;
+            }
+
+            $url = $next;
+            $redirects++;
+        }
     }
 }
 

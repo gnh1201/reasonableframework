@@ -2,8 +2,8 @@
 /**
  * @file webpagetool.php
  * @created_on 2018-06-01
- * @updated_on 2021-02-01
- * @author Go Namhyeon <abuse@catswords.net>
+ * @updated_on 2026-11-23
+ * @author Go Namhyeon <gnh1201@catswords.re.kr>
  * @brief WebPageTool helper
  */
 
@@ -24,7 +24,17 @@
 
 if(!is_fn("get_web_fgc")) {
     function get_web_fgc($url) {
-        return (ini_get("allow_url_fopen") ? file_get_contents($url) : false);
+        if(!ini_get("allow_url_fopen")) {
+            return false;
+        }
+        // CVE-2026-128064: lowercase https/ftps before the PHP stream wrapper.
+        if(is_fn("file_get_contents_tls_scheme")) {
+            return file_get_contents_tls_scheme($url);
+        }
+        if(is_fn("normalize_stream_url_scheme")) {
+            $url = normalize_stream_url_scheme($url);
+        }
+        return file_get_contents($url);
     }
 }
 
@@ -884,7 +894,7 @@ if(!is_fn("get_webproxy_url")) {
 if(!is_fn("get_web_user_agent")) {
     function get_web_user_agent($ua="") {
         if(empty($ua)) {
-            $ua = "ReasonableFramework/1.6.7-preview1 (Server; PHP " . phpversion() . "; https://catswords.social/@catswords_oss; abuse@catswords.net)";
+            $ua = "ReasonableFramework/1.6.7-preview1 (Server; PHP " . phpversion() . "; https://catswords.social/@catswords_oss; oss@catswords.re.kr)";
         } else {
             $ua = make_safe_argument($ua);
         }

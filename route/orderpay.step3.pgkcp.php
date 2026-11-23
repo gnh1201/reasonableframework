@@ -2,7 +2,7 @@
 /**
  * @file orderpay.step3.pgkcp.php
  * @date 2018-08-27
- * @author Go Namhyeon <abuse@catswords.net>
+ * @author Go Namhyeon <gnh1201@catswords.re.kr>
  * @brief KCP PG(Payment Gateway) contoller when done
  */
 

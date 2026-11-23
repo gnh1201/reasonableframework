@@ -2,7 +2,7 @@
 /**
  * @file mobileswitcher.php
  * @date 2019-04-29
- * @author Go Namhyeon <abuse@catswords.net>
+ * @author Go Namhyeon <gnh1201@catswords.re.kr>
  * @brief mobile device switcher
  */
 
