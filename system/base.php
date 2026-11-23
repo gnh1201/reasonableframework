@@ -101,6 +101,149 @@ if(!is_fn("include_isolate")) {
     }
 }
 
+// relative path with no parent segment
+if(!is_fn("normalize_local_path")) {
+    function normalize_local_path($path) {
+        if(!is_string($path) || $path === "") {
+            return false;
+        }
+        if(strpos($path, "\0") !== false) {
+            return false;
+        }
+
+        $path = str_replace("\\", "/", $path);
+        if(strpos($path, ":") !== false) {
+            return false;
+        }
+        if(substr($path, 0, 1) === "/") {
+            return false;
+        }
+
+        $parts = explode("/", $path);
+        $safe = array();
+        foreach($parts as $part) {
+            if($part === "..") {
+                return false;
+            }
+            if($part === "" || $part === ".") {
+                continue;
+            }
+            $safe[] = $part;
+        }
+        if(count($safe) < 1) {
+            return false;
+        }
+
+        return implode("/", $safe);
+    }
+}
+
+// code file names: letters, digits, dot, underscore, hyphen
+if(!is_fn("is_code_path_name")) {
+    function is_code_path_name($path) {
+        $path = normalize_local_path($path);
+        if($path === false) {
+            return false;
+        }
+
+        $parts = explode("/", $path);
+        foreach($parts as $part) {
+            if(!preg_match('/^[A-Za-z0-9._-]+$/', $part)) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+}
+
+if(!is_fn("local_paths_equal")) {
+    function local_paths_equal($left, $right) {
+        $left = rtrim(str_replace("\\", "/", $left), "/");
+        $right = rtrim(str_replace("\\", "/", $right), "/");
+        if(DIRECTORY_SEPARATOR === "\\") {
+            $left = strtolower($left);
+            $right = strtolower($right);
+        }
+        return $left === $right;
+    }
+}
+
+// resolved file is strictly below the resolved base
+if(!is_fn("local_path_is_inside")) {
+    function local_path_is_inside($base, $path) {
+        $base_real = realpath($base);
+        $path_real = realpath($path);
+        if($base_real === false || $path_real === false) {
+            return false;
+        }
+
+        $base_norm = rtrim(str_replace("\\", "/", $base_real), "/");
+        $path_norm = str_replace("\\", "/", $path_real);
+        if(DIRECTORY_SEPARATOR === "\\") {
+            $base_norm = strtolower($base_norm);
+            $path_norm = strtolower($path_norm);
+        }
+
+        $prefix = $base_norm . "/";
+        return substr($path_norm, 0, strlen($prefix)) === $prefix;
+    }
+}
+
+// existing file, or a new file whose existing parent stays under base
+if(!is_fn("local_target_is_inside")) {
+    function local_target_is_inside($base, $target) {
+        $base_real = realpath($base);
+        if($base_real === false || !is_string($target) || $target === "") {
+            return false;
+        }
+        if(file_exists($target)) {
+            return local_path_is_inside($base, $target);
+        }
+
+        $parent = str_replace("\\", "/", $target);
+        $guard = 0;
+        while($guard < 32) {
+            $next = dirname($parent);
+            if($next === $parent || $next === "" || $next === "." || $next === "/") {
+                return false;
+            }
+            $parent = $next;
+            if(file_exists($parent)) {
+                break;
+            }
+            $guard++;
+        }
+        if(!file_exists($parent)) {
+            return false;
+        }
+
+        $parent_real = realpath($parent);
+        if($parent_real === false) {
+            return false;
+        }
+        if(local_paths_equal($base_real, $parent_real)) {
+            return true;
+        }
+        return local_path_is_inside($base, $parent);
+    }
+}
+
+if(!is_fn("scoped_php_file")) {
+    function scoped_php_file($base, $name) {
+        $safe = normalize_local_path($name);
+        if($safe === false || !is_code_path_name($safe)) {
+            return false;
+        }
+
+        $file = $base . "/" . $safe . ".php";
+        if(!is_file($file) || !local_target_is_inside($base, $file)) {
+            return false;
+        }
+        return $file;
+    }
+}
+
 // set autoloader
 if(!is_fn("set_autoloader")) {
     function set_autoloader() {
@@ -114,8 +257,8 @@ if(!is_fn("renderView")) {
         $flag = true;
         $views = explode(';', $name);
         foreach($views as $name2) {
-            $viewfile = './view/' . $name2 . '.php';
-            if(file_exists($viewfile)) {
+            $viewfile = scoped_php_file("./view", $name2);
+            if($viewfile !== false) {
                 register_loaded("view", $name2);
                 $flag = $flag && !include_isolate($viewfile, $data);
             }
@@ -141,10 +284,10 @@ if(!is_fn("loadModule")) {
         $flag = true;
         $modules = explode(';', $name);
         foreach($modules as $name2) {
-            $systemfile = './system/' . $name2 . '.php';
-            if(file_exists($systemfile)) {
+            $systemfile = scoped_php_file("./system", $name2);
+            if($systemfile !== false) {
                 register_loaded("system", $name2);
-                $flag = $flag && !include_isolate($systemfile); 
+                $flag = $flag && !include_isolate($systemfile);
             } else {
                 set_error("Module " . $name . "dose not exists");
             }
@@ -159,10 +302,10 @@ if(!is_fn("loadHelper")) {
         $flag = true;
         $helpers = explode(';', $name);
         foreach($helpers as $name2) {
-            $helperfile = './helper/' . $name2 . '.php';
-            if(file_exists($helperfile)) {
+            $helperfile = scoped_php_file("./helper", $name2);
+            if($helperfile !== false) {
                 register_loaded("helper", $name2);
-                $flag = $flag && !include_isolate($helperfile); 
+                $flag = $flag && !include_isolate($helperfile);
             } else {
                 set_error("Helper " . $name . "dose not exists");
             }
@@ -177,11 +320,11 @@ if(!is_fn("loadRoute")) {
         $flag = true;
         $routes = explode(";", $name);
         foreach($routes as $name2) {
-            $routefile = './route/' . $name2 . '.php';
-            if(file_exists($routefile)) {
+            $routefile = scoped_php_file("./route", $name2);
+            if($routefile !== false) {
                 register_loaded("route", $name2);
                 $flag = $flag && !include_isolate($routefile, $data);
-            } else { 
+            } else {
                 set_error("Route " . $name . "dose not exists");
             }
         }
@@ -204,8 +347,8 @@ if(!is_fn("loadVendor")) {
         }
 
         foreach($usenames as $name) {
-            $vendorfile = './vendor/' . $name . '.php';
-            if(file_exists($vendorfile)) {
+            $vendorfile = scoped_php_file("./vendor", $name);
+            if($vendorfile !== false) {
                 register_loaded("vendor", $name);
                 $flag = $flag && !include_isolate($vendorfile, $data);
             } else {

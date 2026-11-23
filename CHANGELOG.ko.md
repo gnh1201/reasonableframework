@@ -15,6 +15,7 @@ ReasonableFramework의 주요 변경을 이 파일에 적습니다.
 - `get_web_fgc()`, `file_get_html()`, `simple_html_dom::load_file()`이 원격 URL을 이 함수로 읽습니다.
 - `get_xor_text()`의 중괄호 문자열 오프셋을 대괄호로 바꿔, `system/security.php`가 PHP 8에서 로드되게 했습니다. 같은 코드는 PHP 5.2 이후에서도 실행됩니다. PHP 5.3.4 미만은 `follow_location` 컨텍스트 옵션을 무시하며, 그 버전에서는 `max_redirects`를 `0`으로 두어 래퍼가 리다이렉트를 따라가지 않게 합니다.
 - `route/webproxy.php`는 `webproxy_hosts`에 적힌 호스트의 `http`, `https` 주소만 가져옵니다. 기본 호스트는 `code.jquery.com`입니다. IP 주소, 사설 또는 예약 주소로 풀리는 이름, 기본 포트가 아닌 포트, 허용 목록 밖으로 나가는 리다이렉트, `https`에서 `http`로 내려가는 리다이렉트는 거절합니다. 요청 주소는 스키마, 호스트, 경로, 쿼리로 다시 만들고, 환경 변수의 HTTP 프록시는 쓰지 않습니다. 응답의 Content-Type은 최종 파일 확장자로 정하고, 이 요청에서는 TLS 인증서를 확인합니다.
+- 라우트, 뷰, 헬퍼, 모듈, 벤더 include가 각자 디렉터리 안에 남게 했습니다. `get_safe_path()`는 상위 디렉터리 조각, 맨 앞의 슬래시, 드라이브 접두, 널 바이트를 거절합니다. 저장소 읽기·쓰기, 업로드 이름, 설정 include, 벤더 자동 로드, `route/webapp.php`, 압축 해제는 지정한 디렉터리 아래로만 갑니다. `errors/404`, `api.mailgun` 같은 이름은 그대로 맞습니다.
 
 ### 변경
 
@@ -24,6 +25,8 @@ ReasonableFramework의 주요 변경을 이 파일에 적습니다.
 - catswords-oss.rdbl.io 문서를 영어와 한국어로 `docs/`에 실었습니다. 본문은 2025-08-12 인터넷 아카이브 스냅샷이고, 예제는 이 저장소의 함수를 따릅니다. `README.md`와 `SECURITY.md`는 영어 페이지를 가리킵니다.
 - 연락 주소를 oss@catswords.re.kr로 맞췄습니다. `SECURITY.md`, 결제 안내, 기본 User-Agent가 여기 포함됩니다.
 - Go Namhyeon의 작성자 이메일을 파일 헤더와 `composer.json`에서 gnh1201@catswords.re.kr로 바꿨습니다.
+- 2026년 10월 21일과 11월 19일에 발표된 PHP 엔진 결함의 런타임 업그레이드를 문서화했습니다. 짧은 목록은 `README.md` 상단에 있고, 절차는 `docs/php-runtime.md`와 `docs/php-runtime.ko.md`에 있습니다.
+- [CVE-2026-128064](https://github.com/php/php-src/security/advisories/GHSA-f6gg-rchx-xw8j) 설명을 `README.md` 상단에 넣었습니다. 자세한 내용은 `docs/cve-2026-128064.md`와 `docs/cve-2026-128064.ko.md`에 있습니다.
 
 ## [1.6.9] - 2024-11-11
 

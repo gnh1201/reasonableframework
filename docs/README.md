@@ -8,6 +8,8 @@ These notes bring back the pages published on catswords-oss.rdbl.io, workspace `
 
 ## Pages
 
+- [PHP runtime security](php-runtime.md). Server upgrade and settings for the October and November 2026 PHP engine defects.
+- [CVE-2026-128064](cve-2026-128064.md). Mixed-case `HTTPS://` and `FTPS://` URLs on the PHP stream wrapper.
 - [Use cases](use-cases.md). Zabbix severities in Grafana, the Naver Papago API, and the KCP payment route.
 - [REST client (webpagetool)](rest-client.md)
 - [Integration](integration.md). Module list and static file hosting (Cafe24 CDN, Amazon S3, object storage).

@@ -3,6 +3,24 @@
 [![DOI 10.5281/zenodo.11392416](https://zenodo.org/badge/114566493.svg)](https://zenodo.org/doi/10.5281/zenodo.11392416)
 [![Discord chat](https://img.shields.io/discord/359930650330923008?logo=discord)](https://discord.gg/FGMb9VnVFC)
 
+## Update the PHP runtime
+
+The defects announced on 21 October 2026 and 19 November 2026 are in the PHP engine. This repository cannot patch them.
+
+- Install PHP **8.2.36**, **8.3.37**, **8.4.28**, **8.5.13**, or **8.6.0**, then restart PHP-FPM or Apache. The 21 October releases are not enough. PHP 5.3 and 7.x have no upstream fix.
+- Set `session.upload_progress.enabled=0` in `php.ini` or an FPM `php_admin_value`, then restart the workers. `index.php` applies its limits too late.
+- If you set `memory_limit=-1`, lock it with `php_admin_value`. The shipped `storage/config/system.ini.php` uses `memory_limit=0`, and `index.php` calls `ini_set()` with that value.
+
+Full steps: [PHP runtime security](docs/php-runtime.md) ([한국어](docs/php-runtime.ko.md)).
+
+## Mixed-case HTTPS and FTPS
+
+[CVE-2026-128064](https://github.com/php/php-src/security/advisories/GHSA-f6gg-rchx-xw8j) is in PHP's HTTP and FTP stream wrappers. The wrapper accepts any case in the scheme, but it turns TLS on only when that scheme contains a lowercase `s`. An `HTTPS://` or `FTPS://` URL, including one received in a redirect `Location`, was sent in plaintext.
+
+This repository rewrites `http`, `https`, `ftp`, and `ftps` to lowercase before `file_get_contents()`, and it follows those redirects itself. The PHP project fixed the engine in 8.2.36, 8.3.37, 8.4.28, and 8.5.13. PHP 5.3 and 7.x do not receive that fix, so the repository workaround remains the protection for those versions. A direct `file_get_contents()` call outside the helpers below is not covered.
+
+Details: [CVE-2026-128064](docs/cve-2026-128064.md) ([한국어](docs/cve-2026-128064.ko.md)).
+
 > **Maintenance Notice**
 > 
 > As of 2025, this project is no longer actively developed. However, it is still maintained to support existing users and projects, and is not considered obsolete or abandoned. Maintenance is limited to security patches.

@@ -8,6 +8,8 @@ ReasonableFramework는 RVHM 구조의 PHP 프레임워크입니다. RSF, VSPF, C
 
 ## 페이지
 
+- [PHP 런타임 보안](php-runtime.ko.md). 2026년 10월과 11월 PHP 엔진 결함에 대한 서버 업그레이드와 설정.
+- [CVE-2026-128064](cve-2026-128064.ko.md). PHP 스트림 래퍼에서 대소문자가 섞인 `HTTPS://`, `FTPS://` 주소.
 - [사용 사례](use-cases.ko.md). Grafana로 보내는 자빅스 심각도, 네이버 파파고 API, KCP 결제 라우트.
 - [REST 클라이언트 (webpagetool)](rest-client.ko.md)
 - [연동](integration.ko.md). 모듈 목록과 정적 파일 호스팅(카페24 CDN, Amazon S3, 오브젝트 스토리지).

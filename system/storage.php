@@ -49,13 +49,23 @@ if(!is_fn("get_storage_dir")) {
 
 if(!is_fn("get_safe_path")) {
     function get_safe_path($path) {
-        return str_replace("../", "", $path);
+        if(!is_fn("normalize_local_path")) {
+            return false;
+        }
+        return normalize_local_path($path);
     }
 }
 
 if(!is_fn("get_storage_path")) {
     function get_storage_path($type="data") {
-        $dir_path = sprintf("%s/%s/%s", get_current_working_dir(), get_storage_dir(), get_safe_path($type));
+        $safe_type = get_safe_path($type);
+        if($safe_type === false) {
+            set_error("Could not create directory.");
+            return false;
+        }
+
+        $storage_root = get_current_working_dir() . "/" . get_storage_dir();
+        $dir_path = $storage_root . "/" . $safe_type;
 
         if(!is_dir($dir_path)) {
             if(!@mkdir($dir_path, 0777)) {
@@ -63,13 +73,47 @@ if(!is_fn("get_storage_path")) {
                 show_errors();
             }
         }
+        if(!is_fn("local_target_is_inside") || !is_fn("local_paths_equal")) {
+            set_error("Could not create directory.");
+            return false;
+        }
+        $root_real = realpath($storage_root);
+        $dir_real = realpath($dir_path);
+        if($root_real === false || $dir_real === false) {
+            set_error("Could not create directory.");
+            return false;
+        }
+        if(!local_paths_equal($root_real, $dir_real) && !local_target_is_inside($storage_root, $dir_path)) {
+            set_error("Could not create directory.");
+            return false;
+        }
         return $dir_path;
     }
 }
 
 if(!is_fn("get_storage_url")) {
     function get_storage_url($type="data") {
-        return sprintf("%s/%s/%s", base_url(), get_storage_dir(), get_safe_path($type));
+        $safe_type = get_safe_path($type);
+        if($safe_type === false) {
+            return false;
+        }
+        return sprintf("%s/%s/%s", base_url(), get_storage_dir(), $safe_type);
+    }
+}
+
+if(!is_fn("get_storage_file_path")) {
+    function get_storage_file_path($storage_type, $filename) {
+        $base = get_storage_path($storage_type);
+        $safe_name = get_safe_path($filename);
+        if($base === false || $safe_name === false || !is_fn("local_target_is_inside")) {
+            return false;
+        }
+
+        $path = $base . "/" . $safe_name;
+        if(!local_target_is_inside($base, $path)) {
+            return false;
+        }
+        return $path;
     }
 }
 
@@ -87,6 +131,9 @@ if(!is_fn("allocate_uploaded_files")) {
         $upload_base_path = get_storage_path($storage_type);
         $upload_base_url = get_storage_url($storage_type);
         $upload_allow_ext = array();
+        if($upload_base_path === false || $upload_base_url === false) {
+            return $response['files'];
+        }
 
         // storage/config/security.ini -> allowextensionsdisabled, allowextensions
         $allow_extensions_disabled = get_value_in_array("allowextensionsdisabled", $config, 0);
@@ -96,9 +143,25 @@ if(!is_fn("allocate_uploaded_files")) {
 
         foreach($files as $k=>$file) {
             $upload_ext = get_file_extension($files[$k]['name']);
+            if(!is_string($upload_ext)) {
+                $upload_ext = "";
+            }
+            $upload_ext = str_replace("\\", "/", $upload_ext);
+            if($upload_ext !== "" && (strpos($upload_ext, "/") !== false || !preg_match('/^[A-Za-z0-9]+$/', $upload_ext))) {
+                $response['files'][$k] = array(
+                    "upload_error" => "Not allowed file type."
+                );
+                continue;
+            }
             $upload_name = make_random_id(32) . (empty($upload_ext) ? "" : "." . $upload_ext);
             $upload_file = $upload_base_path . "/" . $upload_name;
             $upload_url = $upload_base_url . "/" . $upload_name;
+            if(!is_fn("local_target_is_inside") || !local_target_is_inside($upload_base_path, $upload_file)) {
+                $response['files'][$k] = array(
+                    "upload_error" => "File write error."
+                );
+                continue;
+            }
 
             if(count($upload_allow_ext) == 0 || in_array($upload_ext, $upload_allow_ext)) {
                 if(move_uploaded_file($files[$k]['tmp_name'], $upload_file)) {
@@ -141,9 +204,10 @@ if(!is_fn("read_storage_file")) {
 
         $storage_type = get_value_in_array("storage_type", $options, "data");
         $max_age = intval(get_value_in_array("max_age", $options, 0)); // max_age (seconds), the value 0 is forever
-        $upload_base_path = get_storage_path($storage_type);
-        $upload_base_url = get_storage_url($storage_type);
-        $upload_filename = sprintf("%s/%s", $upload_base_path, get_safe_path($filename));
+        $upload_filename = get_storage_file_path($storage_type, $filename);
+        if($upload_filename === false) {
+            return false;
+        }
 
         if(file_exists($upload_filename)) {
             $is_valid = false;
@@ -196,7 +260,10 @@ if(!is_fn("iterate_storage_files")) {
         $filenames = array();
 
         $excludes = array(".", "..");
-        $storage_path = get_storage_path($type);
+        $storage_path = get_storage_path($storage_type);
+        if($storage_path === false) {
+            return $filenames;
+        }
 
         if(is_dir($storage_path)) {
             if($handle = opendir($storage_path)) {
@@ -217,10 +284,11 @@ if(!is_fn("remove_storage_file")) {
 
         $storage_type = get_value_in_array("storage_type", $options, "data");
         $max_age = intval(get_value_in_array("max_age", $options, 0)); // max_age (seconds), the value 0 is forever
-        $upload_base_path = get_storage_path($storage_type);
-        $upload_base_url = get_storage_url($storage_type);
-        $upload_filename = sprintf("%s/%s", $upload_base_path, get_safe_path($filename));
-        
+        $upload_filename = get_storage_file_path($storage_type, $filename);
+        if($upload_filename === false) {
+            return false;
+        }
+
         // add option: encryption
         $encryption = get_value_in_array("encryption", $options, "");
         if(!empty($encryption)) {
@@ -312,9 +380,16 @@ if(!is_fn("write_storage_file")) {
 
         $storage_type = get_value_in_array("storage_type", $options, "data");
         $mode = get_value_in_array("mode", $options, "w");
+        $safe_name = get_safe_path($filename);
         $upload_base_path = get_storage_path($storage_type);
         $upload_base_url = get_storage_url($storage_type);
-        $upload_filename = sprintf("%s/%s", $upload_base_path, get_safe_path($filename));
+        if($safe_name === false || $upload_base_path === false || $upload_base_url === false) {
+            return false;
+        }
+        $upload_filename = $upload_base_path . "/" . $safe_name;
+        if(!is_fn("local_target_is_inside") || !local_target_is_inside($upload_base_path, $upload_filename)) {
+            return false;
+        }
 
         $encryption = get_value_in_array("encryption", $options, "");
         if(!empty($encryption)) {
@@ -371,7 +446,7 @@ if(!is_fn("write_storage_file")) {
         }
 
         if(array_key_equals("url", $options, true)) {
-            $result = sprintf("%s/%s", $upload_base_url, get_safe_path($filename));
+            $result = sprintf("%s/%s", $upload_base_url, $safe_name);
         }
 
         return $result;
@@ -397,18 +472,27 @@ if(!is_fn("append_storage_file")) {
 if(!is_fn("get_real_path")) {
     function get_real_path($filename) {
         $filename = get_safe_path($filename);
-        return file_exists($filename) ? realpath($filename) : false;
+        if($filename === false || !file_exists($filename)) {
+            return false;
+        }
+        return realpath($filename);
     }
 }
 
 if(!is_fn("retrieve_storage_dir")) {
     function retrieve_storage_dir($type, $recursive=false, $excludes=array(".", ".."), $files=array()) {
         $storage_path = get_storage_path($type);
+        if($storage_path === false) {
+            return $files;
+        }
 
         if(is_dir($storage_path)) {
             if($handle = opendir($storage_path)) {
                 while(false !== ($file = readdir($handle))) {
                     if(!in_array($file, $excludes)) {
+                        if(!is_fn("normalize_local_path") || normalize_local_path($file) === false) {
+                            continue;
+                        }
                         $file_path = sprintf("%s/%s", $storage_path, $file);
                         if(is_file($file_path)) {
                             $files[] = $file_path;

@@ -12,8 +12,12 @@ if(!is_fn("read_config")) {
         $config = array();
         $is_compatible = version_compare(phpversion(), "5.3.0", "<");
 
+        $config_dir = get_storage_path("config");
         $files = retrieve_storage_dir("config");
         foreach($files as $file) {
+            if($config_dir === false || !is_fn("local_path_is_inside") || !local_path_is_inside($config_dir, $file)) {
+                continue;
+            }
             $ini = array();
 
             // `parse_ini_string` function is not supported under 5.3.0. Use only 'ini' file
