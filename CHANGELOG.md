@@ -24,6 +24,8 @@ Each section is the difference from the previous tag in this list. v1.4 does not
 - Publish the catswords-oss.rdbl.io notes in English and Korean under `docs/`. The text comes from the Internet Archive snapshots of 2025-08-12, and the samples now follow the functions in this repository. `README.md` and `SECURITY.md` link the English pages.
 - Use oss@catswords.re.kr for contact addresses, including `SECURITY.md`, the payment notice, and the default User-Agent.
 - Use gnh1201@catswords.re.kr as the author email for Go Namhyeon in file headers and `composer.json`.
+- Document the PHP runtime upgrade for the engine defects announced on 21 October 2026 and 19 November 2026. The short list is at the top of `README.md`. The steps are in `docs/php-runtime.md` and `docs/php-runtime.ko.md`.
+- Explain [CVE-2026-128064](https://github.com/php/php-src/security/advisories/GHSA-f6gg-rchx-xw8j) at the top of `README.md`. The detail is in `docs/cve-2026-128064.md` and `docs/cve-2026-128064.ko.md`.
 
 ## [1.6.9] - 2024-11-11
 

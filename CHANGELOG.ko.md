@@ -24,6 +24,8 @@ ReasonableFramework의 주요 변경을 이 파일에 적습니다.
 - catswords-oss.rdbl.io 문서를 영어와 한국어로 `docs/`에 실었습니다. 본문은 2025-08-12 인터넷 아카이브 스냅샷이고, 예제는 이 저장소의 함수를 따릅니다. `README.md`와 `SECURITY.md`는 영어 페이지를 가리킵니다.
 - 연락 주소를 oss@catswords.re.kr로 맞췄습니다. `SECURITY.md`, 결제 안내, 기본 User-Agent가 여기 포함됩니다.
 - Go Namhyeon의 작성자 이메일을 파일 헤더와 `composer.json`에서 gnh1201@catswords.re.kr로 바꿨습니다.
+- 2026년 10월 21일과 11월 19일에 발표된 PHP 엔진 결함의 런타임 업그레이드를 문서화했습니다. 짧은 목록은 `README.md` 상단에 있고, 절차는 `docs/php-runtime.md`와 `docs/php-runtime.ko.md`에 있습니다.
+- [CVE-2026-128064](https://github.com/php/php-src/security/advisories/GHSA-f6gg-rchx-xw8j) 설명을 `README.md` 상단에 넣었습니다. 자세한 내용은 `docs/cve-2026-128064.md`와 `docs/cve-2026-128064.ko.md`에 있습니다.
 
 ## [1.6.9] - 2024-11-11
 
