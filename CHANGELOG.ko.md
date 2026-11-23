@@ -14,6 +14,7 @@ ReasonableFramework의 주요 변경을 이 파일에 적습니다.
 - `file_get_contents_tls_scheme()`을 추가했습니다. `file_get_contents()`를 호출하기 전에 `http`, `https`, `ftp`, `ftps` 스키마를 소문자로 바꿉니다. 리다이렉트도 이 함수가 따라가서, 다음 `Location`에 PHP가 같은 판정을 다시 적용하지 않습니다.
 - `get_web_fgc()`, `file_get_html()`, `simple_html_dom::load_file()`이 원격 URL을 이 함수로 읽습니다.
 - `get_xor_text()`의 중괄호 문자열 오프셋을 대괄호로 바꿔, `system/security.php`가 PHP 8에서 로드되게 했습니다. 같은 코드는 PHP 5.2 이후에서도 실행됩니다. PHP 5.3.4 미만은 `follow_location` 컨텍스트 옵션을 무시하며, 그 버전에서는 `max_redirects`를 `0`으로 두어 래퍼가 리다이렉트를 따라가지 않게 합니다.
+- `route/webproxy.php`는 `webproxy_hosts`에 적힌 호스트의 `http`, `https` 주소만 가져옵니다. 기본 호스트는 `code.jquery.com`입니다. IP 주소, 사설 또는 예약 주소로 풀리는 이름, 기본 포트가 아닌 포트, 허용 목록 밖으로 나가는 리다이렉트, `https`에서 `http`로 내려가는 리다이렉트는 거절합니다. 요청 주소는 스키마, 호스트, 경로, 쿼리로 다시 만들고, 환경 변수의 HTTP 프록시는 쓰지 않습니다. 응답의 Content-Type은 최종 파일 확장자로 정하고, 이 요청에서는 TLS 인증서를 확인합니다.
 
 ### 변경
 

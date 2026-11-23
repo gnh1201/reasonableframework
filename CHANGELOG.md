@@ -14,6 +14,7 @@ Each section is the difference from the previous tag in this list. v1.4 does not
 - Add `file_get_contents_tls_scheme()`. It rewrites the `http`, `https`, `ftp`, and `ftps` schemes to lowercase before calling `file_get_contents()`, and it follows redirects itself so PHP does not apply the same check to a later `Location`.
 - `get_web_fgc()`, `file_get_html()`, and `simple_html_dom::load_file()` now read remote URLs through that function.
 - Replace curly-brace string offsets in `get_xor_text()` with square brackets so `system/security.php` loads on PHP 8. The same code still runs on PHP 5.2 and later. PHP versions before 5.3.4 ignore the `follow_location` context option; `max_redirects` set to `0` still stops the wrapper from following redirects there.
+- Limit `route/webproxy.php` to `http` and `https` URLs whose host is listed in `webproxy_hosts`. The default host is `code.jquery.com`. The route refuses an IP address, a name that resolves to a private or reserved address, a non-default port, a redirect that leaves the list, and a redirect from `https` to `http`. It rebuilds the request from the scheme, host, path, and query, ignores an environment HTTP proxy, chooses the response content type from the final file extension, and checks the TLS certificate for that request.
 
 ### Changed
 

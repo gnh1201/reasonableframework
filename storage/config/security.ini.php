@@ -12,4 +12,5 @@ hashalgos=md5,sha1,crypt,crc32,base64,sql_password
 sandboxdisabled=1
 allowextensionsdisabled=1
 allowextensions=png,gif,jpg,jpeg,tif,xls,ppt,doc,xlsx,pptx,docx,odt,odp,ods,xlsm,tiff,pdf,xlsm,mp3,ogg,m4a,wma,wav
+webproxy_hosts=code.jquery.com
 EOF;

@@ -3,22 +3,25 @@ if(!defined("_DEF_RSF_")) set_error_exit("do not allow access");
 
 loadHelper("webpagetool");
 
-$method = get_requested_value("method");
-$mime = get_requested_value("mime"); // example: text/html, image/jpeg
 $url = get_requested_value("url");
-
-$res_method = "get.cache";
-$res_methods = explode(".", $method);
-if(in_array("nocache", $res_methods)) {
-    $res_method = "get";
+if(!is_string($url) || !is_webproxy_url_allowed($url)) {
+    header("HTTP/1.0 403 Forbidden");
+    write_common_log("rejected", "webproxy");
+    return;
 }
 
-if(!empty($url)) {
-    $response = get_web_page($url, $res_method);
-    if(!empty($mime)) {
-        header(sprintf("Content-Type: %s", $mime));
-    }
-    print_r($response['content']);
+$response = get_webproxy_page($url);
+if(!is_array($response) || !isset($response["content"]) || !is_string($response["content"])) {
+    header("HTTP/1.0 502 Bad Gateway");
+    write_common_log($url, "webproxy");
+    return;
 }
 
+$type_url = $url;
+if(isset($response["url"]) && is_string($response["url"])) {
+    $type_url = $response["url"];
+}
+header("Content-Type: " . webproxy_content_type($type_url));
+header("X-Content-Type-Options: nosniff");
+echo $response["content"];
 write_common_log($url, "webproxy");
