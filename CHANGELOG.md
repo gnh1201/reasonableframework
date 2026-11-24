@@ -2,11 +2,15 @@
 
 All notable changes to ReasonableFramework are documented in this file.
 
-The version numbers match the Git tags. A heading drops a leading `v`. Tags that were published without that prefix keep their original spelling. The latest tagged release is v1.6.9.
+The version numbers match the Git tags. A heading drops a leading `v`. Tags that were published without that prefix keep their original spelling. The latest tagged release is v1.6.9-hotfix1.
 
 Each section is the difference from the previous tag in this list. v1.4 does not descend from v1.3, so that section is the difference between the two trees.
 
 ## [Unreleased]
+
+## [1.6.9-hotfix1] - 2026-11-24
+
+First hotfix of v1.6.9.
 
 ### Security
 
